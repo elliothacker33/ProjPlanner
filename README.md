@@ -1,6 +1,6 @@
 # lbaw2353
 
-#Project management
+# Project management
 - Tomás Alexandre Torres Pereira (up202108845@edu.fe.up.pt).
 
 
