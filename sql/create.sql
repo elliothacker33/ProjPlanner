@@ -314,29 +314,25 @@ DECLARE
     current_time TIMESTAMP;
     time_difference INT; -- Define time_difference variable
 BEGIN
-    IF (EXISTS (SELECT 1 FROM lbaw2353.invite WHERE email = NEW.email AND project_id = NEW.project_id)) THEN
-    current_time := NOW();
+    IF EXISTS (SELECT 1 FROM lbaw2353.invite WHERE email = NEW.email AND project_id = NEW.project_id) THEN
 
-    time_difference := EXTRACT(EPOCH FROM current_time - OLD.invite_date);
+    time_difference := EXTRACT(EPOCH FROM (NOW()) - (OLD.invite_date));
 
     IF time_difference < 600 THEN
         RAISE EXCEPTION 'An invitation can only be sent once every 10 minutes.';
     ELSE
-
-    UPDATE lbaw2353.invite
-    SET invite_date = NOW()
-    WHERE email = NEW.email
-        AND project_id = NEW.project_id;
-    
+      DELETE FROM lbaw2353.invite WHERE email = NEW.email;
     RETURN NEW;
     END IF;
+    ELSE
+      RETURN NEW;
     END IF;
 END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER send_invitation
-BEFORE UPDATE ON lbaw2353.invite
-FOR EACH STATEMENT
+BEFORE INSERT ON lbaw2353.invite
+FOR EACH ROW
 EXECUTE FUNCTION update_invitation_date();
 
 
