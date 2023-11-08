@@ -345,7 +345,7 @@ EXECUTE FUNCTION update_invitation_date();
 /* -When a comment is send, a notification should be created for all the users assigned to the task*/
 
 CREATE OR REPLACE FUNCTION send_comment_notification()
-RETURNS TRIGGER AS $$
+RETURNS TRIGGER AS $BODY$
 DECLARE
     task_id_ INTEGER;
 BEGIN
@@ -363,8 +363,9 @@ BEGIN
     WHERE task_id = task_id_;    
 
     RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
+END
+$BODY$ 
+LANGUAGE plpgsql;
 
 CREATE TRIGGER send_comment_notification_trigger
 AFTER INSERT ON lbaw2353.comment
@@ -378,7 +379,7 @@ EXECUTE FUNCTION send_comment_notification();
 /*-When a post is send , a notification should be created for all the users that participate in the project*/
 
 CREATE OR REPLACE FUNCTION send_forum_notification()
-RETURNS TRIGGER AS $$
+RETURNS TRIGGER AS $BODY$
 DECLARE
     proj_id INTEGER;
 BEGIN
@@ -395,8 +396,9 @@ BEGIN
     WHERE project_id = proj_id;
 
     RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
+END
+$BODY$ 
+LANGUAGE plpgsql;
 
 CREATE TRIGGER send_forum_notification_trigger
 AFTER INSERT ON lbaw2353.post
@@ -442,7 +444,7 @@ EXECUTE FUNCTION send_task_state_notification();
 /*-When the project state is changed a notification should be created for all the users in the project*/
 
 CREATE OR REPLACE FUNCTION send_project_state_notification()
-RETURNS TRIGGER AS $$
+RETURNS TRIGGER AS $BODY$
 BEGIN
   
     INSERT INTO lbaw2353.project_notification (description, notification_date, project_id, user_id)
@@ -455,8 +457,9 @@ BEGIN
     WHERE project_id = NEW.id;
 
     RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
+END
+$BODY$ 
+LANGUAGE plpgsql;
 
 CREATE TRIGGER project_state_notification_trigger
 AFTER UPDATE ON lbaw2353.project
@@ -469,14 +472,15 @@ EXECUTE FUNCTION send_project_state_notification();
 
 /*-When a post is edited it's lastedited attribute should be updated to the current date*/
 CREATE OR REPLACE FUNCTION update_last_edit_post_date()
-RETURNS TRIGGER AS $$
+RETURNS TRIGGER AS $BODY$
 BEGIN
  
     NEW.last_edited := NOW();
 
     RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
+END
+$BODY$ 
+LANGUAGE plpgsql;
 
 CREATE TRIGGER edit_post_trigger
 BEFORE UPDATE ON lbaw2353.post
@@ -492,17 +496,18 @@ EXECUTE FUNCTION update_last_edit_post_date();
 
 /*-When a comment is edited it's lastedited attribute should be updated to the current date*/
 CREATE OR REPLACE FUNCTION update_last_edit_comment_date()
-RETURNS TRIGGER AS $$
+RETURNS TRIGGER AS $BODY$
 BEGIN
 
     NEW.last_edited := NOW();
 
     RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
+END
+$BODY$ 
+LANGUAGE plpgsql;
 
 CREATE TRIGGER edit_comment_trigger
-AFTER UPDATE ON lbaw2353.comment
+BEFORE UPDATE ON lbaw2353.comment
 FOR EACH ROW
 WHEN (NEW.content <> OLD.content)
 EXECUTE FUNCTION update_last_edit_comment_date();
