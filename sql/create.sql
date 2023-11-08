@@ -479,7 +479,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER edit_post_trigger
-AFTER UPDATE ON lbaw2353.post
+BEFORE UPDATE ON lbaw2353.post
 FOR EACH ROW
 WHEN (NEW.content <> OLD.content)
 EXECUTE FUNCTION update_last_edit_post_date();
