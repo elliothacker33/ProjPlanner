@@ -315,9 +315,11 @@ DECLARE
     time_difference DOUBLE PRECISION; -- Define time_difference variable
 BEGIN
     IF EXISTS (SELECT 1 FROM lbaw2353.invite WHERE email = NEW.email AND project_id = NEW.project_id) THEN
-		past_time :=	(SELECT invite_date 
-		FROM invite
-		WHERE email = NEW.email AND project_id = NEW.project_id);
+		past_time := (  
+            SELECT invite_date 
+		    FROM invite
+		    WHERE email = NEW.email AND project_id = NEW.project_id
+        );
 		
     	time_difference := EXTRACT(EPOCH FROM NOW()) - EXTRACT(EPOCH FROM past_time);
 	
@@ -405,9 +407,8 @@ EXECUTE FUNCTION send_forum_notification();
 
 /*-When the status of a task is changed a notification should be created for all the users assigned to a task*/
 CREATE OR REPLACE FUNCTION send_task_state_notification()
-RETURNS TRIGGER AS $$
+RETURNS TRIGGER AS $BODY$
 BEGIN
- 
     INSERT INTO lbaw2353.task_notification (description, notification_date, task_id, user_id)
     SELECT
         'Task state changed to ' || NEW.status,
@@ -415,11 +416,12 @@ BEGIN
         NEW.id,
         user_id
     FROM lbaw2353.assigned
-    WHERE task_id = NEW.task_id;
+    WHERE task_id = NEW.id;
 
     RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
+END
+$BODY$ 
+LANGUAGE plpgsql;
 
 CREATE TRIGGER task_state_notification_trigger
 AFTER UPDATE ON lbaw2353.task
