@@ -308,27 +308,31 @@ the value of the invite_date should be changed to current date and the row shoul
 */
 /*The project coordinator can only send an invitation to the same user each 10 minutes*/
 
-CREATE OR REPLACE FUNCTION update_invitation_date()
-RETURNS TRIGGER AS $$
+CREATE OR REPLACE FUNCTION update_invitation_date() RETURNS TRIGGER AS 
+$BODY$
 DECLARE
-    current_time TIMESTAMP;
-    time_difference INT; -- Define time_difference variable
+    past_time TIMESTAMP;
+    time_difference DOUBLE PRECISION; -- Define time_difference variable
 BEGIN
     IF EXISTS (SELECT 1 FROM lbaw2353.invite WHERE email = NEW.email AND project_id = NEW.project_id) THEN
-
-    time_difference := EXTRACT(EPOCH FROM (NOW()) - (OLD.invite_date));
-
-    IF time_difference < 600 THEN
-        RAISE EXCEPTION 'An invitation can only be sent once every 10 minutes.';
-    ELSE
-      DELETE FROM lbaw2353.invite WHERE email = NEW.email;
-    RETURN NEW;
-    END IF;
-    ELSE
+		past_time :=	(SELECT invite_date 
+		FROM invite
+		WHERE email = NEW.email AND project_id = NEW.project_id);
+		
+    	time_difference := EXTRACT(EPOCH FROM NOW()) - EXTRACT(EPOCH FROM past_time);
+	
+    	IF time_difference < 600.0 THEN
+     	   RAISE EXCEPTION 'You have already sent an invite in the past 10 minutes';
+    	ELSE
+			DELETE FROM lbaw2353.invite WHERE email = NEW.email;
+    		RETURN NEW;
+    	END IF;
+	ELSE
       RETURN NEW;
     END IF;
-END;
-$$ LANGUAGE plpgsql;
+END 
+$BODY$
+LANGUAGE plpgsql;
 
 CREATE TRIGGER send_invitation
 BEFORE INSERT ON lbaw2353.invite
