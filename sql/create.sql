@@ -308,27 +308,33 @@ the value of the invite_date should be changed to current date and the row shoul
 */
 /*The project coordinator can only send an invitation to the same user each 10 minutes*/
 
-CREATE OR REPLACE FUNCTION update_invitation_date()
-RETURNS TRIGGER AS $$
+CREATE OR REPLACE FUNCTION update_invitation_date() RETURNS TRIGGER AS 
+$BODY$
 DECLARE
-    current_time TIMESTAMP;
-    time_difference INT; -- Define time_difference variable
+    past_time TIMESTAMP;
+    time_difference DOUBLE PRECISION; -- Define time_difference variable
 BEGIN
     IF EXISTS (SELECT 1 FROM lbaw2353.invite WHERE email = NEW.email AND project_id = NEW.project_id) THEN
-
-    time_difference := EXTRACT(EPOCH FROM (NOW()) - (OLD.invite_date));
-
-    IF time_difference < 600 THEN
-        RAISE EXCEPTION 'An invitation can only be sent once every 10 minutes.';
-    ELSE
-      DELETE FROM lbaw2353.invite WHERE email = NEW.email;
-    RETURN NEW;
-    END IF;
-    ELSE
+		past_time := (  
+            SELECT invite_date 
+		    FROM invite
+		    WHERE email = NEW.email AND project_id = NEW.project_id
+        );
+		
+    	time_difference := EXTRACT(EPOCH FROM NOW()) - EXTRACT(EPOCH FROM past_time);
+	
+    	IF time_difference < 600.0 THEN
+     	   RAISE EXCEPTION 'You have already sent an invite in the past 10 minutes';
+    	ELSE
+			DELETE FROM lbaw2353.invite WHERE email = NEW.email;
+    		RETURN NEW;
+    	END IF;
+	ELSE
       RETURN NEW;
     END IF;
-END;
-$$ LANGUAGE plpgsql;
+END 
+$BODY$
+LANGUAGE plpgsql;
 
 CREATE TRIGGER send_invitation
 BEFORE INSERT ON lbaw2353.invite
@@ -339,7 +345,7 @@ EXECUTE FUNCTION update_invitation_date();
 /* -When a comment is send, a notification should be created for all the users assigned to the task*/
 
 CREATE OR REPLACE FUNCTION send_comment_notification()
-RETURNS TRIGGER AS $$
+RETURNS TRIGGER AS $BODY$
 DECLARE
     task_id_ INTEGER;
 BEGIN
@@ -357,8 +363,9 @@ BEGIN
     WHERE task_id = task_id_;    
 
     RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
+END
+$BODY$ 
+LANGUAGE plpgsql;
 
 CREATE TRIGGER send_comment_notification_trigger
 AFTER INSERT ON lbaw2353.comment
@@ -372,7 +379,7 @@ EXECUTE FUNCTION send_comment_notification();
 /*-When a post is send , a notification should be created for all the users that participate in the project*/
 
 CREATE OR REPLACE FUNCTION send_forum_notification()
-RETURNS TRIGGER AS $$
+RETURNS TRIGGER AS $BODY$
 DECLARE
     proj_id INTEGER;
 BEGIN
@@ -389,8 +396,9 @@ BEGIN
     WHERE project_id = proj_id;
 
     RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
+END
+$BODY$ 
+LANGUAGE plpgsql;
 
 CREATE TRIGGER send_forum_notification_trigger
 AFTER INSERT ON lbaw2353.post
@@ -401,9 +409,8 @@ EXECUTE FUNCTION send_forum_notification();
 
 /*-When the status of a task is changed a notification should be created for all the users assigned to a task*/
 CREATE OR REPLACE FUNCTION send_task_state_notification()
-RETURNS TRIGGER AS $$
+RETURNS TRIGGER AS $BODY$
 BEGIN
- 
     INSERT INTO lbaw2353.task_notification (description, notification_date, task_id, user_id)
     SELECT
         'Task state changed to ' || NEW.status,
@@ -411,11 +418,12 @@ BEGIN
         NEW.id,
         user_id
     FROM lbaw2353.assigned
-    WHERE task_id = NEW.task_id;
+    WHERE task_id = NEW.id;
 
     RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
+END
+$BODY$ 
+LANGUAGE plpgsql;
 
 CREATE TRIGGER task_state_notification_trigger
 AFTER UPDATE ON lbaw2353.task
@@ -436,7 +444,7 @@ EXECUTE FUNCTION send_task_state_notification();
 /*-When the project state is changed a notification should be created for all the users in the project*/
 
 CREATE OR REPLACE FUNCTION send_project_state_notification()
-RETURNS TRIGGER AS $$
+RETURNS TRIGGER AS $BODY$
 BEGIN
   
     INSERT INTO lbaw2353.project_notification (description, notification_date, project_id, user_id)
@@ -449,8 +457,9 @@ BEGIN
     WHERE project_id = NEW.id;
 
     RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
+END
+$BODY$ 
+LANGUAGE plpgsql;
 
 CREATE TRIGGER project_state_notification_trigger
 AFTER UPDATE ON lbaw2353.project
@@ -463,17 +472,18 @@ EXECUTE FUNCTION send_project_state_notification();
 
 /*-When a post is edited it's lastedited attribute should be updated to the current date*/
 CREATE OR REPLACE FUNCTION update_last_edit_post_date()
-RETURNS TRIGGER AS $$
+RETURNS TRIGGER AS $BODY$
 BEGIN
  
     NEW.last_edited := NOW();
 
     RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
+END
+$BODY$ 
+LANGUAGE plpgsql;
 
 CREATE TRIGGER edit_post_trigger
-AFTER UPDATE ON lbaw2353.post
+BEFORE UPDATE ON lbaw2353.post
 FOR EACH ROW
 WHEN (NEW.content <> OLD.content)
 EXECUTE FUNCTION update_last_edit_post_date();
@@ -486,17 +496,18 @@ EXECUTE FUNCTION update_last_edit_post_date();
 
 /*-When a comment is edited it's lastedited attribute should be updated to the current date*/
 CREATE OR REPLACE FUNCTION update_last_edit_comment_date()
-RETURNS TRIGGER AS $$
+RETURNS TRIGGER AS $BODY$
 BEGIN
 
     NEW.last_edited := NOW();
 
     RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
+END
+$BODY$ 
+LANGUAGE plpgsql;
 
 CREATE TRIGGER edit_comment_trigger
-AFTER UPDATE ON lbaw2353.comment
+BEFORE UPDATE ON lbaw2353.comment
 FOR EACH ROW
 WHEN (NEW.content <> OLD.content)
 EXECUTE FUNCTION update_last_edit_comment_date();
@@ -505,17 +516,18 @@ EXECUTE FUNCTION update_last_edit_comment_date();
 
 /*-When the state of a task is changed to closed then the end attribute should change to the current date*/
 CREATE OR REPLACE FUNCTION update_task_end_date()
-RETURNS TRIGGER AS $$
+RETURNS TRIGGER AS $BODY$
 BEGIN
 
     NEW.endtime := NOW();
 
     RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
+END
+$BODY$
+LANGUAGE plpgsql;
 
 CREATE TRIGGER finalize_task_trigger
-AFTER UPDATE ON lbaw2353.task
+BEFORE UPDATE ON lbaw2353.task
 FOR EACH ROW
 WHEN (NEW.status <> OLD.status AND NEW.status = 'closed')
 EXECUTE FUNCTION update_task_end_date();
@@ -523,15 +535,16 @@ EXECUTE FUNCTION update_task_end_date();
 /*Only a user who is part of the project's team can be assigned as the project coordinator for that project*/
 
 CREATE OR REPLACE FUNCTION check_for_coordinator_in_project()
-RETURNS TRIGGER AS $$
+RETURNS TRIGGER AS $BODY$
 BEGIN
-    IF NEW.coordinator NOT IN (SELECT user_id FROM lbaw2353.projectParticipation WHERE project_id = NEW.id) THEN
+    IF NEW.coordinator NOT IN (SELECT user_id FROM lbaw2353.project_participation WHERE project_id = NEW.id) THEN
         RAISE EXCEPTION 'Only a user who is part of the project''s team can be assigned as the project coordinator.';
     END IF;
 
     RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
+END
+$BODY$
+LANGUAGE plpgsql;
 
 CREATE TRIGGER coordinator_assignment_trigger
 BEFORE UPDATE ON lbaw2353.project
@@ -542,15 +555,16 @@ EXECUTE FUNCTION check_for_coordinator_in_project();
 /*Only project coordinators can invite users to join their project*/
 
 CREATE OR REPLACE FUNCTION check_if_coordinator_send_invitation()
-RETURNS TRIGGER AS $$
+RETURNS TRIGGER AS $BODY$
 BEGIN
     IF NEW.user_id NOT IN (SELECT coordinator FROM lbaw2353.project WHERE id = NEW.project_id) THEN
         RAISE EXCEPTION 'Only project coordinators can invite users to join their project.';
     END IF;
 
     RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
+END
+$BODY$
+LANGUAGE plpgsql;
 
 CREATE TRIGGER coordinator_send_invitation_trigger
 BEFORE INSERT ON lbaw2353.invite
@@ -561,16 +575,17 @@ EXECUTE FUNCTION check_if_coordinator_send_invitation();
 /*Each task can only be marked as completed by users that are assigned to the task or the project coordinator*/
 
 CREATE OR REPLACE FUNCTION check_who_closed_task()
-RETURNS TRIGGER AS $$
+RETURNS TRIGGER AS $BODY$
 BEGIN
     IF  NEW.closed_user_id NOT IN (SELECT user_id FROM lbaw2353.assigned WHERE task_id = NEW.id) AND
-        NEW.closed_user_id <> (SELECT coordinator FROM lbaw2353.project WHERE id = (SELECT project_id FROM lbaw2353.projectTask WHERE task_id = NEW.id)) THEN
+        NEW.closed_user_id <> (SELECT coordinator FROM lbaw2353.project WHERE id = (SELECT project_id FROM lbaw2353.project_task WHERE task_id = NEW.id)) THEN
         RAISE EXCEPTION 'Each task can only be marked as completed by users that are assigned to the task or the project coordinator.';
     END IF;
 
     RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
+END
+$BODY$ 
+LANGUAGE plpgsql;
 
 CREATE TRIGGER task_closed_trigger
 BEFORE UPDATE ON lbaw2353.task
