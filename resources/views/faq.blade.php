@@ -1,19 +1,15 @@
-<!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('layouts.app')
 
-        <!-- CSRF Token -->
-        <meta name="csrf-token" content="{{ csrf_token() }}">
-        <link href="{{ url('css/faq.css') }}" rel="stylesheet">
-        <script type="text/javascript" src="js/faq.js" defer></script>
-        <title>{{ config('app.name', 'Project Planer') }}</title>
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/faq.css') }}">
+@endpush
 
-    </head>
-    <body>
-    <header>
+@push('scripts')
+    <script src="{{ asset('js/faq.js') }}" defer></script>
+@endpush
+
+@section('content')
+<header>
         <div>
             <h1> Project Planer </h1>
         </div>
@@ -27,9 +23,9 @@
                 <li><a href="#">Join Project Planer</a></li>        
             </ul>
         </nav>
-    </header>
+</header>
 
-    <main>
+<main>
         <div>
             <h1> Some of the most frequently <br> asked questions</h1>
         </div>
@@ -77,9 +73,8 @@
                 <p>Only authorized users can create tasks.</p>
             </div>
             
-    </div>
+</div>
                
-    </main>
+</main>
 
-    </body>
-</html>
+@endsection

@@ -95,8 +95,7 @@ main>div:nth-child(1){
 }
 
 main > div > h1 {
-  
-  color: black; /* Hide the text content */
+  color: black; 
   text-align: center;
   font-size: 3rem;
   font-family: 'TT Norms Pro', sans-serif;
