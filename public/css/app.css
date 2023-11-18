@@ -11,6 +11,14 @@ header nav span {
   font-size: 1.2em;
 }
 
+.icon{
+ max-width: 100%;
+  max-height: 100%;
+
+}
+.user_icon{
+  width: 3em;
+}
 
 body {
     background-color: #ffffff;
@@ -21,7 +29,7 @@ body {
     top:0;
     display: flex;
     flex-direction: column;
-    gap: 1em;
+    gap: 0.5em;
     width: 100%;
     background-color: #252222F1;
     padding: 0.5em;
@@ -29,15 +37,21 @@ body {
   }
 
 main header section {
-  padding: 0.2em 0.5em;
+  padding: 0.0em 0.5em;
   width: 100%;
   position: relative;
   display: flex;
   justify-content: space-between;
-  align-content: flex-start;
+  align-content: center;
+  align-items: center;
 
 }
+
+main header section h1 .icon {
+  height: 1.8em;
+}
 main header nav ul{
+  overflow-x: scroll;
   display: flex;
   justify-content: flex-start;
   gap: 1em;
@@ -50,6 +64,7 @@ main header nav ul *{
   padding: 0.2em;
   margin: 0;
   border-radius: 0.5em;
+  min-width: fit-content;
 }
 
 main header nav ul *:hover{
@@ -70,7 +85,7 @@ main header nav ul li a:hover{
     margin: 0 auto;
     padding: 1em;
     max-width: 20em;
-    border: 1px solid #d2afe7;
+    border: 1px solid #698996;
   }
   #content > form .error {
     font-weight: bold;
@@ -86,10 +101,6 @@ main header nav ul li a:hover{
   @media (max-width: 70em) {
     #cards {
       grid-template-columns: repeat(2, 1fr);
-    }
-    main > header {
-      display: grid;
-      grid-template-columns: 1fr auto;
     }
     main > header h1 {
       grid-row-end: span 2;
@@ -125,18 +136,18 @@ main header nav ul li a:hover{
    * Some styles might be missing
    **/
   button {
-    background-color: #9b4dca;
-    border-color: #9b4dca;
+    background-color: #698996;
+    border-color: #698996;
   }
   a.button {
-    background-color: #9b4dca;
-    border-color: #9b4dca;
+    background-color: #698996;
+    border-color: #698996;
   }
   a.button.button-outline {
-    color: #9b4dca;
+    color: #698996;
   }
   a {
-    color: #9b4dca;
+    color: #698996;
   }
   input[type=text]:focus,
   input[type=email]:focus,

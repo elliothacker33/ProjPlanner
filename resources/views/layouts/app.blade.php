@@ -26,7 +26,9 @@
                 <section>
                     <h1>Project Planer</h1>
                     @if (Auth::check())
-                        <a class="button" href="{{ url('/logout') }}"> Logout </a> <span>{{ Auth::user()->name }}</span>
+                        <a class="user_icon" href="{{ url('/logout') }}"> Logout </a> <span>{{ Auth::user()->name }}</span>
+                    @else
+                        <a class="user_icon" href="{{ url('/login') }}"> <img class="icon" src="{{ asset('img/default_user.png') }}" alt="default user icon"></a>
                     @endif
                 </section>
                 @if(View::hasSection('navbar'))
