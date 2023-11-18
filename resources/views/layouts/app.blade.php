@@ -13,6 +13,7 @@
         <!-- Styles -->
         <link href="{{ url('css/milligram.min.css') }}" rel="stylesheet">
         <link href="{{ url('css/app.css') }}" rel="stylesheet">
+        <link href="{{ url('css/contact.css') }}" rel="stylesheet">
         <script type="text/javascript">
             // Fix for Firefox autofocus CSS bug
             // See: http://stackoverflow.com/questions/18943276/html-5-autofocus-messes-up-css-loading/18945951#18945951
@@ -50,9 +51,9 @@
                         <li><a>About Us</a></li>
                         <li><a href="{{ url('/contacts') }}">Contact Us</a></li>
                     </ul>
-                    <h6>@2023 Project Planer All rights reserve</h6>
+
                 </section>
-                <section></section>
+                <section><h6>@2023 Project Planer All rights reserve</h6></section>
             </footer>
         </main>
 

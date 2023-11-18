@@ -25,19 +25,33 @@ a{
 
 body {
     background-color: #ffffff;
+    min-height: 100vh;
   }
-  main  header {
+main{
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  gap: 1em;
+}
+main  header, main footer {
     color: #F9F9F6;
-    position: fixed;
-    top:0;
     display: flex;
     flex-direction: column;
-    gap: 0.5em;
     width: 100%;
     background-color: #252222F1;
     padding: 0.5em;
-    border-bottom: 1px solid white;
   }
+main  header{
+  position: fixed;
+  top:0;
+  gap: 0.5em;
+}
+main footer{
+  position: relative;
+  bottom: 0;
+  gap: 1em;
+  margin-top: auto;
+}
 
 main header section {
   padding: 0.0em 0.5em;
@@ -53,16 +67,24 @@ main header section {
 main header section h1 .icon {
   height: 1.8em;
 }
-main header nav ul{
-  overflow-x: scroll;
+main header nav ul,footer ul, footer h6{
   display: flex;
-  justify-content: flex-start;
-  gap: 1em;
   list-style: none;
   margin: 0;
   padding: 0;
+  width: 100%;
 }
-main header nav ul *{
+main header nav ul{
+  overflow-x: scroll;
+  justify-content: flex-start;
+  gap: 1em;
+}
+footer ul, footer h6{
+  justify-content: center;
+  align-items: center;
+  gap: 2em;
+}
+main header nav ul *,footer ul *{
   color: inherit;
   padding: 0.2em;
   margin: 0;
@@ -70,15 +92,14 @@ main header nav ul *{
   min-width: fit-content;
 }
 
-main header nav ul *:hover{
+
+main header nav ul *:hover, footer ul *:hover{
   background:#407076 ;
+  color: inherit;
 }
 
-main header nav ul li a:hover{
- color: inherit;
-}
 #content{
-  margin-top: 10em;
+  padding-top: 10em;
 }
   #content label {
     font-weight: normal;
@@ -101,36 +122,8 @@ main header nav ul li a:hover{
     background-color: white;
   }
 
-  footer{
-    background: #252222F1;
-    width: 100%;
-    display: flex;
-    position: absolute;
-    bottom: 0;
-    flex-direction: column;
-    justify-content: center;
-    align-content: center;
-    padding: 1em;
-  }
-  footer ul, footer h6{
-    display: flex;
-    width: 100%;
-    justify-content: center;
-    align-items: center;
-    gap: 2em;
-    color: white;
-  }
 
-footer ul *{
-  list-style: none;
-  color: inherit;
-  padding: 0.5em;
-  border-radius: 0.5em;
-}
-footer ul *:hover{
-  background: #407076 ;
-  color: inherit;
-}
+
 
   @media (max-width: 70em) {
     #cards {

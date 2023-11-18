@@ -20,12 +20,40 @@
 
 
 @section('content')
+<section class="container">
+                <section class="contactInfo">
+                    <section>
+                        <h1>|&nbspContacts</h1>
+                        <ul class="info">
+                            <li >
+                                &nbsp &nbsp &nbsp
+                                <img class="icon" src="{{ asset('img/email_icon.png') }}" alt="default user icon">
+                                <span>|&nbsp admin@gmail.com </span>
+                            </li>
+                            <li >
+                                &nbsp &nbsp &nbsp
+                                <img class="icon" src="{{ asset('img/phone_icon.png') }}" alt="default user icon">
+                                <span>|&nbsp +351 224 119 040 </span>
+                            </li>
+                            <li >
+                                &nbsp &nbsp &nbsp
+                                <img class="icon" src="{{ asset('img/phone_icon.png') }}" alt="default user icon">
+                                <span>|&nbsp +351 934 119 040 </span>
+                            </li>
+                        </ul>
+                        <h1>|&nbsp Address</h1>
+                        <ul class="info">
+                            <li >
+                                &nbsp &nbsp &nbsp |&nbsp 2791 Star Route Porto Portugal
+                            </li>
+                        </ul>
+                    </section>
+                    <ul class="sci">
+                        <li><a href=""><i></i></a></li>
+                        <li><a href=""><i></i></a></li>
+                    </ul>
+                </section>
+</section>
 
-
-
-        <div>
-            <h1>Some of the most frequently <br> asked questions</h1>
-        </div>
-        <!-- ... (rest of your content) ... -->
 
 @endsection
