@@ -43,6 +43,18 @@
             <section id="content">
                 @yield('content')
             </section>
+            <footer>
+                <section >
+                    <ul>
+                        <li><a>FAQ</a></li>
+                        <li><a>About Us</a></li>
+                        <li><a href="{{ url('/contacts') }}">Contact Us</a></li>
+                    </ul>
+                    <h6>@2023 Project Planer All rights reserve</h6>
+                </section>
+                <section></section>
+            </footer>
         </main>
+
     </body>
 </html>
