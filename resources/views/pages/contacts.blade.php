@@ -3,12 +3,9 @@
 @extends('layouts.app')
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/faq.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/contact.css') }}">
 @endpush
 
-@push('scripts')
-    <script src="{{ asset('js/faq.js') }}" defer></script>
-@endpush
 
 
     @section('navbar')
@@ -23,7 +20,7 @@
 <section class="container">
                 <section class="contactInfo">
                     <section>
-                        <h1>|&nbspContacts</h1>
+                        <h1>|&nbsp Contacts</h1>
                         <ul class="info">
                             <li >
                                 &nbsp &nbsp &nbsp
