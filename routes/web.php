@@ -27,7 +27,7 @@ Route::controller(CardController::class)->group(function () {
     Route::get('/cards', 'list')->name('cards');
     Route::get('/cards/{id}', 'show');
 });
-
+Route::view('/contacts','pages/contacts');
 
 // API
 Route::controller(CardController::class)->group(function () {
