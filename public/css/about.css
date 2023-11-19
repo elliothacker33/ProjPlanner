@@ -17,8 +17,8 @@
 }
 
 .about_team_avatar {
-    height: 250px;
-    width: 250px;
+    width: 15em;
+    height: 15em;
 }
 
 .about_us_section > h1 {
@@ -28,7 +28,9 @@
 }
 
 .about_us_section {
-    margin: 0 4em;
+    width: 100%;
+    max-width: 85em;
+    margin: auto;
 }
 
 .about_us_section p {
@@ -45,9 +47,5 @@
 @media (max-width: 650px) {
     .about_us_section p {
         margin-bottom: 1.5em;
-    }
-
-    .about_us_section {
-        margin: 0 0.65em;
     }
 }

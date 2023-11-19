@@ -13,7 +13,6 @@
         <!-- Styles -->
         <link href="{{ url('css/milligram.min.css') }}" rel="stylesheet">
         <link href="{{ url('css/app.css') }}" rel="stylesheet">
-        <link href="{{ url('css/about.css') }}" rel="stylesheet">
 
 
         <script type="text/javascript">

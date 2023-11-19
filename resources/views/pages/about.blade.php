@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@push('styles')
+    <link href="{{ url('css/about.css') }}" rel="stylesheet">
+@endpush
+
 @section('content')
     <section class="about_us_section">
         <h1> About us </h1>
@@ -24,4 +28,3 @@
         </article>
     </section>
 @endsection
-
