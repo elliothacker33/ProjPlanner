@@ -6,11 +6,6 @@
     <link rel="stylesheet" href="{{ asset('css/contact.css') }}">
 @endpush
 
-
-
-
-
-
 @section('content')
 <section class="container">
                 <img class="map" src="{{ asset('img/map.png') }}">
