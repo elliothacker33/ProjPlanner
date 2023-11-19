@@ -11,9 +11,9 @@ class HomeController extends Controller
     {
 
         $user = $request->user();
-
+        #tens de dar redirect
         if ($user === null) {
-            return response()->view('static.home');
+            return redirect('/home');
         }
 
         # TODO check if user is admin
@@ -21,7 +21,7 @@ class HomeController extends Controller
         # TODO check if user is blocked
 
         else {
-            return response()->view('projects');
+            return redirect('/home');
         }
     }
 }

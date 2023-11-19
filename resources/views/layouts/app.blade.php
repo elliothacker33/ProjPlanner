@@ -11,13 +11,13 @@
         <title>{{ config('app.name', 'ProjPlanner') }}</title>
 
         <!-- Styles -->
-        @stack('styles');
+        @stack('styles')
 
         <!-- Scripts -->
-        @stack('scripts');
+        @stack('scripts')
         
     </head>
     <body>
-        @yield('content');
+        @yield('content')
     </body>
 </html>

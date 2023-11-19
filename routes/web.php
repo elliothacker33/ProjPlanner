@@ -18,11 +18,11 @@ use App\Http\Controllers\HomeController;
 */
 
 // Home
-Route::get('', 'HomeController@show')->name('home');
+Route::get('', [HomeController::class,'show'])->name('home');
 
 // Static pages
-Route::get('{page}', 'StaticController@show')->whereIn('page', StaticController::STATIC_PAGES)->name('static');
-
+//Route::get('{page}', [StaticController::class, 'show'])->whereIn('page', StaticController::STATIC_PAGES)->name('static');
+Route::view('/home', 'pages/home');
 // Authentication
 Route::controller(LoginController::class)->group(function () {
     Route::get('/login', 'showLoginForm')->name('login');

@@ -8,7 +8,7 @@
     <script src="{{ asset('js/home.js') }}" defer></script>
 @endpush
 
-@section('content') 
+@section('content')
     <section class="home-content">
 
         <h1>Welcome to ProjPlanner</h1>
