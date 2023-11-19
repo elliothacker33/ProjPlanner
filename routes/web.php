@@ -21,7 +21,7 @@ use App\Http\Controllers\HomeController;
 Route::get('', [HomeController::class,'show'])->name('home');
 
 // Static pages
-//Route::get('{page}', [StaticController::class, 'show'])->whereIn('page', StaticController::STATIC_PAGES)->name('static');
+Route::get('{page}', [StaticController::class, 'show'])->whereIn('page', StaticController::STATIC_PAGES)->name('static');
 Route::view('/home', 'pages/home');
 // Authentication
 Route::controller(LoginController::class)->group(function () {
