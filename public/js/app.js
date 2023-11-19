@@ -1,33 +1,29 @@
 const header = document.querySelector('header');
 const content = document.querySelector('#content');
-console.log(header.clientHeight);
-content.style.paddingTop = (header.clientHeight   ).toString()+'px';
+content.style.paddingTop = (header.clientHeight).toString() + 'px';
 
 
 function addEventListeners() {
 
 
-
-
-
 }
-  
-  function encodeForAjax(data) {
+
+function encodeForAjax(data) {
     if (data == null) return null;
-    return Object.keys(data).map(function(k){
-      return encodeURIComponent(k) + '=' + encodeURIComponent(data[k])
+    return Object.keys(data).map(function (k) {
+        return encodeURIComponent(k) + '=' + encodeURIComponent(data[k])
     }).join('&');
-  }
-  
-  function sendAjaxRequest(method, url, data, handler) {
+}
+
+function sendAjaxRequest(method, url, data, handler) {
     let request = new XMLHttpRequest();
-  
+
     request.open(method, url, true);
     request.setRequestHeader('X-CSRF-TOKEN', document.querySelector('meta[name="csrf-token"]').content);
     request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     request.addEventListener('load', handler);
     request.send(encodeForAjax(data));
-  }
+}
 
 
 

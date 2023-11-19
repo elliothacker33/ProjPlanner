@@ -1,4 +1,4 @@
-main .container{
+main .container {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -7,26 +7,28 @@ main .container{
     max-width: 100%;
     padding: 0;
 }
-main .container .map{
+
+main .container .map {
     width: 100%;
     height: auto;
 }
 
-.container .contactInfo{
+.container .contactInfo {
     justify-content: space-evenly;
     flex-wrap: wrap;
     width: 100%;
     background: var(--onprimary-bg-color);
     padding: 2em;
     display: flex;
-    box-shadow: 0 20px 25px rgba(0,0,0,0.15);
+    box-shadow: 0 20px 25px rgba(0, 0, 0, 0.15);
     color: var(--secondary-text-color);
 
     margin: 0;
 
 
 }
-.container .contactInfo  .info{
+
+.container .contactInfo .info {
     position: relative;
     margin: 1em 0;
     list-style: none;
@@ -34,40 +36,44 @@ main .container .map{
 
 }
 
-.container .contactInfo  .info .icon{
+.container .contactInfo .info .icon {
     height: 2em;
 }
-.container .contactInfo  .info li{
+
+.container .contactInfo .info li {
 
     position: relative;
     display: flex;
-    margin: 1em 0;
     cursor: pointer;
+    margin: 1em 0 1em 1em;
 
 }
 
-.container .contactInfo  .info li span{
+.container .contactInfo .info li span {
     width: fit-content;
     margin-left: 1em;
 
 }
 
-.container .contactInfo h2{
+.container .contactInfo h2 {
 
     font-size: 1.5em;
     font-weight: 500;
 }
-.container .contactInfo  .sci{
+
+.container .contactInfo .sci {
     position: relative;
     display: flex;
 
 }
-.container .contactInfo  .sci li{
+
+.container .contactInfo .sci li {
     list-style: none;
     margin-right: 15px;
 
 }
-.container .contactInfo ul .sci li a{
+
+.container .contactInfo ul .sci li a {
     text-decoration: none;
 
 }
