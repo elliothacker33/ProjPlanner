@@ -12,12 +12,12 @@ main .container{
 .container .contactInfo{
     max-width: 40em;
     width: 100%;
-    background: #698996;
+    background: var(--onprimary-bg-color);
     padding: 2em;
     display: flex;
     flex-direction: column;
     box-shadow: 0 20px 25px rgba(0,0,0,0.15);
-    color: white;
+    color: var(--secondary-text-color);
     min-height: 50vh;
     margin: 0;
 

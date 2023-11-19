@@ -1,3 +1,13 @@
+:root {
+  --primary-bg-color: white;
+  --secondary-bg-color: #252222F1 ;
+  --onprimary-bg-color: #407076;
+  --onsecondary-bg-color: #698996;
+  --primary-text-color: black ;
+  --secondary-text-color: #F9F9F6 ;
+}
+
+
 *,h1,h2,h3,h4,h5,h6 {
 padding: 0;
 border: 0;margin:0;
@@ -24,7 +34,7 @@ a{
 }
 
 body {
-    background-color: #ffffff;
+    background-color: var(--primary-bg-color);
     min-height: 100vh;
   }
 main{
@@ -34,11 +44,11 @@ main{
   gap: 1em;
 }
 main  header, main footer {
-    color: #F9F9F6;
+    color: var(--secondary-text-color);
     display: flex;
     flex-direction: column;
     width: 100%;
-    background-color: #252222F1;
+    background-color: var(--secondary-bg-color);
     padding: 0.5em;
   }
 main  header{
@@ -94,7 +104,7 @@ main header nav ul *,footer ul *{
 
 
 main header nav ul *:hover, footer ul *:hover{
-  background:#407076 ;
+  background:var(--onprimary-bg-color) ;
   color: inherit;
 }
 
@@ -108,7 +118,7 @@ main header nav ul *:hover, footer ul *:hover{
     margin: 0 auto;
     padding: 1em;
     max-width: 20em;
-    border: 1px solid #698996;
+    border: 1px solid var(--onsecondary-bg-color);
   }
   #content > form .error {
     font-weight: bold;
@@ -163,18 +173,18 @@ main header nav ul *:hover, footer ul *:hover{
    * Some styles might be missing
    **/
   button {
-    background-color: #698996;
-    border-color: #698996;
+    background-color: var(--onsecondary-bg-color);
+    border-color: var(--onsecondary-bg-color);
   }
   a.button {
-    background-color: #698996;
-    border-color: #698996;
+    background-color: var(--onsecondary-bg-color);
+    border-color: var(--onsecondary-bg-color);
   }
   a.button.button-outline {
-    color: #698996;
+    color: var(--onsecondary-bg-color);
   }
   a {
-    color: #698996;
+    color: var(--onsecondary-bg-color);
   }
   input[type=text]:focus,
   input[type=email]:focus,
