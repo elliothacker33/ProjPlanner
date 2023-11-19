@@ -2,26 +2,30 @@
 @import url('https://fonts.cdnfonts.com/css/tt-norms-pro');
 
 
-body{
-    width: 100vw;
-    height: 100vh;
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
-    background-color: white;
+body {
+  border: 4px solid red;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  background-color: white;
+  display: grid;
+  grid-template-rows: auto 1fr; 
 }
 
-header{
-    box-sizing: border-box;
-    width: 100%;
-    position: fixed;
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    background-color: black;
-    min-height: 120px; 
+header {
+  box-sizing: border-box;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  background-color: black;
 }
+
 header>div  {
     display: flex;
+    flex:1;
     justify-content: end;
     align-items: center;
     margin:0;
@@ -78,35 +82,36 @@ header nav ul li:last-child a:hover{
     border:none;
   }
 
-
-main{
-
-    padding-top: 120px;
-    display: grid;
-    grid-template-rows: auto 2fr;
+main {
+    display: flex;
+    overflow-y: auto;
+    overflow-x: hidden;
+    flex-direction: column;
+    justify-content: baseline;
 }
+
 main>div:nth-child(1){
     display: flex;
-    flex:1;
     justify-content: center;
-    align-items: center;
+    align-items: end;
+    word-wrap: break-word; 
 }
 
 main > div > h1 {
   color: black; 
   text-align: center;
-  font-size: 3rem;
+  font-size: 2.5em;
   font-family: 'TT Norms Pro', sans-serif;
   font-weight: 600;
+  word-wrap: break-word; 
 }
 
 
 .faq {
-    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: auto;
+
   }
 
   .question {
@@ -123,7 +128,7 @@ main > div > h1 {
   }
   
   .question>span {
-    font-size: 2rem;
+    font-size: 2em;
     text-decoration: none;
     font-family: 'TT Norms Pro', sans-serif;
     font-weight: 500;
@@ -166,7 +171,9 @@ main > div > h1 {
     font-weight: 500;
   }
   
-  
+
+
+
 
   
 
