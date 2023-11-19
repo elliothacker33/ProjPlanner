@@ -19,6 +19,7 @@ h1{
 }
 header nav span {
   font-size: 1.2em;
+
 }
 a{
   cursor: pointer;
@@ -36,12 +37,13 @@ a{
 body {
     background-color: var(--primary-bg-color);
     min-height: 100vh;
+
   }
 main{
   display: flex;
   min-height: 100vh;
   flex-direction: column;
-  gap: 1em;
+
 }
 main  header, main footer {
     color: var(--secondary-text-color);
@@ -55,6 +57,7 @@ main  header{
   position: fixed;
   top:0;
   gap: 0.5em;
+  z-index: 13;
 }
 main footer{
   position: relative;
@@ -109,7 +112,7 @@ main header nav ul *:hover, footer ul *:hover{
 }
 
 #content{
-  padding-top: 10em;
+  padding-top: 7.5em;
 }
   #content label {
     font-weight: normal;
