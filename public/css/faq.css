@@ -8,7 +8,7 @@ body{
     margin: 0;
     padding: 0;
     overflow-x: hidden;
-    background-color: #FFFCF3;
+    background-color: white;
 }
 
 header{
@@ -17,7 +17,7 @@ header{
     position: fixed;
     display: grid;
     grid-template-columns: 1fr 2fr;
-    background-color: #fff8e3;
+    background-color: black;
     min-height: 120px; 
 }
 header>div  {
@@ -30,7 +30,7 @@ header>div>h1{
     font-size: 3rem;
     font-family: 'TT Norms Pro', sans-serif;
     font-weight: 600;
-    color: black;
+    color: white;
 }
 header nav{
     display: flex;
@@ -53,7 +53,7 @@ header nav ul li{
 }
 
 header nav ul li a{
-    color:black;
+    color:white;
     font-size: 1.5rem;
     text-decoration: none;
     font-family: 'TT Norms Pro', sans-serif;
@@ -61,22 +61,20 @@ header nav ul li a{
 }
 header nav ul li:last-child a {
     display: flex;
-    background-color:black;
-    border-style:double;
-    border-width:1px;
-    border-color: white;
-    color: white;
+    background-color:white;
+    color: #698996;
     padding: 10px 25px 10px 25px;
+    transition: background-color 0.3s, color 0.3s; 
 }
 header nav ul li:not(:last-child) a:hover {
     border-width: 0 0 2px 0;
-    border-color: rgb(176, 164, 164);
+    border-color: #698996;
     border-style: solid;
   }
   
 header nav ul li:last-child a:hover{
-    background-color:white;
-    color:black;
+    background-color:#698996;
+    color:white;
     border:none;
   }
 
@@ -112,10 +110,13 @@ main > div > h1 {
   }
 
   .question {
+    border-width: 4px;
+    border-style: solid;
+    border-color: #698996;
     width: 50%;
     display: flex;
     justify-content: space-between;
-    background-color: #F8F4EB;
+    background-color: white;
     padding: 10px;
     cursor: pointer;
     transition: background-color 4s ease-in;
@@ -129,8 +130,8 @@ main > div > h1 {
   }
   
   .question>button {
-    color:rgb(42, 89, 200);
-    background-color: #F8F4EB;
+    color:#698996;
+    background-color: white;
     font-size: 2rem;
     text-decoration: none;
     font-family: 'TT Norms Pro', sans-serif;

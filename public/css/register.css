@@ -1,0 +1,146 @@
+@import url('https://fonts.cdnfonts.com/css/tt-norms-pro');
+*{
+    font-family: 'TT Norms Pro', sans-serif;
+    font-weight: 500;
+}
+body{
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+/* Body Information part */
+body>div{
+    background-color: #698996;
+    display: grid;
+    grid-template-rows: 1fr 2fr 1fr;
+}
+body>div header{
+    display: flex;
+    align-items: center;
+    justify-content: baseline;
+}
+body>div header p{
+    margin-left: 10%;
+    font-size: 3rem;
+    color:white;
+}
+
+body>div footer{
+    display: flex;
+    align-items: end;
+    justify-content: center;
+}
+
+body>div footer p{
+    font-size: 1.3rem;
+    color:white;
+}
+
+/* Body main part */
+body>main {
+    background-color: white;
+    display: grid;
+    grid-template-rows: 1fr 3fr;
+}
+body>main>header{
+    display: flex;
+    flex-wrap: wrap;
+
+    flex-direction: column;
+    justify-content: center;
+    align-items: baseline;
+}
+main>header>h1{
+    position: relative;
+    margin-left: 10%;
+    font-size: 3rem;
+    margin-top: 0;
+}
+main>header>p{
+    color: black;
+    margin-left: 10%;
+    font-size: 3rem;
+    white-space: nowrap;
+    overflow: hidden;
+    animation: typewriter 4s steps(40) 1s forwards;
+}
+.shine{
+    color:#698996
+}
+
+@keyframes typewriter {
+    from {
+      width: 0;
+    }
+    to {
+      width: 100%;
+    }
+  }
+
+
+form {
+    display: grid;
+    grid-template-rows: auto auto auto auto auto;
+}
+
+form>div{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.error{
+    margin-top: 1rem;
+    font-size: 1.5rem;
+    color:rgb(203, 53, 53);
+}
+form div input{
+    text-indent: 1%;
+    font-size: 2rem;
+    background-color: transparent;
+    color:black;
+    width:80%;
+    height: 30%;
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    border-color:#698996;
+    outline: none;
+}
+form div input::placeholder {
+    text-align: center;
+    font-size: 2rem; 
+    color: black; 
+}
+form div button {
+    font-size: 2rem;
+    width: 80%;
+    height: 50%;
+    background-color: black;
+    color: white;
+    transition: background-color 1s, color 1s; 
+}
+form div button:hover {
+    background-color: white;
+    color: black;
+}
+  
+form div a {
+    font-size: 1.5rem;
+    color: black;
+    text-decoration: none; 
+}
+form div a span{
+    padding-left: 2px;
+    color:#698996
+}
+form div a span:hover{
+    border-width: 0 0 2px 0;
+    border-color: #698996;
+    border-style:solid;
+}

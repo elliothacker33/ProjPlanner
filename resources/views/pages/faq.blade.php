@@ -15,12 +15,12 @@
         </div>
         <nav>
             <ul>
-                <li><a href="{{ url('/') }}">Home</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Contact</a></li>
-                <li><a href="#">Faq</a></li>
-                <li><a href="#">Login</a></li>
-                <li><a href="#">Join Project Planer</a></li>        
+            <li><a href="{{ route('static.home') }}">Home</a></li>
+            <li><a href="{{ route('static.about') }}">About</a></li>
+            <li><a href="{{ route('static.contacts') }}">Contact</a></li>
+            <li><a href="{{ route('static.faq') }}">Faq</a></li>
+            <li><a href="{{ route('login')}}">Login</a></li>
+            <li><a href="{{ route('register')}}">Join Project Planner</a></li>
             </ul>
         </nav>
 </header>

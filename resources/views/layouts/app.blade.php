@@ -9,13 +9,12 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>{{ config('app.name', 'Project Planer') }}</title>
-
         <!-- Styles -->
         @stack('styles')
         <!-- Scripts -->
         @stack('scripts')
     </head>
     <body>
-        @yield('content');
+        @yield('content')
     </body>
 </html>
