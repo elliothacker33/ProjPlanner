@@ -191,4 +191,8 @@ main header nav ul *:hover, footer ul *:hover{
   input[type=password]:focus {
     border-color: #9b4dca;
   }
-  
+
+.avatar {
+  border-radius: 50%;
+  object-fit: cover;
+}
