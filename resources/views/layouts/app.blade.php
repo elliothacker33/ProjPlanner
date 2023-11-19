@@ -19,6 +19,12 @@
         </script>
         <script type="text/javascript" src={{ url('js/app.js') }} defer>
         </script>
+
+
+        @stack('styles')
+        <!-- Scripts -->
+        @stack('scripts')
+
     </head>
     <body>
         <main>

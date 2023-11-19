@@ -1,6 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
+
+    @push('styles')
+        <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
+    @endpush
+
+    <section class="login_form">
 <form method="POST" action="{{ route('login') }}">
     {{ csrf_field() }}
 
@@ -34,4 +40,8 @@
         </p>
     @endif
 </form>
+    <section class="container">
+
+    </section>
+</section>
 @endsection

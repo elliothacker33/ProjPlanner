@@ -1,0 +1,8 @@
+.login_form{
+    width: 100%;
+    display: flex;
+
+}
+.login_form .container{
+    background: var(--onprimary-bg-color);
+}
