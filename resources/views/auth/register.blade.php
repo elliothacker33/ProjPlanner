@@ -1,39 +1,60 @@
-@extends('layouts.app')
+@extends('layouts.default')
+@push('styles')
+
+    <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
+@endpush
 
 @section('content')
-<form method="POST" action="{{ route('register') }}">
-    {{ csrf_field() }}
+    <section class="authentication register">
 
-    <label for="name">Name</label>
-    <input id="name" type="text" name="name" value="{{ old('name') }}" required autofocus>
-    @if ($errors->has('name'))
-      <span class="error">
-          {{ $errors->first('name') }}
-      </span>
-    @endif
+        <section class="formContainer">
+        <header>
+            <h2><span class="shine">Empower</span> Your Day, <span class="shine">Unleash</span> the work </h2>
+            <h2>Sign-up:</h2>
+        </header>
+        <form method="POST" action="{{ route('create_account') }}">
+            @csrf
 
-    <label for="email">E-Mail Address</label>
-    <input id="email" type="email" name="email" value="{{ old('email') }}" required>
-    @if ($errors->has('email'))
-      <span class="error">
-          {{ $errors->first('email') }}
-      </span>
-    @endif
+                <input id="name" type="text" placeholder="Insert your name" name="name" value="{{ old('name') }}" required autofocus>
+                @if($errors->has('name'))
+                    <span class="error">
+                        {{ $errors->first('name') }}
+                    </span>
+                @endif
 
-    <label for="password">Password</label>
-    <input id="password" type="password" name="password" required>
-    @if ($errors->has('password'))
-      <span class="error">
-          {{ $errors->first('password') }}
-      </span>
-    @endif
 
-    <label for="password-confirm">Confirm Password</label>
-    <input id="password-confirm" type="password" name="password_confirmation" required>
+                <input id="email" type="email" placeholder="Insert your email" name="email" value="{{ old('email') }}" required>
+                @if($errors->has('email'))
+                    <span class="error">
+                        {{ $errors->first('email') }}
+                    </span>
+                @endif
 
-    <button type="submit">
-      Register
-    </button>
-    <a class="button button-outline" href="{{ route('login') }}">Login</a>
-</form>
+                <input id="password" type="password" name="password" placeholder="Password" required>
+                @if($errors->has('password'))
+                    <span class="error">
+                        {{ $errors->first('password') }}
+                    </span>
+                @endif
+
+                <input id="password-confirm" type="password" placeholder="Confirm your password" name="password_confirmation" required>
+                @if($errors->has('password_confirmation'))
+                    <span class="error">
+                        {{ $errors->first('password_confirmation') }}
+                    </span>
+                @endif
+
+                <button type="submit">
+                    Register
+                </button>
+
+
+        </form>
+        </section>
+    <section class="container">
+        <h2>Already have an account?</h2>
+        <p>Login into your account and start using the app now!</p>
+        <a class="button" href="{{ route('login') }}">Login</a>
+    </section>
+    </section>
 @endsection

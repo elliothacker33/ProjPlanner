@@ -604,6 +604,26 @@ CREATE TRIGGER add_user_to_project
     FOR EACH ROW
     EXECUTE FUNCTION check_user();
 
+/*Admins should not be able to participate in a project*/
+
+CREATE OR REPLACE FUNCTION check_user()
+    RETURNS TRIGGER AS $BODY$
+BEGIN
+    IF  NEW.user_id IN (SELECT id FROM lbaw2353.users WHERE is_admin = TRUE) THEN
+    RAISE EXCEPTION 'Admins cannot participate in projects';
+    END IF;
+
+    RETURN NEW;
+END
+$BODY$
+    LANGUAGE plpgsql;
+
+CREATE TRIGGER add_user_to_project
+    BEFORE INSERT ON lbaw2353.project_participation
+    FOR EACH ROW
+EXECUTE FUNCTION check_user();
+
+
 --------------------------------------------------------
 -- POPULATE TABLES
 --------------------------------------------------------z
