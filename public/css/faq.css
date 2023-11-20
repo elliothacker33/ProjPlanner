@@ -2,177 +2,126 @@
 @import url('https://fonts.cdnfonts.com/css/tt-norms-pro');
 
 
-body {
-  border: 4px solid red;
-  width: 100vw;
-  height: 100vh;
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
-  overflow-y: hidden;
-  background-color: white;
-  display: grid;
-  grid-template-rows: auto 1fr; 
-}
 
-header {
-  box-sizing: border-box;
-  width: 100%;
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  background-color: black;
-}
 
-header>div  {
-    display: flex;
-    flex:1;
-    justify-content: end;
-    align-items: center;
-    margin:0;
-}
-header>div>h1{
-    font-size: 3rem;
-    font-family: 'TT Norms Pro', sans-serif;
-    font-weight: 600;
-    color: white;
-}
-header nav{
-    display: flex;
-    justify-content: baseline;
-    align-items: center;
-}
-header nav ul{
-    
-    display: flex;
-    flex-direction: row;
-    list-style-type: none;
-    align-items: center;
-    justify-content: center;
-   
-    
-}
 
-header nav ul li{
-    margin-right: 3rem;  
-}
 
-header nav ul li a{
-    color:white;
-    font-size: 1.5rem;
-    text-decoration: none;
-    font-family: 'TT Norms Pro', sans-serif;
-    font-weight: 500;
-}
-header nav ul li:last-child a {
+#content {
     display: flex;
-    background-color:white;
-    color: #698996;
-    padding: 10px 25px 10px 25px;
-    transition: background-color 0.3s, color 0.3s; 
-}
-header nav ul li:not(:last-child) a:hover {
-    border-width: 0 0 2px 0;
-    border-color: #698996;
-    border-style: solid;
-  }
-  
-header nav ul li:last-child a:hover{
-    background-color:#698996;
-    color:white;
-    border:none;
-  }
-
-main {
-    display: flex;
-    overflow-y: auto;
-    overflow-x: hidden;
     flex-direction: column;
-    justify-content: baseline;
+    gap:3em;
+   
 }
 
-main>div:nth-child(1){
+#content>div:nth-child(1){
+ 
+    flex:1;
     display: flex;
     justify-content: center;
-    align-items: end;
-    word-wrap: break-word; 
+
 }
 
-main > div > h1 {
-  color: black; 
+#content> div > h1 {
+  color: var(--primary-text-color); 
   text-align: center;
-  font-size: 2.5em;
-  font-family: 'TT Norms Pro', sans-serif;
+  font-size: 3em;
   font-weight: 600;
-  word-wrap: break-word; 
+
 }
 
 
 .faq {
+    flex:2;
     display: flex;
     flex-direction: column;
     align-items: center;
 
   }
 
-  .question {
+.question {
+    flex:1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    background-color: var(--primary-bg-color);
+    padding: 10px;
     border-width: 4px;
     border-style: solid;
-    border-color: #698996;
-    width: 50%;
-    display: flex;
-    justify-content: space-between;
-    background-color: white;
-    padding: 10px;
+    border-color: var(--onsecondary-bg-color);
     cursor: pointer;
     transition: background-color 4s ease-in;
-  }
+}
   
   .question>span {
+    flex:2;
+    color:var(--primary-text-color);
     font-size: 2em;
-    text-decoration: none;
-    font-family: 'TT Norms Pro', sans-serif;
     font-weight: 500;
   }
   
   .question>button {
+    flex:1;
     color:#698996;
     background-color: white;
-    font-size: 2rem;
+    font-size: 2em;
     text-decoration: none;
-    font-family: 'TT Norms Pro', sans-serif;
-    font-weight: 500;
     border-style: none;
+    text-align: end;
   }
   
   .answer {
+    flex:1;
     display: flex;
-    width: 50%;
+    min-width: 50%;
     overflow: hidden;
-    margin-top: 0;
-    margin-bottom: 1rem;
+    margin-top: 1em;
+    margin-bottom: 1em;
     max-height: 0;
     transition: max-height 1s ease-out, transform 1s ease-out;
   }
   
   .answer.open {
     display: flex;
-    width: 50%;
-    margin-bottom: 1rem;
+    min-width: 50%;
     max-height: 1000px; 
     transform: scaleY(1);
     transition: max-height 1s ease-in, transform 1s ease-in;
   }
   
   
-  .answer p {
-    font-size: 1.5rem;
+.answer p {
+    margin-top: 2%;
+    font-size: 1.7em;
+    color:var(--primary-text-color);
     text-decoration: none;
-    font-family: 'TT Norms Pro', sans-serif;
     font-weight: 500;
   }
   
 
-
+  @media (max-width: 1000px) {
+    #content> div > h1 {
+      font-size: 2em;
+    }
+    .question {
+      width: 90%;
+    }
+    .question>span,
+    .question>button {
+      font-size: 1.2em;
+    }
+    .answer {
+      width: 90%;
+    }
+    .answer.open {
+      width: 90%;
+    }
+    .answer p {
+      text-align: center;
+      font-size: 1.2em;
+    }
+  }
+  
 
 
   

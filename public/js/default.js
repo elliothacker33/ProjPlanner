@@ -1,11 +1,4 @@
-const header = document.querySelector('header');
-const content = document.querySelector('body');
-
-content.style.paddingTop = (header.clientHeight).toString() + 'px';
-
-
 function addEventListeners() {
-
 
 }
 
@@ -25,7 +18,3 @@ function sendAjaxRequest(method, url, data, handler) {
     request.addEventListener('load', handler);
     request.send(encodeForAjax(data));
 }
-
-
-
-  

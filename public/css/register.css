@@ -11,7 +11,6 @@ body{
     display: flex;
 }
 
-/* Body Information part */
 body>div{
     flex:1;
     background-color: #698996;
@@ -44,8 +43,6 @@ body>div footer p{
     font-size: 1.3em;
     color:white;
 }
-
-/* Body main part */
 body>main {
     flex:1;
     background-color: white;
@@ -144,28 +141,66 @@ form div a span:hover{
 }
 
 @media (max-width: 1000px){
+    body>main header{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+    }
+    body>main header p{
+        text-align: center;
+        margin-left: 0%;
+      
+        font-size: 2rem;
+    }
+    body>main header h1{
+       
+        text-align: center;
+        margin-left: 0%;
+        font-size: 2rem;
+    }
     body{
         flex-direction: column;
     }
 
  
     form>div{
-        margin: 2%;
+        margin: 3%;
     }
     form div input{
+        border: 4px solid #698996;
+        padding: 2%;
+        border-radius: 10px;
         margin:1%;
-        font-size: 20px;
+        font-size: 18px;
     }
     form div input::placeholder {
         text-align: center;
-        font-size: 1.5rem; 
+        font-size: 1.2rem; 
         color: black; 
     }
+    form div input:focus {
+        box-shadow: rgb(103, 107, 108) 0px 0px 10px;
+    }
+    
     form div button{
-        width:30%;
-        font-size: 1em;
+        width:80%;
+        color:white;
+        background-color:black;
+        border:none;
+        border-radius: 10px;
+        padding: 2%;
+        font-size: 1.5em;
+    }
+    form div button:hover{
+        border: 4px black solid;
+        background-color: white;
+        color:black;
+    }
+    form div a{
+        font-size: 1.2rem;
     }
     .error{
-        font-size: 1em;
+        font-size: 1.3em;
     }
 }

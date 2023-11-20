@@ -1,8 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
-
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\StaticController;
@@ -18,12 +16,13 @@ use App\Http\Controllers\StaticController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
 // Home
-
 Route::redirect('/', '/home')->name('home');
 
-// Sign-in and Sign-out
+Route::get('/{page}', [StaticController::class, 'show'])->where('page', implode('|', StaticController::STATIC_PAGES))->name('static');
+
+
+// Authentication
 Route::controller(LoginController::class)->group(function () {
     Route::get('/login', 'showLoginForm')->name('login');
     Route::post('/login', 'authenticate');
@@ -36,9 +35,3 @@ Route::controller(RegisterController::class)->group(function () {
     Route::post('/register', 'register')->name('create_account');
 });
 
-Route::controller(StaticController::class)->group(function () {
-    foreach (StaticController::STATIC_PAGES as $page) {
-        Route::get('/' . $page, 'show')
-            ->name('static.' . $page);
-    }
-});
