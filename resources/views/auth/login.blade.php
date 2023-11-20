@@ -49,7 +49,7 @@
         </section>
         <section class="container">
             <h2>New Here?</h2>
-            <p>Sign up to the best project manager tool.</p>
+            <p>Sign up and discover the best project manager tool.</p>
             <a class="button" href="{{ route('register') }}">Register</a>
         </section>
     </section>
