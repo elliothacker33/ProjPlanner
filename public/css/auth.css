@@ -1,4 +1,10 @@
-
+:root{
+    --register-color: #698996;
+    --register-secondary-color: #BFDFFB;
+    --login-color: var(--onprimary-bg-color);
+    --login-secondary-color: #CCFFCC ;
+    --register-input-color: #69899613;
+}
 .authentication{
     width: 100%;
 
@@ -28,13 +34,13 @@
 }
 
 .login .container{
-    background: linear-gradient( var(--onprimary-bg-color), #CCFFCC);
+    background: linear-gradient( var(--login-color), var(--login-secondary-color));
 }
 .register .container{
-    background: linear-gradient( #698996, #BFDFFB);
+    background: linear-gradient( var(--register-color), var(--register-secondary-color));
 }
 .authentication .formContainer{
-    background: white;
+    background: var(--primary-bg-color);
     flex-grow: 1;
     width: auto;
     display: flex;
@@ -75,7 +81,7 @@
     background-color: var(--input-bg-color);
 }
 .register .formContainer form input{
-    background-color: #69899613;
+    background-color: var(--register-input-color);
 }
 
 .authentication .formContainer form button[type='submit'], .authentication .container a{
@@ -88,22 +94,18 @@
     border: none;
 }
 .login .formContainer form button[type='submit'], .login .container a{
-    background: var(--onprimary-bg-color);
+    background: var(--login-color);
 }
 
 .register .formContainer form button[type='submit'], .register .container a{
-    background: #698996;
+    background: var(--register-color);
 }
 
 .authentication .formContainer form button[type='submit']:hover{
  background: var(--onsecondary-bg-color);
 }
 
-.authentication header  {
-    background: none;
-    position: relative;
-    color: #1a202c;
-}
+
 
 .authentication .container h2, .authentication .container p{
     text-align: center;
