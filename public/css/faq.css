@@ -1,103 +1,26 @@
 
 @import url('https://fonts.cdnfonts.com/css/tt-norms-pro');
 
-
-body{
-    width: 100vw;
-    height: 100vh;
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
-    background-color: white;
-}
-
-header{
-    box-sizing: border-box;
-    width: 100%;
-    position: fixed;
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    background-color: black;
-    min-height: 120px; 
-}
-header>div  {
-    display: flex;
-    justify-content: end;
-    align-items: center;
-    margin:0;
-}
-header>div>h1{
-    font-size: 3rem;
-    font-family: 'TT Norms Pro', sans-serif;
-    font-weight: 600;
-    color: white;
-}
-header nav{
-    display: flex;
-    justify-content: baseline;
-    align-items: center;
-}
-header nav ul{
-    
-    display: flex;
-    flex-direction: row;
-    list-style-type: none;
-    align-items: center;
-    justify-content: center;
-   
-    
-}
-
-header nav ul li{
-    margin-right: 3rem;  
-}
-
-header nav ul li a{
-    color:white;
-    font-size: 1.5rem;
-    text-decoration: none;
-    font-family: 'TT Norms Pro', sans-serif;
-    font-weight: 500;
-}
-header nav ul li:last-child a {
-    display: flex;
-    background-color:white;
-    color: #698996;
-    padding: 10px 25px 10px 25px;
-    transition: background-color 0.3s, color 0.3s; 
-}
-header nav ul li:not(:last-child) a:hover {
-    border-width: 0 0 2px 0;
-    border-color: #698996;
-    border-style: solid;
-  }
-  
-header nav ul li:last-child a:hover{
-    background-color:#698996;
-    color:white;
-    border:none;
-  }
-
-
-main{
-
-    padding-top: 120px;
+#content > section {
+    padding: 1em;
     display: grid;
     grid-template-rows: auto 2fr;
+    background: var(--primary-bg-color);
 }
-main>div:nth-child(1){
+#content > section>div:nth-child(1){
     display: flex;
     flex:1;
     justify-content: center;
     align-items: center;
 }
 
-main > div > h1 {
-  color: black; 
+#content > section > div > h1 {
+  color: var(--primary-text-color);
   text-align: center;
   font-size: 3rem;
   font-family: 'TT Norms Pro', sans-serif;
   font-weight: 600;
+    padding: 1em;
 }
 
 
@@ -112,11 +35,11 @@ main > div > h1 {
   .question {
     border-width: 4px;
     border-style: solid;
-    border-color: #698996;
+    border-color: var(--onsecondary-bg-color);
     width: 50%;
     display: flex;
     justify-content: space-between;
-    background-color: white;
+    background-color: var(--onprimary-bg-color);
     padding: 10px;
     cursor: pointer;
     transition: background-color 4s ease-in;
@@ -127,11 +50,12 @@ main > div > h1 {
     text-decoration: none;
     font-family: 'TT Norms Pro', sans-serif;
     font-weight: 500;
+      color: var(--onsecondary-bg-color);
   }
   
   .question>button {
-    color:#698996;
-    background-color: white;
+    color: var(--secondary-text-color);
+    background-color: var(--onsecondary-bg-color);
     font-size: 2rem;
     text-decoration: none;
     font-family: 'TT Norms Pro', sans-serif;

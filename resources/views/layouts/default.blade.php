@@ -11,7 +11,9 @@
 
         <title>{{ config('app.name', 'Project Planer') }}</title>
         <!-- Styles -->
-  
+        <link href="{{ url('css/milligram.min.css') }}" rel="stylesheet">
+        <link href="{{ url('css/app.css') }}" rel="stylesheet">
+
         <script type="text/javascript">
             // Fix for Firefox autofocus CSS bug
             // See: http://stackoverflow.com/questions/18943276/html-5-autofocus-messes-up-css-loading/18945951#18945951
@@ -26,8 +28,12 @@
     </head>
 
     <body>
-    
-        @yield('content')
-    
+
+    <main>
+        <section id="content">
+            @yield('content')
+        </section>
+    </main>
+
     </body>
 </html>

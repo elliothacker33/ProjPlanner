@@ -10,8 +10,10 @@
 
 @section('content')
 
-<main>
-    <section>
+
+
+<section>
+
         <div>
             <h1> Some of the most frequently <br> asked questions</h1>
         </div>
@@ -62,6 +64,6 @@
 </div>
 </section>
                
-</main>
+</section>
 
 @endsection
