@@ -22,8 +22,6 @@ use Illuminate\Support\Facades\Route;
 Route::redirect('/', '/login');
 Route::get('{page}', [StaticController::class, 'show'])->whereIn('page', StaticController::STATIC_PAGES)->name('static');
 
-Route::view('/about-us', '/pages/about');
-
 // Cards
 Route::controller(CardController::class)->group(function () {
     Route::get('/cards', 'list')->name('cards');
