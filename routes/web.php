@@ -16,12 +16,12 @@ use App\Http\Controllers\HomeController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
 // Home
 
 Route::get('', [HomeController::class,'show'])->name('home');
 
-Route::redirect('/', '/login');
+Route::redirect('/', '/home')->name('home');
+
 Route::get('{page}', [StaticController::class, 'show'])->whereIn('page', StaticController::STATIC_PAGES)->name('static');
 
 // Static pages
@@ -34,7 +34,9 @@ Route::controller(LoginController::class)->group(function () {
     Route::get('/logout', 'logout')->name('logout');
 });
 
+// Sign-up
 Route::controller(RegisterController::class)->group(function () {
-    Route::get('/register', 'showRegistrationForm')->name('register');
-    Route::post('/register', 'register');
+    Route::get('/register','showRegistrationForm')->name('register');
+    Route::post('/register', 'register')->name('create_account');
 });
+

@@ -27,7 +27,6 @@
     @stack('scripts')
 
 </head>
-
 <body>
     <header>
         <section>
@@ -63,11 +62,8 @@
                 <li><a href="{{ url('/contacts') }}">Contact Us</a></li>
             </ul>
 
-        </section>
-        <section>
-            <h6>@2023 Project Planer All rights reserve</h6>
-        </section>
-    </footer>
-</body>
-
+            </section>
+            <section><h6>&copy;2023 Project Planer All rights reserve</h6></section>
+        </footer>
+    </body>
 </html>
