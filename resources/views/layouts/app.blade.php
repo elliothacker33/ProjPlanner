@@ -31,9 +31,9 @@
             <section>
                 <h1>Project Planer</h1>
                 @if (Auth::check())
-                    <a class="user_icon" href="{{ url('/logout') }}"> Logout </a> <span>{{ Auth::user()->name }}</span>
+                    <a class="user_icon" href="{{ route('logout') }}"> Logout </a> <span>{{ Auth::user()->name }}</span>
                 @else
-                    <a class="user_icon" href="{{ url('/login') }}"> <img class="icon" src="{{ asset('img/default_user.png') }}"
+                    <a class="user_icon" href="{{ route('login') }}"> <img class="icon" src="{{ asset('img/default_user.png') }}"
                                                                           alt="default user icon"></a>
                 @endif
             </section>
@@ -56,11 +56,10 @@
         <footer>
             <section>
                 <ul>
-                    <li><a>FAQ</a></li>
-                    <li><a>About Us</a></li>
-                    <li><a href="{{ url('/contacts') }}">Contact Us</a></li>
+                    <li><a href="{{ route('static',['page' => 'faq'])}}">FAQ</a></li>
+                    <li><a href="{{ route('static',['page' => 'about-us'])}}">About Us</a></li>
+                    <li><a href="{{ route('static',['page' => 'contacts'])}}">Contact Us</a></li>
                 </ul>
-
             </section>
             <section><h6>&copy;2023 Project Planer All rights reserve</h6></section>
         </footer>

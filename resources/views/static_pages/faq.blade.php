@@ -9,23 +9,9 @@
 @endpush
 
 @section('content')
-<header>
-        <div>
-            <h1> Project Planer </h1>
-        </div>
-        <nav>
-            <ul>
-            <li><a href="{{ route('static.home') }}">Home</a></li>
-            <li><a href="{{ route('static.about') }}">About</a></li>
-            <li><a href="{{ route('static.contacts') }}">Contact</a></li>
-            <li><a href="{{ route('static.faq') }}">Faq</a></li>
-            <li><a href="{{ route('login')}}">Login</a></li>
-            <li><a href="{{ route('register')}}">Join Project Planner</a></li>
-            </ul>
-        </nav>
-</header>
 
 <main>
+    <section>
         <div>
             <h1> Some of the most frequently <br> asked questions</h1>
         </div>
@@ -74,6 +60,7 @@
             </div>
             
 </div>
+</section>
                
 </main>
 
