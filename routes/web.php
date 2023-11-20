@@ -18,7 +18,11 @@ use App\Http\Controllers\HomeController;
 */
 
 // Home
+
 Route::get('', [HomeController::class,'show'])->name('home');
+
+Route::redirect('/', '/login');
+Route::get('{page}', [StaticController::class, 'show'])->whereIn('page', StaticController::STATIC_PAGES)->name('static');
 
 // Static pages
 Route::get('{page}', [StaticController::class, 'show'])->whereIn('page', StaticController::STATIC_PAGES)->name('static');
