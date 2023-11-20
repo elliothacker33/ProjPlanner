@@ -42,14 +42,18 @@ body {
     background-color: var(--primary-bg-color);
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-content: center;
     min-height: 100vh;
 }
 
 main {
-margin: auto;
-    width: 100%;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#content {
+    margin: 2em 0;
 }
 
 body > header,  body > footer {
@@ -71,6 +75,7 @@ body > header {
 body > footer {
     position: relative;
     bottom: 0;
+    align-self: flex-end;
     gap: 1em;
 }
 
@@ -123,10 +128,6 @@ body > header nav ul *:hover, body >footer ul *:hover {
     color: inherit;
 }
 
-#content {
-
-}
-
 #content label {
     font-weight: normal;
 }
@@ -151,7 +152,6 @@ body > header nav ul *:hover, body >footer ul *:hover {
 #content > form input {
     background-color: white;
 }
-
 
 @media (max-width: 70em) {
     #cards {
@@ -222,3 +222,7 @@ input[type=password]:focus {
     border-color: #9b4dca;
 }
   
+.avatar {
+  border-radius: 50%;
+  object-fit: cover;
+}
