@@ -35,15 +35,10 @@ CREATE TABLE lbaw2353.users(
     name VARCHAR(20) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
-    is_blocked BOOLEAN NOT NULL DEFAULT FALSE
+    is_blocked BOOLEAN NOT NULL DEFAULT FALSE,
+    is_admin BOOLEAN NOT NULL DEFAULT FALSE
 );
 -- 1
-CREATE TABLE lbaw2353.administrator(
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(20) NOT NULL,
-    email VARCHAR(100) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL
-);
 --0 CHECK IMAGE
 CREATE TABLE lbaw2353.project (
     id SERIAL PRIMARY KEY,
@@ -592,3 +587,20 @@ BEFORE UPDATE ON lbaw2353.task
 FOR EACH ROW
 WHEN (NEW.status <> OLD.status AND NEW.status = 'closed') 
 EXECUTE FUNCTION check_who_closed_task();
+
+CREATE OR REPLACE FUNCTION check_user()
+    RETURNS TRIGGER AS $BODY$
+BEGIN
+    IF  NEW.user_id IN (SELECT id FROM lbaw2353.users WHERE is_admin = TRUE) THEN
+    RAISE EXCEPTION 'Admins cannot participate in projects';
+END IF;
+
+RETURN NEW;
+END
+$BODY$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER add_user_to_project
+    BEFORE INSERT ON lbaw2353.project_participation
+    FOR EACH ROW
+    EXECUTE FUNCTION check_user();
