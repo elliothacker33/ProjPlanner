@@ -9,8 +9,7 @@
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
-
+        <title>{{ config('app.name', 'Project Planer') }}</title>
         <!-- Styles -->
         <link href="{{ url('css/milligram.min.css') }}" rel="stylesheet">
         <link href="{{ url('css/app.css') }}" rel="stylesheet">
@@ -57,13 +56,13 @@
         <footer>
             <section>
                 <ul>
-                    <li><a>FAQ</a></li>
-                    <li><a>About Us</a></li>
+                    <li><a href="{{ url('/faq') }}">FAQ</a></li>
+                    <li><a href="{{ url('/about-us') }}">About Us</a></li>
                     <li><a href="{{ url('/contacts') }}">Contact Us</a></li>
                 </ul>
 
             </section>
-            <section><h6>@2023 Project Planer All rights reserve</h6></section>
+            <section><h6>&copy;2023 Project Planer All rights reserve</h6></section>
         </footer>
     </body>
 </html>

@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+
 
 use Illuminate\View\View;
 
@@ -26,12 +28,29 @@ class RegisterController extends Controller
      * Register a new user.
      */
     public function register(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string|max:250',
-            'email' => 'required|email|max:250|unique:users',
-            'password' => 'required|min:8|confirmed'
-        ]);
+    {    
+        $rules = [
+        'name' => 'required|string|max:20',
+        'email' => [
+            'required',
+            'email',
+            'max:100',
+            'unique:users'
+        ],
+        'password' => 'required|min:8|max:255|confirmed',
+        ];
+        $custom_errors = [
+            'name.max' => 'The name must not exceed 20 characters.',
+            'email.email' => 'Please enter a valid email address.',
+            'email.unique' => 'The email address is already in use.',
+            'password.confirmed' => 'The password confirmation does not match.'
+        ];
+    
+        $validator = Validator::make($request->all(), $rules, $custom_errors);
+    
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
         User::create([
             'name' => $request->name,
@@ -40,9 +59,11 @@ class RegisterController extends Controller
         ]);
 
         $credentials = $request->only('email', 'password');
-        Auth::attempt($credentials);
-        $request->session()->regenerate();
-        return redirect()->route('cards')
-            ->withSuccess('You have successfully registered & logged in!');
+
+        if (Auth::attempt($credentials)) { 
+            return redirect()->route('login');
+        } else {
+            return redirect()->back()->withError('Register failed.')->withInput();
+        }
     }
 }

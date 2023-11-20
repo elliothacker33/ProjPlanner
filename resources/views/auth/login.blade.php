@@ -9,10 +9,10 @@
     <section class="authentication">
 
         <section class="formContainer">
-            <section class="header">
+            <header>
                 <h2><span class="shine">Empower</span> Your Day, <span class="shine">Unleash</span> the work </h2>
                 <h2>Login to Your Account</h2>
-            </section>
+            </header>
 
 
         <form method="POST" action="{{ route('login') }}">

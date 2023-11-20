@@ -49,6 +49,7 @@ body {
 }
 
 main {
+
    flex-grow: 1;
     width: 100%;
     display: flex;
@@ -75,6 +76,7 @@ body > header {
 body > footer {
     position: relative;
     bottom: 0;
+    align-self: flex-end;
     gap: 1em;
 }
 
@@ -154,7 +156,6 @@ body > header nav ul *:hover, body >footer ul *:hover {
     background-color: white;
 }
 
-
 @media (max-width: 70em) {
     #cards {
         grid-template-columns: repeat(2, 1fr);
@@ -223,3 +224,7 @@ input[type=password]:focus {
     border-color: #9b4dca;
 }
   
+.avatar {
+  border-radius: 50%;
+  object-fit: cover;
+}
