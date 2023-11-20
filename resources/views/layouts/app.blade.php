@@ -56,9 +56,12 @@
         <footer>
             <section>
                 <ul>
+
+
                     <li><a href="{{ route('static',['page' => 'faq'])}}">FAQ</a></li>
                     <li><a href="{{ route('static',['page' => 'about-us'])}}">About Us</a></li>
                     <li><a href="{{ route('static',['page' => 'contacts'])}}">Contact Us</a></li>
+
                 </ul>
             </section>
             <section><h6>&copy;2023 Project Planer All rights reserve</h6></section>
