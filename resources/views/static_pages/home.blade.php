@@ -21,9 +21,10 @@
         </section>
         <section class="get-started">
             <h2 class="shine">Get Started</h2>
-            <p>Get started today by signing up for free and take your first step towards turning your ideas into reality.</p>
-            <a href="{{ url('/login') }}"><button>Sign In</button></a>
-            <a href="{{ url('/register') }}"><button>Register</button></a>
+            <p>Get started today by signing up for free and take your first step towards turning your ideas into reality.
+            </p>
+            <a href="{{ route('login') }}"><button>Sign In</button></a>
+            <a href="{{ route('register') }}"><button>Register</button></a>
         </section>
     </section>
 @endsection
