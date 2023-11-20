@@ -1,3 +1,4 @@
+
 @import url('https://fonts.cdnfonts.com/css/tt-norms-pro');
 *{
     font-family: 'TT Norms Pro', sans-serif;
@@ -9,6 +10,7 @@
     --secondary-bg-color: #333333;  /* Dark bluish background */
     --onprimary-bg-color: #2E9D7F;  /* Bright blue for text on primary background */
     --onsecondary-bg-color: #2C3E50;  /* Light grayish text on secondary background */
+    --onthird-bg-color: #E29578;
     --primary-text-color: #333333;  /* Dark text color */
     --secondary-text-color: #FFFFFF;  /* White text color */
     --input-bg-color: #2E9D7F13;

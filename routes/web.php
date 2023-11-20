@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\StaticController;
-
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,9 +17,14 @@ use App\Http\Controllers\StaticController;
 |
 */
 // Home
+
+Route::get('', [HomeController::class,'show'])->name('home');
+
 Route::redirect('/', '/home')->name('home');
 
-Route::get('/{page}', [StaticController::class, 'show'])->where('page', implode('|', StaticController::STATIC_PAGES))->name('static');
+Route::get('{page}', [StaticController::class, 'show'])->whereIn('page', StaticController::STATIC_PAGES)->name('static');
+
+
 
 
 // Authentication

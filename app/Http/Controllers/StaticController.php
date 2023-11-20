@@ -15,6 +15,7 @@ class StaticController extends Controller
 
     public function show(Request $request)
     {
+
         return response()->view('static_pages.' . $request->path());
     }
 }
