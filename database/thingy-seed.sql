@@ -1,11 +1,10 @@
 -- SCHEMA OPERATIONS
-DROP SCHEMA IF EXISTS projplanner CASCADE;
+DROP SCHEMA IF EXISTS lbaw2353 CASCADE;
 CREATE SCHEMA IF NOT EXISTS lbaw2353;
 SET search_path TO lbaw2353;
 
 -- DROP EXISTING TABLES
 DROP TABLE IF EXISTS lbaw2353.users CASCADE;
-DROP TABLE IF EXISTS lbaw2353.administrators CASCADE; 
 DROP TABLE IF EXISTS lbaw2353.projects CASCADE;
 DROP TABLE IF EXISTS lbaw2353.tags CASCADE;
 DROP TABLE IF EXISTS lbaw2353.tasks CASCADE;
@@ -37,15 +36,11 @@ CREATE TABLE lbaw2353.users(
     name VARCHAR(20) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
-    is_blocked BOOLEAN NOT NULL DEFAULT FALSE
+    is_blocked BOOLEAN NOT NULL DEFAULT FALSE,
+    is_admin BOOLEAN NOT NULL DEFAULT FALSE,
+    remember_token VARCHAR(100)
 );
--- 1
-CREATE TABLE lbaw2353.administrators(
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(20) NOT NULL,
-    email VARCHAR(100) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL
-);
+
 --0 CHECK IMAGE
 CREATE TABLE lbaw2353.projects (
     id SERIAL PRIMARY KEY,
@@ -491,11 +486,6 @@ WHEN (NEW.content <> OLD.content)
 EXECUTE FUNCTION update_last_edit_post_date();
 
 
-
-
-
-
-
 /*-When a comments is edited it's lastedited attribute should be updated to the current date*/
 CREATE OR REPLACE FUNCTION update_last_edit_comment_date()
 RETURNS TRIGGER AS $BODY$
@@ -595,6 +585,24 @@ FOR EACH ROW
 WHEN (NEW.status <> OLD.status AND NEW.status = 'closed') 
 EXECUTE FUNCTION check_who_closed_task();
 
+/* Administrators cannot be added to a project */
+
+CREATE OR REPLACE FUNCTION check_user()
+    RETURNS TRIGGER AS $BODY$
+BEGIN
+    IF  NEW.user_id IN (SELECT id FROM lbaw2353.users WHERE is_admin = TRUE) THEN
+    RAISE EXCEPTION 'Admins cannot participate in projects';
+END IF;
+
+RETURN NEW;
+END
+$BODY$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER add_user_to_project
+    BEFORE INSERT ON lbaw2353.project_participation
+    FOR EACH ROW
+    EXECUTE FUNCTION check_user();
 
 --------------------------------------------------------
 -- POPULATE TABLES
@@ -621,27 +629,6 @@ INSERT INTO users (name, email, password, is_blocked) VALUES ( 'ramirezjacob', '
 INSERT INTO users (name, email, password, is_blocked) VALUES ( 'rwilliams', 'jeremy24@example.com', 'z1ZGca8a^N', False);
 INSERT INTO users (name, email, password, is_blocked) VALUES ( 'zmorrison', 'kmorris@example.net', 'uC3EdFqF#8', False);
 INSERT INTO users (name, email, password, is_blocked) VALUES ( 'hortonkendra', 'joshua28@example.com', '9)5BmJJuBt', False);
--- Inserting data into the 'administrators' table
-INSERT INTO administrators (name, email, password) VALUES ('Jason Arnold', 'denise28@example.org', '&6hmBlqykx');
-INSERT INTO administrators (name, email, password) VALUES ('Robert Smith', 'qfarrell@example.net', '**27FsUMCH');
-INSERT INTO administrators (name, email, password) VALUES ('Lisa Bell', 'thomasfigueroa@example.com', 'xhb&4YMt_8');
-INSERT INTO administrators (name, email, password) VALUES ('Kristen Brown', 'laura75@example.org', '0L2E)Fmi%6');
-INSERT INTO administrators (name, email, password) VALUES ('Darren Ward', 'barroyo@example.com', '9lAVNz$y^(');
-INSERT INTO administrators (name, email, password) VALUES ('Randy Franklin', 'kimberly74@example.net', '^#QAeJVOC4');
-INSERT INTO administrators (name, email, password) VALUES ('William Johnson', 'steven13@example.com', '+_s19#Exng');
-INSERT INTO administrators (name, email, password) VALUES ('Michael Mcintyre', 'christybuchanan@example.com', 'Y48U8zv+d#');
-INSERT INTO administrators (name, email, password) VALUES ('Patrick Berry', 'mahoneydaniel@example.com', 'iH+OOCUp!4');
-INSERT INTO administrators (name, email, password) VALUES ( 'Jose Fernandez', 'knorman@example.com', '5)h3eKVd&!');
-INSERT INTO administrators (name, email, password) VALUES ( 'Jaime Jones', 'xschmidt@example.net', 'epi9Aj&zg)');
-INSERT INTO administrators (name, email, password) VALUES ( 'Logan Kirk', 'freymichelle@example.com', 'l5oxbp$E&N');
-INSERT INTO administrators (name, email, password) VALUES ( 'Kristopher Arnold', 'williamschristopher@example.com', 'I$20TFb%X^');
-INSERT INTO administrators (name, email, password) VALUES ( 'Andrew Quinn', 'richard00@example.com', '5BMH$6Sxx#');
-INSERT INTO administrators (name, email, password) VALUES ( 'Joseph Gonzalez', 'michael42@example.com', '*7FuTyzayi');
-INSERT INTO administrators (name, email, password) VALUES ( 'Cory Lambert', 'jbenson@example.net', '!59VYaa(1x');
-INSERT INTO administrators (name, email, password) VALUES ( 'Shawn Morrison', 'sgregory@example.org', '&sFctc)K50');
-INSERT INTO administrators (name, email, password) VALUES ( 'James Jennings', 'jeffrey15@example.com', '!d306PwZQm');
-INSERT INTO administrators (name, email, password) VALUES ( 'Lori Huff', 'rubencarlson@example.org', '(G6GV3kpUP');
-INSERT INTO administrators (name, email, password) VALUES ( 'Shannon Garcia', 'bridgeschristopher@example.net', '(j7)N0aa!J');
 -- Inserting data into the 'projects' table
 INSERT INTO projects (title, description, is_archived, creation, deadline, user_id) VALUES ('when', 'Tend condition physical detail listen explain.', True, '2023-03-30', '2024-06-14', 10);
 INSERT INTO projects (title, description, is_archived, creation, deadline, user_id) VALUES ('population', 'North I writer actually arm heart protect.', False, '2022-12-31', '2024-06-29', 10);
