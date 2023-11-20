@@ -1,5 +1,5 @@
 const header = document.querySelector('header');
-const content = document.querySelector('#content');
+const content = document.querySelector('body');
 content.style.paddingTop = (header.clientHeight).toString() + 'px';
 
 
