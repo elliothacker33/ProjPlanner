@@ -600,7 +600,7 @@ $BODY$
 LANGUAGE plpgsql;
 
 CREATE TRIGGER add_user_to_project
-    BEFORE INSERT ON lbaw2353.project_participation
+    BEFORE INSERT ON lbaw2353.project_user
     FOR EACH ROW
     EXECUTE FUNCTION check_user();
 
