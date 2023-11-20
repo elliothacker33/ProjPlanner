@@ -8,6 +8,11 @@ class StaticController extends Controller
 {
     public const STATIC_PAGES = ['about-us', 'contacts', 'faq', 'home'];
 
+    public static function getStaticPages()
+    {
+        return self::STATIC_PAGES;
+    }
+
     public function show(Request $request)
     {
 
