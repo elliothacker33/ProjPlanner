@@ -5,6 +5,7 @@
   --onsecondary-bg-color: #2C3E50;  /* Light grayish text on secondary background */
   --primary-text-color: #333333;  /* Dark text color */
   --secondary-text-color: #FFFFFF;  /* White text color */
+  --input-bg-color: #2E9D7F13;
 }
 
 
@@ -117,6 +118,7 @@ main header nav ul *:hover, footer ul *:hover{
   justify-content: center;
   align-content: center;
   flex-direction: column;
+  min-height: 100vh;
 }
 #content label {
   font-weight: normal;

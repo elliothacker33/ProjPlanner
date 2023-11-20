@@ -1,8 +1,52 @@
-.login_form{
+.authentication{
     width: 100%;
+    max-width: 80em;
     display: flex;
+    margin:auto;
 
 }
-.login_form .container{
+.authentication .container{
     background: var(--onprimary-bg-color);
+    flex-basis: 40%;
+}
+.authentication .formContainer{
+    background: white;
+    padding: 5em 2em;
+    flex-basis: 60%;
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+}
+.authentication .formContainer h2{
+    text-align: center;
+}
+
+.authentication .formContainer form{
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+    padding: 2em;
+}
+
+.authentication .formContainer form input{
+    background-color: var(--input-bg-color);
+    outline: none;
+    border: none;
+    border-radius: 13em;
+    padding: 1.5em;
+    font-size: 1em;
+}
+
+.authentication .formContainer form button[type='submit']{
+    padding: 0.5em;
+    width: 15em;
+    border-radius: 10em;
+    height: fit-content;
+    margin: auto;
+}
+
+.authentication .header  {
+    background: none;
+    position: relative;
+    color: #1a202c;
 }
