@@ -6,6 +6,8 @@
     --primary-text-color: #333333;  /* Dark text color */
     --secondary-text-color: #FFFFFF;  /* White text color */
     --input-bg-color: #2E9D7F13;
+    --error-text-color: #ff3333;
+    --sucess-text-color: #2C7E90;
   }
 
 
@@ -138,14 +140,14 @@ body > header nav ul *:hover, body >footer ul *:hover {
     border: 1px solid var(--onsecondary-bg-color);
 }
 
-#content > form .error {
+.error {
     font-weight: bold;
-    color: #ff3333;
+    color: var(--error-text-color);
 }
 
-#content > form .success {
+.success {
     font-weight: bold;
-    color: #106af1;
+    color: var(--sucess-text-color);
 }
 
 #content > form input {
