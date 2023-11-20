@@ -1,12 +1,11 @@
-@extends('layouts.app')
-
+@extends('layouts.default')
 @push('styles')
 
     <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
 @endpush
 
 @section('content')
-    <section class="authentication">
+    <section class="authentication register">
 
         <section class="formContainer">
         <header>
@@ -53,9 +52,9 @@
         </form>
         </section>
     <section class="container">
-        <h2>New Here?</h2>
-        <p>Sign up and discover the best project manager tool.</p>
-        <a class="button" href="{{ route('register') }}">Register</a>
+        <h2>Already have an account?</h2>
+        <p>Login into your account and start using the app now!</p>
+        <a class="button" href="{{ route('login') }}">Login</a>
     </section>
     </section>
 @endsection

@@ -6,7 +6,7 @@
         <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
     @endpush
 
-    <section class="authentication">
+    <section class="authentication login">
 
         <section class="formContainer">
             <header>

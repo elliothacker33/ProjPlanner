@@ -1,39 +1,52 @@
-#content{
-    padding: 5em;
-}
 
 .authentication{
     width: 100%;
-    max-width: 70em;
+
     display: flex;
     margin:auto;
     flex-wrap: wrap;
+    min-height: 100vh;
 
 }
-.shine{
-    color:var(--onprimary-bg-color)
+.login .shine{
+    color:var(--onprimary-bg-color);
+}
+.register .shine{
+    color:#698996;
 }
 /*#CCFFCC*/
 /*#00D9D5*/
 .authentication .container{
-    background: linear-gradient( var(--onprimary-bg-color), #CCFFCC);
-    flex-basis: 25em;
+
+    width: 30em;
     display: flex;
     flex-direction: column;
     justify-content: center;
     gap: 1.2em;
-    box-shadow: 0 0.5em 0.5em #00000020,0 1em 1em #00000015,0 1.5em 1.5em #00000010,0 2em 2em #00000005;
 
+    box-shadow: 0 0.5em 0.5em #00000020,0 1em 1em #00000015,0 1.5em 1.5em #00000010,0 2em 2em #00000005;
+}
+
+.login .container{
+    background: linear-gradient( var(--onprimary-bg-color), #CCFFCC);
+}
+.register .container{
+    background: linear-gradient( #698996, #BFDFFB);
 }
 .authentication .formContainer{
     background: white;
-    padding:  2em;
-    flex-basis: 45em;
+    flex-grow: 1;
+    width: auto;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     gap: 1em;
     box-shadow: 0 0.5em 0.5em #00000020,0 1em 1em #00000015,0 1.5em 1.5em #00000010,0 2em 2em #00000005;
 
+}
+.authentication .formContainer > *{
+    width: 40em;
+    margin: 0 auto;
 }
 .authentication .formContainer h2{
     text-align: center;
@@ -50,24 +63,36 @@
     margin: auto;
 }
 .authentication .formContainer form input{
-    background-color: var(--input-bg-color);
+
     outline: none;
     border: none;
     border-radius: 13em;
     padding: 1.5em;
     font-size: 1em;
     max-width: 30em;
-
+}
+.login .formContainer form input{
+    background-color: var(--input-bg-color);
+}
+.register .formContainer form input{
+    background-color: #69899613;
 }
 
 .authentication .formContainer form button[type='submit'], .authentication .container a{
-    background: var(--onprimary-bg-color);
+
     padding: 0.5em;
     width: 15em;
     border-radius: 10em;
     height: fit-content;
     margin: 0 auto;
     border: none;
+}
+.login .formContainer form button[type='submit'], .login .container a{
+    background: var(--onprimary-bg-color);
+}
+
+.register .formContainer form button[type='submit'], .register .container a{
+    background: #698996;
 }
 
 .authentication .formContainer form button[type='submit']:hover{
@@ -101,7 +126,7 @@
     color: var(--secondary-text-color);
 }
 
-@media (max-width: 80em) {
+@media (max-width: 70em) {
     .authentication .container, .authentication .formContainer{
         flex-basis: 100%;
 
@@ -121,6 +146,10 @@
     }
     .authentication .formContainer form {
         padding: 0;
+    }
+    .authentication .formContainer > *{
+        width: 100%;
+        margin: 0 auto;
     }
 
 }

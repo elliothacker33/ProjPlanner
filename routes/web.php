@@ -19,9 +19,7 @@ use App\Http\Controllers\StaticController;
 // Home
 Route::redirect('/', '/home')->name('home');
 
-Route::get('{page}', [StaticController::class, 'show'])->whereIn('page', StaticController::STATIC_PAGES)->name('static');
-
-
+Route::get('/{page}', [StaticController::class, 'show'])->where('page', implode('|', StaticController::STATIC_PAGES))->name('static');
 
 
 // Authentication
