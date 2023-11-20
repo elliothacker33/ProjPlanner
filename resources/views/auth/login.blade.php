@@ -10,7 +10,7 @@
 
         <section class="formContainer">
             <section class="header">
-                <p><span class="shine">Empower</span> Your Day, <span class="shine">Unleash</span> the work </p>
+                <h2><span class="shine">Empower</span> Your Day, <span class="shine">Unleash</span> the work </h2>
                 <h2>Login to Your Account</h2>
             </section>
 
@@ -48,8 +48,9 @@
         </form>
         </section>
         <section class="container">
-
-            <a class="button button-outline" href="{{ route('register') }}">Register</a>
+            <h2>New Here?</h2>
+            <p>Sign up to the best project manager tool.</p>
+            <a class="button" href="{{ route('register') }}">Register</a>
         </section>
     </section>
 

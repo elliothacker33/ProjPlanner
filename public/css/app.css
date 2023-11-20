@@ -43,14 +43,15 @@ body {
     background-color: var(--primary-bg-color);
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-content: center;
     min-height: 100vh;
 }
 
 main {
-margin: auto;
+   flex-grow: 1;
     width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
 }
 
 body > header,  body > footer {
@@ -85,6 +86,7 @@ body > header section {
     align-items: center;
 
 }
+
 
 body > header section h1 .icon {
     height: 1.8em;
@@ -203,7 +205,6 @@ button {
 
 a.button {
     background-color: var(--onsecondary-bg-color);
-    border-color: var(--onsecondary-bg-color);
 }
 
 a.button.button-outline {
