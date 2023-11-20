@@ -1,12 +1,11 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-
-use App\Http\Controllers\CardController;
-use App\Http\Controllers\ItemController;
-
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\CardController;
+use App\Http\Controllers\ItemController;
+use App\Http\Controllers\StaticController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +20,7 @@ use App\Http\Controllers\Auth\RegisterController;
 
 // Home
 Route::redirect('/', '/login');
+Route::get('{page}', [StaticController::class, 'show'])->whereIn('page', StaticController::STATIC_PAGES)->name('static');
 
 Route::view('/about-us', '/pages/about');
 
@@ -29,7 +29,6 @@ Route::controller(CardController::class)->group(function () {
     Route::get('/cards', 'list')->name('cards');
     Route::get('/cards/{id}', 'show');
 });
-
 
 // API
 Route::controller(CardController::class)->group(function () {
