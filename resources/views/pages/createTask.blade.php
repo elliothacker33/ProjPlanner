@@ -15,8 +15,25 @@
             <form method="POST" action="{{ route('newTask', ['projectId' => $projectId])  }}">
                 @csrf
                 <section class="primaryContainer">
-                    <input type="text" name="title" placeholder="Task Title" required>
-                    <textarea name="description" placeholder="Task Description"></textarea>
+                    <input type="text" name="title" placeholder="Task Title" required value="{{ old('title') }}">
+                    @if ($errors->has('title'))
+                        <span class="error">
+                            {{ $errors->first('title') }}
+                        </span>
+                    @endif
+
+                    @if (old('description') != null)
+                        <textarea name="description" placeholder="Project's Description">{{ old('description') }}</textarea>
+                    @else
+                        <textarea name="description" placeholder="Project's Description"></textarea>
+                    @endif
+
+                @if ($errors->has('description'))
+                        <span class="error">
+                            {{ $errors->first('description') }}
+                        </span>
+                    @endif
+
                     <section class="buttons">
                         <button type="submit">
                             Create
@@ -27,32 +44,53 @@
                     </section>
                 </section>
                 <section class="sideContainer">
-                    <label for="users">
+                    <label for="deadline" >
                         Deadline
                     </label>
-                    <input type="date" name="deadline">
+                    <input id = "deadline" type="date" name="deadline" value="{{ old('deadline') }}">
+                    @if ($errors->has('deadline'))
+                        <span class="error">
+                            {{ $errors->first('deadline') }}
+                        </span>
+                    @endif
+
                     <label for="users">
                         Assign User
                     </label>
 
-                    <select name="users" >
+                    <select id="users" name="users" value="{{ old('users') }}" >
                         <option selected="selected"> </option>
 
                         @foreach($users as $user )
-                            <option value="{{$user->id}}"> {{$user->name}} </option>
+                            @if( old('users') == $user->id ) <option value="{{$user->id}}" selected="selected"> {{$user->name}} </option>
+                            @else <option value="{{$user->id}}"> {{$user->name}} </option>
+                            @endif
                         @endforeach
                     </select>
+                    @if ($errors->has('users'))
+                        <span class="error">
+                            {{ $errors->first('users') }}
+                        </span>
+                    @endif
 
-                    <label>
+                    <label for="tags">
                         Choose a tag
                     </label>
-                    <select name="tags" >
+                    <select id='tags' name="tags" value="{{ old('tags') }}">
                         <option selected="selected"> </option>
 
                         @foreach($tags as $tag )
-                            <option value="{{$tag->id}}"> {{$tag->title}} </option>
+
+                            @if( old('tags') == $tag->id ) <option value="{{$tag->id}}" selected="selected"> {{$tag->title}} </option>
+                            @else <option value="{{$tag->id}}"> {{$tag->title}} </option>
+                            @endif
                         @endforeach
                     </select>
+                    @if ($errors->has('tags'))
+                        <span class="error">
+                            {{ $errors->first('tags') }}
+                        </span>
+                    @endif
 
 
                 </section>
