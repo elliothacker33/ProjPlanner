@@ -60,7 +60,7 @@ CREATE TABLE lbaw2353.task (
     id SERIAL PRIMARY KEY,
     title VARCHAR(20) NOT NULL,
     description VARCHAR(100),
-    status lbaw2353.task_status NOT NULL,
+    status lbaw2353.task_status NOT NULL DEFAULT 'open',
     starttime TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
     endtime TIMESTAMP WITH TIME ZONE ,
     deadline TIMESTAMP WITH TIME ZONE NOT NULL CHECK (starttime < deadline),

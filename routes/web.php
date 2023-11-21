@@ -21,7 +21,7 @@ Route::redirect('/', '/home')->name('home');
 
 Route::get('/{page}', [StaticController::class, 'show'])->where('page', implode('|', StaticController::STATIC_PAGES))->name('static');
 
-
+Route::view('/task/new', 'pages.createTask');
 // Authentication
 Route::controller(LoginController::class)->group(function () {
     Route::get('/login', 'showLoginForm')->name('login');
