@@ -33,7 +33,8 @@ class LoginController extends Controller
  
         if (Auth::attempt($credentials, $request->filled('remember'))) {
             $request->session()->regenerate();
- 
+            
+            // TODO: change to authenticated user page
             return redirect()->intended('/cards');
         }
  
@@ -50,7 +51,7 @@ class LoginController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect()->route('login')
+        return redirect()->route('home')
             ->withSuccess('You have logged out successfully!');
     } 
 }
