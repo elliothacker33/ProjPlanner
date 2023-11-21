@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Task extends Model
+class Tag extends Model
 {
     use HasFactory;
 
@@ -15,22 +15,16 @@ class Task extends Model
 
     protected $fillable = [
         'title',
-        'description',
-        'deadline',
     ];
 
 
 
-    public function assigned(): BelongsToMany {
-        return $this->belongsToMany(User::class);
-    }
-
-    public function tags(): BelongsToMany {
-        return $this->belongsToMany(Tag::class);
-    }
-
-    public function project():BelongsTo
-    {
+    public function belongs(): BelongsTo {
         return $this->belongsTo(Project::class);
+    }
+
+    public function isUsed():BelongsToMany
+    {
+        return $this->belongsToMany(Task::class);
     }
 }

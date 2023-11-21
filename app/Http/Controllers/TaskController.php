@@ -25,7 +25,10 @@ class TaskController extends Controller
     public function create(Request $request, int $projectId)
     {
         $project = Project::find($projectId);
-        return view('pages.' . 'createTask')->with(['projectId'=>$projectId, 'users'=>$project->users]);
+        $res = DB::table('project_tag')
+            ->join('tags', 'tags.id', '=', 'project_tag.tag_id')
+            ->where('project_tag.project_id','=',$projectId)->get();
+        return view('pages.' . 'createTask')->with(['projectId'=>$projectId, 'users'=>$project->users,'tags'=>$res]);
     }
 
     /**
@@ -40,7 +43,8 @@ class TaskController extends Controller
             'title' => 'required|string|min:5|max:100|',
             'description' => 'required|string|min:10|max:1024',
             'deadline' => 'nullable|date|after_or_equal:today',
-            'users' => 'nullable'
+            'users' => 'nullable',
+            'tags' => 'nullable'
         ]);
         // Add Policy thing
 
@@ -53,9 +57,11 @@ class TaskController extends Controller
         $task->save();
 
         DB::insert('insert into project_task (task_id, project_id) values (?, ?)', [$task->id, $project_]);
+        if($validated['tags'])DB::insert('insert into tag_task (tag_id, task_id) values (?, ?)', [$validated['tags'], $task->id]);
         if($validated['users']) DB::insert('insert into task_user (user_id, task_id) values (?, ?)', [$validated['users'], $task->id]);
-        $res = DB::table('task_user')->get();
-        return view('pages.' . 'task')->with(['task'=>Task::find($task->id),'res'=>$res]);
+        $res = DB::table('task_user')->where('task_id' , '=', $task->id)->get();
+        $res2 = DB::table('tag_task')->where('task_id' , '=', $task->id)->get();
+        return view('pages.' . 'task')->with(['task'=>Task::find($task->id),'res'=>$res,'res2'=>$res2]);
 
     }
 

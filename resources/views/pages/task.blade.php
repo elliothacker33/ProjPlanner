@@ -10,6 +10,7 @@
 
       {{$task}}
       {{$res}}
+        {{$res2}}
 
     </section>
 

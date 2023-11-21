@@ -47,9 +47,11 @@
                         Choose a tag
                     </label>
                     <select name="tags" >
-                        <option>User 1</option>
-                        <option>User 2</option>
-                        <option>User 3</option>
+                        <option selected="selected"> </option>
+
+                        @foreach($tags as $tag )
+                            <option value="{{$tag->id}}"> {{$tag->title}} </option>
+                        @endforeach
                     </select>
 
 
