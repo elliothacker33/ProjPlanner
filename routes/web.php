@@ -40,3 +40,7 @@ Route::controller(RegisterController::class)->group(function () {
     Route::post('/register', 'register')->name('create_account');
 });
 
+Route::controller(ProjectController::class)->group(function () {
+    Route::get('/project/new' , 'create')->name('show_new');
+    Route::post('/project/new', 'store')->name('action_new');
+});

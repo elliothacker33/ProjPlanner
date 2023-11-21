@@ -20,6 +20,10 @@ class Project extends Model
 
     protected $hidden = ['tsvectors'];
 
+    protected $attributes = [
+        'creation' => date('Y-m-d'),
+    ];
+
     public function users(): BelongsToMany {
         return $this->belongsToMany(User::class);
     }

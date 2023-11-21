@@ -48,7 +48,7 @@ CREATE TABLE lbaw2353.projects (
     description TEXT,
     is_archived BOOLEAN DEFAULT FALSE,
     creation TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
-    deadline TIMESTAMP WITH TIME ZONE NOT NULL CHECK (creation < deadline),
+    deadline TIMESTAMP WITH TIME ZONE CHECK deadline IS NULL OR (creation < deadline),
     user_id INTEGER REFERENCES lbaw2353.users(id) ON UPDATE CASCADE ON DELETE CASCADE NOT NULL
 );
 --1 
