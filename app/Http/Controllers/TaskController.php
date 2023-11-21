@@ -24,7 +24,9 @@ class TaskController extends Controller
      */
     public function create(Request $request, int $projectId)
     {
+
         $project = Project::find($projectId);
+        $this->authorize('create', $project);
         $res = DB::table('project_tag')
             ->join('tags', 'tags.id', '=', 'project_tag.tag_id')
             ->where('project_tag.project_id','=',$projectId)->get();
@@ -34,11 +36,11 @@ class TaskController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, int $project_)
+    public function store(Request $request, int $projectId)
     {
         // Validate input
-
-
+        $project = Project::find($projectId);
+        $this->authorize('create', $project);
         $validated = $request->validate([
             'title' => 'required|string|min:5|max:100|',
             'description' => 'required|string|min:10|max:1024',
@@ -56,7 +58,7 @@ class TaskController extends Controller
         $task->deadline = $validated['deadline'];
         $task->save();
 
-        DB::insert('insert into project_task (task_id, project_id) values (?, ?)', [$task->id, $project_]);
+        DB::insert('insert into project_task (task_id, project_id) values (?, ?)', [$task->id, $projectId]);
         if($validated['tags'])DB::insert('insert into tag_task (tag_id, task_id) values (?, ?)', [$validated['tags'], $task->id]);
         if($validated['users']) DB::insert('insert into task_user (user_id, task_id) values (?, ?)', [$validated['users'], $task->id]);
         $res = DB::table('task_user')->where('task_id' , '=', $task->id)->get();
