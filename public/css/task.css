@@ -30,6 +30,7 @@
     width: 100%;
     max-width: 60em;
     margin: auto;
+    flex-wrap: wrap;
 }
 .taskCreation .formContainer form .primaryContainer{
     display: flex;
@@ -56,6 +57,7 @@
     border-radius: 13em;
     border: none;
     outline: none;
+    max-width: 30em;
 }
 
 
@@ -91,4 +93,19 @@
 }
 .shine {
     color: var(--onprimary-bg-color);
+}
+@media (max-width: 60em) {
+
+    .taskCreation .formContainer{
+        padding:  3em 0;
+    }
+    .taskCreation .formContainer form{
+        flex-direction: column;
+
+
+    }
+    .taskCreation .formContainer form .sideContainer input,.taskCreation .formContainer form .sideContainer select{
+        margin: auto;
+    }
+
 }
