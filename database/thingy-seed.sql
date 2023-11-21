@@ -57,14 +57,14 @@ CREATE TABLE lbaw2353.tags(
     title VARCHAR(20) NOT NULL
 );
 -- 0 starttime default?
-CREATE TABLE lbaw2353.tasks (
+CREATE TABLE tasks (
     id SERIAL PRIMARY KEY,
     title VARCHAR(20) NOT NULL,
     description VARCHAR(100),
-    status lbaw2353.task_status NOT NULL,
+    status lbaw2353.task_status NOT NULL DEFAULT 'open',
     starttime TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
     endtime TIMESTAMP WITH TIME ZONE ,
-    deadline TIMESTAMP WITH TIME ZONE NOT NULL CHECK (starttime < deadline),
+    deadline TIMESTAMP WITH TIME ZONE ,
     opened_user_id INTEGER REFERENCES lbaw2353.users(id) ON UPDATE CASCADE ON DELETE SET DEFAULT NULL,
     closed_user_id INTEGER REFERENCES lbaw2353.users(id) ON UPDATE CASCADE ON DELETE SET DEFAULT NULL
 );

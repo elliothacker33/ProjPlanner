@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -21,7 +22,10 @@ Route::redirect('/', '/home')->name('home');
 
 Route::get('/{page}', [StaticController::class, 'show'])->where('page', implode('|', StaticController::STATIC_PAGES))->name('static');
 
-Route::view('/task/new', 'pages.createTask');
+Route::prefix('/task')->controller(TaskController::class)->group(function (){
+    Route::get('/new', 'create');
+    Route::post('/new', 'store')->name('newTask');
+});
 // Authentication
 Route::controller(LoginController::class)->group(function () {
     Route::get('/login', 'showLoginForm')->name('login');
