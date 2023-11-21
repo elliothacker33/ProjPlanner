@@ -9,6 +9,7 @@
     <section class="taskCreation">
 
       {{$task}}
+      {{$res}}
 
     </section>
 

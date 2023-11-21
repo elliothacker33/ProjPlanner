@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use App\Models\Task;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -23,7 +24,8 @@ class TaskController extends Controller
      */
     public function create(Request $request, int $projectId)
     {
-        return view('pages.' . 'createTask')->with(['projectId'=>$projectId]);
+        $project = Project::find($projectId);
+        return view('pages.' . 'createTask')->with(['projectId'=>$projectId, 'users'=>$project->users]);
     }
 
     /**
@@ -33,10 +35,12 @@ class TaskController extends Controller
     {
         // Validate input
 
+
         $validated = $request->validate([
             'title' => 'required|string|min:5|max:100|',
             'description' => 'required|string|min:10|max:1024',
             'deadline' => 'nullable|date|after_or_equal:today',
+            'users' => 'nullable'
         ]);
         // Add Policy thing
 
@@ -49,7 +53,9 @@ class TaskController extends Controller
         $task->save();
 
         DB::insert('insert into project_task (task_id, project_id) values (?, ?)', [$task->id, $project_]);
-        return view('pages.' . 'task')->with(['task'=>Task::find($task->id)]);
+        if($validated['users']) DB::insert('insert into task_user (user_id, task_id) values (?, ?)', [$validated['users'], $task->id]);
+        $res = DB::table('task_user')->get();
+        return view('pages.' . 'task')->with(['task'=>Task::find($task->id),'res'=>$res]);
 
     }
 

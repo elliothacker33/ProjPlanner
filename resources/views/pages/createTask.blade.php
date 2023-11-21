@@ -34,12 +34,13 @@
                     <label for="users">
                         Assign User
                     </label>
+
                     <select name="users" >
                         <option selected="selected"> </option>
-                        <option>User 1</option>
-                        <option>User 4</option>
-                        <option>User 2</option>
-                        <option>User 3</option>
+
+                        @foreach($users as $user )
+                            <option value="{{$user->id}}"> {{$user->name}} </option>
+                        @endforeach
                     </select>
 
                     <label>
