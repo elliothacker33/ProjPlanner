@@ -24,8 +24,8 @@ Route::redirect('/', '/home')->name('home');
 
 Route::get('{page}', [StaticController::class, 'show'])->whereIn('page', StaticController::STATIC_PAGES)->name('static');
 
-
-
+#TODO eliminate this route in future
+Route::view('/admin', 'admin.admin_users');
 
 // Authentication
 Route::controller(LoginController::class)->group(function () {

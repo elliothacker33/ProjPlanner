@@ -15,7 +15,7 @@
     --secondary-text-color: #FFFFFF;  /* White text color */
     --input-bg-color: #2E9D7F13;
     --error-text-color: #ff3333;
-    --sucess-text-color: #2C7E90;
+    --success-text-color: #2C7E90;
   }
 
 
@@ -157,7 +157,7 @@ body > header nav ul *:hover, body >footer ul *:hover {
 
 .success {
     font-weight: bold;
-    color: var(--sucess-text-color);
+    color: var(--success-text-color);
 }
 
 #content > form input {

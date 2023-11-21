@@ -3,7 +3,7 @@
 @extends('layouts.app')
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/contact.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/static/contact.css') }}">
 @endpush
 
 @section('content')

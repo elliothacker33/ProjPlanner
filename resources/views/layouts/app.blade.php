@@ -65,7 +65,7 @@
 
                 </ul>
             </section>
-            <section><h6>&copy;2023 Project Planer All rights reserve</h6></section>
+            <section><h6>&copy;2023 ProjPlanner All Rights Reserved</h6></section>
         </footer>
     </body>
 </html>

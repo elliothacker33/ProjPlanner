@@ -1,11 +1,7 @@
 @extends('layouts.app')
 
 @push('styles')
-    <link href="{{ asset('css/home.css') }}" rel="stylesheet">
-@endpush
-
-@push('scripts')
-    <script src="{{ asset('js/home.js') }}" defer></script>
+    <link href="{{ asset('css/static/home.css') }}" rel="stylesheet">
 @endpush
 
 @section('content')

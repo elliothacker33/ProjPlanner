@@ -11,17 +11,19 @@ class HomeController extends Controller
     {
 
         $user = $request->user();
-        #tens de dar redirect
+
         if ($user === null) {
             return redirect('/home');
         }
 
-        # TODO check if user is admin
-
         # TODO check if user is blocked
 
+        else if ($user->is_admin) {
+            return redirect('/admin');
+        }
+
         else {
-            return redirect('/home');
+            return redirect('/home'); #TODO change to projects
         }
     }
 }
