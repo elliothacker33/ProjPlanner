@@ -1,9 +1,9 @@
 .shine{
-    color:var(--onprimary-bg-color)
+    color:var(--onsecondaty-bg-color);
+    font-weight: 500;
 }
 
 .admin-content {
-    max-height: 80em;
     max-width: 90em;
     width: 100%;
     margin: 5rem auto;
@@ -16,4 +16,45 @@
     flex-direction: column;
     align-content: center;
     gap: 2em;
+    text-align: center;
+}
+
+.admin-users {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: left;
+    gap: 0.5em;
+    margin: 0 auto;
+    width: 80em;
+    border: 1px solid var(--onsecondary-bg-color);
+    border-radius: 8px;
+    padding: 2em;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.admin-users div, .admin-users header {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid var(--onsecondary-bg-color);
+    border-radius: 8px;
+    padding: 1em;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+
+.admin-users .name {
+    width: 20em;
+    align-self: start;
+}
+
+.admin-users .email {
+    width: 30em;
+}
+
+.admin-users .change {
+    width: 10em;
+    align-self: end;
 }
