@@ -12,7 +12,7 @@
             <header class="tasks">
                 <h2>Create a <span class="shine">Task</span></h2>
             </header>
-            <form method="POST" action="{{ route('newTask') }}">
+            <form method="POST" action="{{ route('newTask', ['projectId' => $projectId])  }}">
                 @csrf
                 <section class="primaryContainer">
                     <input type="text" name="title" placeholder="Task Title" required>
@@ -30,7 +30,7 @@
                     <label for="users">
                         Deadline
                     </label>
-                    <input type="date">
+                    <input type="date" name="deadline">
                     <label for="users">
                         Assign User
                     </label>

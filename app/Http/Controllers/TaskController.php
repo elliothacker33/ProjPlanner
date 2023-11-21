@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Project;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class TaskController extends Controller
 {
@@ -19,15 +21,15 @@ class TaskController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request, int $projectId)
     {
-        return response()->view('pages.' . 'createTask');
+        return view('pages.' . 'createTask')->with(['projectId'=>$projectId]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, int $project_)
     {
         // Validate input
 
@@ -36,27 +38,27 @@ class TaskController extends Controller
             'description' => 'required|string|min:10|max:1024',
             'deadline' => 'nullable|date|after_or_equal:today',
         ]);
-
         // Add Policy thing
 
 
-        $project = new Task();
-        $project->title = $validated['title'];
-        $project->description = $validated['description'];
+        $task = new Task();
+        $task->title = $validated['title'];
+        $task->description = $validated['description'];
+        $task->opened_user_id= Auth::user()->id;
+        $task->deadline = $validated['deadline'];
+        $task->save();
 
-        $project->opened_user_id= Auth::user()->id;
-        $project->save();
-
-        return redirect()->route('/login');
+        DB::insert('insert into project_task (task_id, project_id) values (?, ?)', [$task->id, $project_]);
+        return view('pages.' . 'task')->with(['task'=>Task::find($task->id)]);
 
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Task $task)
+    public function show(int $project,int $task)
     {
-        //
+
     }
 
     /**

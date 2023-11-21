@@ -22,9 +22,12 @@ Route::redirect('/', '/home')->name('home');
 
 Route::get('/{page}', [StaticController::class, 'show'])->where('page', implode('|', StaticController::STATIC_PAGES))->name('static');
 
-Route::prefix('/task')->controller(TaskController::class)->group(function (){
-    Route::get('/new', 'create');
-    Route::post('/new', 'store')->name('newTask');
+Route::prefix('/project/{projectId}')->group(function (){
+    Route::prefix('/task')->controller(TaskController::class)->group(function (){
+        Route::get('/{id}', 'show')->where('id','[0-9]+');
+        Route::get('/new', 'create');
+        Route::post('/new', 'store')->name('newTask');
+    });
 });
 // Authentication
 Route::controller(LoginController::class)->group(function () {
