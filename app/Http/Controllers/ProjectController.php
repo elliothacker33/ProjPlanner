@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProjectController extends Controller
 {
@@ -20,7 +21,8 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        // Policy thing
+        $this->authorize('create', Project::class);
+        
         return view('pages.newProjectForm');
     }
 
@@ -33,20 +35,26 @@ class ProjectController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|min:5|max:100|',
             'description' => 'required|string|min:10|max:1024',
-            'deadline' => 'nullable|date|after_or_equal:today',
+            'deadline' => 'nullable|date|after_or_equal:' . date('d-m-Y'),
         ]);
 
+        print_r($validated['deadline']);
+
         // Add Policy thing
+        $this->authorize('create', Project::class);
 
         $project = new Project();
         $project->title = $validated['title'];
         $project->description = $validated['description'];
-        $project->deadline = $validated['deadline'];
-        $project->creation = 
-        $project->user_id -> Auth::user()->id;
+        $project->deadline = isset($validated['deadline']) ? $validated['deadline'] : null;
+        $project->user_id = Auth::user()->id;
         $project->save();
 
-        return redirect()->route('show_project', ['projectId' => $project->id]);
+        $project->users()->attach(Auth::user()->id);
+
+        return redirect()->route('home');
+        // TODO: use this when project page is done
+        // return redirect()->route('show_project', ['projectId' => $project->id]);
     }
 
     /**

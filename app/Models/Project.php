@@ -10,19 +10,16 @@ class Project extends Model
 {
     use HasFactory;
 
-    public $timestamp = false;
+    public $timestamps = false;
 
     protected $fillable = [
         'title',
         'description',
         'deadline',
+        'user_id',
     ];
 
     protected $hidden = ['tsvectors'];
-
-    protected $attributes = [
-        'creation' => date('Y-m-d'),
-    ];
 
     public function users(): BelongsToMany {
         return $this->belongsToMany(User::class);
