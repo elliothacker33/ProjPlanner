@@ -62,6 +62,7 @@ class ProjectController extends Controller
     public function show(int $projectId)
     {
         $project=Project::find($projectId);
+        $this->authorize('view',[Project::class,$project]);
         $users = $project->users;
 
         $completed_task = DB::table('project_task')

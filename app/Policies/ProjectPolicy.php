@@ -21,7 +21,10 @@ class ProjectPolicy
      */
     public function view(User $user, Project $project): bool
     {
-        //
+        $users = $project->users()->get()->toArray();
+
+        return (in_array($user, $users));
+
     }
 
     /**
