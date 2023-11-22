@@ -94,13 +94,14 @@ class ProjectController extends Controller
     {
         $project = Project::find($projectId);
 
-        // $this->authorize('view',[Project::class,$project]);
+        $this->authorize('view',[Project::class,$project]);
         return view('pages.team',['team'=>$project->users, 'projectId'=>$projectId]);
     }
     public function add_user(Request $request, int $projectId)
 
     {
         $project = Project::find($projectId);
+        $this->authorize('update',[Project::class,$project]);
         $user = User::where('email', $request->email)->first();
         if(!$user)return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
@@ -120,7 +121,7 @@ class ProjectController extends Controller
             'email' => 'Member already in the project',
         ])->onlyInput('email');
         db::insert('Insert into project_user (user_id,project_id) values (?,?)',[$user->id,$projectId]);
-        //$this->authorize('view',[Project::class,$project]);
+
         return redirect()->route('team',['team'=>$project->users,'projectId'=>$projectId]);
     }
     /**
