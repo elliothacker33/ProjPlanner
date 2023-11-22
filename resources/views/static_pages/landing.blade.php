@@ -4,10 +4,6 @@
     <link href="{{ asset('css/landing.css') }}" rel="stylesheet">
 @endpush
 
-@push('scripts')
-    <script src="{{ asset('js/home.js') }}" defer></script>
-@endpush
-
 @section('content')
     <section class="home-content">
         <section class="opening">

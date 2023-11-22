@@ -233,6 +233,11 @@ input[type=password]:focus {
   object-fit: cover;
 }
 
+
+.hidden-form {
+    display: none;
+}
+
 #logout {
     color: white;
     margin-right: 1em;
