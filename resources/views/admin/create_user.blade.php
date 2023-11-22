@@ -13,7 +13,6 @@
 
     <section class="formContainer">
     <header>
-        <h2><span class="shine">Empower</span> Your Day, <span class="shine">Unleash</span> the work </h2>
         <h2>Create User</h2>
     </header>
     <form method="POST" action="{{ route('admin_user_create') }}">

@@ -29,14 +29,10 @@ Route::get('{page}', [StaticController::class, 'show'])->whereIn('page', StaticC
 
 // Admin
 Route::controller(AdminController::class)->group(function () {
-
-    //Route::get('/admin', 'showAdmin')->name('admin');
     Route::redirect('/admin', '/admin/users')->name('admin');
-    Route::get('/admin/users', 'showAdminUsers')->name('admin_users');
-    Route::get('/admin/users/{id}/edit', 'showAdminUserEdit')->name('admin_user_edit');
-    //Route::get('/admin/users/{id}/delete', 'adminUserDelete')->name('admin_user_delete');
-    Route::get('/admin/users/create', 'showAdminUserCreate')->name('admin_user_create');
-    Route::post('/admin/users/create', 'createUser');
+    Route::get('/admin/users', 'show')->name('admin_users');
+    Route::get('/admin/users/create', 'create')->name('admin_user_create');
+    Route::post('/admin/users/create', 'store');
 });
 
 

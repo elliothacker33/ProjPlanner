@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -18,27 +19,19 @@ class AdminController extends Controller
         //$this->middleware('admin');
     }
 
-    public function showAdmin(){
+    public function show(){
+        $this->authorize('view_admin',[User::class]);
         return view('admin.users', ['users' => User::all()] );
     }
 
-    public function showAdminUsers(){
-        return view('admin.users', ['users' => User::all()] );
-    }
-
-    public function showAdminUserEdit($id){
-        //return view('user_edit', ['id' => $id]);
-    }
-
-    public function AdminUserDelete($id){
-        //return view('admin.admin_user_delete', ['id' => $id]);
-    }
-
-    public function showAdminUserCreate(){
+    public function create(){
+        $this->authorize('create_admin',[User::class]);
         return view('admin.create_user');
     }
 
-    public function createUser(Request $request){
+    public function store(Request $request){
+
+        $this->authorize('create');
         
         $rules = [
             'name' => 'required|string|max:20',
