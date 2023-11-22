@@ -41,6 +41,10 @@ a {
     cursor: pointer;
 }
 
+a h1 {
+    color: var(--primary-bg-color);
+}
+
 .icon {
     max-width: 100%;
     max-height: 100%;
@@ -50,6 +54,9 @@ a {
 
 .user_icon {
     width: 3em;
+    margin-left: auto;
+    margin-right:1em ;
+
 }
 
 body {
@@ -240,10 +247,11 @@ input[type=password]:focus {
 
 #logout {
     color: white;
-    margin-right: 1em;
     margin-bottom: 0;
+
 }
 
 #header_title {
     margin-right: auto;
 }
+

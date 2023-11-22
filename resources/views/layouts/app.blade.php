@@ -29,12 +29,15 @@
 <body>
     <header>
         <section>
-            <h1 id="header_title">ProjPlanner</h1>
+
+            <h1>ProjPlanner</h1>
+
             @if (Auth::check())
-                <a id="logout" href="{{ route('logout') }}">Logout</a>
+
                 <a class="user_icon" href="{{ route('profile', ['usrId' => Auth::id()]) }}"> 
                     <img class="icon avatar" src="{{ asset('img/default_user.png') }}" alt="default user icon">
                 </a>
+                <a id="logout" href="{{ route('logout') }}">Logout</a>
             @else
                 <a class="user_icon" href="{{ route('login') }}"> <img class="icon"
                         src="{{ asset('img/default_user.png') }}" alt="default user icon"></a>
@@ -67,7 +70,7 @@
 
                 </ul>
             </section>
-            <section><h6>&copy;2023 Project Planer All rights reserve</h6></section>
+            <section><h6>&copy;2023 ProjPlanner All Rights Reserved</h6></section>
         </footer>
     </body>
 </html>

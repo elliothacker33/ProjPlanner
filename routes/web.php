@@ -1,12 +1,18 @@
 <?php
 
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\UserController;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\StaticController;
 use App\Http\Controllers\HomeController;
+
+use App\Http\Controllers\AdminController;
+
 use App\Http\Controllers\ProfileController;
+
 use App\Http\Controllers\ProjectController;
 use SebastianBergmann\CodeCoverage\Report\Xml\Project;
 
@@ -28,12 +34,22 @@ Route::redirect("/","/landing");
 //Static Pages
 Route::get('{page}', [StaticController::class, 'show'])->whereIn('page', StaticController::STATIC_PAGES)->name('static');
 
+// Admin
+Route::controller(UserController::class)->group(function(){
+    Route::get('users/search', 'index')->name('search_users');
+});
+Route::controller(AdminController::class)->group(function () {
+    Route::redirect('/admin', '/admin/users')->name('admin');
+    Route::get('/admin/users', 'show')->name('admin_users');
+    Route::get('/admin/users/create', 'create')->name('admin_user_create');
+    Route::post('/admin/users/create', 'store');
+});
 
 
 Route::prefix('/project/{projectId}')->group(function (){
     Route::get('',[ProjectController::class,'show'])->name('project')->whereNumber('projectId');
     Route::prefix('/task')->controller(TaskController::class)->group(function (){
-        Route::get('/{id}', 'show')->where('id','[0-9]+');
+        Route::get('/{id}', 'show')->where('id','[0-9]+')->name('task');
         Route::get('/new', 'create');
         Route::post('/new', 'store')->name('newTask');
     });
@@ -57,7 +73,7 @@ Route::controller(ProfileController::class)->group(function () {
     Route::get('/user-profile/{usrId}/edit','showEditProfile')->name('edit_profile');
 });
 
-});
+
 
 Route::controller(HomeController::class)->group(function () {
     Route::get('/homepage/{usrId}','showHome')->name('home');
