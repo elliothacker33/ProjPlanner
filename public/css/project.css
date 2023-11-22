@@ -1,18 +1,18 @@
-
-.taskCreation{
+.projectCreation {
     display: flex;
     justify-content: center;
     align-content: center;
 }
 
-.taskCreation .formContainer form input,.formContainer form textarea{
-    background: var(--input-bg-color);
-}
-.taskCreation .shine {
-    color: var(--onprimary-bg-color);
+.projectCreation .formContainer form input, .formContainer form textarea {
+    background: var(--input-secondary-bg-color);
 }
 
-.taskPage{
+.projectCreation .shine {
+    color: var(--on-third-bg-color);
+}
+
+.projectPage{
     display: flex;
     justify-content: center;
     align-content: center;
@@ -23,7 +23,7 @@
     padding: 2em;
     gap: 4em;
 }
-.taskPage .container{
+.projectPage .container{
     display: flex;
     justify-content: flex-start;
     align-content: center;
@@ -31,63 +31,60 @@
     padding: 0;
     gap: 4em;
 }
-.taskPage header{
+.projectPage header{
     display: flex;
     gap: 3em;
     align-content: center;
     text-align: center;
 }
-.taskPage header .status{
+.projectPage header .status{
     padding: 0.2em 0.5em ;
     border-radius: 10em;
     font-size: 1em;
     color: white;
 
 }
-.taskPage header .status.open{
+.projectPage header .status.open{
     background: var(--onprimary-bg-color);
 }
-.taskPage header .status.closed{
+.projectPage header .status.archive{
     background: var(--on-third-bg-color);
 }
-.taskPage header .status.cancelled{
-    background: var(--error-text-color);
-}
-.taskPage .primaryContainer{
+.projectPage .primaryContainer{
     display: flex;
     gap: 3em;
     flex-direction: column;
     width: 40em;
 }
-.taskPage .sideContainer{
+.projectPage .sideContainer{
     display: flex;
     gap: 1em;
     flex-direction: column;
     width: 20em;
 }
-.taskPage .sideContainer > *{
-    background: var(--input-bg-color);
+.projectPage .sideContainer > *{
+    background: var(--input-secondary-bg-color);
     padding: 0.5em;
     text-align: center;
 }
 
-.taskPage .primaryContainer header{
-    padding: 1em;
+.projectPage .primaryContainer header{
+   padding: 1em;
     text-align: center;
 }
 
-.taskPage .sideContainer ul{
+.projectPage .sideContainer ul{
     padding:  1em 0.5em;
     text-align: start;
 }
 
-.taskPage .sideContainer  h5{
+.projectPage .sideContainer .teamContainer h5{
     font-size: 1.2em;
     font-weight: bold;
 }
-.taskPage header a.edit {
-    padding: 0.2em 0.7em;
-    background: var(--onprimary-bg-color);
+.projectPage header a.edit{
+    padding: 0.2em 0.7em ;
+    background: var(--onsecondary-bg-color);
     color: white;
     border-radius: 0.3em;
     margin-left: auto;
@@ -96,13 +93,13 @@
 
 @media (max-width: 74em) {
 
-    .taskPage .primaryContainer{
+    .projectPage .primaryContainer{
 
         width: 100%;
         max-width: 40em;
         margin: auto;
     }
-    .taskPage .sideContainer{
+    .projectPage .sideContainer{
 
         width: 100%;
         max-width: 30em;
@@ -112,7 +109,7 @@
 }
 @media (max-width: 40em) {
 
-    .taskPage {
+    .projectPage {
         padding: 1em;
     }
 }

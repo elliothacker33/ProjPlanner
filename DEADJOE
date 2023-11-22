@@ -1,0 +1,30 @@
+
+*** These modified files were found in JOE when it aborted on Wed Nov 22 19:21:17 2023
+*** JOE was aborted by UNIX signal 1
+
+*** File '/home/tomas/Documentos/lbaw2353/.git/MERGE_MSG'
+:Merge branch 'main' of https://git.fe.up.pt/lbaw/lbaw2324/lbaw2353 into main
+# Please enter a commit message to explain why this merge is necessary,
+# especially if it merges an updated upstream into a topic branch.
+#
+# Lines starting with '#' will be ignored, and an empty message aborts
+# the commit.
+
+*** File '(Unnamed)'
+hello.cpp
+/dev/null
+hello.cpp
+hello.cpp
+dfs.cpp
+dfs.cpp
+/home/tomas/Documentos/3ano/prolog/Waldmeister-board-game/.git/MERGE_MSG
+/home/tomas/Documentos/3ano/prolog/Waldmeister-board-game/.git/MERGE_MSG
+/home/tomas/Documentos/3ano/prolog/Waldmeister-board-game/.git/MERGE_MSG
+/home/tomas/Documentos/3ano/prolog/Waldmeister-board-game/.git/MERGE_MSG
+/home/tomas/Documentos/lbaw2353/.git/MERGE_MSG
+
+*** File '* Startup Log *'
+Processing '/etc/joe/editorrc'...
+Processing '/etc/joe/ftyperc'...
+Finished processing /etc/joe/ftyperc
+Finished processing /etc/joe/editorrc
