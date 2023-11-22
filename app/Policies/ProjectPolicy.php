@@ -23,8 +23,13 @@ class ProjectPolicy
     {
         $users = $project->users()->get()->toArray();
 
-        return (in_array($user, $users));
+        $usersIds = array();
 
+        foreach($users as $a_user) {
+            array_push($usersIds, $a_user['id']);
+        }
+        
+        return (in_array($user->id, $usersIds));
     }
 
     /**
@@ -40,7 +45,7 @@ class ProjectPolicy
      */
     public function update(User $user, Project $project): bool
     {
-        //
+        return $user->id == $project->user_id;
     }
 
     /**

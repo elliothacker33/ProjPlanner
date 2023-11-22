@@ -62,6 +62,10 @@ class ProjectController extends Controller
     public function show(int $projectId)
     {
         $project=Project::find($projectId);
+
+        if ($project == null)
+            return abort(404);
+
         $this->authorize('view',[Project::class,$project]);
         $users = $project->users;
 

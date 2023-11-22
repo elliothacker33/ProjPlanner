@@ -13,7 +13,7 @@
         @if($project->is_archived) <span class="status archive"> Archive </span>
         @else <span class="status open"> Open </span>
         @endif
-        @can('edit',$project)
+        @can('update',$project)
             <a class="edit">Edit</a>
         @endcan
 
