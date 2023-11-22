@@ -116,4 +116,19 @@ class ProjectController extends Controller
         // TODO: redirect to "My projects page"
         // return redirect()->route('my_projects');
     }
+
+    public function showTasks(int $projectId)
+    {
+        $project=Project::find($projectId);
+
+        if ($project == null)
+            return abort(404);
+
+        $this->authorize('view',[Project::class,$project]);
+        $tasks = DB::table('project_task')
+            ->join('tasks','project_task.task_id','=','tasks.id')
+            ->where('project_id','=',$projectId)->get();
+            
+        return view('pages.tasks',['project'=>$project, 'tasks'=>$tasks]);
+    }
 }

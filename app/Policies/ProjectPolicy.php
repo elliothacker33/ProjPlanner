@@ -21,6 +21,10 @@ class ProjectPolicy
      */
     public function view(User $user, Project $project): bool
     {
+
+        #TODO Just for TESTING
+        return true;
+/*
         $users = $project->users()->get()->toArray();
 
         $usersIds = array();
@@ -29,7 +33,7 @@ class ProjectPolicy
             array_push($usersIds, $a_user['id']);
         }
         
-        return (in_array($user->id, $usersIds));
+        return (in_array($user->id, $usersIds));*/
     }
 
     /**
