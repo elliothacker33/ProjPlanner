@@ -4,6 +4,10 @@
     <link rel="stylesheet" href="{{ asset('css/edit-profile.css') }}">
 @endpush
 
+@push('scripts')
+    <script type="text/javascript" src={{ url('js/app.js') }} defer></script>
+@endpush
+
 @section('content')
     <header>
         <h1> Edit Profile</h1>
