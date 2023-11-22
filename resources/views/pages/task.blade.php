@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.project')
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/task.css') }}">
@@ -8,9 +8,7 @@
 @section('content')
     <section class="taskCreation">
 
-      {{$task}}
-      {{$res}}
-        {{$res2}}
+    {{$task}}
 
     </section>
 

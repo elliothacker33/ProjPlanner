@@ -73,9 +73,22 @@ class TaskController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(int $project,int $task)
+    public function show(int $projectId, int $taskId)
     {
+        $task=Task::find($taskId);
+        $project_task = DB::table('project_task')
+            ->where('task_id','=',$taskId)
+            ->where('project_id','=',$projectId)->get();
 
+        if ($task == null || $project_task->isEmpty())
+            return abort(404);
+
+        $this->authorize('view',[$task::class,$task]);
+        $users = $task->assigned;
+
+        $tags = DB::table('tag_task')
+            ->where('task_id','=',$taskId)->get();
+        return view('pages.task',['task'=>$task, 'assign'=>$users,'tags'=>$tags]);
     }
 
     /**
