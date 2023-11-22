@@ -45,7 +45,9 @@ Route::controller(AdminController::class)->group(function () {
     Route::post('/admin/users/create', 'store');
 });
 
-
+Route::controller(TaskController::class)->group(function(){
+    Route::get('tasks/search', 'index')->name('search_tasks');
+});
 Route::prefix('/project/{projectId}')->group(function (){
     Route::get('',[ProjectController::class,'show'])->name('project')->whereNumber('projectId');
     Route::get('/team',[ProjectController::class,'show_team'])->name('team');
