@@ -48,7 +48,8 @@ a h1 {
 .icon {
     max-width: 100%;
     max-height: 100%;
-
+    margin: auto;
+    display: block;
 }
 
 .user_icon {
@@ -99,15 +100,15 @@ body > header section {
     width: 100%;
     position: relative;
     display: flex;
-    justify-content: space-between;
+    /*justify-content: space-between;*/
     align-content: center;
     align-items: center;
 
 }
 
 
-body > header section h1 .icon {
-    height: 1.8em;
+.icon {
+    height: 3em;
 }
 
 body > header nav ul, body >footer ul, body >footer h6 {
@@ -163,7 +164,7 @@ body > header nav ul *:hover, body >footer ul *:hover {
 
 .success {
     font-weight: bold;
-    color: var(--success-text-color);
+    color: var(--sucess-text-color);
 }
 
 #content > form input {
@@ -242,3 +243,14 @@ input[type=password]:focus {
   border-radius: 50%;
   object-fit: cover;
 }
+
+#logout {
+    color: white;
+    margin-right: 1em;
+    margin-bottom: 0;
+}
+
+#header_title {
+    margin-right: auto;
+}
+
