@@ -38,8 +38,6 @@ class ProjectController extends Controller
             'deadline' => 'nullable|date|after_or_equal:' . date('d-m-Y'),
         ]);
 
-        print_r($validated['deadline']);
-
         // Add Policy thing
         $this->authorize('create', Project::class);
 
