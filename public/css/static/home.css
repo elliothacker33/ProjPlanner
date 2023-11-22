@@ -1,62 +1,62 @@
-body {
-    margin: 0;
-    padding: 0;
-    background-color: var(--onsecondary-bg-color);
-    color: var(--primary-text-color);
-}
+#content{
 
-.home-content {
-    max-height: max-content;
-    max-width: 70em;
-    width: 100%;
-    margin: 5rem auto;
-    padding: 2em;
-    background-color: var(--primary-bg-color);
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    font-size: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap:2em;
+    padding: 2%;
+}
+#content>header{
+    flex:1;
+    width: 80%;
     display: flex;
     justify-content: center;
+    align-items: center;
+
+}
+#content>header>h1{
+    font-size: 3em;
+}
+
+.projects{
+    overflow-y: auto;
+    border-radius: 50px 50px 50px 50px;
+    background-color: #2C3E50;;
+    width: 80%;
+    flex:2;
+    display: flex;
     flex-direction: column;
-    align-content: center;
-    gap: 2em;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+    padding: 2%;
 }
-.home-content > *{
+.project{
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap:1em;
     width: 100%;
-    max-width: 50em;
-    margin: auto;
+    background-color: white;
+    border: 2px solid  rgb(194, 186, 186);
+    padding:2%;
 }
-
-.home-content h1{
-    font-size: 5rem;
-    font-weight: 300;
-}
-h2{
-    margin-bottom:1em ;
-}
-
-.home-content {
-    text-align: center;
-    text-overflow: clip;
-}
-
-.opening {
-    text-align: center;
-}
-
-.home-content button {
-
-    font-size: 1em;
-    margin:  2em  ;
+.project > *{
+    flex:1;
+    outline: none;
     border: none;
+    font-size: 1.5em;
+    color: #2C3E50;
+    font-weight: 600;
 }
-
-.home-content button:hover {
-    transition-duration: 300ms;
-    background-color: var(--onthird-bg-color);
+.project>a{
+    text-align: center;
+    padding: 10px;
+    background-color: #2C3E50;
+    color:white;
 }
-
-.shine{
-    color:var(--onprimary-bg-color)
+.project>a:hover{
+    color:white;
+    background-color: #E29578;
 }
-

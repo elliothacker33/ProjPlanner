@@ -64,18 +64,32 @@ class TaskController extends Controller
         DB::insert('insert into project_task (task_id, project_id) values (?, ?)', [$task->id, $projectId]);
         if($validated['tags'])DB::insert('insert into tag_task (tag_id, task_id) values (?, ?)', [$validated['tags'], $task->id]);
         if($validated['users']) DB::insert('insert into task_user (user_id, task_id) values (?, ?)', [$validated['users'], $task->id]);
-        $res = DB::table('task_user')->where('task_id' , '=', $task->id)->get();
-        $res2 = DB::table('tag_task')->where('task_id' , '=', $task->id)->get();
-        return view('pages.' . 'task')->with(['task'=>Task::find($task->id),'res'=>$res,'res2'=>$res2]);
+
+        return redirect()->route('task',['projectId'=>$projectId,'id'=>$task->id]);
 
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(int $project,int $task)
+    public function show(int $projectId, int $taskId)
     {
+        $task=Task::find($taskId);
+        $project_task = DB::table('project_task')
+            ->where('task_id','=',$taskId)
+            ->where('project_id','=',$projectId)->get();
 
+        if ($task == null || $project_task->isEmpty())
+            return abort(404);
+
+        $this->authorize('view',[$task::class,$task]);
+        $users = $task->assigned;
+
+        $tags = DB::table('tag_task')
+            ->join('tags','tag_task.tag_id','=','tags.id')
+            ->where('task_id','=',$taskId)->get();
+        $creator = User::find($task->opened_user_id);
+        return view('pages.task',['task'=>$task, 'assign'=>$users,'tags'=>$tags,'creator'=>$creator]);
     }
 
     /**

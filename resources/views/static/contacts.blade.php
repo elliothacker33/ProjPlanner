@@ -6,6 +6,10 @@
     <link rel="stylesheet" href="{{ asset('css/static/contact.css') }}">
 @endpush
 
+@push('scripts')
+    <script type="text/javascript" src={{ url('js/app.js') }} defer></script>
+@endpush
+
 @section('content')
     <section class="container">
         <img class="map" src="{{ asset('img/map.png') }}">

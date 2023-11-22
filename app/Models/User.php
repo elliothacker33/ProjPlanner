@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+
 // Added to define Eloquent relationships.
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -50,9 +51,19 @@ class User extends Authenticatable
         'password' => 'hashed',
         'is_admin' => 'boolean',
     ];
-    
-    public function projects(): BelongsToMany
+
+
+    public function projects_for_user(): BelongsToMany
     {
+        return $this->belongsToMany(Project::class, 'project_user', 'user_id', 'project_id');
+    }
+
+    protected $attributes = [
+        'is_admin' => false,
+    ];
+
+    public function projects(): BelongsToMany {
+
         return $this->belongsToMany(Project::class);
     }
 

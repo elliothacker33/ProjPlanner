@@ -36,7 +36,11 @@ class UserPolicy
      */
     public function update(User $user, User $model): bool
     {
+
         //
+
+        return $user->id === $model->id || $user->is_admin;
+
     }
 
     /**
@@ -63,6 +67,7 @@ class UserPolicy
         //
     }
 
+
     public function create_admin(User $user): bool
     {
         return $user->is_admin;
@@ -72,4 +77,5 @@ class UserPolicy
     {
         return $user->is_admin;
     }
+
 }

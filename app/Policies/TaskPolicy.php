@@ -5,8 +5,10 @@ namespace App\Policies;
 
 
 use App\Models\Project;
+use App\Models\Task;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
+use Illuminate\Support\Facades\DB;
 
 
 class TaskPolicy
@@ -24,7 +26,7 @@ class TaskPolicy
      */
     public function view(User $user, Task $task): bool
     {
-
+        return true;
     }
 
     /**
@@ -33,8 +35,12 @@ class TaskPolicy
     public function create(User $user,Project $project): bool
     {
         $users = $project->users()->get()->toArray();
+        $member=false;
+        foreach ($users as $user_){
+            if($user->id===$user_['id']) $member= true;
+        }
 
-        return (!$user->isAdmin) and (in_array($user, $users));
+        return (!$user->isAdmin) and $member;
     }
 
     /**
@@ -42,7 +48,17 @@ class TaskPolicy
      */
     public function update(User $user, Task $task): bool
     {
-        //
+        $assigned = DB::table('task_user')
+            ->where('task_id','=',$task->id)
+            ->where('user_id','=', $user->id)->get();
+        $coordinator = DB::table('project_user')
+            ->join('projects','projects.id','=','project_user.project_id')
+            ->join('project_task','project_task.project_id','=','project_user.project_id')
+            ->where('task_id','=',$task->id)
+            ->where('projects.user_id','=', $user->id)->get();
+        if(!$assigned->isEmpty() || !$coordinator->isEmpty()) return true;
+        return false;
+
     }
 
     /**

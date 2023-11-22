@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class StaticController extends Controller
 {
-    public const STATIC_PAGES = ['about-us', 'contacts', 'faq', 'home'];
+    public const STATIC_PAGES = ['about-us', 'contacts', 'faq', 'landing'];
 
     public static function getStaticPages()
     {

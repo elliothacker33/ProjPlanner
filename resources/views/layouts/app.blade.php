@@ -20,7 +20,6 @@
         // Fix for Firefox autofocus CSS bug
         // See: http://stackoverflow.com/questions/18943276/html-5-autofocus-messes-up-css-loading/18945951#18945951
     </script>
-    <script type="text/javascript" src={{ url('js/app.js') }} defer></script>
 
     @stack('styles')
     <!-- Scripts -->
@@ -31,13 +30,14 @@
     <header>
         <section>
 
-            <a href="{{ route('home') }}"  id="header_title" ><h1>ProjPlanner</h1></a>
+            <h1>ProjPlanner</h1>
 
             @if (Auth::check())
-                <a id="logout" href="{{ route('logout') }}">Logout</a>
-                <a class="user_icon" href="{{ route('login') }}"> 
+
+                <a class="user_icon" href="{{ route('profile', ['usrId' => Auth::id()]) }}"> 
                     <img class="icon avatar" src="{{ asset('img/default_user.png') }}" alt="default user icon">
                 </a>
+                <a id="logout" href="{{ route('logout') }}">Logout</a>
             @else
                 <a class="user_icon" href="{{ route('login') }}"> <img class="icon"
                         src="{{ asset('img/default_user.png') }}" alt="default user icon"></a>

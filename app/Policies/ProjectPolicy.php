@@ -21,7 +21,15 @@ class ProjectPolicy
      */
     public function view(User $user, Project $project): bool
     {
-        //
+        $users = $project->users()->get()->toArray();
+
+        $usersIds = array();
+
+        foreach($users as $a_user) {
+            array_push($usersIds, $a_user['id']);
+        }
+        
+        return (in_array($user->id, $usersIds));
     }
 
     /**
@@ -37,7 +45,7 @@ class ProjectPolicy
      */
     public function update(User $user, Project $project): bool
     {
-        //
+        return $user->id == $project->user_id;
     }
 
     /**

@@ -54,6 +54,9 @@ a h1 {
 
 .user_icon {
     width: 3em;
+    margin-left: auto;
+    margin-right:1em ;
+
 }
 
 body {
@@ -150,12 +153,7 @@ body > header nav ul *:hover, body >footer ul *:hover {
     font-weight: normal;
 }
 
-#content > form {
-    margin: 0 auto;
-    padding: 1em;
-    max-width: 20em;
-    border: 1px solid var(--onsecondary-bg-color);
-}
+
 
 .error {
     font-weight: bold;
@@ -229,9 +227,7 @@ a.button.button-outline {
     color: var(--onsecondary-bg-color);
 }
 
-a {
-    color: var(--onsecondary-bg-color);
-}
+
 
 input[type=text]:focus,
 input[type=email]:focus,
@@ -244,10 +240,15 @@ input[type=password]:focus {
   object-fit: cover;
 }
 
+
+.hidden-form {
+    display: none;
+}
+
 #logout {
     color: white;
-    margin-right: 1em;
     margin-bottom: 0;
+
 }
 
 #header_title {
