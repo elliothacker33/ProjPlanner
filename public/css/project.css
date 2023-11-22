@@ -88,7 +88,7 @@
     margin-bottom: 0;
 }
 
-@media(max-width: 45em) {
+@media(max-width: 40em) {
     .projectPage .container{
         flex-direction: column;
     }
