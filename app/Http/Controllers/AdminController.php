@@ -19,11 +19,11 @@ class AdminController extends Controller
     }
 
     public function showAdmin(){
-        return view('admin.users');
+        return view('admin.users', ['users' => User::all()] );
     }
 
     public function showAdminUsers(){
-        return view('admin.users');
+        return view('admin.users', ['users' => User::all()] );
     }
 
     public function showAdminUserEdit($id){
@@ -51,15 +51,8 @@ class AdminController extends Controller
             'password' => 'required|min:8|max:255|confirmed',
             'is_admin' => 'required|boolean',
             ];
-            $custom_errors = [
-                'name.max' => 'The name must not exceed 20 characters.',
-                'email.email' => 'Please enter a valid email address.',
-                'email.unique' => 'The email address is already in use.',
-                'password.confirmed' => 'The password confirmation does not match.',
-                'is_admin.boolean' => 'The is_admin field must be a boolean.',
-            ];
         
-            $validator = Validator::make($request->all(), $rules, $custom_errors);
+            $validator = Validator::make($request->all(), $rules);
         
             if ($validator->fails()) {
                 return redirect()->back()->withErrors($validator)->withInput();

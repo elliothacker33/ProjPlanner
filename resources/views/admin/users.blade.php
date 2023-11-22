@@ -27,36 +27,20 @@
                 <section class="change">Edit</section>
                 <section class="change">Delete</section>
             </header>
-
-            @php
-
-                
-                use App\Models\User;
-                $users = User::all();
-
-                foreach($users as $user) {
-            @endphp
-                    <div class="user"> 
-                        <section class="name"> {!! $user->name !!} </section>
-                        <section class="email"> {!! $user->email !!} </section>
-            @php
-                    if($user->is_admin == True) {
-            @endphp
+            
+            @foreach($users as $user)
+                <div class="user"> 
+                    <section class="name"> {!! $user->name !!} </section>
+                    <section class="email"> {!! $user->email !!} </section>
+                    @if($user->is_admin)
                         <section class="role"> Admin </section>
-            @php
-                    } else {
-            @endphp
+                    @else 
                         <section class="role"> User </section>  
-            @php 
-                    }
-            @endphp
-                        <section class="change"> <a href="/admin/users/{!! $user->id !!}/edit"><button> Edit </button></a> </section>         
-                        <section class="change"> <a href="/admin/users/{!! $user->id !!}/delete"><button> Delete </button></a>  </section>
-                    </div>
-            @php
-                }
-
-            @endphp
+                    @endif
+                    <section class="change"> <a href="/admin/users/{!! $user->id !!}/edit"><button> Edit </button></a> </section>         
+                    <section class="change"> <a href="/admin/users/{!! $user->id !!}/delete"><button> Delete </button></a>  </section>
+                </div>
+            @endforeach
         </div>
 
 
