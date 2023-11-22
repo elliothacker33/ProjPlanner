@@ -4,6 +4,7 @@
 @endpush
 
 
+
 @section('navbar')
     <li><a>Project Home</a></li>
     <li><a>Team</a></li>
