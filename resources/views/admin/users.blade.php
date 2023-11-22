@@ -5,16 +5,16 @@
 @endpush
 
 @push('scripts')
-    <link href="{{ asset('js/admin.js') }}" defer>
+    <script type="text/javascript" src={{ url('js/admin.js') }} defer></script>
 @endpush
 
 @section('content')
     <section class="admin-content">
-
+        
         <h2 class="shine"> Admin Page </h2>
 
         <div> 
-            <input type="search" placeholder="Search" aria-label="Search" />
+            <input type="search" placeholder="Search" aria-label="Search" id="search-bar" />
             <a href="{{ route('admin_user_create') }}"> <button data-mdb-ripple-init> Add a User </button> </a>
         </div>
 
@@ -28,22 +28,8 @@
                 <section class="change">Delete</section>
             </header>
             <section class="userContainer">
-            @foreach($users as $user)
-                <div class="user"> 
-                    <section class="name"> {!! $user->name !!} </section>
-                    <section class="email"> {!! $user->email !!} </section>
-                    @if($user->is_admin)    
-                        <section class="role"> Admin </section>
-                    @else 
-                        <section class="role"> User </section>  
-                    @endif
-                    <section class="change"> <a href="/admin/users/{!! $user->id !!}/edit"><button> Edit </button></a> </section>         
-                    <section class="change"> <a href="/admin/users/{!! $user->id !!}/delete"><button> Delete </button></a>  </section>
-                </div>
-            @endforeach
+                @include('partials.displayUsers')
             </section>
         </div>
-
-
     </section>
 @endsection
