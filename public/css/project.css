@@ -11,3 +11,74 @@
 .projectCreation .shine {
     color: var(--on-third-bg-color);
 }
+
+.projectPage{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    width: 100%;
+    max-width: 70em;
+    margin: auto;
+    padding: 2em;
+    gap: 4em;
+}
+.projectPage .container{
+    display: flex;
+    justify-content: flex-start;
+    align-content: center;
+    flex-wrap: wrap;
+    padding: 0;
+    gap: 4em;
+}
+.projectPage header{
+    display: flex;
+    gap: 3em;
+    align-content: center;
+    text-align: center;
+}
+.projectPage header .status{
+    padding: 0.2em 0.5em ;
+    border-radius: 10em;
+    font-size: 1em;
+    color: white;
+
+}
+.projectPage header .status.open{
+    background: var(--onprimary-bg-color);
+}
+.projectPage header .status.archive{
+    background: var(--on-third-bg-color);
+}
+.projectPage .primaryContainer{
+    display: flex;
+    gap: 3em;
+    flex-direction: column;
+    width: 40em;
+}
+.projectPage .sideContainer{
+    display: flex;
+    gap: 1em;
+    flex-direction: column;
+    width: 20em;
+}
+.projectPage .sideContainer > *{
+    background: var(--input-secondary-bg-color);
+    padding: 0.5em;
+    text-align: center;
+}
+
+.projectPage .primaryContainer header{
+   padding: 1em;
+    text-align: center;
+}
+
+.projectPage .sideContainer ul{
+    padding:  1em 0.5em;
+    text-align: start;
+}
+
+.projectPage .sideContainer .teamContainer h5{
+    font-size: 1.2em;
+    font-weight: bold;
+}
