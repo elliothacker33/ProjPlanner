@@ -63,4 +63,5 @@ Route::controller(RegisterController::class)->group(function () {
 Route::controller(ProjectController::class)->group(function () {
     Route::get('/project/new' , 'create')->name('show_new');
     Route::post('/project/new', 'store')->name('action_new');
+    Route::delete('/project/{projectId}', 'destroy')->where('projectId', '[0-9]+')->name('delete_project');
 });
