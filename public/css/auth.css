@@ -1,9 +1,9 @@
 :root{
-    --register-color: #698996;
+    --register-color: var(--on-third-bg-color);
     --register-secondary-color: #BFDFFB;
     --login-color: var(--onprimary-bg-color);
     --login-secondary-color: #CCFFCC ;
-    --register-input-color: #69899613;
+    --register-input-color: var(--input-secondary-bg-color);
 }
 .authentication{
     width: 100%;

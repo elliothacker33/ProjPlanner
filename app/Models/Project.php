@@ -17,11 +17,10 @@ class Project extends Model
         'title',
         'description',
         'deadline',
+        'user_id',
     ];
 
     protected $hidden = ['tsvectors'];
-
-
 
     public function users(): BelongsToMany {
         return $this->belongsToMany(User::class);

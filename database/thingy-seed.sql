@@ -44,11 +44,11 @@ CREATE TABLE lbaw2353.users(
 --0 CHECK IMAGE
 CREATE TABLE lbaw2353.projects (
     id SERIAL PRIMARY KEY,
-    title VARCHAR(20) NOT NULL,
+    title VARCHAR(100) NOT NULL,
     description TEXT,
     is_archived BOOLEAN DEFAULT FALSE,
     creation TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
-    deadline TIMESTAMP WITH TIME ZONE NOT NULL CHECK (creation < deadline),
+    deadline TIMESTAMP WITH TIME ZONE CHECK (deadline IS NULL OR (creation < deadline)),
     user_id INTEGER REFERENCES lbaw2353.users(id) ON UPDATE CASCADE ON DELETE CASCADE NOT NULL
 );
 --1 

@@ -50,8 +50,14 @@ class User extends Authenticatable
         'is_admin' => 'boolean',
     ];
 
+    protected $attributes = [
+        'is_admin' => false,
+    ];
+
     public function projects(): BelongsToMany {
         return $this->belongsToMany(Project::class);
+    }
+
     }
     public function assign(): BelongsToMany {
         return $this->belongsToMany(Task::class);
