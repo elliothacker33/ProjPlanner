@@ -30,7 +30,7 @@
             <section class="userContainer">
             @foreach($users as $user)
                 <div class="user"> 
-                    <section class="name"> {!! $user->name !!} </section>
+                    <a href="/user-profile/{!! $user->id !!}"><section class="name"> {!! $user->name !!} </section></a>
                     <section class="email"> {!! $user->email !!} </section>
                     @if($user->is_admin)    
                         <section class="role"> Admin </section>
