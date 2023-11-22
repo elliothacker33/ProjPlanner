@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -27,6 +28,15 @@ Route::redirect("/","/landing");
 //Static Pages
 Route::get('{page}', [StaticController::class, 'show'])->whereIn('page', StaticController::STATIC_PAGES)->name('static');
 
+
+
+Route::prefix('/project/{projectId}')->group(function (){
+    Route::prefix('/task')->controller(TaskController::class)->group(function (){
+        Route::get('/{id}', 'show')->where('id','[0-9]+');
+        Route::get('/new', 'create');
+        Route::post('/new', 'store')->name('newTask');
+    });
+});
 // Authentication
 Route::controller(LoginController::class)->group(function () {
     Route::get('/login', 'showLoginForm')->name('login');
@@ -50,4 +60,9 @@ Route::controller(ProfileController::class)->group(function () {
 Route::controller(HomeController::class)->group(function () {
     Route::get('/homepage/{usrId}','showHome')->name('home');
     Route::get('/landing', 'showLanding')->name('landing');
+});
+Route::controller(ProjectController::class)->group(function () {
+    Route::get('/project/new' , 'create')->name('show_new');
+    Route::post('/project/new', 'store')->name('action_new');
+    Route::delete('/project/{projectId}', 'destroy')->where('projectId', '[0-9]+')->name('delete_project');
 });
