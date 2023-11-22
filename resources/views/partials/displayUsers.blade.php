@@ -8,7 +8,7 @@
         @else
             <section class="role"> User </section>
         @endif
-        <section class="change"> <a href="/admin/users/{!! $user->id !!}/edit"><button> Edit </button></a> </section>
+        <section class="change"> <a href="/user-profile/{!! $user->id !!}/edit"><button> Edit </button></a> </section>
         <section class="change"> <a href="/admin/users/{!! $user->id !!}/delete"><button> Delete </button></a>  </section>
     </div>
 @endforeach

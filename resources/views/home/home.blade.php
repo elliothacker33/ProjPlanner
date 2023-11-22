@@ -17,6 +17,7 @@
 </header>
 
 <section class="projects">
+
     @if (!isset($projects))
         <div class="project" style="text-align: center"> <h2>You have no projects for now</h2> </div>
     @else
@@ -28,6 +29,7 @@
             </div>
         @endforeach
     @endif
+
 </section>
 
 @endsection

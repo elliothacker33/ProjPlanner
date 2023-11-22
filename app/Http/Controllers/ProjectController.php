@@ -101,7 +101,7 @@ class ProjectController extends Controller
 
     {
         $project = Project::find($projectId);
-        $this->authorize('update',[Project::class,$project]);
+        $this->authorize('update',[Project::class,$project->id]);
         $user = User::where('email', $request->email)->first();
         if(!$user)return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
@@ -161,7 +161,7 @@ class ProjectController extends Controller
 
         $projects = Project::all();
 
-        return redirect()->route('home', ['projects' => $projects]);
+        return redirect()->route('home', ['projects' => $projects,'usrId'=>Auth::id()]);
         // TODO: redirect to "My projects page"
         // return redirect()->route('my_projects');
     }

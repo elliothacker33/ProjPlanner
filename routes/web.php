@@ -40,8 +40,8 @@ Route::controller(UserController::class)->group(function(){
 Route::controller(AdminController::class)->group(function () {
     Route::redirect('/admin', '/admin/users')->name('admin');
     Route::get('/admin/users', 'show')->name('admin_users');
-    Route::get('/admin/users/create', 'create')->name('admin_user_create');
-    Route::post('/admin/users/create', 'store');
+    Route::get('/admin/users/create', 'create');
+    Route::post('/admin/users/create', 'store')->name('admin_user_create');
 });
 
 Route::controller(TaskController::class)->group(function(){
@@ -53,7 +53,7 @@ Route::prefix('/project/{projectId}')->group(function (){
     Route::post('team/add',[ProjectController::class,'add_user'])->name('addUser');
     Route::prefix('/task')->controller(TaskController::class)->group(function (){
         Route::get('/{id}', 'show')->where('id','[0-9]+')->name('task');
-        Route::get('/new', 'create');
+        Route::get('/new', 'create')->name('createTask');
         Route::post('/new', 'store')->name('newTask');
     });
 });

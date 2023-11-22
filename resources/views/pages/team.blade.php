@@ -1,4 +1,4 @@
-@extends('layouts.project')
+@extends('layouts.app')
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/team.css') }}">
 @endpush

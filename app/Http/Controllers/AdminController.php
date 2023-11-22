@@ -31,7 +31,7 @@ class AdminController extends Controller
 
     public function store(Request $request){
 
-        $this->authorize('create');
+        $this->authorize('create_admin',[User::class]);
         
         $rules = [
             'name' => 'required|string|max:20',
