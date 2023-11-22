@@ -7,7 +7,7 @@
 .admin-content {
     width: 100%;
     margin: 0 auto;
-    padding: 2em;
+
     background-color: var(--primary-bg-color);
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -29,9 +29,10 @@
     width: 80em;
     border: 1px solid var(--onsecondary-bg-color);
     border-radius: 8px;
-    padding: 2em;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     background-color: var(--onsecondary-bg-color);
+    overflow-y: auto;
+
 }
 
 .user, .admin-users header{
@@ -48,6 +49,12 @@
     padding: 1em;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: left;
+
+}
+
+.userContainer{
+    overflow-y: auto;
+    max-height: 60vh;
 }
 
 .admin-users .name {
@@ -86,3 +93,4 @@
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+

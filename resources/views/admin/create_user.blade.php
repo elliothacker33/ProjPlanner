@@ -48,7 +48,7 @@
                 </span>
             @endif
 
-            <select id="is_admin" name="is_admin"> 
+            <select class="is_admin" name="is_admin">
                 <option value="1">Admin</option>
                 <option value="0" selected>User</option>
             </select>

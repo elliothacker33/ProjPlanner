@@ -68,7 +68,7 @@
 .authentication .formContainer form *{
     margin: auto;
 }
-.authentication .formContainer form input{
+.authentication .formContainer form input, .formContainer form select{
 
     outline: none;
     border: none;
@@ -77,10 +77,13 @@
     font-size: 1em;
     max-width: 30em;
 }
+.formContainer form select{
+    padding: 0 1.5em ;
+}
 .login .formContainer form input{
     background-color: var(--input-bg-color);
 }
-.register .formContainer form input{
+.register .formContainer form input, .register .formContainer form select{
     background-color: var(--register-input-color);
 }
 
@@ -105,7 +108,9 @@
  background: var(--onsecondary-bg-color);
 }
 
-
+select.is_admin{
+    padding: 0;
+}
 
 .authentication .container h2, .authentication .container p{
     text-align: center;
@@ -127,6 +132,7 @@
     background: var(--onsecondary-bg-color);
     color: var(--secondary-text-color);
 }
+
 
 @media (max-width: 70em) {
     .authentication .container, .authentication .formContainer{
@@ -154,8 +160,6 @@
         margin: 0 auto;
     }
 
-    select {
-        width: 30em;
-    }
+
 
 }

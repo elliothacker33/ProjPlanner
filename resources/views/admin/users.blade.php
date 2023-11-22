@@ -27,7 +27,7 @@
                 <section class="change">Edit</section>
                 <section class="change">Delete</section>
             </header>
-            
+            <section class="userContainer">
             @foreach($users as $user)
                 <div class="user"> 
                     <section class="name"> {!! $user->name !!} </section>
@@ -41,6 +41,7 @@
                     <section class="change"> <a href="/admin/users/{!! $user->id !!}/delete"><button> Delete </button></a>  </section>
                 </div>
             @endforeach
+            </section>
         </div>
 
 
