@@ -47,6 +47,9 @@
                         @endforeach
                     </ul>
                 </section>
+                <section class="taskCreator">
+                    <span>Creator: {{$creator->name}}</span>
+                </section>
             </section>
         </section>
     </section>
