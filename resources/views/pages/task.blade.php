@@ -29,8 +29,8 @@
             </section>
             <section class="sideContainer">
                 <section class="deadlineContainer" >
-                    <span>DeadLine:
-                        @if($task->deadline) {{$task->deadline}}
+                    <span>Deadline:
+                        @if($task->deadline) {{ date('d-m-Y', strtotime($task->deadline)) }}
                         @else There is no deadline
                         @endif
                     </span>

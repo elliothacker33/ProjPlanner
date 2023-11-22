@@ -32,14 +32,12 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        // Validate input
         $validated = $request->validate([
             'title' => 'required|string|min:5|max:100|',
             'description' => 'required|string|min:10|max:1024',
             'deadline' => 'nullable|date|after_or_equal:' . date('d-m-Y'),
         ]);
 
-        // Add Policy thing
         $this->authorize('create', Project::class);
 
         $project = new Project();
@@ -81,17 +79,35 @@ class ProjectController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Project $project)
-    {
-        //
+    public function edit(Project $projectId)
+    {   
+        if ($projectId == null)
+            return abort(404);
+
+        $this->authorize('update', [Project::class, $projectId]);
+
+        return view('pages.editProject', ['project'=>$projectId]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Project $project)
+    public function update(Request $request, Project $projectId)
     {
-        //
+        $validated = $request->validate([
+            'title' => 'required|string|min:5|max:100|',
+            'description' => 'required|string|min:10|max:1024',
+            'deadline' => 'nullable|date|after_or_equal:' . date('d-m-Y'),
+        ]);
+
+        $this->authorize('update', [Project::class, $projectId]);
+
+        $projectId->title = $validated['title'];
+        $projectId->description = $validated['description'];
+        $projectId->deadline = isset($validated['deadline']) ? $validated['deadline'] : null;
+        $projectId->save();
+
+        return redirect()->route('project', ['projectId' => $projectId->id]);
     }
 
     /**

@@ -10,12 +10,17 @@
     <section class="projectCreation">
         <section class="formContainer">
             <header class="tasks">
-                <h2>Create a <span class="shine">Project</span></h2>
+                <h2>Edit your <span class="shine">Project</span></h2>
             </header>
-            <form method="POST">
+            <form action="{{ route('action_edit_project', ['projectId' => $project->id]) }}" method="POST">
                 @csrf
+                @method('PUT')
                 <section class="primaryContainer">
-                    <input type="text" name="title" placeholder="Project's Title" value="{{ old('title') }}" required>
+                    @if (old('title') == null && !$errors->has('title'))
+                        <input type="text" name="title" placeholder="Project's Title" value="{{ $project->title }}" required>
+                    @else
+                        <input type="text" name="title" placeholder="Project's Title" value="{{ old('title') }}" required>
+                    @endif
 
                     @if ($errors->has('title'))
                         <span class="error">
@@ -23,10 +28,10 @@
                         </span>
                     @endif
 
-                    @if (old('description') != null)
-                        <textarea name="description" placeholder="Project's Description">{{ old('description') }}</textarea>
+                    @if (old('description') == null && !$errors->has('description'))
+                        <textarea name="description" placeholder="Project's Description">{{ $project->description }}</textarea>
                     @else
-                        <textarea name="description" placeholder="Project's Description"></textarea>
+                        <textarea name="description" placeholder="Project's Description">{{ old('description') }}</textarea>
                     @endif
 
                     @if ($errors->has('description'))
@@ -38,7 +43,11 @@
                     <label for="deadline">
                         Deadline
                     </label>
-                    <input type="date" name="deadline" id="deadline" value = "{{ old('deadline') }}">
+                    @if (old('deadline') == null && !$errors->has('deadline'))
+                        <input type="date" name="deadline" id="deadline" value = "{{ date('Y-m-d', strtotime($project->deadline)) }}">
+                    @else
+                        <input type="date" name="deadline" id="deadline" value = "{{ old('deadline') }}">
+                    @endif
 
                     @if ($errors->has('deadline'))
                         <span class="error">
@@ -48,7 +57,7 @@
 
                     <section class="buttons">
                         <button type="submit">
-                            Create
+                            Submit
                         </button>
                         <a href="{{ URL::previous() }}">
                             Cancel

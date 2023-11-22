@@ -36,7 +36,7 @@ class TaskPolicy
     {
         $users = $project->users()->get()->toArray();
 
-        return (!$user->isAdmin) and (in_array($user, $users));
+        return true;
     }
 
     /**

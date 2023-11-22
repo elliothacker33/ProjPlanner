@@ -12,7 +12,7 @@
             <header class="tasks">
                 <h2>Create a <span class="shine">Project</span></h2>
             </header>
-            <form method="POST">
+            <form action="{{ route('show_new') }}" method="POST">
                 @csrf
                 <section class="primaryContainer">
                     <input type="text" name="title" placeholder="Project's Title" value="{{ old('title') }}" required>
