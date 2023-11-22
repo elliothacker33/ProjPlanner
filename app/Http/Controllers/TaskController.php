@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Project;
 use App\Models\Task;
 use App\Models\User;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -21,12 +22,13 @@ class TaskController extends Controller
 
     /**
      * Show the form for creating a new resource.
+     * @throws AuthorizationException
      */
     public function create(Request $request, int $projectId)
     {
 
         $project = Project::find($projectId);
-        $this->authorize('create', $project);
+        $this->authorize('create', [Task::class,  $project]);
         $res = DB::table('project_tag')
             ->join('tags', 'tags.id', '=', 'project_tag.tag_id')
             ->where('project_tag.project_id','=',$projectId)->get();
@@ -35,12 +37,13 @@ class TaskController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     * @throws AuthorizationException
      */
     public function store(Request $request, int $projectId)
     {
         // Validate input
         $project = Project::find($projectId);
-        $this->authorize('create', $project);
+        $this->authorize('create', [Task::class,  $project]);
         $validated = $request->validate([
             'title' => 'required|string|min:5|max:100|',
             'description' => 'required|string|min:10|max:1024',
