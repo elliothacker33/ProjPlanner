@@ -50,11 +50,7 @@ class User extends Authenticatable
         'password' => 'hashed',
         'is_admin' => 'boolean',
     ];
-
-    protected $attributes = [
-        'is_admin' => false,
-    ];
-
+    
     public function projects(): BelongsToMany
     {
         return $this->belongsToMany(Project::class);

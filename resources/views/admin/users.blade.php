@@ -32,7 +32,7 @@
                 <div class="user"> 
                     <section class="name"> {!! $user->name !!} </section>
                     <section class="email"> {!! $user->email !!} </section>
-                    @if($user->is_admin)
+                    @if($user->is_admin)    
                         <section class="role"> Admin </section>
                     @else 
                         <section class="role"> User </section>  

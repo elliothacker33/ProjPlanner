@@ -48,7 +48,15 @@
                 </span>
             @endif
 
-            <label for="is_admin"> <input id="is_admin" type="checkbox" name="is_admin" value="1"> Admin</label>
+            <select id="is_admin" name="is_admin"> 
+                <option value="true">Admin</option>
+                <option value="false" selected>User</option>
+            </select>
+            @if($errors->has('is_admin'))
+                <span class="error">
+                    {{ $errors->first('is_admin') }}
+                </span>
+            @endif
 
             <button type="submit">
                 Create
