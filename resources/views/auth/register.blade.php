@@ -2,7 +2,8 @@
 @push('styles')
 
     <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
-@endpush
+@endpush    <link href="{{ asset('css/admin/create_users.css') }}" rel="stylesheet">
+
 
 @section('content')
     <section class="authentication register">

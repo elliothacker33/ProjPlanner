@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\StaticController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,8 +25,17 @@ Route::redirect('/', '/home')->name('home');
 
 Route::get('{page}', [StaticController::class, 'show'])->whereIn('page', StaticController::STATIC_PAGES)->name('static');
 
-#TODO eliminate this route in future
-Route::view('/admin', 'admin.admin_users');
+// Admin
+Route::controller(AdminController::class)->group(function () {
+
+    //Route::get('/admin', 'showAdmin')->name('admin');
+    Route::redirect('/admin', '/admin/users')->name('admin');
+    Route::get('/admin/users', 'showAdminUsers')->name('admin_users');
+    Route::get('/admin/users/{id}/edit', 'showAdminUserEdit')->name('admin_user_edit');
+    //Route::get('/admin/users/{id}/delete', 'adminUserDelete')->name('admin_user_delete');
+    Route::get('/admin/users/create', 'showAdminUserCreate')->name('admin_user_create');
+    Route::post('/admin/users/create', 'adminUserCreate');
+});
 
 // Authentication
 Route::controller(LoginController::class)->group(function () {

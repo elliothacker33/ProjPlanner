@@ -30,7 +30,7 @@
 <body>
     <header>
         <section>
-            <h1>ProjPlanner</h1>
+            <a href="{{ route('home') }}"><h1>ProjPlanner</h1></a>
             @if (Auth::check())
                 <a class="user_icon" href="{{ route('logout') }}"> Logout </a> <span>{{ Auth::user()->name }}</span>
             @else

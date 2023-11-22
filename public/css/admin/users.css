@@ -80,7 +80,7 @@
 }
 
 .admin-content input {
-    width: 50em;
+    width: 60em;
     padding: 0.5em;
     border: 1px solid var(--onsecondary-bg-color);
     border-radius: 8px;

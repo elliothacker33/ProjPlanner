@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @push('styles')
-    <link href="{{ asset('css/admin/admin_users.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/admin/users.css') }}" rel="stylesheet">
 @endpush
 
 @push('scripts')
@@ -13,9 +13,9 @@
 
         <h2 class="shine"> Admin Page </h2>
 
-        <div>
+        <div> 
             <input type="search" placeholder="Search" aria-label="Search" />
-            <button data-mdb-ripple-init>search</button>
+            <a href="{{ route('admin_user_create') }}"> <button data-mdb-ripple-init> Add a User </button> </a>
         </div>
 
         <div class="admin-users">
@@ -29,8 +29,9 @@
             </header>
 
             @php
-                use App\Models\User;
 
+                
+                use App\Models\User;
                 $users = User::all();
 
                 foreach($users as $user) {
