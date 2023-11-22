@@ -14,7 +14,6 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
 
 use App\Http\Controllers\ProjectController;
-use SebastianBergmann\CodeCoverage\Report\Xml\Project;
 
 /*
 |--------------------------------------------------------------------------
@@ -88,4 +87,6 @@ Route::controller(ProjectController::class)->group(function () {
     Route::post('/project/new', 'store')->name('action_new');
     Route::delete('/project/{projectId}', 'destroy')->where('projectId', '[0-9]+')->name('delete_project');
     Route::get('/project/{projectId}/tasks', 'showTasks')->where('projectId', '[0-9]+')->name('show_tasks');
+    Route::get('/project/{projectId}/edit', 'edit')->whereNumber('projectId')->name('show_edit_project');
+    Route::put('/project/{projectId}/edit', 'update')->whereNumber('projectId')->name('action_edit_project');
 });

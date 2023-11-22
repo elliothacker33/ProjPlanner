@@ -59,8 +59,8 @@ CREATE TABLE lbaw2353.tags(
 -- 0 starttime default?
 CREATE TABLE lbaw2353.tasks (
     id SERIAL PRIMARY KEY,
-    title VARCHAR(20) NOT NULL,
-    description VARCHAR(100),
+    title VARCHAR(50) NOT NULL,
+    description VARCHAR(1024),
     status lbaw2353.task_status NOT NULL DEFAULT 'open',
     starttime TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
     endtime TIMESTAMP WITH TIME ZONE ,
