@@ -69,7 +69,7 @@ class ProfileController extends Controller
             $user->password = Hash::make($request->newp);
         }
         $user->save();
-        return redirect()->route('show_profile', ['usrId' => $usrId]);
+        return redirect()->route('profile', ['usrId' => $usrId]);
 
     }
     
