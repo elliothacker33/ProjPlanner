@@ -1,14 +1,14 @@
 .shine{
-    color:var(--onsecondaty-bg-color);
+    color:var(--onprimary-bg-color);
     font-weight: 500;
+    margin-bottom: 1em;
 }
 
 .admin-content {
-    max-width: 90em;
     width: 100%;
-    margin: 5rem auto;
+    margin: 0 auto;
     padding: 2em;
-    background-color: var(--onthird-bg-color);
+    background-color: var(--primary-bg-color);
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     font-size: 2rem;
@@ -31,6 +31,11 @@
     border-radius: 8px;
     padding: 2em;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: var(--onsecondary-bg-color);
+}
+
+.user, .admin-users header{
+    background-color: var(--primary-bg-color);
 }
 
 .admin-users div, .admin-users header {
@@ -54,7 +59,30 @@
     width: 30em;
 }
 
-.admin-users .change {
+.admin-users .role {
+    width: 10em;
+    align-self: left;
+}
+
+.admin-users .delete {
     width: 10em;
     align-self: end;
+}
+
+.admin-users .change{
+    width: 10em;
+    align-self: end;
+    text-align: center;
+}
+
+.admin-users section {
+    color: var(--primary-text-color);
+}
+
+.admin-content input {
+    width: 50em;
+    padding: 0.5em;
+    border: 1px solid var(--onsecondary-bg-color);
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }

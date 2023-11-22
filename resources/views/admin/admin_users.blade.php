@@ -13,24 +13,45 @@
 
         <h2 class="shine"> Admin Page </h2>
 
+        <div>
+            <input type="search" placeholder="Search" aria-label="Search" />
+            <button data-mdb-ripple-init>search</button>
+        </div>
+
         <div class="admin-users">
+
             <header> 
                 <section class="name">Users</section> 
                 <section class="email">Email</section>
-                <section class="change">Edit Delete</section>
+                <section class="role">Role</section>
+                <section class="change">Edit</section>
+                <section class="change">Delete</section>
             </header>
+
             @php
                 use App\Models\User;
+
                 $users = User::all();
 
                 foreach($users as $user) {
-
             @endphp
-                <div> 
-                    <section class="name"> {!! $user->name !!} </section>
-                    <section class="email"> {!! $user->email !!} </section>
-                    <section class="change"> <a href="/admin/users/{!! $user->id !!}/edit"> Edit </a>  <a href="/admin/users/{!! $user->id !!}/delete"> Delete </a>  </section>
-                </div>
+                    <div class="user"> 
+                        <section class="name"> {!! $user->name !!} </section>
+                        <section class="email"> {!! $user->email !!} </section>
+            @php
+                    if($user->is_admin) {
+            @endphp
+                        <section class="role"> Admin </section>
+            @php
+                    } else {
+            @endphp
+                        <section class="role"> User </section>  
+            @php 
+                    }
+            @endphp
+                        <section class="change"> <a href="/admin/users/{!! $user->id !!}/edit"><button> Edit </button></a> </section>         
+                        <section class="change"> <a href="/admin/users/{!! $user->id !!}/delete"><button> Delete </button></a>  </section>
+                    </div>
             @php
                 }
 
