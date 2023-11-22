@@ -24,12 +24,21 @@ class ProfileController extends Controller
     }
     public function showEditProfile($usrId) : View
     {
+        $user = User::find($usrId);
+
+        if (!$user) {
+            abort(404, 'User profile page not found.');
+        }
+
+        $this->authorize('update', $user);
+
         return view('profile_pages.edit-profile',['usrId'=>$usrId]);
     }
 
     
     public function updateProfile(Request $request, $usrId)
     {
+
         $rules = [
             'name' => 'required|string|max:20',
             'email' => [
@@ -57,6 +66,8 @@ class ProfileController extends Controller
         }
     
         $user = User::find($usrId);
+
+        $this->authorize('update', $user);
     
         $user->name = $request->name;
         $user->email = $request->email;
