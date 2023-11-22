@@ -66,7 +66,6 @@ class TaskController extends Controller
         if($validated['users']) DB::insert('insert into task_user (user_id, task_id) values (?, ?)', [$validated['users'], $task->id]);
 
         return redirect()->route('task',['projectId'=>$projectId,'id'=>$task->id]);
-
     }
 
     /**
