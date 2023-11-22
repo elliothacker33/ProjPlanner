@@ -247,3 +247,7 @@ input[type=password]:focus {
 #header_title {
     margin-right: auto;
 }
+
+#header_title > a {
+    color: inherit
+}

@@ -30,7 +30,12 @@
 <body>
     <header>
         <section>
-            <h1 id="header_title">ProjPlanner</h1>
+            @if (Auth::check())
+                <h1 id="header_title"><a href="{{ route('home', ['usrId' => Auth::id()]) }}" >ProjPlanner</a></h1>
+            @else
+                <h1 id="header_title"><a href="{{ route('landing') }}">ProjPlanner</a></h1>
+            @endif
+
             @if (Auth::check())
                 <a id="logout" href="{{ route('logout') }}">Logout</a>
                 <a class="user_icon" href="{{ route('profile', ['usrId' => Auth::id()]) }}"> 
