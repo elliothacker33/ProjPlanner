@@ -12,6 +12,9 @@ class Project extends Model
     use HasFactory;
 
     public $timestamps = false;
+    protected $casts = [
+        'deadline' => 'datetime', 
+    ];
 
     protected $fillable = [
         'title',

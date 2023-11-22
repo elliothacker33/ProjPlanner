@@ -37,7 +37,7 @@ class LoginController extends Controller
         if (Auth::attempt($credentials, $request->filled('remember'))) {
             $request->session()->regenerate();
             $usrId = Auth::id();
-            return redirect()->route('profile', ['usrId'=> $usrId]);
+            return redirect()->route('home', ['usrId'=> $usrId]);
         }
  
         return back()->withErrors([
@@ -53,7 +53,7 @@ class LoginController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect()->route('home')
+        return redirect()->route('landing')
             ->withSuccess('You have logged out successfully!');
     } 
 }
