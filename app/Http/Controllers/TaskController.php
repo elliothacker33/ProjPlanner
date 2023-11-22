@@ -87,6 +87,7 @@ class TaskController extends Controller
         $users = $task->assigned;
 
         $tags = DB::table('tag_task')
+            ->join('tags','tag_task.tag_id','=','tags.id')
             ->where('task_id','=',$taskId)->get();
         return view('pages.task',['task'=>$task, 'assign'=>$users,'tags'=>$tags]);
     }
