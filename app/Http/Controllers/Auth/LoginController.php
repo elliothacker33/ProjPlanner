@@ -24,7 +24,7 @@ class LoginController extends Controller
     /**
      * Handle an authentication attempt.
      */
-    public function authenticate(Request $request): RedirectResponse
+    public function authenticate(Request $request)
     {
         $credentials = $request->validate([
             'email' => ['required', 'email'],
@@ -33,8 +33,8 @@ class LoginController extends Controller
  
         if (Auth::attempt($credentials, $request->filled('remember'))) {
             $request->session()->regenerate();
- 
-            return redirect()->intended('/cards');
+            $usrId = Auth::id();
+            return redirect()->route('profile', ['usrId'=> $usrId]);
         }
  
         return back()->withErrors([

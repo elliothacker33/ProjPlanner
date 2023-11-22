@@ -9,7 +9,7 @@
         <h1> Edit Profile</h1>
     </header>
     <figure>
-        <img src="{{ asset('img/team-avatars/4.jpeg') }}" alt="Default Image">
+        <img src="{{ asset('img/default-profile-photo.jpg') }}" alt="Default Image">
     </figure>
     <form method="POST" action="{{ route('update_profile', ['usrId' => $usrId])}}">
         @csrf()

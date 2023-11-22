@@ -27,21 +27,22 @@ class ProfileController extends Controller
         return view('profile_pages.edit-profile',['usrId'=>$usrId]);
     }
 
+    
     public function updateProfile(Request $request, $usrId)
-    {   
+    {
         $rules = [
             'name' => 'required|string|max:20',
             'email' => [
                 'required',
                 'email',
                 'max:100',
-                'unique:users'
+                'unique:users,email,' . $usrId, 
             ],
-            'oldp' => 'required_with:newp|min:8', 
-            'newp' => 'nullable|min:8|max:255|confirmed',
+            'oldp' => 'required_with:newp|min:8',
+            'newp' => 'min:8|max:255',
         ];
     
-        $custom_errors = [
+        $customErrors = [
             'name.max' => 'The name must not exceed 20 characters.',
             'email.email' => 'Please enter a valid email address.',
             'email.unique' => 'The email address is already in use.',
@@ -49,7 +50,7 @@ class ProfileController extends Controller
             'newp.confirmed' => 'The new password confirmation does not match.',
         ];
     
-        $validator = Validator::make($request->all(), $rules, $custom_errors);
+        $validator = Validator::make($request->all(), $rules, $customErrors);
     
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -57,19 +58,19 @@ class ProfileController extends Controller
     
         $user = User::find($usrId);
     
-        if (!$user) {
-            return redirect()->back()->with('error', 'User not found');
-        }
-    
         $user->name = $request->name;
         $user->email = $request->email;
     
-        if ($request->has('newp')) {
+        if ($request->filled('newp')) {
+            if (!Hash::check($request->oldp, $user->password)) {
+                return redirect()->back()->with('error', 'The old password is incorrect');
+            }
+    
             $user->password = Hash::make($request->newp);
         }
-    
         $user->save();
-    
-        return redirect()->back();
+        return redirect()->route('show_profile', ['usrId' => $usrId]);
+
     }
+    
 }

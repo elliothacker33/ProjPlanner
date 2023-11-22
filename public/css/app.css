@@ -217,9 +217,7 @@ a.button.button-outline {
     color: var(--onsecondary-bg-color);
 }
 
-a {
-    color: var(--onsecondary-bg-color);
-}
+
 
 input[type=text]:focus,
 input[type=email]:focus,

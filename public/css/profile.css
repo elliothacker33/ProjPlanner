@@ -79,35 +79,37 @@ body>main>section>header>h1{
     display: flex;
     justify-content: center;
     align-items: center;
-    gap:1em;
+    gap:2em;
 }
-.actions>button{
-    border:none;
-    
-}
-.actions>button:nth-child(1){
+
+.actions>div:nth-child(1){
+    color: white;
     display: flex;
     justify-content: center;
     align-items: center;
     background-color: var(--error-text-color);
+    padding: 0 1% 0 1%;
 }
-.actions>button:nth-child(2){
+.actions>div:nth-child(2){
+    color: white;
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 2px white solid;
+    padding: 0 1% 0 1%;
+    border: white solid 2px;
 }
-.actions>button>p{
-    
+
+.actions>div>a{
+    color:inherit;
     margin: 0;
     font-size: 1.5em;
 }
-.actions>button:nth-child(2):hover{
+.actions>div:nth-child(2):hover{
     border: 2px #2C3E50 solid;
     background-color: white;
-    color:#2C3E50;
+    color: #2C3E50;
 }
-.actions>button:nth-child(1):hover{
+.actions>div:nth-child(1):hover{
     border: 2px var(--error-text-color) solid;
     background-color: white;
     color:var(--error-text-color);
@@ -168,40 +170,26 @@ body>main>section>header>h1{
     .actions{
         display: flex;
         justify-content: center;
-        flex-direction: column;
-        align-items: center;
-        gap:1em;
+        align-items: baseline;
+        gap:2em;
+        border: red solid 10px;
     }
-    .actions>button{
-        border:none;
-        
-    }
-    .actions>button:nth-child(1){
+    .actions>div{
         display: flex;
         justify-content: center;
         align-items: center;
+        border: red solid 10px;
+    }
+    .actions>div:nth-child(1){
         background-color: var(--error-text-color);
     }
-    .actions>button:nth-child(2){
-        display: flex;
-        justify-content: center;
-        align-items: center;
+    .actions>div:nth-child(2){
+        color:white;
         border: 2px white solid;
     }
-    .actions>button>p{
-        
-        margin: 0;
-        font-size: 1em;
+    .actions>div:nth-child(1)>a{
+        color: red;
     }
-    .actions>button:nth-child(2):hover{
-        border: 2px #2C3E50 solid;
-        background-color: white;
-        color:#2C3E50;
-    }
-    .actions>button:nth-child(1):hover{
-        border: 2px var(--error-text-color) solid;
-        background-color: white;
-        color:var(--error-text-color);
-    }
+ 
  
 }
