@@ -53,7 +53,6 @@ class ProjectController extends Controller
 
         return redirect()->route('project', ['projectId' => $project->id]);
     }
-
     /**
      * Display the specified resource.
      */

@@ -50,7 +50,12 @@
             <span class="completion">Completed Tasks {{$completedTasks}}/{{$allTasks}}</span>
         </section>
         <section class="deadlineContainer" >
-            <span>DeadLine: {{$project->deadline}}</span>
+            <span>DeadLine:
+                @if($project->deadline) {{$project->deadline}}
+                @else There is no deadline
+                @endif
+
+            </span>
         </section>
         <section class="teamContainer">
             <h5>Team: </h5>

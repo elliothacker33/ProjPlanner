@@ -44,7 +44,8 @@ a {
 .icon {
     max-width: 100%;
     max-height: 100%;
-
+    margin: auto;
+    display: block;
 }
 
 .user_icon {
@@ -95,15 +96,15 @@ body > header section {
     width: 100%;
     position: relative;
     display: flex;
-    justify-content: space-between;
+    /*justify-content: space-between;*/
     align-content: center;
     align-items: center;
 
 }
 
 
-body > header section h1 .icon {
-    height: 1.8em;
+.icon {
+    height: 3em;
 }
 
 body > header nav ul, body >footer ul, body >footer h6 {
@@ -145,12 +146,7 @@ body > header nav ul *:hover, body >footer ul *:hover {
     font-weight: normal;
 }
 
-#content > form {
-    margin: 0 auto;
-    padding: 1em;
-    max-width: 20em;
-    border: 1px solid var(--onsecondary-bg-color);
-}
+
 
 .error {
     font-weight: bold;
@@ -224,9 +220,7 @@ a.button.button-outline {
     color: var(--onsecondary-bg-color);
 }
 
-a {
-    color: var(--onsecondary-bg-color);
-}
+
 
 input[type=text]:focus,
 input[type=email]:focus,
@@ -239,6 +233,17 @@ input[type=password]:focus {
   object-fit: cover;
 }
 
+
 .hidden-form {
     display: none;
+}
+
+#logout {
+    color: white;
+    margin-right: 1em;
+    margin-bottom: 0;
+}
+
+#header_title {
+    margin-right: auto;
 }

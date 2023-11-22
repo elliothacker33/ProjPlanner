@@ -83,16 +83,7 @@
     font-size: 1.2em;
     font-weight: bold;
 }
-/*
-.projectPage header a.edit{
-    padding: 0.2em 0.7em ;
-    background: var(--onsecondary-bg-color);
-    color: white;
-    border-radius: 0.3em;
-    margin-left: auto;
-    margin-right: 3em;
-}
-*/
+
 .project-action-button {
     margin-bottom: 0;
 }
@@ -138,5 +129,28 @@
     .project-action-button {
         min-width: 8em;
         justify-self: center;
+    }
+}
+
+@media (max-width: 74em) {
+
+    .projectPage .primaryContainer{
+
+        width: 100%;
+        max-width: 40em;
+        margin: auto;
+    }
+    .projectPage .sideContainer{
+
+        width: 100%;
+        max-width: 30em;
+        margin: auto;
+    }
+
+}
+@media (max-width: 40em) {
+
+    .projectPage {
+        padding: 1em;
     }
 }

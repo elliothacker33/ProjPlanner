@@ -6,7 +6,9 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\StaticController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
+use SebastianBergmann\CodeCoverage\Report\Xml\Project;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,10 +22,10 @@ use App\Http\Controllers\ProjectController;
 */
 // Home
 
-Route::get('', [HomeController::class,'show'])->name('home');
 
-Route::redirect('/', '/home')->name('home');
+Route::redirect("/","/landing");
 
+//Static Pages
 Route::get('{page}', [StaticController::class, 'show'])->whereIn('page', StaticController::STATIC_PAGES)->name('static');
 
 
@@ -48,7 +50,18 @@ Route::controller(RegisterController::class)->group(function () {
     Route::get('/register','showRegistrationForm')->name('register');
     Route::post('/register', 'register')->name('create_account');
 });
+// Profile
+Route::controller(ProfileController::class)->group(function () {
+    Route::get('/user-profile/{usrId}','showProfile')->name('profile');
+    Route::put('/user-profile/{usrId}/edit','updateProfile')->name('update_profile');
+    Route::get('/user-profile/{usrId}/edit','showEditProfile')->name('edit_profile');
 
+});
+
+Route::controller(HomeController::class)->group(function () {
+    Route::get('/homepage/{usrId}','showHome')->name('home');
+    Route::get('/landing', 'showLanding')->name('landing');
+});
 Route::controller(ProjectController::class)->group(function () {
     Route::get('/project/new' , 'create')->name('show_new');
     Route::post('/project/new', 'store')->name('action_new');
