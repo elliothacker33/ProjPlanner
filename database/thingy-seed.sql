@@ -715,9 +715,9 @@ INSERT INTO tags (title) VALUES ( 'hit');
 INSERT INTO tags (title) VALUES ( 'develop');
 INSERT INTO tags (title) VALUES ( 'cold');
 -- Inserting data into the 'tasks' table
-INSERT INTO tasks (title, description, status, starttime, endtime, deadline, opened_user_id, closed_user_id) VALUES ('speak', 'Issue close eye music others forward.', 'canceled', '2022-10-31', '2023-04-11', '2024-07-22', 18, 8);
-INSERT INTO tasks (title, description, status, starttime, endtime, deadline, opened_user_id, closed_user_id) VALUES ('race', 'See soon onto senior prepare fine.', 'canceled', '2023-08-24', '2023-05-23', '2024-06-10', 9, 17);
-INSERT INTO tasks (title, description, status, starttime, endtime, deadline, opened_user_id, closed_user_id) VALUES ('play', 'Three floor country prove bar management.', 'closed', '2023-04-03', '2022-12-11', '2024-07-14', 8, 4);
+INSERT INTO tasks (title, description, status, starttime, endtime, deadline, opened_user_id, closed_user_id) VALUES ('speak', 'Issue close eye music others forward.', 'open', '2022-10-31', '2023-04-11', '2024-07-22', 18, 8);
+INSERT INTO tasks (title, description, status, starttime, endtime, deadline, opened_user_id, closed_user_id) VALUES ('race', 'See soon onto senior prepare fine.', 'closed', '2023-08-24', '2023-05-23', '2024-06-10', 9, 17);
+INSERT INTO tasks (title, description, status, starttime, endtime, deadline, opened_user_id, closed_user_id) VALUES ('play', 'Three floor country prove bar management.', 'canceled', '2023-04-03', '2022-12-11', '2024-07-14', 8, 4);
 INSERT INTO tasks (title, description, status, starttime, endtime, deadline, opened_user_id, closed_user_id) VALUES ('sort', 'Fund make learn.', 'closed', '2022-12-19', '2023-05-25', '2023-12-10', 20, 2);
 INSERT INTO tasks (title, description, status, starttime, endtime, deadline, opened_user_id, closed_user_id) VALUES ('human', 'Contain each indicate blood wind while edge.', 'open', '2023-09-05', '2022-12-28', '2024-09-11', 2, 19);
 INSERT INTO tasks (title, description, status, starttime, endtime, deadline, opened_user_id, closed_user_id) VALUES ('watch', 'Event performance easy nation would.', 'canceled', '2023-06-23', '2023-01-28', '2024-08-19', 15, 10);
@@ -906,17 +906,17 @@ INSERT INTO project_user (user_id, project_id) VALUES (15, 10);
 INSERT INTO project_user (user_id, project_id) VALUES (7, 13);
 -- Inserting data into the 'project_task' table
 INSERT INTO project_task (task_id, project_id) VALUES (1, 1);
+INSERT INTO project_task (task_id, project_id) VALUES (2, 1);
+INSERT INTO project_task (task_id, project_id) VALUES (3, 1);
 INSERT INTO project_task (task_id, project_id) VALUES (6, 6);
 INSERT INTO project_task (task_id, project_id) VALUES (7, 11);
 INSERT INTO project_task (task_id, project_id) VALUES (8, 6);
 INSERT INTO project_task (task_id, project_id) VALUES (19, 14);
 INSERT INTO project_task (task_id, project_id) VALUES (14, 15);
 INSERT INTO project_task (task_id, project_id) VALUES (20, 13);
-INSERT INTO project_task (task_id, project_id) VALUES (2, 16);
 INSERT INTO project_task (task_id, project_id) VALUES (10, 2);
 INSERT INTO project_task (task_id, project_id) VALUES (13, 11);
 INSERT INTO project_task (task_id, project_id) VALUES (12, 13);
-INSERT INTO project_task (task_id, project_id) VALUES (3, 20);
 -- Inserting data into the 'project_tag' table
 INSERT INTO project_tag (tag_id, project_id) VALUES (1, 1);
 INSERT INTO project_tag (tag_id, project_id) VALUES (2, 12);

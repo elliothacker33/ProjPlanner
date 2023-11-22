@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ProjectController extends Controller
 {
@@ -62,7 +63,17 @@ class ProjectController extends Controller
     {
         $project=Project::find($projectId);
         $users = $project->users;
-        return view('pages.project',['project'=>$project, 'users'=>$users]);
+
+        $completed_task = DB::table('project_task')
+            ->join('tasks','project_task.task_id','=','tasks.id')
+            ->where('project_id','=',$projectId)
+            ->where('tasks.status','=','closed')->count();
+        $open_task = DB::table('project_task')
+            ->join('tasks','project_task.task_id','=','tasks.id')
+            ->where('project_id','=',$projectId)
+            ->where('tasks.status','=','open')->count();
+        $all_task = $completed_task + $open_task;
+        return view('pages.project',['project'=>$project, 'team'=>$users->slice(0,4),'allTasks'=>$all_task, 'completedTasks'=>$completed_task]);
     }
 
     /**

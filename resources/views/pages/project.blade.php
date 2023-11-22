@@ -9,60 +9,38 @@
 @section('content')
 <section class="projectPage">
     <header>
-        <h1 class="title">Dummy project title</h1>
+        <h1 class="title">{{$project->title}}</h1>
         @if($project->is_archived) <span class="status archive"> Archive </span>
         @else <span class="status open"> Open </span>
         @endif
         @can('edit',$project)
-            <select class="status">
-
-            </select>
+            <a class="edit">Edit</a>
         @endcan
+
     </header>
     <section class="container">
     <section class="primaryContainer">
 
         <section class="description">
-            <p>dvbfkjdbfjnhbgdfjgb dfj bgkdjfbgkdbg
-            fshd fjhsdjf hskjdhfksdhfksdhf kjshdfjksd
-            fsjhdfkshdfkjs hdkfhskdjh fkjsdhfjkshdfdvbfkjdbf jnhbgdfjgb dfj bgkdjfbgkdbg
-            fshd fjhsdjf hskjdhfksdhfksdhf kjshdfjksd
-            fsjhdfkshdfkjs hdkfhskdjh fkjsdhfjkshdfdvbf kjdbfjnhbgdfjgb dfj bgkdjfbgkdbg
-            fshd fjhsdjf hskjdhfksdhfksdhf kjshdfjksd
-            fsjhdfkshdfkjs hdkfhskdjh fkjsdhfjkshdf</p>
-            <p>dvbfkjdbfjnhbgdfjgb dfj bgkdjfbgkdbg
-                fshd fjhsdjf hskjdhfksdhfksdhf kjshdfjksd
-                fsjhdfkshdfkjs hdkfhskdjh fkjsdhfjkshdfdvbfkjdbf jnhbgdfjgb dfj bgkdjfbgkdbg
-                fshd fjhsdjf hskjdhfksdhfksdhf kjshdfjksd
-                fsjhdfkshdfkjs hdkfhskdjh fkjsdhfjkshdfdvbf kjdbfjnhbgdfjgb dfj bgkdjfbgkdbg
-                fshd fjhsdjf hskjdhfksdhfksdhf kjshdfjksd
-                fsjhdfkshdfkjs hdkfhskdjh fkjsdhfjkshdf</p>
-            <p>dvbfkjdbfjnhbgdfjgb dfj bgkdjfbgkdbg
-                fshd fjhsdjf hskjdhfksdhfksdhf kjshdfjksd
-                fsjhdfkshdfkjs hdkfhskdjh fkjsdhfjkshdfdvbfkjdbf jnhbgdfjgb dfj bgkdjfbgkdbg
-                fshd fjhsdjf hskjdhfksdhfksdhf kjshdfjksd
-                fsjhdfkshdfkjs hdkfhskdjh fkjsdhfjkshdfdvbf kjdbfjnhbgdfjgb dfj bgkdjfbgkdbg
-                fshd fjhsdjf hskjdhfksdhfksdhf kjshdfjksd
-                fsjhdfkshdfkjs hdkfhskdjh fkjsdhfjkshdf</p>
+            {{$project->description}}
         </section>
 
     </section>
     <section class="sideContainer">
         <section class="completionContainer">
-            <span class="completion">Completed Tasks 20/37</span>
+            <span class="completion">Completed Tasks {{$completedTasks}}/{{$allTasks}}</span>
         </section>
         <section class="deadlineContainer" >
-            <span>DeadLine: 20/9/2021</span>
+            <span>DeadLine: {{$project->deadline}}</span>
         </section>
         <section class="teamContainer">
             <h5>Team: </h5>
             <ul class="team">
-                <li>DanielDos Santos</li>
-                <li>Francisco Cardoso</li>
-                <li>ZeAntonioM</li>
-                <li>Tomas Pereira</li>
+                @foreach($team as $member)
+                    <li>{{$member->name}}</li>
+                @endforeach
             </ul>
-            <a>See all</a>
+            <a >See all</a>
         </section>
     </section>
     </section>
