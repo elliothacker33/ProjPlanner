@@ -238,3 +238,7 @@ input[type=password]:focus {
   border-radius: 50%;
   object-fit: cover;
 }
+
+.hidden-form {
+    display: none;
+}

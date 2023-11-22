@@ -51,9 +51,7 @@ class ProjectController extends Controller
 
         $project->users()->attach(Auth::user()->id);
 
-        return redirect()->route('home');
-        // TODO: use this when project page is done
-        // return redirect()->route('show_project', ['projectId' => $project->id]);
+        return redirect()->route('project', ['projectId' => $project->id]);
     }
 
     /**

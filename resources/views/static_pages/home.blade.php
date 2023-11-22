@@ -4,12 +4,31 @@
     <link href="{{ asset('css/home.css') }}" rel="stylesheet">
 @endpush
 
-@push('scripts')
-    <script src="{{ asset('js/home.js') }}" defer></script>
-@endpush
-
 @section('content')
     <section class="home-content">
+        @php
+            use App\Models\Project;
+            $all_projects = Project::all();
+
+            foreach ($all_projects as $one_project) {
+                print_r($one_project->id);
+            }
+
+        @endphp
+
+        @if (isset($projects))
+            @foreach ($projects as $project)
+                {{ $project }}
+            @endforeach
+        @endif
+
+        <form action="{{ route('delete_project', ['projectId' => 'a'])  }}" method="POST">
+            @csrf
+            @method('DELETE')
+
+            <button type="submit"> Delete project</button>
+        </form>
+
         <section class="opening">
             <h1 class="shine">Welcome to ProjPlanner</h1>
         </section>
