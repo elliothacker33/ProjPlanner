@@ -29,6 +29,7 @@ Route::get('{page}', [StaticController::class, 'show'])->whereIn('page', StaticC
 
 
 Route::prefix('/project/{projectId}')->group(function (){
+    Route::get('',[ProjectController::class,'show'])->name('project')->whereNumber('projectId');
     Route::prefix('/task')->controller(TaskController::class)->group(function (){
         Route::get('/{id}', 'show')->where('id','[0-9]+');
         Route::get('/new', 'create');
