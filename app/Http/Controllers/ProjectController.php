@@ -82,8 +82,21 @@ class ProjectController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Project $project)
+    public function destroy(int $projectId)
     {
-        //
+        $project = Project::find($projectId);
+
+        if ($project == null)
+            return abort(404);
+
+        $this->authorize('delete', [Project::class, $project]);
+
+        $project->delete();
+
+        $projects = Project::all();
+
+        return redirect()->route('home', ['projects' => $projects]);
+        // TODO: redirect to "My projects page"
+        // return redirect()->route('my_projects');
     }
 }
