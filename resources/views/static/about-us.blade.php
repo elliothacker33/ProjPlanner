@@ -1,7 +1,11 @@
 @extends('layouts.app')
 
 @push('styles')
-    <link href="{{ url('css/about.css') }}" rel="stylesheet">
+    <link href="{{ url('css/static/about.css') }}" rel="stylesheet">
+@endpush
+
+@push('scripts')
+    <script type="text/javascript" src={{ url('js/app.js') }} defer></script>
 @endpush
 
 @section('content')
