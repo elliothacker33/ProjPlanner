@@ -21,7 +21,6 @@
         // See: http://stackoverflow.com/questions/18943276/html-5-autofocus-messes-up-css-loading/18945951#18945951
     </script>
 
-
     @stack('styles')
     <!-- Scripts -->
     @stack('scripts')

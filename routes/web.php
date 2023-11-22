@@ -55,6 +55,7 @@ Route::controller(ProfileController::class)->group(function () {
     Route::get('/user-profile/{usrId}','showProfile')->name('profile');
     Route::put('/user-profile/{usrId}/edit','updateProfile')->name('update_profile');
     Route::get('/user-profile/{usrId}/edit','showEditProfile')->name('edit_profile');
+});
 
 });
 
