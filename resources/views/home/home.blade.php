@@ -5,10 +5,11 @@
 @endpush
 
 @section('content')
-<header>
+<header id="my-projects-header">
     <h1>
         Your Projects
     </h1>
+    <a class="button" href="{{ route('show_new') }}" >Create a project</a>
 </header>
 
 <section class="projects">
