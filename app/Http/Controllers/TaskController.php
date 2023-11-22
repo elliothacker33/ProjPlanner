@@ -15,16 +15,19 @@ class TaskController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request, int $projectId)
     {
+
+        $project = Project::find($projectId);
+        $this->authorize('create', [Task::class,  $project]);
         $searchTerm = '%'.$request->searchTerm.'%';
         $likeSearchTerm = '*' . $request->searchTerm . '*';
-        $tasks = Task::whereRaw("title Like ?  OR status Like ? ",[$searchTerm,$searchTerm])->get();
+        $tasks = Task::whereRaw("title Like ?  ",[$searchTerm])->get();
         // $questions = DB::unprepared("SELECT * FROM Users, plainto_tsquery('portuguese','$searchTerm') query WHERE tsvectors @@ query ORDER BY rank DESC;");
         // $users = DB::raw("SELECT * FROM Users");
 
         if($request->ajax()){
-            return view('partials.displayTasks', ['tasks' => $tasks] );
+            return view('partials.displayTasks', ['tasks' => $tasks,'project'=>$project] );
         }
     }
 

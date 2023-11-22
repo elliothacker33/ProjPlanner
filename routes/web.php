@@ -46,7 +46,7 @@ Route::controller(AdminController::class)->group(function () {
 });
 
 Route::controller(TaskController::class)->group(function(){
-    Route::get('tasks/search', 'index')->name('search_tasks');
+    Route::get('project/{projectId}/tasks/search', 'index')->name('search_tasks');
 });
 Route::prefix('/project/{projectId}')->group(function (){
     Route::get('',[ProjectController::class,'show'])->name('project')->whereNumber('projectId');

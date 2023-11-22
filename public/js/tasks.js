@@ -1,5 +1,6 @@
 const currentPath = window.location.pathname;
-const editPage = /^\/tasks\/[0-9]+\/edit$/.test(currentPath);
+console.log(currentPath);
+const editPage = /^\/project\/[0-9]+\/task$/.test(currentPath);
 const searchPage = /^[/\w, \/]*\/search*$/.test(currentPath);
 
 const searchBar = document.getElementById('search-bar');
@@ -9,7 +10,7 @@ searchBar.addEventListener('input', (e) => {
 });
 async function request(input) {
 
-    return await fetch('/tasks/search?searchTerm=' + input, {
+    return await fetch(currentPath+'search?searchTerm=' + input, {
         method: "GET",
         headers: {
             "X-Requested-With": "XMLHttpRequest",
