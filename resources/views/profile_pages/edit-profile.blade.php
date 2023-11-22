@@ -14,7 +14,7 @@
     <form method="POST" action="{{ route('update_profile', ['usrId' => $usrId])}}">
         @csrf()
         @method('PUT')
-        <input type="text" name="name" placeholder="Choose your name">
+        <input type="text" name="name" placeholder="Choose your name" value="{{ old('name') }}">
 
         @if ($errors->has('name'))
             <span class="error">
@@ -22,7 +22,7 @@
             </span>
         @endif
 
-        <input type="text" name="email" placeholder="Update your email">
+        <input type="text" name="email" placeholder="Update your email" value="{{ old('email') }}">
 
         @if ($errors->has('email'))
             <span class="error">

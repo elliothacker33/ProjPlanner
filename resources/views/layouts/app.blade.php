@@ -33,7 +33,7 @@
             <h1 id="header_title">ProjPlanner</h1>
             @if (Auth::check())
                 <a id="logout" href="{{ route('logout') }}">Logout</a>
-                <a class="user_icon" href="{{ route('login') }}"> 
+                <a class="user_icon" href="{{ route('profile', ['usrId' => Auth::user()->id]) }}"> 
                     <img class="icon avatar" src="{{ asset('img/default_user.png') }}" alt="default user icon">
                 </a>
             @else
