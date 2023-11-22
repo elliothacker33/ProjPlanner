@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 // Added to define Eloquent relationships.
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -47,6 +48,10 @@ class User extends Authenticatable
     protected $casts = [
         'password' => 'hashed',
     ];
+    public function projects(): BelongsToMany
+    {
+        return $this->belongsToMany(Project::class, 'project_user', 'user_id', 'project_id');
+    }
 
   
 }

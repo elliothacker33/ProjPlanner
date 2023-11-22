@@ -6,6 +6,8 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\StaticController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProjectController;
+use SebastianBergmann\CodeCoverage\Report\Xml\Project;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,14 +21,11 @@ use App\Http\Controllers\ProfileController;
 */
 // Home
 
-Route::get('', [HomeController::class,'show'])->name('home');
 
-Route::redirect('/', '/home')->name('home');
+Route::redirect("/","/landing");
 
+//Static Pages
 Route::get('{page}', [StaticController::class, 'show'])->whereIn('page', StaticController::STATIC_PAGES)->name('static');
-
-
-
 
 // Authentication
 Route::controller(LoginController::class)->group(function () {
@@ -46,4 +45,9 @@ Route::controller(ProfileController::class)->group(function () {
     Route::put('/user-profile/{usrId}/edit','updateProfile')->name('update_profile');
     Route::get('/user-profile/{usrId}/edit','showEditProfile')->name('edit_profile');
 
+});
+
+Route::controller(HomeController::class)->group(function () {
+    Route::get('/homepage/{usrId}','showHome')->name('home');
+    Route::get('/landing', 'showLanding')->name('landing');
 });
