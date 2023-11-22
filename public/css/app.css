@@ -15,7 +15,9 @@
     --secondary-text-color: #FFFFFF;  /* White text color */
     --input-bg-color: #2E9D7F13;
     --error-text-color: #ff3333;
-    --success-text-color: #2C7E90;
+    --sucess-text-color: #2C7E90;
+    --input-secondary-bg-color: #69899613;
+    --on-third-bg-color: #698996;
   }
 
 

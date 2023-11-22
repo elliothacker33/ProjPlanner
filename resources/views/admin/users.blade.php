@@ -40,7 +40,7 @@
                         <section class="name"> {!! $user->name !!} </section>
                         <section class="email"> {!! $user->email !!} </section>
             @php
-                    if($user->is_admin) {
+                    if($user->is_admin == True) {
             @endphp
                         <section class="role"> Admin </section>
             @php
