@@ -17,7 +17,10 @@
             @else <span class="status cancelled"> Cancelled </span>
             @endif
             @can('update',$task)
-                <a class="edit">Edit</a>
+                <section>
+
+                    <a class="edit">Edit</a>
+                </section>
             @endcan
 
         </header>

@@ -41,8 +41,8 @@ Route::controller(UserController::class)->group(function(){
 Route::controller(AdminController::class)->group(function () {
     Route::redirect('/admin', '/admin/users')->name('admin');
     Route::get('/admin/users', 'show')->name('admin_users');
-    Route::get('/admin/users/create', 'create')->name('admin_user_create');
-    Route::post('/admin/users/create', 'store');
+    Route::get('/admin/users/create', 'create');
+    Route::post('/admin/users/create', 'store')->name('admin_user_create');
 });
 
 
