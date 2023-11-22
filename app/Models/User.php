@@ -58,6 +58,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Project::class);
     }
 
+    }
+    public function assign(): BelongsToMany {
+        return $this->belongsToMany(Task::class);
+    }
+
     public function coordinates(): HasMany {
         return $this->hasMany(Project::class);
     }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -27,7 +28,13 @@ Route::get('{page}', [StaticController::class, 'show'])->whereIn('page', StaticC
 
 
 
-
+Route::prefix('/project/{projectId}')->group(function (){
+    Route::prefix('/task')->controller(TaskController::class)->group(function (){
+        Route::get('/{id}', 'show')->where('id','[0-9]+');
+        Route::get('/new', 'create');
+        Route::post('/new', 'store')->name('newTask');
+    });
+});
 // Authentication
 Route::controller(LoginController::class)->group(function () {
     Route::get('/login', 'showLoginForm')->name('login');
