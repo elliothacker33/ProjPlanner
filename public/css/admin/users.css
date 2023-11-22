@@ -6,11 +6,11 @@
 
 .admin-content {
     width: 100%;
-    margin: 0 auto;
+    margin: 2em auto;
 
-    background-color: var(--primary-bg-color);
+
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
     font-size: 2rem;
     justify-content: center;
     flex-direction: column;
@@ -26,10 +26,12 @@
     align-items: left;
     gap: 0.5em;
     margin: 0 auto;
-    width: 80em;
+    max-width: 80em;
+    overflow-x: auto;
+    width: 100%;
     border: 1px solid var(--onsecondary-bg-color);
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
     background-color: var(--onsecondary-bg-color);
     overflow-y: auto;
 
@@ -37,6 +39,10 @@
 
 .user, .admin-users header{
     background-color: var(--primary-bg-color);
+    overflow-x: auto;
+   
+    width: 100%;
+    min-width: 40em;
 }
 
 .admin-users div, .admin-users header {
@@ -47,14 +53,17 @@
     border: 1px solid var(--onsecondary-bg-color);
     border-radius: 8px;
     padding: 1em;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
     text-align: left;
 
 }
 
 .userContainer{
     overflow-y: auto;
-    max-height: 60vh;
+    height: 60vh;
+    width: 100%;
+    min-width: 40em;
+
 }
 
 .admin-users .name {
@@ -87,7 +96,8 @@
 }
 
 .admin-content input {
-    width: 60em;
+    max-width: 60em;
+    width: 100%;
     padding: 0.5em;
     border: 1px solid var(--onsecondary-bg-color);
     border-radius: 8px;

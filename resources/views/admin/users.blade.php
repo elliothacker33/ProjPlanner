@@ -28,7 +28,9 @@
                 <section class="change">Delete</section>
             </header>
             <section class="userContainer">
+
                 @include('partials.displayUsers')
+
             </section>
         </div>
     </section>

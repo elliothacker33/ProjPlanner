@@ -672,7 +672,7 @@ INSERT INTO users (name, email, password, is_blocked) VALUES ( 'ramirezjacob', '
 INSERT INTO users (name, email, password, is_blocked) VALUES ( 'rwilliams', 'jeremy24@example.com', 'z1ZGca8a^N', False);
 INSERT INTO users (name, email, password, is_blocked) VALUES ( 'zmorrison', 'kmorris@example.net', 'uC3EdFqF#8', False);
 INSERT INTO users (name, email, password, is_blocked) VALUES ( 'hortonkendra', 'joshua28@example.com', '9)5BmJJuBt', False);
-INSERT INTO users (name, email, password, is_blocked) VALUES ( 'zeze', 'ze@admin.com', '12345678', True);
+INSERT INTO users (name, email, password, is_blocked, is_admin) VALUES ( 'zeze', 'ze@admin.com', '12345678', False, True);
 
 -- Inserting data into the 'projects' table
 INSERT INTO projects (title, description, is_archived, creation, deadline, user_id) VALUES ('when', 'Tend condition physical detail listen explain.', True, '2023-03-30', '2024-06-14', 10);
