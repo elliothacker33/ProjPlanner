@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\StaticController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,4 +40,9 @@ Route::controller(RegisterController::class)->group(function () {
     Route::get('/register','showRegistrationForm')->name('register');
     Route::post('/register', 'register')->name('create_account');
 });
-
+// Profile
+Route::controller(ProfileController::class)->group(function () {
+    Route::get('/user-profile/{usrId}','showProfile')->name('profile');
+    Route::get('/user-profile/{usrId}/edit','showEditProfile')->name('edit_profile');
+    Route::put('/user-profile/{usrId}/edit','showProfile')->name('update_profile');
+});
