@@ -16,7 +16,7 @@
         <h2><span class="shine">Empower</span> Your Day, <span class="shine">Unleash</span> the work </h2>
         <h2>Create User</h2>
     </header>
-    <form method="POST" action="{{ route('create_account') }}">
+    <form method="POST" action="{{ route('admin_user_create') }}">
         @csrf
 
             <input id="name" type="text" placeholder="Insert user's name" name="name" value="{{ old('name') }}" required autofocus>
@@ -49,8 +49,8 @@
             @endif
 
             <select id="is_admin" name="is_admin"> 
-                <option value="true">Admin</option>
-                <option value="false" selected>User</option>
+                <option value="1">Admin</option>
+                <option value="0" selected>User</option>
             </select>
             @if($errors->has('is_admin'))
                 <span class="error">

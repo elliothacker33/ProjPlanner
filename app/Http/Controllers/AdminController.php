@@ -64,14 +64,7 @@ class AdminController extends Controller
                 'password' => Hash::make($request->password),
                 'is_admin' => $request->is_admin,
             ]);
-    
-            $credentials = $request->only('email', 'password');
-    
-            if (Auth::attempt($credentials)) { 
-                return redirect()->route('login');
-            } else {
-                return redirect()->back()->withError('Creation failed.')->withInput();
-            }
+            return redirect()->route('admin');
 
     }
 

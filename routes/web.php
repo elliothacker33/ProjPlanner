@@ -36,7 +36,7 @@ Route::controller(AdminController::class)->group(function () {
     Route::get('/admin/users/{id}/edit', 'showAdminUserEdit')->name('admin_user_edit');
     //Route::get('/admin/users/{id}/delete', 'adminUserDelete')->name('admin_user_delete');
     Route::get('/admin/users/create', 'showAdminUserCreate')->name('admin_user_create');
-    Route::post('/admin/users/create', 'adminUserCreate');
+    Route::post('/admin/users/create', 'createUser');
 });
 
 
