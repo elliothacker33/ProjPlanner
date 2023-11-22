@@ -85,7 +85,9 @@ class ProjectController extends Controller
     public function destroy(int $projectId)
     {
         $project = Project::find($projectId);
-        print_r("HELLOOOOOOO" . $project);
+
+        if ($project == null)
+            return abort(404);
 
         $this->authorize('delete', [Project::class, $project]);
 
