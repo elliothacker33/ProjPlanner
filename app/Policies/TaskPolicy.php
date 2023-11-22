@@ -8,6 +8,7 @@ use App\Models\Project;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
+use Illuminate\Support\Facades\DB;
 
 
 class TaskPolicy
@@ -43,7 +44,17 @@ class TaskPolicy
      */
     public function update(User $user, Task $task): bool
     {
-        return true;
+        $assigned = DB::table('task_user')
+            ->where('task_id','=',$task->id)
+            ->where('user_id','=', $user->id)->get();
+        $coordinator = DB::table('project_user')
+            ->join('projects','projects.id','=','project_user.project_id')
+            ->join('project_task','project_task.project_id','=','project_user.project_id')
+            ->where('task_id','=',$task->id)
+            ->where('projects.user_id','=', $user->id)->get();
+        if(!$assigned->isEmpty() || !$coordinator->isEmpty()) return true;
+        return false;
+
     }
 
     /**
