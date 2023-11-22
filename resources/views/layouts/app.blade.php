@@ -30,9 +30,12 @@
 <body>
     <header>
         <section>
-            <h1>ProjPlanner</h1>
+            <h1 id="header_title">ProjPlanner</h1>
             @if (Auth::check())
-                <a class="user_icon" href="{{ route('logout') }}"> Logout </a> <span>{{ Auth::user()->name }}</span>
+                <a id="logout" href="{{ route('logout') }}">Logout</a>
+                <a class="user_icon" href="{{ route('login') }}"> 
+                    <img class="icon avatar" src="{{ asset('img/default_user.png') }}" alt="default user icon">
+                </a>
             @else
                 <a class="user_icon" href="{{ route('login') }}"> <img class="icon"
                         src="{{ asset('img/default_user.png') }}" alt="default user icon"></a>

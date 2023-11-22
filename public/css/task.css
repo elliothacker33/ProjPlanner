@@ -1,0 +1,13 @@
+
+.taskCreation{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+.taskCreation .formContainer form input,.formContainer form textarea{
+    background: var(--input-bg-color);
+}
+.taskCreation .shine {
+    color: var(--onprimary-bg-color);
+}
