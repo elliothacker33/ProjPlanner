@@ -29,7 +29,11 @@
             </section>
             <section class="sideContainer">
                 <section class="deadlineContainer" >
-                    <span>DeadLine: {{$task->deadline}}</span>
+                    <span>DeadLine:
+                        @if($task->deadline) {{$task->deadline}}
+                        @else There is no deadline
+                        @endif
+                    </span>
                 </section>
                 <section class="assignContainer">
                     <h5>Assigned: </h5>
