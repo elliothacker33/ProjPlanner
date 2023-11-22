@@ -1,11 +1,15 @@
 @extends('layouts.app')
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/faq.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/static/faq.css') }}">
 @endpush
 
 @push('scripts')
     <script src="{{ asset('js/faq.js') }}" defer></script>
+@endpush
+
+@push('scripts')
+    <script type="text/javascript" src={{ url('js/app.js') }} defer></script>
 @endpush
 
 @section('content')

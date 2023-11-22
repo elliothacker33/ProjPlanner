@@ -1,6 +1,7 @@
 @extends('layouts.app')
-@push('styles')
-    <link rel="stylesheet" href="{{ asset('css/project.css') }}">
+
+@push('scripts')
+    <script type="text/javascript" src={{ url('js/app.js') }} defer></script>
 @endpush
 
 

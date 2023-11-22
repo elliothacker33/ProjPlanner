@@ -3,9 +3,12 @@
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/project.css') }}">
 @endpush
+
 @push('scripts')
     <script type="text/javascript" src={{ url('js/app.js') }} defer></script>
+    <script type="text/javascript" src="{{ asset('js/project.js') }}" defer></script>
 @endpush
+
 @section('content')
 <section class="projectPage">
     <header>
@@ -13,9 +16,25 @@
         @if($project->is_archived) <span class="status archive"> Archive </span>
         @else <span class="status open"> Open </span>
         @endif
-        @can('update',$project)
-            <a class="edit">Edit</a>
+        @can('update', $project)
+            <!--<a class="edit">Edit</a>-->
+            <button class="project-action-button" id="edit-project-button">Edit</button>
         @endcan
+
+        @can('delete', $project)
+            <button class="project-action-button" id="delete-project-button">Delete</button>
+        @endcan
+
+        <!-- Hidden forms to actions in project page that don't use AJAX-->
+        <form class="hidden-form" id="edit-project-form" action="{{ "/project/" . $project->id }}" method="POST">
+            @csrf
+            @method('PUT')
+        </form>
+
+        <form class="hidden-form" id="delete-project-form" action="{{ "/project/" . $project->id }}" method="POST">
+            @csrf
+            @method('DELETE')
+        </form>
 
     </header>
     <section class="container">

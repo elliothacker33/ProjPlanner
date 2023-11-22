@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -51,9 +52,7 @@ class ProjectController extends Controller
 
         $project->users()->attach(Auth::user()->id);
 
-        return redirect()->route('home');
-        // TODO: use this when project page is done
-        // return redirect()->route('show_project', ['projectId' => $project->id]);
+        return redirect()->route('project', ['projectId' => $project->id]);
     }
     /**
      * Display the specified resource.
@@ -87,7 +86,41 @@ class ProjectController extends Controller
     {
         //
     }
+    public function show_team(int $projectId)
 
+    {
+        $project = Project::find($projectId);
+
+        $this->authorize('view',[Project::class,$project]);
+        return view('pages.team',['team'=>$project->users, 'projectId'=>$projectId]);
+    }
+    public function add_user(Request $request, int $projectId)
+
+    {
+        $project = Project::find($projectId);
+        $this->authorize('update',[Project::class,$project]);
+        $user = User::where('email', $request->email)->first();
+        if(!$user)return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ])->onlyInput('email');
+        if($user->is_admin)return back()->withErrors([
+            'email' => 'Admins cannot be part of a project',
+        ])->onlyInput('email');
+        if($user->is_block)return back()->withErrors([
+            'email' => 'User is blocked',
+        ])->onlyInput('email');
+        $users= $project->users;
+        $memberExist=false;
+        foreach ($users as $member){
+            if($member->id === $user->id) $memberExist= true;
+        }
+        if($memberExist) return back()->withErrors([
+            'email' => 'Member already in the project',
+        ])->onlyInput('email');
+        db::insert('Insert into project_user (user_id,project_id) values (?,?)',[$user->id,$projectId]);
+
+        return redirect()->route('team',['team'=>$project->users,'projectId'=>$projectId]);
+    }
     /**
      * Update the specified resource in storage.
      */
