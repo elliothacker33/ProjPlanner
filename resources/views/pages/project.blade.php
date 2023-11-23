@@ -17,10 +17,10 @@
         @else <span class="status open"> Open </span>
         @endif
 
-        @can('update', $project->id)
+        @if($project->user_id===Auth::id())
             <!--<a class="edit">Edit</a>-->
             <button class="project-action-button" id="edit-project-button">Edit</button>
-        @endcan
+        @endif
 
         @can('delete', $project)
             <button class="project-action-button" id="delete-project-button">Delete</button>
