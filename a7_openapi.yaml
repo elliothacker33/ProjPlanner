@@ -383,69 +383,70 @@ paths:
           description: 'User with the specified email does not exists'
         '409':
           description: 'User with the specified email is already in the project'
-/project/{projectId}/edit:
-  get:
-    operationId: R206
-    summary: 'R404: Show edit project form'
-    description: 'Shows the form to edit a specific project. Access: PJM'
-    tags:
-      - 'M02: Projects'
-    
-    parameters:
-      - in: path
-        name: projectId
-        schema:
-          type: string
-        required: true
-        description: the project id
-    
-    responses:
-      '200':
-        description: 'Show edit project form UI'
-  put:
-    operationId: R207
-    summary: 'R205: Edit project action'
-    description: 'Processes the edit a project form. Access: PJM'
-    tags:
-      - 'M02: Projects'
-    
-    parameters:
-      - in: path
-        name: projectId
-        schema:
-          type: string
-        required: true
-        description: the project id
-    
-    requestBody:
-      required: true
-      content:
-        application/x-www-form-urlencoded:
+          
+  /project/{projectId}/edit:
+    get:
+      operationId: R206
+      summary: 'R404: Show edit project form'
+      description: 'Shows the form to edit a specific project. Access: PJM'
+      tags:
+        - 'M02: Projects'
+      
+      parameters:
+        - in: path
+          name: projectId
           schema:
-            type: object
-            properties:
-              title:
-                type: string
-              description:
-                type: string
-            required:
-              - title
-              - description
-    
-    responses:
-      '302':
-        description: 'Redirect after processing the information to edit a project'
-        headers:
-          Location:
+            type: string
+          required: true
+          description: the project id
+      
+      responses:
+        '200':
+          description: 'Show edit project form UI'
+    put:
+      operationId: R207
+      summary: 'R205: Edit project action'
+      description: 'Processes the edit a project form. Access: PJM'
+      tags:
+        - 'M02: Projects'
+      
+      parameters:
+        - in: path
+          name: projectId
+          schema:
+            type: string
+          required: true
+          description: the project id
+      
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
             schema:
-              type: string
-            examples:
-              302Success:
-                description: 'Successful edit of project. Redirect to edited project page'
-                value: 'project/{projectId}/edit'
-              302Error:
-                description: 'There was an error editing project' 
-                value: '/project/{projectId}/edit'
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+              required:
+                - title
+                - description
+      
+      responses:
+        '302':
+          description: 'Redirect after processing the information to edit a project'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: 'Successful edit of project. Redirect to edited project page'
+                  value: 'project/{projectId}/edit'
+                302Error:
+                  description: 'There was an error editing project' 
+                  value: '/project/{projectId}/edit'
 
   ### TASKS ###
   /project/{projectId}/task/new:
