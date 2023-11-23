@@ -6,6 +6,8 @@
 
 @push('scripts')
     <link href="{{ asset('js/admin/create_user.js') }}" defer>
+    <script type="text/javascript" src={{ url('js/app.js') }} defer>
+    </script>
 @endpush
 
 @section('content')
