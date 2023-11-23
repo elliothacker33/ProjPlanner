@@ -16,7 +16,9 @@
         @if($project->is_archived) <span class="status archive"> Archive </span>
         @else <span class="status open"> Open </span>
         @endif
-        @can('update', $project)
+
+        @can('update', $project->id)
+            <!--<a class="edit">Edit</a>-->
             <button class="project-action-button" id="edit-project-button">Edit</button>
         @endcan
 

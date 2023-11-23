@@ -40,18 +40,20 @@ Route::controller(UserController::class)->group(function(){
 Route::controller(AdminController::class)->group(function () {
     Route::redirect('/admin', '/admin/users')->name('admin');
     Route::get('/admin/users', 'show')->name('admin_users');
-    Route::get('/admin/users/create', 'create')->name('admin_user_create');
-    Route::post('/admin/users/create', 'store');
+    Route::get('/admin/users/create', 'create');
+    Route::post('/admin/users/create', 'store')->name('admin_user_create');
 });
 
-
+Route::controller(TaskController::class)->group(function(){
+    Route::get('project/{projectId}/tasks/search', 'index')->name('search_tasks');
+});
 Route::prefix('/project/{projectId}')->group(function (){
     Route::get('',[ProjectController::class,'show'])->name('project')->whereNumber('projectId');
     Route::get('/team',[ProjectController::class,'show_team'])->name('team');
     Route::post('team/add',[ProjectController::class,'add_user'])->name('addUser');
     Route::prefix('/task')->controller(TaskController::class)->group(function (){
         Route::get('/{id}', 'show')->where('id','[0-9]+')->name('task');
-        Route::get('/new', 'create');
+        Route::get('/new', 'create')->name('createTask');
         Route::post('/new', 'store')->name('newTask');
     });
 });
@@ -84,6 +86,7 @@ Route::controller(ProjectController::class)->group(function () {
     Route::get('/project/new' , 'create')->name('show_new');
     Route::post('/project/new', 'store')->name('action_new');
     Route::delete('/project/{projectId}', 'destroy')->where('projectId', '[0-9]+')->name('delete_project');
+    Route::get('/project/{projectId}/tasks', 'showTasks')->where('projectId', '[0-9]+')->name('show_tasks');
     Route::get('/project/{projectId}/edit', 'edit')->whereNumber('projectId')->name('show_edit_project');
     Route::put('/project/{projectId}/edit', 'update')->whereNumber('projectId')->name('action_edit_project');
 });
