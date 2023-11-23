@@ -85,7 +85,7 @@ class ProjectController extends Controller
         if ($projectId == null)
             return abort(404);
 
-        $this->authorize('update', [Project::class, $projectId]);
+        $this->authorize('update', [Project::class, $projectId->id]);
 
         return view('pages.editProject', ['project'=>$projectId]);
     }
@@ -135,7 +135,7 @@ class ProjectController extends Controller
             'deadline' => 'nullable|date|after_or_equal:' . date('d-m-Y'),
         ]);
 
-        $this->authorize('update', [Project::class, $projectId]);
+        $this->authorize('update', [Project::class, $projectId->id]);
 
         $projectId->title = $validated['title'];
         $projectId->description = $validated['description'];
