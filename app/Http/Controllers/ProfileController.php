@@ -16,8 +16,10 @@ class ProfileController extends Controller
             abort(404, 'User profile page not found.');
         }
 
+        $this->authorize('view', $user);
+
         return view('profile_pages.profile', [
-            'usrId' => $usrId,
+            'usrId' => $user->id,
             'profileName' => $user->name,
             'profileEmail' => $user->email]
         ); // Add image here.

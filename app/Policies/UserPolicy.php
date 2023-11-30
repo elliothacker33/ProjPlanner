@@ -3,7 +3,8 @@
 namespace App\Policies;
 
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
+
+use Illuminate\Auth\Access\HandlesAuthorization;
 
 class UserPolicy
 {
@@ -18,9 +19,19 @@ class UserPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, User $model): bool
+    public function view(User $user, User $user_profile): bool
     {
-        //
+        if ($user->is_admin) {
+            return true;
+        }
+
+        else if ($user_profile->is_blocked) {
+            return false;
+        }
+        
+        else {
+            return $user_profile->id===$user->id;
+        }
     }
 
     /**
@@ -72,10 +83,9 @@ class UserPolicy
     {
         return $user->is_admin;
     }
-
     public function view_admin(User $user): bool
     {
         return $user->is_admin;
     }
-
+    
 }
