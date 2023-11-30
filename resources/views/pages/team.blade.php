@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.project')
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/team.css') }}">
 @endpush
@@ -8,9 +8,9 @@
 @endpush
 <section class="team">
 
-    @can('update',[\App\Models\Project::class,$projectId])
+    @can('update',[\App\Models\Project::class,$project])
         <section class="addUserContainer">
-        <form method="POST" action="{{ route('addUser', ['projectId' => $projectId])  }}">
+        <form method="POST" action="{{ route('addUser', ['project' => $project])  }}">
             {{ csrf_field() }}
             <input type="email" name="email" placeholder="User Email" required>
 

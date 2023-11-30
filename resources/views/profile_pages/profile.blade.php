@@ -31,13 +31,13 @@
             </div>
         </section>
 
-    @if(auth()->check() && auth()->user()->id == $usrId)
+    @if(auth()->check() && auth()->user()->id == $user->id)
         <section class="actions">
             <div>
                 <a>Remove Account</a>
             </div>
             <div>
-                <a href="{{ route('edit_profile', ['usrId' => $usrId]) }}">Edit profile</a>
+                <a href="{{ route('edit_profile', ['user' => $user->id]) }}">Edit profile</a>
             </div>
         </section>
     @endif

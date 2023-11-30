@@ -73,7 +73,7 @@ class TaskController extends Controller
         if($validated['tags'])DB::insert('insert into tag_task (tag_id, task_id) values (?, ?)', [$validated['tags'], $task->id]);
         if($validated['users']) DB::insert('insert into task_user (user_id, task_id) values (?, ?)', [$validated['users'], $task->id]);
 
-        return redirect()->route('task',['project'=>$project,'id'=>$task->id]);
+        return redirect()->route('task',['project'=>$project,'task'=>$task]);
     }
 
     /**
@@ -95,7 +95,8 @@ class TaskController extends Controller
             ->join('tags','tag_task.tag_id','=','tags.id')
             ->where('task_id','=',$task->id)->get();
         $creator = User::find($task->opened_user_id);
-        return view('pages.task',['task'=>$task, 'assign'=>$users,'tags'=>$tags,'creator'=>$creator]);
+
+        return view('pages.task',['project'=>$project,'task'=>$task, 'assign'=>$users,'tags'=>$tags,'creator'=>$creator]);
     }
 
     /**

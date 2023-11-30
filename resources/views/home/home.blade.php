@@ -25,7 +25,7 @@
             <div class="project">
                 <h2>Name: {{ $project->title }}</h2>
                 <h2>Deadline: {{ $project->deadline->format('Y-m-d') }}</h2>
-                <a href="{{ route('project', ['projectId' => $project->id]) }}"> Go to Project</a>
+                <a href="{{ route('project', ['project' => $project]) }}"> Go to Project</a>
             </div>
         @endforeach
     @endif

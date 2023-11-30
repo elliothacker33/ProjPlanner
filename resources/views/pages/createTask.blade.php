@@ -16,7 +16,7 @@
             <header class="tasks">
                 <h2>Create a <span class="shine">Task</span></h2>
             </header>
-            <form method="POST" action="{{ route('newTask', ['projectId' => $projectId])  }}">
+            <form method="POST" action="{{ route('newTask', ['project' => $project])  }}">
                 @csrf
                 <section class="primaryContainer">
                     <input type="text" name="title" placeholder="Task Title" required value="{{ old('title') }}">

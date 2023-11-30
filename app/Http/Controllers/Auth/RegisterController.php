@@ -21,8 +21,9 @@ class RegisterController extends Controller
      */
     public function showRegistrationForm()
     {
+
         if (Auth::check())
-            return redirect()->route('home',['usrId'=>Auth::id()]);
+            return redirect()->route('home',['user'=>Auth::user()]);
 
         return view('auth.register');
     }

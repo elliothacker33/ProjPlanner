@@ -45,14 +45,14 @@ Route::controller(AdminController::class)->group(function () {
 });
 
 Route::controller(TaskController::class)->group(function(){
-    Route::get('project/{projectId}/tasks/search', 'index')->name('search_tasks');
+    Route::get('project/{project}/tasks/search', 'index')->name('search_tasks');
 });
-Route::prefix('/project/{projectId}')->group(function (){
+Route::prefix('/project/{project}')->where([ 'project'=>'[0-9]+'])->group(function (){
     Route::get('',[ProjectController::class,'show'])->name('project')->whereNumber('projectId');
     Route::get('/team',[ProjectController::class,'show_team'])->name('team');
     Route::post('team/add',[ProjectController::class,'add_user'])->name('addUser');
     Route::prefix('/task')->controller(TaskController::class)->group(function (){
-        Route::get('/{id}', 'show')->where('id','[0-9]+')->name('task');
+        Route::get('/{task}', 'show')->where('task','[0-9]+')->name('task');
         Route::get('/new', 'create')->name('createTask');
         Route::post('/new', 'store')->name('newTask');
     });
@@ -71,22 +71,22 @@ Route::controller(RegisterController::class)->group(function () {
 });
 // Profile
 Route::controller(ProfileController::class)->group(function () {
-    Route::get('/user-profile/{usrId}','showProfile')->name('profile');
-    Route::put('/user-profile/{usrId}/edit','updateProfile')->name('update_profile');
-    Route::get('/user-profile/{usrId}/edit','showEditProfile')->name('edit_profile');
+    Route::get('/user-profile/{user}','showProfile')->name('profile');
+    Route::put('/user-profile/{user}/edit','updateProfile')->name('update_profile');
+    Route::get('/user-profile/{user}/edit','showEditProfile')->name('edit_profile');
 });
 
 
 
 Route::controller(HomeController::class)->group(function () {
-    Route::get('/homepage/{usrId}','showHome')->name('home');
+    Route::get('/homepage/{user}','showHome')->name('home');
     Route::get('/landing', 'showLanding')->name('landing');
 });
 Route::controller(ProjectController::class)->group(function () {
     Route::get('/project/new' , 'create')->name('show_new');
     Route::post('/project/new', 'store')->name('action_new');
-    Route::delete('/project/{projectId}', 'destroy')->where('projectId', '[0-9]+')->name('delete_project');
-    Route::get('/project/{projectId}/tasks', 'showTasks')->where('projectId', '[0-9]+')->name('show_tasks');
-    Route::get('/project/{projectId}/edit', 'edit')->whereNumber('projectId')->name('show_edit_project');
-    Route::put('/project/{projectId}/edit', 'update')->whereNumber('projectId')->name('action_edit_project');
+    Route::delete('/project/{project}', 'destroy')->where('project', '[0-9]+')->name('delete_project');
+    Route::get('/project/{project}/tasks', 'showTasks')->where('project', '[0-9]+')->name('show_tasks');
+    Route::get('/project/{project}/edit', 'edit')->whereNumber('project')->name('show_edit_project');
+    Route::put('/project/{project}/edit', 'update')->whereNumber('project')->name('action_edit_project');
 });
