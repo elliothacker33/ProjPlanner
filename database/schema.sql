@@ -184,15 +184,15 @@ CREATE OR REPLACE FUNCTION user_search_update() RETURNS TRIGGER AS $$
 BEGIN
     IF TG_OP = 'INSERT' THEN
         NEW.tsvectors = (
-            setweight(to_tsvector('portuguese', NEW.name), 'A') ||
-            setweight(to_tsvector('portuguese', NEW.email), 'B') 
+            setweight(to_tsvector('english', NEW.name), 'A') ||
+            setweight(to_tsvector('english', NEW.email), 'B') 
         );
     END IF;
     IF TG_OP = 'UPDATE' THEN
         IF (NEW.name <> OLD.name OR NEW.email <> OLD.email) THEN
             NEW.tsvectors = (
-                setweight(to_tsvector('portuguese', NEW.name), 'A') ||
-                setweight(to_tsvector('portuguese', NEW.email), 'B') 
+                setweight(to_tsvector('english', NEW.name), 'A') ||
+                setweight(to_tsvector('english', NEW.email), 'B') 
             );
         END IF;
     END IF;
@@ -213,11 +213,11 @@ ADD COLUMN tsvectors TSVECTOR;
 CREATE OR REPLACE FUNCTION file_search_update() RETURNS TRIGGER AS $$
 BEGIN
     IF TG_OP = 'INSERT' THEN
-        NEW.tsvectors = to_tsvector('portuguese', NEW.name);
+        NEW.tsvectors = to_tsvector('english', NEW.name);
     END IF;
     IF TG_OP = 'UPDATE' THEN
         IF (NEW.name <> OLD.name) THEN
-            NEW.tsvectors = to_tsvector('portuguese', NEW.name);
+            NEW.tsvectors = to_tsvector('english', NEW.name);
         END IF;
     END IF;
     RETURN NEW;
@@ -238,15 +238,15 @@ CREATE OR REPLACE FUNCTION project_search_update() RETURNS TRIGGER AS $$
 BEGIN
     IF TG_OP = 'INSERT' THEN
         NEW.tsvectors = (
-            setweight(to_tsvector('portuguese', NEW.title), 'A') ||
-            setweight(to_tsvector('portuguese', NEW.description), 'B') 
+            setweight(to_tsvector('english', NEW.title), 'A') ||
+            setweight(to_tsvector('english', NEW.description), 'B') 
         );
     END IF;
     IF TG_OP = 'UPDATE' THEN
         IF (NEW.title <> OLD.title OR NEW.description <> OLD.description) THEN
             NEW.tsvectors = (
-            setweight(to_tsvector('portuguese', NEW.title), 'A') ||
-            setweight(to_tsvector('portuguese', NEW.description), 'B') 
+            setweight(to_tsvector('english', NEW.title), 'A') ||
+            setweight(to_tsvector('english', NEW.description), 'B') 
         );
         END IF;
     END IF;
@@ -261,17 +261,47 @@ EXECUTE PROCEDURE project_search_update();
 
 CREATE INDEX search_project ON lbaw2353.projects USING GIN (tsvectors);
 
+ALTER TABLE lbaw2353.tasks
+ADD COLUMN tsvectors TSVECTOR;
+
+CREATE OR REPLACE FUNCTION task_search_update() RETURNS TRIGGER AS $$
+BEGIN
+    IF TG_OP = 'INSERT' THEN
+        NEW.tsvectors = (
+            setweight(to_tsvector('english', NEW.title), 'A') ||
+            setweight(to_tsvector('english', NEW.description), 'B') 
+        );
+    END IF;
+    IF TG_OP = 'UPDATE' THEN
+        IF (NEW.title <> OLD.title OR NEW.description <> OLD.description) THEN
+            NEW.tsvectors = (
+            setweight(to_tsvector('english', NEW.title), 'A') ||
+            setweight(to_tsvector('english', NEW.description), 'B') 
+        );
+        END IF;
+    END IF;
+    RETURN NEW;
+END $$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER task_search_update
+BEFORE INSERT OR UPDATE ON lbaw2353.tasks
+FOR EACH ROW
+EXECUTE PROCEDURE task_search_update();
+
+CREATE INDEX search_task ON lbaw2353.tasks USING GIN (tsvectors);
+
 ALTER TABLE lbaw2353.tags
 ADD COLUMN tsvectors TSVECTOR;
 
 CREATE OR REPLACE FUNCTION tag_search_update() RETURNS TRIGGER AS $$
 BEGIN
     IF TG_OP = 'INSERT' THEN
-        NEW.tsvectors = to_tsvector('portuguese', NEW.title);
+        NEW.tsvectors = to_tsvector('english', NEW.title);
     END IF;
     IF TG_OP = 'UPDATE' THEN
         IF (NEW.title <> OLD.title) THEN
-            NEW.tsvectors = to_tsvector('portuguese', NEW.title);
+            NEW.tsvectors = to_tsvector('english', NEW.title);
         END IF;
     END IF;
     RETURN NEW;
