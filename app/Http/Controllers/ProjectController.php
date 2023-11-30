@@ -156,7 +156,7 @@ class ProjectController extends Controller
 
         $projects = Project::all();
 
-        return redirect()->route('home', ['projects' => $projects,'usrId'=>Auth::id()]);
+        return redirect()->route('home', ['projects' => $projects,'user'=>Auth::id()]);
         // TODO: redirect to "My projects page"
         // return redirect()->route('my_projects');
     }

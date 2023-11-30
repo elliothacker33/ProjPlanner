@@ -20,13 +20,13 @@
             <img  src="{{ asset('img/default-profile-photo.jpg') }}" alt="Default Image">
         </figure>
 
-        <h2>{{ $profileName }}</h2>
+        <h2>{{ $user->name }}</h2>
             <div id="wrapper">
                 <div>
                     <p>Email:</p>
                 </div>
                 <div>
-                    <p>{{ $profileEmail }}</p>
+                    <p>{{ $user->email }}</p>
                 </div>
             </div>
         </section>

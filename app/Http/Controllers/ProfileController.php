@@ -16,11 +16,7 @@ class ProfileController extends Controller
             abort(404, 'User profile page not found.');
         }
 
-        return view('profile_pages.profile', [
-            'usrId' => $user->id,
-            'profileName' => $user->name,
-            'profileEmail' => $user->email]
-        ); // Add image here.
+        return view('profile_pages.profile', ['user' => $user]); // Add image here.
     }
     public function showEditProfile(User $user) : View
     {
