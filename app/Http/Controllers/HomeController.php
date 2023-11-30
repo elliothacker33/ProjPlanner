@@ -7,20 +7,20 @@ use Illuminate\Http\Request;
 class HomeController extends Controller
 {  
     
-    public function showHome(Request $request, $usrId)
+    public function showHome(Request $request, User $user)
     {   
-        $user = $request->user();
+        $authenticatedUser = $request->user();
 
-        if ($user === null) {
+        if ($authenticatedUser === null) {
             return $this->showLanding();
         }
     
         // TODO: Check if the user is admin
     
         // TODO: Check if the user is blocked
-        if($usrId == $user->id){
-            if($user->is_admin)  return redirect()->route('admin');
-            $projects = $this->getProjects($usrId);
+        if($user->id == $authenticatedUser->id){
+            if($authenticatedUser->is_admin)  return redirect()->route('admin');
+            $projects = $this->getProjects($user->id );
             return view('home.home', compact('projects'));
         }
         else{
@@ -37,7 +37,7 @@ class HomeController extends Controller
 
 
 
-    public function getProjects($usrId)
+    public function getProjects(int $usrId)
     {
         $user = User::find($usrId);
 

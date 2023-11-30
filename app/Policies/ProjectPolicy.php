@@ -44,9 +44,8 @@ class ProjectPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, int $projectId): bool
+    public function update(User $user, Project $project): bool
     {
-        $project = Project::find($projectId);
         return $user->id === $project->user_id;
     }
 
