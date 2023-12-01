@@ -1,0 +1,183 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Project;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+
+class ProjectController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        //
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        $this->authorize('create', Project::class);
+        
+        return view('pages.newProjectForm');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'title' => 'required|string|min:5|max:100|',
+            'description' => 'required|string|min:10|max:1024',
+            'deadline' => 'nullable|date|after_or_equal:' . date('d-m-Y'),
+        ]);
+
+        $this->authorize('create', Project::class);
+
+        $project = new Project();
+        $project->title = $validated['title'];
+        $project->description = $validated['description'];
+        $project->deadline = isset($validated['deadline']) ? $validated['deadline'] : null;
+        $project->user_id = Auth::user()->id;
+        $project->save();
+
+        $project->users()->attach(Auth::user()->id);
+
+        return redirect()->route('project', ['projectId' => $project->id]);
+    }
+    /**
+     * Display the specified resource.
+     */
+    public function show(int $projectId)
+    {
+        $project=Project::find($projectId);
+
+        if ($project == null)
+            return abort(404);
+
+        $this->authorize('view',[Project::class,$project]);
+        $users = $project->users;
+
+        $completed_task = DB::table('project_task')
+            ->join('tasks','project_task.task_id','=','tasks.id')
+            ->where('project_id','=',$projectId)
+            ->where('tasks.status','=','closed')->count();
+        $open_task = DB::table('project_task')
+            ->join('tasks','project_task.task_id','=','tasks.id')
+            ->where('project_id','=',$projectId)
+            ->where('tasks.status','=','open')->count();
+        $all_task = $completed_task + $open_task;
+        return view('pages.project',['project'=>$project, 'team'=>$users->slice(0,4),'allTasks'=>$all_task, 'completedTasks'=>$completed_task]);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Project $projectId)
+    {   
+        if ($projectId == null)
+            return abort(404);
+
+        $this->authorize('update', [Project::class, $projectId->id]);
+
+        return view('pages.editProject', ['project'=>$projectId]);
+    }
+    public function show_team(int $projectId)
+
+    {
+        $project = Project::find($projectId);
+
+        $this->authorize('view',[Project::class,$project]);
+        return view('pages.team',['team'=>$project->users, 'projectId'=>$projectId]);
+    }
+    public function add_user(Request $request, int $projectId)
+
+    {
+        $project = Project::find($projectId);
+        $this->authorize('update',[Project::class,$project->id]);
+        $user = User::where('email', $request->email)->first();
+        if(!$user)return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ])->onlyInput('email');
+        if($user->is_admin)return back()->withErrors([
+            'email' => 'Admins cannot be part of a project',
+        ])->onlyInput('email');
+        if($user->is_block)return back()->withErrors([
+            'email' => 'User is blocked',
+        ])->onlyInput('email');
+        $users= $project->users;
+        $memberExist=false;
+        foreach ($users as $member){
+            if($member->id === $user->id) $memberExist= true;
+        }
+        if($memberExist) return back()->withErrors([
+            'email' => 'Member already in the project',
+        ])->onlyInput('email');
+        db::insert('Insert into project_user (user_id,project_id) values (?,?)',[$user->id,$projectId]);
+
+        return redirect()->route('team',['team'=>$project->users,'projectId'=>$projectId]);
+    }
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Project $projectId)
+    {
+        $validated = $request->validate([
+            'title' => 'required|string|min:5|max:100|',
+            'description' => 'required|string|min:10|max:1024',
+            'deadline' => 'nullable|date|after_or_equal:' . date('d-m-Y'),
+        ]);
+
+        $this->authorize('update', [Project::class, $projectId->id]);
+
+        $projectId->title = $validated['title'];
+        $projectId->description = $validated['description'];
+        $projectId->deadline = isset($validated['deadline']) ? $validated['deadline'] : null;
+        $projectId->save();
+
+        return redirect()->route('project', ['projectId' => $projectId->id]);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(int $projectId)
+    {
+        $project = Project::find($projectId);
+
+        if ($project == null)
+            return abort(404);
+
+        $this->authorize('delete', [Project::class, $project]);
+
+        $project->delete();
+
+        $projects = Project::all();
+
+        return redirect()->route('home', ['projects' => $projects,'usrId'=>Auth::id()]);
+        // TODO: redirect to "My projects page"
+        // return redirect()->route('my_projects');
+    }
+
+    public function showTasks(int $projectId)
+    {
+        $project=Project::find($projectId);
+
+        if ($project == null)
+            return abort(404);
+
+        $this->authorize('view',[Project::class,$project]);
+        $tasks = DB::table('project_task')
+            ->join('tasks','project_task.task_id','=','tasks.id')
+            ->where('project_id','=',$projectId)->get();
+            
+        return view('pages.tasks',['project'=>$project, 'tasks'=>$tasks]);
+    }
+}

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class StaticController extends Controller
 {
-    public const STATIC_PAGES = ['about-us', 'contacts', 'faq', 'home'];
+    public const STATIC_PAGES = ['about-us', 'contacts', 'faq', 'landing'];
 
     public static function getStaticPages()
     {
@@ -15,7 +15,8 @@ class StaticController extends Controller
 
     public function show(Request $request)
     {
-        return response()->view('static_pages.' . $request->path());
+
+        return response()->view('static.' . $request->path());
     }
 }
 ?>

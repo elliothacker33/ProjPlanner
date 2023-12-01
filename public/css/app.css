@@ -1,11 +1,24 @@
-:root {
-    --primary-bg-color: white;
-    --secondary-bg-color: #252222F1;
-    --onprimary-bg-color: #407076;
-    --onsecondary-bg-color: #698996;
-    --primary-text-color: black;
-    --secondary-text-color: #F9F9F6;
+
+@import url('https://fonts.cdnfonts.com/css/tt-norms-pro');
+*{
+    font-family: 'TT Norms Pro', sans-serif;
+    font-weight: 500;
 }
+
+:root {
+    --primary-bg-color: #F5F5F5;  /* Light grayish background */
+    --secondary-bg-color: #333333;  /* Dark bluish background */
+    --onprimary-bg-color: #2E9D7F;  /* Bright blue for text on primary background */
+    --onsecondary-bg-color: #2C3E50;  /* Light grayish text on secondary background */
+    --onthird-bg-color: #E29578;
+    --primary-text-color: #333333;  /* Dark text color */
+    --secondary-text-color: #FFFFFF;  /* White text color */
+    --input-bg-color: #2E9D7F13;
+    --error-text-color: #ff3333;
+    --sucess-text-color: #2C7E90;
+    --input-secondary-bg-color: #69899613;
+    --on-third-bg-color: #698996;
+  }
 
 
 *, h1, h2, h3, h4, h5, h6 {
@@ -29,14 +42,22 @@ a {
     cursor: pointer;
 }
 
+a h1 {
+    color: var(--primary-bg-color);
+}
+
 .icon {
     max-width: 100%;
     max-height: 100%;
-
+    margin: auto;
+    display: block;
 }
 
 .user_icon {
     width: 3em;
+    margin-left: auto;
+    margin-right:1em ;
+
 }
 
 body {
@@ -47,14 +68,13 @@ body {
 }
 
 main {
-    overflow-y: auto;
     flex-grow: 1;
+    width: 100%;
     display: flex;
-    flex-direction: column;
     justify-content: center;
-}
-#content {
-    margin: 2em 0;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding-top: 3%;
 }
 
 
@@ -88,14 +108,15 @@ body > header section {
     width: 100%;
     position: relative;
     display: flex;
-    justify-content: space-between;
+    /*justify-content: space-between;*/
     align-content: center;
     align-items: center;
 
 }
 
-body > header section h1 .icon {
-    height: 1.8em;
+
+.icon {
+    height: 3em;
 }
 
 body > header nav ul, body >footer ul, body >footer h6 {
@@ -132,25 +153,21 @@ body > header nav ul *:hover, body >footer ul *:hover {
     color: inherit;
 }
 
+
 #content label {
     font-weight: normal;
 }
 
-#content > form {
-    margin: 0 auto;
-    padding: 1em;
-    max-width: 20em;
-    border: 1px solid var(--onsecondary-bg-color);
+
+
+.error {
+    font-weight: bold;
+    color: var(--error-text-color);
 }
 
-#content > form .error {
+.success {
     font-weight: bold;
-    color: #ff3333;
-}
-
-#content > form .success {
-    font-weight: bold;
-    color: #106af1;
+    color: var(--sucess-text-color);
 }
 
 #content > form input {
@@ -209,16 +226,13 @@ button {
 
 a.button {
     background-color: var(--onsecondary-bg-color);
-    border-color: var(--onsecondary-bg-color);
 }
 
 a.button.button-outline {
     color: var(--onsecondary-bg-color);
 }
 
-a {
-    color: var(--onsecondary-bg-color);
-}
+
 
 input[type=text]:focus,
 input[type=email]:focus,
@@ -229,4 +243,23 @@ input[type=password]:focus {
 .avatar {
   border-radius: 50%;
   object-fit: cover;
+}
+
+
+.hidden-form {
+    display: none;
+}
+
+#logout {
+    color: white;
+    margin-bottom: 0;
+
+}
+
+#header_title {
+    margin-right: auto;
+}
+
+#header_title > a {
+    color: inherit
 }

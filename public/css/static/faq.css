@@ -1,0 +1,66 @@
+
+@import url('https://fonts.cdnfonts.com/css/tt-norms-pro');
+
+
+
+header > h1 {
+  font-size: 3em;
+}
+
+#content{
+  padding-top:2%;
+  padding-bottom:2%;
+}
+
+.accordion{
+  background-color: var(--primary-bg-color) !important;
+}
+.accordion-collapse {
+  width: 100%;
+}
+.accordion-body{
+ 
+  color: var(--primary-text-color);
+  font-size: 1.4em;
+}
+
+
+
+.accordion-item{
+  color:var(--primary-text-color);
+  background-color: var(--primary-bg-color) !important;
+  border: 4px solid var(--onsecondary-bg-color) !important;
+  border-radius: 10px !important;
+  margin: 4em;
+}
+
+.accordion .accordion-header > p{
+  font-weight: 600;
+  width: 100%;
+  margin: 0;
+  color:var(--primary-text-color);
+  background-color: var(--primary-bg-color) !important;
+  font-size: 0.7em;
+  box-shadow: none !important;
+  border: none !important;
+  text-transform: none;
+  margin: 0;
+}
+
+ .accordion .accordion-button:focus {
+  color: var(--primary-text-color);
+  outline: none;
+  box-shadow: none !important;
+}
+  
+.footer-content{
+  font-size: 1.3em;
+}
+.footer-content > span > a{
+  color: var(--onprimary-bg-color);
+}
+
+
+
+
+
