@@ -17,15 +17,13 @@ class TaskController extends Controller
      */
     public function index(Request $request, int $projectId)
     {
-
         $project = Project::find($projectId);
         $this->authorize('create', [Task::class,  $project]);
         $searchTerm = '%'.$request->searchTerm.'%';
-        $likeSearchTerm = '*' . $request->searchTerm . '*';
-        $tasks = Task::whereRaw("title Like ?  ",[$searchTerm])->get();
-        $searchedTasks =  $project->tasks()->whereRaw("title Like ?  ",[$searchTerm])->get();
-        // $questions = DB::unprepared("SELECT * FROM Users, plainto_tsquery('portuguese','$searchTerm') query WHERE tsvectors @@ query ORDER BY rank DESC;");
-        // $users = DB::raw("SELECT * FROM Users");
+        $searchedTasks =  $project->tasks()
+            ->whereRaw("tsvectors @@ plainto_tsquery('english', ?)", [$searchTerm])
+            ->orderByRaw("ts_rank(tsvectors, plainto_tsquery('english', ?)) DESC", [$searchTerm])
+            ->get();
 
         if ($request->ajax()) {
             return view('partials.displayTasks', ['tasks' => $searchedTasks,'project'=>$project] );
