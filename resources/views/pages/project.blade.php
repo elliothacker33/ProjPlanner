@@ -12,22 +12,24 @@
 @section('content')
 <section class="projectPage">
     <header>
+        <section class="info">
         <h1 class="title">{{$project->title}}</h1>
         @if($project->is_archived) <span class="status archive"> Archive </span>
         @else <span class="status open"> Open </span>
         @endif
-
+        </section>
+        <section class="actions">
         @if($project->user_id===Auth::id())
             <!--<a class="edit">Edit</a>-->
-            <button class="project-action-button" id="edit-project-button">Edit</button>
+            <button class="project-action-button edit" id="edit-project-button">Edit</button>
         @endif
 
         @can('delete', $project)
-            <button class="project-action-button" id="delete-project-button">Delete</button>
+            <button class="project-action-button delete" id="delete-project-button">Delete</button>
         @endcan
-
+        </section>
         <!-- Hidden forms to actions in project page that don't use AJAX-->
-        <form class="hidden-form" id="edit-project-form" action="{{ "/project/" . $project->id . "/edit"}}" method="GET">
+        <form class="hidden-form" id="edit-project-form" action="{{ route('show_edit_project',['project'=>$project->id])}}" method="GET">
         </form>
 
         <form class="hidden-form" id="delete-project-form" action="{{ "/project/" . $project->id }}" method="POST">
@@ -63,7 +65,7 @@
                     <li>{{$member->name}}</li>
                 @endforeach
             </ul>
-            <a >See all</a>
+            <a href="{{route('team',['project'=>$project->id])}}" >See all</a>
         </section>
     </section>
     </section>

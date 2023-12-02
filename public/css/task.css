@@ -42,7 +42,6 @@
     border-radius: 10em;
     font-size: 1em;
     color: white;
-
 }
 .taskPage header .status.open{
     background: var(--onprimary-bg-color);
@@ -88,13 +87,30 @@ a{
     font-size: 1.2em;
     font-weight: bold;
 }
-.taskPage header a.edit {
-    padding: 0.2em 0.7em;
+.taskPage header{
+    display: flex;
+    justify-content: space-between;
+    align-content: space-between;
+    flex-wrap: wrap-reverse;
+}
+.taskPage header .info{
+  display: flex;
+    gap :2em;
+}
+
+.taskPage header .actions a {
+    padding: 0.5em 0.7em;
     background: var(--onprimary-bg-color);
     color: white;
     border-radius: 0.3em;
-    margin-left: auto;
-    margin-right: 3em;
+
+   margin-right: 2em;
+}
+.taskPage header .actions a:hover {
+    background: var(--onsecondary-bg-color);
+}
+.taskPage header a.delete{
+    background: var(--error-text-color);
 }
 
 @media (max-width: 74em) {
