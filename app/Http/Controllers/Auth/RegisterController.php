@@ -23,7 +23,7 @@ class RegisterController extends Controller
     {
 
         if (Auth::check())
-            return redirect()->route('home',['user'=>Auth::user()]);
+            return redirect()->route('user-profile');
 
         return view('auth.register');
     }

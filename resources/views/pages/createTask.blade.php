@@ -42,7 +42,7 @@
                         <button type="submit">
                             Create
                         </button>
-                        <a >
+                        <a href="{{route('show_tasks',['project'=>$project])}}">
                             Cancel
                         </a>
                     </section>
