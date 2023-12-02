@@ -1,0 +1,7 @@
+.userCard{
+    display: flex;
+    gap: 1em;
+    overflow: clip;
+    background: white;
+    flex-wrap: wrap;
+}
