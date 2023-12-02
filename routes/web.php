@@ -24,7 +24,13 @@ use Illuminate\Support\Facades\Route;
 // Home
 
 
-Route::redirect("/", "/landing");
+Route::redirect("/", 'home')->name('init_page');
+
+// Decide which Home page to use
+Route::controller(HomeController::class)->group(function () {
+    Route::get('/home', 'show')->name('home');
+});
+Route::get('/myProjects',[ProjectController::class, 'index'])->name('projects');
 
 //Static Pages
 Route::get('{page}', [StaticController::class, 'show'])->whereIn('page', StaticController::STATIC_PAGES)->name('static');
@@ -58,12 +64,6 @@ Route::prefix('/user-profile')->controller(ProfileController::class)->group(func
     Route::get('/{user}', 'showProfile')->name('profile');
     Route::put('/{user}/edit', 'updateProfile')->name('update_profile');
     Route::get('/{user}/edit', 'showEditProfile')->name('edit_profile');
-});
-
-// Decide which Home page to use
-Route::controller(HomeController::class)->group(function () {
-    Route::get('/homepage/{user}', 'showHome')->name('home');
-    Route::get('/landing', 'showLanding')->name('landing');
 });
 
 // Projects

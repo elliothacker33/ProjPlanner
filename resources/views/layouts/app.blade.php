@@ -29,11 +29,7 @@
 <body>
     <header>
         <section>
-            @if (Auth::check())
-                <h1 id="header_title"><a href="{{ route('home', ['user' => Auth::id()]) }}" >ProjPlanner</a></h1>
-            @else
-                <h1 id="header_title"><a href="{{ route('landing') }}">ProjPlanner</a></h1>
-            @endif
+                <h1 id="header_title"><a href="{{ route('home')}}" >ProjPlanner</a></h1>
 
             @if (Auth::check())
 

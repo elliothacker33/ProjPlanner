@@ -13,9 +13,12 @@ class ProjectController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $user = $request->user();
+        $this->authorize('viewAny',Project::class);
+        if(!$user) abort(404);
+        return view('home.home',['projects'=>$user->projects]);
     }
 
     /**
