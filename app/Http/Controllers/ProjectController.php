@@ -65,16 +65,16 @@ class ProjectController extends Controller
         $this->authorize('view',[Project::class,$project]);
         $users = $project->users;
 
-        $completed_task = DB::table('project_task')
-            ->join('tasks','project_task.task_id','=','tasks.id')
-            ->where('project_id','=',$projectId)
-            ->where('tasks.status','=','closed')->count();
-        $open_task = DB::table('project_task')
-            ->join('tasks','project_task.task_id','=','tasks.id')
-            ->where('project_id','=',$projectId)
-            ->where('tasks.status','=','open')->count();
-        $all_task = $completed_task + $open_task;
-        return view('pages.project',['project'=>$project, 'team'=>$users->slice(0,4),'allTasks'=>$all_task, 'completedTasks'=>$completed_task]);
+        $completed_tasks = $project->tasks()
+            ->where('tasks.status','=','closed')
+            ->count();
+        
+        $open_tasks = $project->tasks()
+            ->where('tasks.status','=','open')
+            ->count();
+
+        $all_task = $completed_tasks + $open_tasks;
+        return view('pages.project',['project'=>$project, 'team'=>$users->slice(0,4),'allTasks'=>$all_task, 'completedTasks'=>$completed_tasks]);
     }
 
     /**
@@ -174,9 +174,8 @@ class ProjectController extends Controller
             return abort(404);
 
         $this->authorize('view',[Project::class,$project]);
-        $tasks = DB::table('project_task')
-            ->join('tasks','project_task.task_id','=','tasks.id')
-            ->where('project_id','=',$projectId)->get();
+
+        $tasks = $project->tasks()->get();
             
         return view('pages.tasks',['project'=>$project, 'tasks'=>$tasks]);
     }
