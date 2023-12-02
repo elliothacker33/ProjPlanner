@@ -8,10 +8,12 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 class ProfileController extends Controller
 {
+
+    public function show(Request $request){
+        return redirect()->route('profile',['user' => $request->user()]);
+    }
     public function showProfile(User $user) : View
     {
-
-
         if (!$user) {
             abort(404, 'User profile page not found.');
         }

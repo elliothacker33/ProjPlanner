@@ -33,7 +33,7 @@
 
             @if (Auth::check())
 
-                <a class="user_icon" href="{{ route('profile', ['user' => Auth::id()]) }}">
+                <a class="user_icon" href="{{ route('user-profile') }}">
                     <img class="icon avatar" src="{{ asset('img/default_user.png') }}" alt="default user icon">
                 </a>
                 <a id="logout" href="{{ route('logout') }}">Logout</a>

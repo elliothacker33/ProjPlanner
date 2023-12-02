@@ -61,6 +61,7 @@ Route::controller(RegisterController::class)->group(function () {
 });
 // Profile
 Route::prefix('/user-profile')->controller(ProfileController::class)->group(function () {
+    Route::get('/','show')->name('user-profile');
     Route::get('/{user}', 'showProfile')->name('profile');
     Route::put('/{user}/edit', 'updateProfile')->name('update_profile');
     Route::get('/{user}/edit', 'showEditProfile')->name('edit_profile');
