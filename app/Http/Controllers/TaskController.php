@@ -68,10 +68,11 @@ class TaskController extends Controller
         $task->opened_user_id= Auth::user()->id;
         $task->deadline = $validated['deadline'];
         $task->save();
+        $users = array_map('intval', explode(',', $validated['users']));
 
         DB::insert('insert into project_task (task_id, project_id) values (?, ?)', [$task->id, $project->id]);
         if($validated['tags'])DB::insert('insert into tag_task (tag_id, task_id) values (?, ?)', [$validated['tags'], $task->id]);
-        if($validated['users']) DB::insert('insert into task_user (user_id, task_id) values (?, ?)', [$validated['users'], $task->id]);
+        foreach ($users as $user) DB::insert('insert into task_user (user_id, task_id) values (?, ?)', [$user, $task->id]);
 
         return redirect()->route('task',['project'=>$project,'task'=>$task]);
     }
