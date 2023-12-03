@@ -44,7 +44,7 @@
                 </section>
                 <section class="sideContainer">
                     <label for="deadline" >
-                        Deadline
+                        <i class="fa-solid fa-clock"></i> Deadline
                     </label>
                     <input id = "deadline" type="date" name="deadline" value="{{ old('deadline') }}">
                     @if ($errors->has('deadline'))

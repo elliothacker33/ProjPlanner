@@ -14,18 +14,18 @@
     <header>
         <section class="info">
         <h1 class="title">{{$project->title}}</h1>
-        @if($project->is_archived) <span class="status archive"> Archive </span>
-        @else <span class="status open"> Open </span>
+        @if($project->is_archived) <span class="status archive"> <i class="fa-solid fa-box-archive"></i> Archive </span>
+        @else <span class="status open"> <i class="fa-solid fa-box-open"></i> Open </span>
         @endif
         </section>
         <section class="actions">
         @if($project->user_id===Auth::id())
             <!--<a class="edit">Edit</a>-->
-            <button class="project-action-button edit" id="edit-project-button">Edit</button>
+            <button class="project-action-button edit" id="edit-project-button"> <i class="fa-solid fa-pen-to-square"></i> Edit</button>
         @endif
 
         @can('delete', $project)
-            <button class="project-action-button delete" id="delete-project-button">Delete</button>
+            <button class="project-action-button delete" id="delete-project-button"> <i class="fa-solid fa-trash"></i> Delete</button>
         @endcan
         </section>
         <!-- Hidden forms to actions in project page that don't use AJAX-->
@@ -48,10 +48,10 @@
     </section>
     <section class="sideContainer">
         <section class="completionContainer">
-            <span class="completion">Completed Tasks {{$completedTasks}}/{{$allTasks}}</span>
+            <span class="completion"><i class="fa-solid fa-list-check"></i>  Completed Tasks {{$completedTasks}}/{{$allTasks}}</span>
         </section>
         <section class="deadlineContainer" >
-            <span>Deadline:
+            <span><i class="fa-solid fa-clock"></i> Deadline:
                 @if($project->deadline) {{ date('d-m-Y', strtotime($project->deadline)) }}
                 @else There is no deadline
                 @endif
@@ -59,7 +59,7 @@
             </span>
         </section>
         <section class="teamContainer">
-            <h5>Team: </h5>
+            <h5><i class="fa-solid fa-users"></i>  Team: </h5>
             <ul class="team">
                 @foreach($team as $member)
                     <li>{{$member->name}}</li>

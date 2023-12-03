@@ -72,7 +72,7 @@ class TaskController extends Controller
 
         DB::insert('insert into project_task (task_id, project_id) values (?, ?)', [$task->id, $project->id]);
         if($validated['tags'])DB::insert('insert into tag_task (tag_id, task_id) values (?, ?)', [$validated['tags'], $task->id]);
-        foreach ($users as $user) DB::insert('insert into task_user (user_id, task_id) values (?, ?)', [$user, $task->id]);
+        if( $validated['users'])foreach ($users as $user) DB::insert('insert into task_user (user_id, task_id) values (?, ?)', [$user, $task->id]);
 
         return redirect()->route('task',['project'=>$project,'task'=>$task]);
     }

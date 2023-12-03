@@ -1,5 +1,5 @@
 <section class="multiselector">
-    <span>Assign users <i class="fas fa-chevron-up "></i></span>
+    <span><i class="fa-solid fa-users"></i>  Assign users <i class="fas fa-chevron-up "></i></span>
     <section class="dropdown hidden">
         @foreach($users as $user )
             <section class="item">

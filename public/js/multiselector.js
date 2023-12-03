@@ -4,7 +4,7 @@ export function config_multiselector(){
     multiselectors.forEach((multiselector) =>
         multiselector.querySelector('span').addEventListener('click' ,(e)=>{
             const dropdown = multiselector.querySelector('.dropdown');
-            const icon = multiselector.querySelector('span i');
+            const icon = multiselector.querySelector('span i.fas');
             icon.classList.toggle('fa-chevron-down')
 
             dropdown.classList.toggle('hidden');
