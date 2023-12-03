@@ -1,10 +1,13 @@
-<section class="multiselector">
+<section class="multiselector {{$data}}">
 @if($data=="users")
     <span><i class="fa-solid fa-users"></i>  Assign users <i class="fas fa-chevron-up "></i></span>
     <section class="dropdown hidden">
         @foreach($users as $user )
-            <section class="item">
-                <input type="checkbox" name="assign" id="{{$user->id}}" value="{{$user->id}}">
+            <section class="item" id="assign">
+                @if(old($user->id)) <input type="checkbox"  name="{{$user->id}}" id="{{$user->id}}" value="{{$user->id}}" checked>
+                @else <input type="checkbox"  name="{{$user->id}}" id="{{$user->id}}" value="{{$user->id}}">
+                @endif
+
                 <label for="{{$user->id}}"> @include('partials.userCard',['size'=>'small'])</label>
             </section>
         @endforeach
@@ -15,10 +18,17 @@
     <section class="dropdown hidden">
         @foreach($tags as $tag )
             <section class="item">
-                <input type="checkbox" name="tags" id="{{$tag->id}}" value="{{$tag->id}}">
+                @if(old($tag->id)) <input type="checkbox" name="{{$tag->id}}" id="{{$tag->id}}" value="{{$tag->id}}" checked>
+                @else <input type="checkbox" name="{{$tag->id}}" id="{{$tag->id}}" value="{{$tag->id}}">
+                @endif
                 <label for="{{$tag->id}}"> {{$tag->title}}</label>
             </section>
         @endforeach
     </section>
 @endif
 </section>
+@if ($errors->has($data))
+    <span class="error">
+        {{ $errors->first($data) }}
+    </span>
+@endif

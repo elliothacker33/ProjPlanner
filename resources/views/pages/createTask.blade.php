@@ -12,6 +12,7 @@
 @endpush
 
 @section('content')
+
     <section class="taskCreation">
 
         <section class="formContainer">
@@ -53,15 +54,7 @@
                         </span>
                     @endif
 
-
-
                     @include('partials.multiselector',["data"=>"users"])
-
-                    @if ($errors->has('users'))
-                        <span class="error">
-                            {{ $errors->first('users') }}
-                        </span>
-                    @endif
 
                     @include('partials.multiselector',["data"=>"tags"])
                     @if ($errors->has('tags'))
@@ -69,7 +62,6 @@
                             {{ $errors->first('tags') }}
                         </span>
                     @endif
-
 
                 </section>
 

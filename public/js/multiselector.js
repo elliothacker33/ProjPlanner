@@ -1,3 +1,4 @@
+/* Closes all multi-selectors*/
 function resetAll(){
     const multiselectors = document.querySelectorAll('.multiselector');
     multiselectors.forEach((multiselector) =>{
@@ -9,6 +10,7 @@ function resetAll(){
         }
     });
 }
+/*Configs all multi-selectors in the page*/
 export function config_multiselector(){
     const multiselectors = document.querySelectorAll('.multiselector');
     multiselectors.forEach((multiselector) =>
@@ -23,14 +25,14 @@ export function config_multiselector(){
     ))
 
 }
-
-export function multiselector(origin, destany){
-    const items = document.querySelectorAll(origin+' .multiselector .item input:checked');
+/*Extracts values from the {origin} multi-selectors and stores them in the {destiny} input*/
+export function multiselector(origin, destiny){
+    const items = document.querySelectorAll(origin+'.multiselector .item input:checked');
     const values=[];
     for (let idx =0;  idx < items.length; idx++){
         values[idx] = parseInt(items[idx].value);
     }
     console.log(values);
-    const destanyInput = document.querySelector(destany);
+    const destanyInput = document.querySelector(destiny);
     destanyInput.value = values;
 }
