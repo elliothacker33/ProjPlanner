@@ -129,6 +129,29 @@ a{
     }
 
 }
+.multiselector{
+    background: white;
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+}
+.multiselector .dropdown .item{
+    display: flex;
+    gap: 1em;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    padding: 1em;
+}
+.multiselector .dropdown .item * {
+    margin: 0;
+    padding: 0;
+
+}
+.multiselector .dropdown .item input[type="checkbox"]{
+    scale: 1.5;
+}
 @media (max-width: 40em) {
 
     .taskPage {
