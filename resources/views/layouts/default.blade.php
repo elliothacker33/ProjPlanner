@@ -13,6 +13,8 @@
         <!-- Styles -->
         <link href="{{ url('css/milligram.min.css') }}" rel="stylesheet">
         <link href="{{ url('css/app.css') }}" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha384-oqVyuhRYq0hM5GZ8f5KfQcR5F7L3p1pA5Zpx3rxHTi5F3sHtfzyv+gZep6PKd6hQ" crossorigin="anonymous">
+
 
         <script type="text/javascript">
             // Fix for Firefox autofocus CSS bug

@@ -15,6 +15,7 @@
     <!-- Styles -->
     <link href="{{ url('css/milligram.min.css') }}" rel="stylesheet">
     <link href="{{ url('css/app.css') }}" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/f09afb12ac.js" crossorigin="anonymous"></script>
 
     <script type="text/javascript">
         // Fix for Firefox autofocus CSS bug

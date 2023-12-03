@@ -1,4 +1,19 @@
 
+export function config_multiselector(){
+    const multiselectors = document.querySelectorAll('.multiselector');
+    multiselectors.forEach((multiselector) =>
+        multiselector.querySelector('span').addEventListener('click' ,(e)=>{
+            const dropdown = multiselector.querySelector('.dropdown');
+            const icon = multiselector.querySelector('span i');
+            icon.classList.toggle('fa-chevron-down')
+
+            dropdown.classList.toggle('hidden');
+        }
+
+    ))
+
+}
+
 export function multiselector(origin, destany){
     const items = document.querySelectorAll(origin+' .multiselector .item input:checked');
     const values=[];

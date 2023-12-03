@@ -131,7 +131,6 @@ a{
 }
 .multiselector{
     position: relative;
-
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -145,6 +144,10 @@ a{
     border-radius: 10em;
     cursor: pointer;
 }
+.multiselector span i{
+    margin-left: 1em;
+}
+
 .multiselector .dropdown{
     top: 150%;
     height: 25rem;

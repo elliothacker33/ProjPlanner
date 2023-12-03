@@ -1,6 +1,6 @@
 <section class="multiselector">
-    <span>Assign users &#8964</span>
-    <section class="dropdown ">
+    <span>Assign users <i class="fas fa-chevron-up "></i></span>
+    <section class="dropdown hidden">
         @foreach($users as $user )
             <section class="item">
                 <input type="checkbox" name="assign" id="{{$user->id}}" value="{{$user->id}}">

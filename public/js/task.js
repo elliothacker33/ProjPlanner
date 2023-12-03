@@ -1,6 +1,6 @@
-import {multiselector} from "./multiselector.js";
+import {multiselector, config_multiselector} from "./multiselector.js";
 
-
+config_multiselector();
 const form = document.querySelector('form');
 console.log('form');
 form.addEventListener('submit', (e) => {
