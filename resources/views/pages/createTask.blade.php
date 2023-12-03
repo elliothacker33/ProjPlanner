@@ -18,7 +18,7 @@
             <header class="tasks">
                 <h2>Create a <span class="shine">Task</span></h2>
             </header>
-            <form method="POST" action="{{ route('newTask', ['project' => $project])  }}">
+            <form method="POST" action="{{ route('newTask', ['project' => $project])  }}" id="create_task">
                 @csrf
                 <section class="primaryContainer">
                     <input type="text" name="title" placeholder="Task Title" required value="{{ old('title') }}">
@@ -40,14 +40,7 @@
                         </span>
                     @endif
 
-                    <section class="buttons">
-                        <button type="submit">
-                            Create
-                        </button>
-                        <a href="{{route('show_tasks',['project'=>$project])}}">
-                            Cancel
-                        </a>
-                    </section>
+
                 </section>
                 <section class="sideContainer">
                     <label for="deadline" >
@@ -91,8 +84,17 @@
 
 
                 </section>
+
                 <input type="hidden" name ='users' id="assigns" value="">
             </form>
+            <section class="buttons">
+                <button type="submit" form="create_task">
+                    Create
+                </button>
+                <a href="{{route('show_tasks',['project'=>$project])}}">
+                    Cancel
+                </a>
+            </section>
 
         </section>
 

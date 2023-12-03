@@ -52,6 +52,9 @@
 .taskPage header .status.cancelled{
     background: var(--error-text-color);
 }
+.taskCreation .formContainer{
+    max-width: 60em;
+}
 .taskPage .primaryContainer{
     display: flex;
     gap: 3em;
@@ -112,29 +115,11 @@ a{
 .taskPage header a.delete{
     background: var(--error-text-color);
 }
-
-@media (max-width: 74em) {
-
-    .taskPage .primaryContainer{
-
-        width: 100%;
-        max-width: 40em;
-        margin: auto;
-    }
-    .taskPage .sideContainer{
-
-        width: 100%;
-        max-width: 30em;
-        margin: auto;
-    }
-
-}
 .multiselector{
     position: relative;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    width: 100%;
 }
 .multiselector span{
     width: 100%;
@@ -150,11 +135,14 @@ a{
 
 .multiselector .dropdown{
     top: 150%;
+    max-width: 40rem;
     height: 25rem;
     z-index: 2;
     overflow-y: scroll;
     position: absolute;
     display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
     flex-direction: column;
     background: white;
     width: 100%;
@@ -180,6 +168,24 @@ a{
 .multiselector .dropdown .item input[type="checkbox"]{
     scale: 1.5;
 }
+
+@media (max-width: 74em) {
+
+    .taskPage .primaryContainer{
+
+        width: 100%;
+        max-width: 40em;
+        margin: auto;
+    }
+    .taskPage .sideContainer{
+
+        width: 100%;
+        max-width: 30em;
+        margin: auto;
+    }
+
+}
+
 
 @media (max-width: 40em) {
 
