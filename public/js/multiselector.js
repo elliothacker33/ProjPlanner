@@ -1,12 +1,22 @@
-
+function resetAll(){
+    const multiselectors = document.querySelectorAll('.multiselector');
+    multiselectors.forEach((multiselector) =>{
+        const dropdown = multiselector.querySelector('.dropdown');
+        if(!dropdown.classList.contains('hidden')){
+            dropdown.classList.add('hidden');
+            const icon = multiselector.querySelector('span i.fas');
+            icon.classList.toggle('fa-chevron-down')
+        }
+    });
+}
 export function config_multiselector(){
     const multiselectors = document.querySelectorAll('.multiselector');
     multiselectors.forEach((multiselector) =>
         multiselector.querySelector('span').addEventListener('click' ,(e)=>{
             const dropdown = multiselector.querySelector('.dropdown');
+            if(dropdown.classList.contains('hidden')) resetAll();
             const icon = multiselector.querySelector('span i.fas');
             icon.classList.toggle('fa-chevron-down')
-
             dropdown.classList.toggle('hidden');
         }
 

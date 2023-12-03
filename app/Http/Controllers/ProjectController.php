@@ -17,6 +17,7 @@ class ProjectController extends Controller
     {
         $user = $request->user();
         $this->authorize('viewAny',Project::class);
+        
         if(!$user) abort(404);
         return view('home.home',['projects'=>$user->projects]);
     }

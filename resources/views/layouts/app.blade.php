@@ -30,7 +30,7 @@
 <body>
     <header>
         <section>
-                <h1 id="header_title"><a href="{{ route('home')}}" > <i class="fas fa-project-diagram"></i> ProjPlanner</a></h1>
+                <h1 id="header_title"><a href="{{ route('home')}}" > <i class="fa-solid fa-bars-progress"></i>  ProjPlanner</a></h1>
 
             @if (Auth::check())
 

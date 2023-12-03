@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.project')
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/task.css') }}">
@@ -55,7 +55,7 @@
 
 
 
-                    @include('partials.multiselector')
+                    @include('partials.multiselector',["data"=>"users"])
 
                     @if ($errors->has('users'))
                         <span class="error">
@@ -63,19 +63,7 @@
                         </span>
                     @endif
 
-                    <label for="tags">
-                        Choose a tag
-                    </label>
-                    <select id='tags' name="tags" value="{{ old('tags') }}">
-                        <option selected="selected"> </option>
-
-                        @foreach($tags as $tag )
-
-                            @if( old('tags') == $tag->id ) <option value="{{$tag->id}}" selected="selected"> {{$tag->title}} </option>
-                            @else <option value="{{$tag->id}}"> {{$tag->title}} </option>
-                            @endif
-                        @endforeach
-                    </select>
+                    @include('partials.multiselector',["data"=>"tags"])
                     @if ($errors->has('tags'))
                         <span class="error">
                             {{ $errors->first('tags') }}
@@ -86,6 +74,7 @@
                 </section>
 
                 <input type="hidden" name ='users' id="assigns" value="">
+                <input type="hidden" name ='tags' id="tags" value="">
             </form>
             <section class="buttons">
                 <button type="submit" form="create_task">

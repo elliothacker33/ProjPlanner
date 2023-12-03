@@ -4,7 +4,6 @@
     justify-content: center;
     align-content: center;
 }
-
 .taskCreation .formContainer form input,.formContainer form textarea{
     background: var(--input-bg-color);
 }
@@ -63,7 +62,7 @@
 }
 .taskPage .sideContainer{
     display: flex;
-    gap: 1em;
+    gap: 2em;
     flex-direction: column;
     width: 20em;
 }
@@ -120,6 +119,7 @@ a{
     display: flex;
     flex-direction: column;
     width: 100%;
+    margin-top: 2em;
 }
 .multiselector span{
     width: 100%;
@@ -134,9 +134,9 @@ a{
 }
 
 .multiselector .dropdown{
-    top: 150%;
+    top: 120%;
     max-width: 40rem;
-    height: 25rem;
+    max-height: 25rem;
     z-index: 2;
     overflow-y: scroll;
     position: absolute;
