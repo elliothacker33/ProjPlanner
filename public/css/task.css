@@ -98,7 +98,7 @@ a{
     gap :2em;
 }
 
-.taskPage header .actions a {
+.taskPage header .actions a, .multiselector span {
     padding: 0.5em 0.7em;
     background: var(--onprimary-bg-color);
     color: white;
@@ -130,17 +130,42 @@ a{
 
 }
 .multiselector{
-    background: white;
-    padding: 1em;
+    position: relative;
+
     display: flex;
     flex-direction: column;
-    gap: 2em;
+    justify-content: center;
+    align-items: center;
+}
+.multiselector span{
+    width: 100%;
+    text-align: center;
+    background: var(--onsecondary-bg-color);
+    margin: auto;
+    border-radius: 10em;
+    cursor: pointer;
+}
+.multiselector .dropdown{
+    top: 150%;
+    height: 25rem;
+    z-index: 2;
+    overflow-y: scroll;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    background: white;
+    width: 100%;
+    padding:  1em;
+    box-shadow: 0 0.5em 0.5em #00000004,0 1em 1em #00000003,0 1.5em 1.5em #00000002,0 2em 2em #00000001;
+}
+.multiselector .dropdown.hidden{
+    display: none;
 }
 .multiselector .dropdown .item{
     display: flex;
     gap: 1em;
-    justify-content: center;
-    align-content: center;
+    justify-content: flex-start;
+    align-content: flex-start;
     align-items: center;
     padding: 1em;
 }
@@ -152,6 +177,7 @@ a{
 .multiselector .dropdown .item input[type="checkbox"]{
     scale: 1.5;
 }
+
 @media (max-width: 40em) {
 
     .taskPage {

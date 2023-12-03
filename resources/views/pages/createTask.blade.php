@@ -58,19 +58,10 @@
                         </span>
                     @endif
 
-                    <label for="users">
-                        Assign User
-                    </label>
 
-                    <select id="users" name="users" value="{{ old('users') }}" >
-                        <option selected="selected"> </option>
 
-                        @foreach($users as $user )
-                            @if( old('users') == $user->id ) <option value="{{$user->id}}" selected="selected"> {{$user->name}} </option>
-                            @else <option value="{{$user->id}}"> {{$user->name}} </option>
-                            @endif
-                        @endforeach
-                    </select>
+                    @include('partials.multiselector')
+
                     @if ($errors->has('users'))
                         <span class="error">
                             {{ $errors->first('users') }}

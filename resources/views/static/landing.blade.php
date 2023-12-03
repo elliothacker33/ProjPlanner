@@ -31,5 +31,4 @@
             <a href="{{ route('register') }}"><button>Register</button></a>
         </section>
     </section>
-    @include('partials.multiselector')
 @endsection

@@ -4,4 +4,16 @@
     overflow: clip;
     background: white;
     flex-wrap: wrap;
+    align-items: center;
+}
+
+.userCard.small h3{
+    font-size: 1em;
+}
+.userCard.small h5{
+    font-size: 0.8em;
+}
+.userCard.small .avatar{
+    width: 2em;
+    height: 2em;
 }
