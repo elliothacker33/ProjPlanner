@@ -3,11 +3,13 @@ const content = document.querySelector('body');
 
 content.style.paddingTop = (header.clientHeight).toString() + 'px';
 
-
-function addEventListeners() {
-
-
-}
+const currentPath = window.location.pathname;
+const projectHomePage = /^\/project\/[0-9]+$/.test(currentPath);
+const projectTeamPage = /^\/project\/[0-9]+\/team$/.test(currentPath);
+const projectTaskPage = (/^\/project\/[0-9]+\/tasks$/).test(currentPath);
+if(projectTaskPage)document.querySelector('#projectTasks').classList.add('selected')
+else if (projectTeamPage)document.querySelector('#projectTeam').classList.add('selected')
+else if(projectHomePage) document.querySelector('#projectHome').classList.add('selected')
 
 function encodeForAjax(data) {
     if (data == null) return null;
