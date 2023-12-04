@@ -28,6 +28,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'is_admin',
     ];
 
     /**
@@ -52,6 +53,8 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Project::class, 'project_user', 'user_id', 'project_id');
     }
-
+    public function tasks(): BelongsToMany{
+        return $this->belongsToMany(Task::class,'task_user','user_id','task_id');
+    }
   
 }

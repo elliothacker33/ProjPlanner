@@ -17,6 +17,7 @@ class Task extends Model
         'title',
         'description',
         'deadline',
+        'status',
     ];
 
 

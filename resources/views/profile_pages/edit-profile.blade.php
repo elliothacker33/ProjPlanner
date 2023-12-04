@@ -6,7 +6,7 @@
 
 @section('content')
     <header>
-        <h1> Edit Profile</h1>
+        <h1>Edit Profile</h1>
     </header>
     <figure>
         <img src="{{ asset('img/default-profile-photo.jpg') }}" alt="Default Image">
