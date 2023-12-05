@@ -13,10 +13,10 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $searchTerm = '%'.$request->searchTerm.'%';
+        $searchTerm = '%'.$request->input('query').'%';
         $users = User::whereRaw("email Like ?  OR Name Like ? ", [$searchTerm, $searchTerm])->get();
 
-        if($request->ajax()){
+        if ($request->ajax()){
             return view('partials.displayUsers', ['users' => $users] );
         }
 

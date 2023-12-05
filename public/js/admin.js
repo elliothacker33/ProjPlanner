@@ -10,7 +10,7 @@ searchBar.addEventListener('input', (e) => {
 });
 async function request(input) {
 
-    return await fetch('/users/search?searchTerm=' + input, {
+    return await fetch('/api/users?query=' + input, {
         method: "GET",
         headers: {
             "X-Requested-With": "XMLHttpRequest",
