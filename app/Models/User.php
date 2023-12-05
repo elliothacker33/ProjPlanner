@@ -29,7 +29,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'is_admin',
+        'is_admin'
     ];
 
     /**
@@ -51,6 +51,8 @@ class User extends Authenticatable
         'password' => 'hashed',
         'is_admin' => 'boolean',
     ];
+
+
     public function projects_for_user(): BelongsToMany
     {
         return $this->belongsToMany(Project::class, 'project_user', 'user_id', 'project_id');
@@ -63,14 +65,19 @@ class User extends Authenticatable
     ];
 
     public function projects(): BelongsToMany {
+
         return $this->belongsToMany(Project::class);
     }
 
-    public function assign(): BelongsToMany {
+    public function assign(): BelongsToMany
+    {
         return $this->belongsToMany(Task::class);
     }
 
-    public function coordinates(): HasMany {
+    public function coordinates(): HasMany
+    {
         return $this->hasMany(Project::class);
     }
 }
+
+

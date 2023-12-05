@@ -11,12 +11,15 @@
     flex:1;
     width: 80%;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-
 }
 #content>header>h1{
     font-size: 3em;
+}
+
+#content>header>a{
+    margin-bottom: 0;
 }
 
 .projects{

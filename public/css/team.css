@@ -1,0 +1,50 @@
+.team{
+    width:100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-content: center;
+    padding: 3em 0 ;
+    gap: 2em;
+}
+.team > *{
+    margin: 0 auto;
+}
+.team .addUserContainer{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    width: 100%;
+}
+.team .addUserContainer form{
+    display: flex;
+    justify-content: center;
+    gap: 2em;
+    width: 100%;
+}
+.team .addUserContainer form input{
+    width: 100%;
+    max-width: 30em;
+}
+.team .teamContainer{
+    width: 100%;
+    max-width: 60em;
+    display: flex;
+
+    flex-direction: column;
+    border: 1px solid grey;
+}
+.team .teamContainer .member{
+    width: 100%;
+    max-width: 60em;
+    justify-content: space-evenly;
+    border-bottom: 1px solid grey;
+    align-content: center;
+    display: flex;
+    gap: 20%;
+    padding: 1em;
+}
+.team .teamContainer .member p{
+    margin: 0;
+    padding: 0;
+}

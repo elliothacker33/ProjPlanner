@@ -35,8 +35,12 @@ class TaskPolicy
     public function create(User $user,Project $project): bool
     {
         $users = $project->users()->get()->toArray();
+        $member=false;
+        foreach ($users as $user_){
+            if($user->id===$user_['id']) $member= true;
+        }
 
-        return (!$user->isAdmin) and (in_array($user, $users));
+        return (!$user->isAdmin) and $member;
     }
 
     /**

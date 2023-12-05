@@ -43,20 +43,12 @@ class ProfileController extends Controller
 
         $rules = [
             'name' => 'required|string|max:20',
-            'email' => [
-                'required',
-                'email',
-                'max:100',
-                'unique:users,email,' . $usrId, 
-            ],
             'old_password' => 'required_with:new_password|min:8',
             'new_password' => 'min:8|max:255',
         ];
     
         $customErrors = [
             'name.max' => 'The name must not exceed 20 characters.',
-            'email.email' => 'Please enter a valid email address.',
-            'email.unique' => 'The email address is already in use.',
             'old_password.required_with' => 'Please provide the old password when updating the password.',
             'new_password.confirmed' => 'The new password confirmation does not match.',
         ];
@@ -72,7 +64,6 @@ class ProfileController extends Controller
         $this->authorize('update', $user);
     
         $user->name = $request->name;
-        $user->email = $request->email;
     
         if ($request->filled('new_password')) {
             if (!Hash::check($request->old_password, $user->password)) {

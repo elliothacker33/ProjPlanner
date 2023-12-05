@@ -15,9 +15,20 @@ class TaskController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request, int $projectId)
     {
-        //
+
+        $project = Project::find($projectId);
+        $this->authorize('create', [Task::class,  $project]);
+        $searchTerm = '%'.$request->searchTerm.'%';
+        $likeSearchTerm = '*' . $request->searchTerm . '*';
+        $tasks = Task::whereRaw("title Like ?  ",[$searchTerm])->get();
+        // $questions = DB::unprepared("SELECT * FROM Users, plainto_tsquery('portuguese','$searchTerm') query WHERE tsvectors @@ query ORDER BY rank DESC;");
+        // $users = DB::raw("SELECT * FROM Users");
+
+        if($request->ajax()){
+            return view('partials.displayTasks', ['tasks' => $tasks,'project'=>$project] );
+        }
     }
 
     /**
@@ -64,10 +75,8 @@ class TaskController extends Controller
         DB::insert('insert into project_task (task_id, project_id) values (?, ?)', [$task->id, $projectId]);
         if($validated['tags'])DB::insert('insert into tag_task (tag_id, task_id) values (?, ?)', [$validated['tags'], $task->id]);
         if($validated['users']) DB::insert('insert into task_user (user_id, task_id) values (?, ?)', [$validated['users'], $task->id]);
-        $res = DB::table('task_user')->where('task_id' , '=', $task->id)->get();
-        $res2 = DB::table('tag_task')->where('task_id' , '=', $task->id)->get();
-        return view('pages.' . 'task')->with(['task'=>Task::find($task->id),'res'=>$res,'res2'=>$res2]);
 
+        return redirect()->route('task',['projectId'=>$projectId,'id'=>$task->id]);
     }
 
     /**

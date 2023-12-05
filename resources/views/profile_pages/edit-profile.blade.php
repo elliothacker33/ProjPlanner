@@ -26,13 +26,6 @@
             </span>
         @endif
 
-        <input type="text" name="email" placeholder="Update your email" value="{{ old('email') }}">
-
-        @if ($errors->has('email'))
-            <span class="error">
-                {{ $errors->first('email') }}
-            </span>
-        @endif
 
         <input type="password" name="old_password" placeholder="Old password">
 

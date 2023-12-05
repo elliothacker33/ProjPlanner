@@ -16,19 +16,18 @@
         @if($project->is_archived) <span class="status archive"> Archive </span>
         @else <span class="status open"> Open </span>
         @endif
-        @can('update', $project)
+
+        @if($project->user_id===Auth::id())
             <!--<a class="edit">Edit</a>-->
             <button class="project-action-button" id="edit-project-button">Edit</button>
-        @endcan
+        @endif
 
         @can('delete', $project)
             <button class="project-action-button" id="delete-project-button">Delete</button>
         @endcan
 
         <!-- Hidden forms to actions in project page that don't use AJAX-->
-        <form class="hidden-form" id="edit-project-form" action="{{ "/project/" . $project->id }}" method="POST">
-            @csrf
-            @method('PUT')
+        <form class="hidden-form" id="edit-project-form" action="{{ "/project/" . $project->id . "/edit"}}" method="GET">
         </form>
 
         <form class="hidden-form" id="delete-project-form" action="{{ "/project/" . $project->id }}" method="POST">
@@ -50,8 +49,8 @@
             <span class="completion">Completed Tasks {{$completedTasks}}/{{$allTasks}}</span>
         </section>
         <section class="deadlineContainer" >
-            <span>DeadLine:
-                @if($project->deadline) {{$project->deadline}}
+            <span>Deadline:
+                @if($project->deadline) {{ date('d-m-Y', strtotime($project->deadline)) }}
                 @else There is no deadline
                 @endif
 

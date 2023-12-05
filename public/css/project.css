@@ -56,6 +56,8 @@
     gap: 3em;
     flex-direction: column;
     flex-grow: 1;
+    width: 40em;
+    width: 40em;
 }
 .projectPage .sideContainer{
     display: flex;
@@ -77,6 +79,10 @@
 .projectPage .sideContainer ul{
     padding:  1em 0.5em;
     text-align: start;
+}
+.projectPage .sideContainer a{
+   text-decoration: none;
+    color: var(--primary-text-color)
 }
 
 .projectPage .sideContainer .teamContainer h5{
@@ -138,6 +144,12 @@
 
         width: 100%;
         max-width: 40em;
+        margin: auto;
+    }
+    .projectPage .primaryContainer .description{
+        word-break: break-word;
+        width: 100%;
+        max-width: 100%;
         margin: auto;
     }
     .projectPage .sideContainer{

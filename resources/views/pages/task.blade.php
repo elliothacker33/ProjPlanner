@@ -17,7 +17,10 @@
             @else <span class="status cancelled"> Cancelled </span>
             @endif
             @can('update',$task)
-                <a class="edit">Edit</a>
+                <section>
+
+                    <a class="edit">Edit</a>
+                </section>
             @endcan
 
         </header>
@@ -31,8 +34,8 @@
             </section>
             <section class="sideContainer">
                 <section class="deadlineContainer" >
-                    <span>DeadLine:
-                        @if($task->deadline) {{$task->deadline}}
+                    <span>Deadline:
+                        @if($task->deadline) {{ date('d-m-Y', strtotime($task->deadline)) }}
                         @else There is no deadline
                         @endif
                     </span>
