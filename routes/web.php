@@ -45,8 +45,9 @@ Route::controller(AdminController::class)->group(function () {
 });
 
 Route::controller(TaskController::class)->group(function(){
-    Route::get('project/{projectId}/tasks/search', 'index')->name('search_tasks');
+    Route::get('/api/tasks', 'searchTasks')->name('search_tasks');
 });
+
 Route::prefix('/project/{projectId}')->group(function (){
     Route::get('',[ProjectController::class,'show'])->name('project')->whereNumber('projectId');
     Route::get('/team',[ProjectController::class,'show_team'])->name('team');
@@ -76,12 +77,11 @@ Route::controller(ProfileController::class)->group(function () {
     Route::get('/user-profile/{usrId}/edit','showEditProfile')->name('edit_profile');
 });
 
-
-
 Route::controller(HomeController::class)->group(function () {
     Route::get('/homepage/{usrId}','showHome')->name('home');
     Route::get('/landing', 'showLanding')->name('landing');
 });
+
 Route::controller(ProjectController::class)->group(function () {
     Route::get('/project/new' , 'create')->name('show_new');
     Route::post('/project/new', 'store')->name('action_new');

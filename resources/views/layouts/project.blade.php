@@ -1,10 +1,5 @@
 @extends('layouts.app')
 
-@push('scripts')
-    <script type="text/javascript" src={{ url('js/app.js') }} defer></script>
-@endpush
-
-
 @section('navbar')
     <li><a href="/project/{!! $project->id !!}/">Project Home</a></li>
     <li><a href="/project/{!! $project->id !!}/team">Team</a></li>

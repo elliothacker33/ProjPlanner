@@ -1,33 +1,39 @@
+import {sendAjaxRequest, encodeForAjax} from './app.js'
+
 const currentPath = window.location.pathname;
-console.log(currentPath);
-const editPage = /^\/project\/[0-9]+\/task$/.test(currentPath);
-const searchPage = /^[/\w, \/]*\/search*$/.test(currentPath);
 
 const searchBar = document.getElementById('search-bar');
 searchBar.addEventListener('input', (e) => {
-    let $input = searchBar.value;
-    request($input);
+    let input = searchBar.value;
+
+    const encodedInput = encodeForAjax({"query": input, "project": currentPath.split('/')[2]})
+    sendAjaxRequest("GET", "/api/tasks?" + encodedInput, '', updateSearchedTasks); 
 });
-async function request(input) {
 
-    return await fetch(currentPath+'search?searchTerm=' + input, {
-        method: "GET",
-        headers: {
-            "X-Requested-With": "XMLHttpRequest",
-        },
-    })
-        .then(function (response) {
+export function updateSearchedTasks() {
+    let tasksSection = document.querySelector('section.tasks');
+    tasksSection.innerHTML = '';
+    const data =  JSON.parse(this.responseText)
 
-            return response.text()
-        })
-        .then(function (html) {
-            const container = document.getElementsByClassName('tasks')[0];
-            console.log(container);
-            container.innerHTML = html;
+    data.forEach(task => {
+        const divWrapper = document.createElement('div');
+        const taskSection = document.createElement('section');
+        const statusSection = document.createElement('section');
+        const taskAnchor = document.createElement('a');
 
-        })
-        .catch(function (err) {
-            console.log('Failed to fetch page: ', err);
-        });
+        divWrapper.classList.add('tasks');
+
+        taskSection.classList.add('task');
+        taskAnchor.setAttribute('href', `/project/${currentPath.split('/')[2]}/task/${task.id}/`);
+        taskAnchor.textContent = task.title;
+        taskSection.appendChild(taskAnchor);
+        statusSection.classList.add('status');
+        statusSection.textContent = task.status;
+
+        divWrapper.appendChild(taskSection);
+        divWrapper.appendChild(statusSection);
+
+        tasksSection.appendChild(divWrapper);
+    });
 }
 

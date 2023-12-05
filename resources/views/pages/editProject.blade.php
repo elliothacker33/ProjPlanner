@@ -5,9 +5,6 @@
     <link rel="stylesheet" href="{{ asset('css/project.css') }}">
 
 @endpush
-@push('scripts')
-    <script type="text/javascript" src={{ url('js/app.js') }} defer></script>
-@endpush
 
 @section('content')
     <section class="projectCreation">

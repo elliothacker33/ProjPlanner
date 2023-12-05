@@ -5,7 +5,7 @@
 @endpush
 
 @push('scripts')
-    <script type="text/javascript" src="{{ asset('js/tasks.js') }}" defer></script>
+    <script type="module" src="{{ asset('js/tasks.js') }}" defer></script>
 @endpush
 
 @section('content')

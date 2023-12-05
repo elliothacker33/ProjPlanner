@@ -12,22 +12,18 @@ use Illuminate\Support\Facades\DB;
 
 class TaskController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index(Request $request, int $projectId)
+    public function searchTasks(Request $request)
     {
-        $project = Project::find($projectId);
-        $this->authorize('create', [Task::class,  $project]);
-        $searchTerm = '%'.$request->searchTerm.'%';
-        $searchedTasks =  $project->tasks()
-            ->whereRaw("tsvectors @@ plainto_tsquery('english', ?)", [$searchTerm])
-            ->orderByRaw("ts_rank(tsvectors, plainto_tsquery('english', ?)) DESC", [$searchTerm])
+        $project = Project::find($request->input('project'));
+
+        $this->authorize('create', [Task::class, $project]);
+
+        $searchedTasks = $project->tasks()
+            ->whereRaw("tsvectors @@ plainto_tsquery('english', ?)", [$request->input('query')])
+            ->orderByRaw("ts_rank(tsvectors, plainto_tsquery('english', ?)) DESC", [$request->input('query')])
             ->get();
 
-        if ($request->ajax()) {
-            return view('partials.displayTasks', ['tasks' => $searchedTasks,'project'=>$project] );
-        }
+        return response()->json($searchedTasks);
     }
 
     /**
@@ -39,10 +35,8 @@ class TaskController extends Controller
 
         $project = Project::find($projectId);
         $this->authorize('create', [Task::class,  $project]);
-        $res = DB::table('project_tag')
-            ->join('tags', 'tags.id', '=', 'project_tag.tag_id')
-            ->where('project_tag.project_id','=',$projectId)->get();
-        return view('pages.' . 'createTask')->with(['projectId'=>$projectId, 'users'=>$project->users,'tags'=>$res]);
+        dd($project->tags);
+        return view('pages.' . 'createTask')->with(['projectId'=>$projectId, 'users'=>$project->users,'tags'=>$project->tags]);
     }
 
     /**
@@ -86,7 +80,7 @@ class TaskController extends Controller
         $task=Task::find($taskId);
         $project_task = $task->project();
 
-        if ($task == null || $project_task->isEmpty())
+        if ($task == null || $project_task == null)
             return abort(404);
 
         $this->authorize('view',[$task::class,$task]);

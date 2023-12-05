@@ -5,7 +5,6 @@
 @endpush
 
 @push('scripts')
-    <script type="text/javascript" src={{ url('js/app.js') }} defer></script>
     <script type="text/javascript" src="{{ asset('js/project.js') }}" defer></script>
 @endpush
 
