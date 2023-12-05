@@ -79,7 +79,7 @@ Route::prefix('/project')->group(function () {
         Route::controller(ProjectController::class)->group(function () {
             Route::get('', 'show')->name('project');
             Route::get('/team', 'show_team')->name('team');
-            Route::post('team/add', 'add_user')->name('addUser');
+            Route::post('/team/add', 'add_user')->name('addUser');
             Route::delete('', 'destroy')->where('project', '[0-9]+')->name('delete_project');
             Route::get('/edit', 'edit')->whereNumber('project')->name('show_edit_project');
             Route::put('/edit', 'update')->whereNumber('project')->name('action_edit_project');

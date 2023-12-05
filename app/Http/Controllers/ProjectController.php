@@ -16,8 +16,7 @@ class ProjectController extends Controller
     public function index(Request $request)
     {
         $user = $request->user();
-        $this->authorize('viewAny',Project::class);
-        if(!$user) abort(404);
+        $this->authorize('viewUserProjects',Project::class);
         return view('home.home',['projects'=>$user->projects]);
     }
 
