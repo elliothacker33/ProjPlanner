@@ -18,7 +18,10 @@ class LoginController extends Controller
      */
     public function showLoginForm()
     {
-            return view('auth.login');
+        if (Auth::check())
+            return redirect()->back();
+
+        return view('auth.login');
     }
 
     /**
@@ -50,7 +53,7 @@ class LoginController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect()->route('login')
+        return redirect()->route('landing')
             ->withSuccess('You have logged out successfully!');
     } 
 }

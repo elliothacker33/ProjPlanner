@@ -8,6 +8,10 @@
     <script src="{{ asset('js/faq.js') }}" defer></script>
 @endpush
 
+@push('scripts')
+    <script type="text/javascript" src={{ url('js/app.js') }} defer></script>
+@endpush
+
 @section('content')
 
         <div>

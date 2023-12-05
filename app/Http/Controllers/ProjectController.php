@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ProjectController extends Controller
 {
@@ -51,17 +51,31 @@ class ProjectController extends Controller
 
         $project->users()->attach(Auth::user()->id);
 
-        return redirect()->route('home');
-        // TODO: use this when project page is done
-        // return redirect()->route('show_project', ['projectId' => $project->id]);
+        return redirect()->route('project', ['projectId' => $project->id]);
     }
-   
     /**
      * Display the specified resource.
      */
-    public function show(Project $project)
+    public function show(int $projectId)
     {
-        //
+        $project=Project::find($projectId);
+
+        if ($project == null)
+            return abort(404);
+
+        $this->authorize('view',[Project::class,$project]);
+        $users = $project->users;
+
+        $completed_task = DB::table('project_task')
+            ->join('tasks','project_task.task_id','=','tasks.id')
+            ->where('project_id','=',$projectId)
+            ->where('tasks.status','=','closed')->count();
+        $open_task = DB::table('project_task')
+            ->join('tasks','project_task.task_id','=','tasks.id')
+            ->where('project_id','=',$projectId)
+            ->where('tasks.status','=','open')->count();
+        $all_task = $completed_task + $open_task;
+        return view('pages.project',['project'=>$project, 'team'=>$users->slice(0,4),'allTasks'=>$all_task, 'completedTasks'=>$completed_task]);
     }
 
     /**

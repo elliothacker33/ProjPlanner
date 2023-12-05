@@ -44,11 +44,11 @@ CREATE TABLE lbaw2353.users(
 --0 CHECK IMAGE
 CREATE TABLE lbaw2353.projects (
     id SERIAL PRIMARY KEY,
-    title VARCHAR(20) NOT NULL,
+    title VARCHAR(100) NOT NULL,
     description TEXT,
     is_archived BOOLEAN DEFAULT FALSE,
     creation TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
-    deadline TIMESTAMP WITH TIME ZONE NOT NULL CHECK (creation < deadline),
+    deadline TIMESTAMP WITH TIME ZONE CHECK (deadline IS NULL OR (creation < deadline)),
     user_id INTEGER REFERENCES lbaw2353.users(id) ON UPDATE CASCADE ON DELETE CASCADE NOT NULL
 );
 --1 
@@ -61,10 +61,10 @@ CREATE TABLE lbaw2353.tasks (
     id SERIAL PRIMARY KEY,
     title VARCHAR(20) NOT NULL,
     description VARCHAR(100),
-    status lbaw2353.task_status NOT NULL,
+    status lbaw2353.task_status NOT NULL DEFAULT 'open',
     starttime TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
     endtime TIMESTAMP WITH TIME ZONE ,
-    deadline TIMESTAMP WITH TIME ZONE NOT NULL CHECK (starttime < deadline),
+    deadline TIMESTAMP WITH TIME ZONE CHECK (deadline IS NULL OR (starttime < deadline)),
     opened_user_id INTEGER REFERENCES lbaw2353.users(id) ON UPDATE CASCADE ON DELETE SET DEFAULT NULL,
     closed_user_id INTEGER REFERENCES lbaw2353.users(id) ON UPDATE CASCADE ON DELETE SET DEFAULT NULL
 );
@@ -130,7 +130,7 @@ CREATE TABLE lbaw2353.project_notification (
     id SERIAL PRIMARY KEY,
     description VARCHAR(1000) NOT NULL,
     notification_date TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
-    project_id INTEGER REFERENCES lbaw2353.projects(id) ON UPDATE CASCADE NOT NULL, 
+    project_id INTEGER REFERENCES lbaw2353.projects(id) ON UPDATE CASCADE ON DELETE CASCADE NOT NULL, 
     user_id INTEGER REFERENCES lbaw2353.users(id) ON UPDATE CASCADE ON DELETE CASCADE NOT NULL,
     seen BOOLEAN DEFAULT FALSE NOT NULL
 );
@@ -605,6 +605,48 @@ CREATE TRIGGER add_user_to_project
 EXECUTE FUNCTION check_user();
 
 
+/*Tasks could only have tags from project*/
+
+CREATE OR REPLACE FUNCTION tag_task_from_the_same_project()
+    RETURNS TRIGGER AS $BODY$
+BEGIN
+    IF  NEW.tag_id in(SELECT project_tag.tag_id FROM lbaw2353.project_tag JOIN lbaw2353.project_task on project_tag.project_id = project_task.project_id)THEN
+        RETURN NEW;
+    ELSE
+    RAISE EXCEPTION 'Only tags from the project can be added to the task';
+    END IF;
+
+
+END
+$BODY$
+    LANGUAGE plpgsql;
+
+CREATE TRIGGER add_tag_to_task
+    BEFORE INSERT ON lbaw2353.tag_task
+    FOR EACH ROW
+EXECUTE FUNCTION tag_task_from_the_same_project();
+
+/*Only users who participate in a project can be assigned to the project*/
+CREATE OR REPLACE FUNCTION user_must_belong_to_project()
+    RETURNS TRIGGER AS $BODY$
+BEGIN
+    IF  NEW.user_id in(SELECT project_user.user_id FROM lbaw2353.project_user JOIN lbaw2353.project_task on project_user.project_id = project_task.project_id)THEN
+        RETURN NEW;
+    ELSE
+        RAISE EXCEPTION 'Only users from the project can be assigned';
+    END IF;
+
+
+END
+$BODY$
+    LANGUAGE plpgsql;
+
+CREATE TRIGGER assign_user
+    BEFORE INSERT ON lbaw2353.task_user
+    FOR EACH ROW
+EXECUTE FUNCTION user_must_belong_to_project();
+
+
 --------------------------------------------------------
 -- POPULATE TABLES
 --------------------------------------------------------z
@@ -673,9 +715,9 @@ INSERT INTO tags (title) VALUES ( 'hit');
 INSERT INTO tags (title) VALUES ( 'develop');
 INSERT INTO tags (title) VALUES ( 'cold');
 -- Inserting data into the 'tasks' table
-INSERT INTO tasks (title, description, status, starttime, endtime, deadline, opened_user_id, closed_user_id) VALUES ('speak', 'Issue close eye music others forward.', 'canceled', '2022-10-31', '2023-04-11', '2024-07-22', 18, 8);
-INSERT INTO tasks (title, description, status, starttime, endtime, deadline, opened_user_id, closed_user_id) VALUES ('race', 'See soon onto senior prepare fine.', 'canceled', '2023-08-24', '2023-05-23', '2024-06-10', 9, 17);
-INSERT INTO tasks (title, description, status, starttime, endtime, deadline, opened_user_id, closed_user_id) VALUES ('play', 'Three floor country prove bar management.', 'closed', '2023-04-03', '2022-12-11', '2024-07-14', 8, 4);
+INSERT INTO tasks (title, description, status, starttime, endtime, deadline, opened_user_id, closed_user_id) VALUES ('speak', 'Issue close eye music others forward.', 'open', '2022-10-31', '2023-04-11', '2024-07-22', 18, 8);
+INSERT INTO tasks (title, description, status, starttime, endtime, deadline, opened_user_id, closed_user_id) VALUES ('race', 'See soon onto senior prepare fine.', 'closed', '2023-08-24', '2023-05-23', '2024-06-10', 9, 17);
+INSERT INTO tasks (title, description, status, starttime, endtime, deadline, opened_user_id, closed_user_id) VALUES ('play', 'Three floor country prove bar management.', 'canceled', '2023-04-03', '2022-12-11', '2024-07-14', 8, 4);
 INSERT INTO tasks (title, description, status, starttime, endtime, deadline, opened_user_id, closed_user_id) VALUES ('sort', 'Fund make learn.', 'closed', '2022-12-19', '2023-05-25', '2023-12-10', 20, 2);
 INSERT INTO tasks (title, description, status, starttime, endtime, deadline, opened_user_id, closed_user_id) VALUES ('human', 'Contain each indicate blood wind while edge.', 'open', '2023-09-05', '2022-12-28', '2024-09-11', 2, 19);
 INSERT INTO tasks (title, description, status, starttime, endtime, deadline, opened_user_id, closed_user_id) VALUES ('watch', 'Event performance easy nation would.', 'canceled', '2023-06-23', '2023-01-28', '2024-08-19', 15, 10);
@@ -715,26 +757,8 @@ INSERT INTO posts (content, submit_date, last_edited, user_id, project_id) VALUE
 INSERT INTO posts (content, submit_date, last_edited, user_id, project_id) VALUES ('General source red plan school. Minute senior suffer thought. Toward group plant.', '2023-09-15', '2023-03-23', 6, 10);
 INSERT INTO posts (content, submit_date, last_edited, user_id, project_id) VALUES ('Oil direction boy late commercial age. Show personal prepare no day. Check capital itself.', '2023-04-03', '2023-09-26', 15, 19);
 -- Inserting data into the 'task_user' table
-INSERT INTO task_user (user_id, task_id) VALUES (6, 6);
-INSERT INTO task_user (user_id, task_id) VALUES (2, 16);
-INSERT INTO task_user (user_id, task_id) VALUES (20, 13);
-INSERT INTO task_user (user_id, task_id) VALUES (8, 5);
-INSERT INTO task_user (user_id, task_id) VALUES (4, 18);
-INSERT INTO task_user (user_id, task_id) VALUES (14, 1);
-INSERT INTO task_user (user_id, task_id) VALUES (15, 15);
-INSERT INTO task_user (user_id, task_id) VALUES (3, 20);
-INSERT INTO task_user (user_id, task_id) VALUES (2, 1);
-INSERT INTO task_user (user_id, task_id) VALUES (4, 9);
-INSERT INTO task_user (user_id, task_id) VALUES (13, 5);
-INSERT INTO task_user (user_id, task_id) VALUES (15, 7);
-INSERT INTO task_user (user_id, task_id) VALUES (16, 19);
-INSERT INTO task_user (user_id, task_id) VALUES (2, 11);
-INSERT INTO task_user (user_id, task_id) VALUES (16, 12);
-INSERT INTO task_user (user_id, task_id) VALUES (10, 7);
-INSERT INTO task_user (user_id, task_id) VALUES (13, 7);
-INSERT INTO task_user (user_id, task_id) VALUES (18, 13);
-INSERT INTO task_user (user_id, task_id) VALUES (19, 12);
-INSERT INTO task_user (user_id, task_id) VALUES (10, 8);
+
+
 -- Inserting data into the 'comments' table
 INSERT INTO comments (content, submit_date, last_edited, task_id, user_id) VALUES ('Middle character accept another push drug nice. Tend writer season manage word near pattern.', '2023-08-23', '2022-12-12', 12, 9);
 INSERT INTO comments (content, submit_date, last_edited, task_id, user_id) VALUES ('Six also career happy. Sea throughout power listen tree.', '2023-06-23', '2023-02-18', 3, 18);
@@ -860,7 +884,7 @@ INSERT INTO task_notification (description, notification_date, task_id, user_id,
 INSERT INTO task_notification (description, notification_date, task_id, user_id, seen) VALUES ('Fight effort husband save see.', '2022-11-23', 16, 7, True);
 INSERT INTO task_notification (description, notification_date, task_id, user_id, seen) VALUES ('Whether forget admit up.', '2023-03-16', 3, 20, True);
 -- Inserting data into the 'project_user' table
-INSERT INTO project_user (user_id, project_id) VALUES (3, 12);
+INSERT INTO project_user (user_id, project_id) VALUES (1, 1);
 INSERT INTO project_user (user_id, project_id) VALUES (17, 13);
 INSERT INTO project_user (user_id, project_id) VALUES (13, 5);
 INSERT INTO project_user (user_id, project_id) VALUES (10, 3);
@@ -881,19 +905,20 @@ INSERT INTO project_user (user_id, project_id) VALUES (15, 19);
 INSERT INTO project_user (user_id, project_id) VALUES (15, 10);
 INSERT INTO project_user (user_id, project_id) VALUES (7, 13);
 -- Inserting data into the 'project_task' table
+INSERT INTO project_task (task_id, project_id) VALUES (1, 1);
+INSERT INTO project_task (task_id, project_id) VALUES (2, 1);
+INSERT INTO project_task (task_id, project_id) VALUES (3, 1);
 INSERT INTO project_task (task_id, project_id) VALUES (6, 6);
 INSERT INTO project_task (task_id, project_id) VALUES (7, 11);
 INSERT INTO project_task (task_id, project_id) VALUES (8, 6);
 INSERT INTO project_task (task_id, project_id) VALUES (19, 14);
 INSERT INTO project_task (task_id, project_id) VALUES (14, 15);
 INSERT INTO project_task (task_id, project_id) VALUES (20, 13);
-INSERT INTO project_task (task_id, project_id) VALUES (2, 16);
 INSERT INTO project_task (task_id, project_id) VALUES (10, 2);
 INSERT INTO project_task (task_id, project_id) VALUES (13, 11);
 INSERT INTO project_task (task_id, project_id) VALUES (12, 13);
-INSERT INTO project_task (task_id, project_id) VALUES (18, 1);
-INSERT INTO project_task (task_id, project_id) VALUES (3, 20);
 -- Inserting data into the 'project_tag' table
+INSERT INTO project_tag (tag_id, project_id) VALUES (1, 1);
 INSERT INTO project_tag (tag_id, project_id) VALUES (2, 12);
 INSERT INTO project_tag (tag_id, project_id) VALUES (19, 18);
 INSERT INTO project_tag (tag_id, project_id) VALUES (16, 16);
@@ -909,20 +934,6 @@ INSERT INTO project_tag (tag_id, project_id) VALUES (10, 14);
 INSERT INTO project_tag (tag_id, project_id) VALUES (20, 8);
 INSERT INTO project_tag (tag_id, project_id) VALUES (18, 19);
 -- Inserting data into the 'tag_task' table
-INSERT INTO tag_task (tag_id, task_id) VALUES (4, 1);
-INSERT INTO tag_task (tag_id, task_id) VALUES (20, 15);
-INSERT INTO tag_task (tag_id, task_id) VALUES (3, 19);
-INSERT INTO tag_task (tag_id, task_id) VALUES (10, 5);
-INSERT INTO tag_task (tag_id, task_id) VALUES (9, 12);
-INSERT INTO tag_task (tag_id, task_id) VALUES (6, 14);
-INSERT INTO tag_task (tag_id, task_id) VALUES (20, 8);
-INSERT INTO tag_task (tag_id, task_id) VALUES (3, 1);
-INSERT INTO tag_task (tag_id, task_id) VALUES (19, 5);
-INSERT INTO tag_task (tag_id, task_id) VALUES (7, 4);
-INSERT INTO tag_task (tag_id, task_id) VALUES (6, 18);
-INSERT INTO tag_task (tag_id, task_id) VALUES (15, 12);
-INSERT INTO tag_task (tag_id, task_id) VALUES (4, 15);
 INSERT INTO tag_task (tag_id, task_id) VALUES (1, 1);
-INSERT INTO tag_task (tag_id, task_id) VALUES (14, 4);
-INSERT INTO tag_task (tag_id, task_id) VALUES (4, 10);
-INSERT INTO tag_task (tag_id, task_id) VALUES (5, 13);
+INSERT INTO task_user (user_id, task_id) VALUES (1, 1);
+

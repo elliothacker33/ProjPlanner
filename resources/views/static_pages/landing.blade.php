@@ -5,7 +5,7 @@
 @endpush
 
 @push('scripts')
-    <script src="{{ asset('js/home.js') }}" defer></script>
+    <script type="text/javascript" src={{ url('js/app.js') }} defer></script>
 @endpush
 
 @section('content')

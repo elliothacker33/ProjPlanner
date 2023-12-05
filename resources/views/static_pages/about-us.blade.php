@@ -4,6 +4,10 @@
     <link href="{{ url('css/about.css') }}" rel="stylesheet">
 @endpush
 
+@push('scripts')
+    <script type="text/javascript" src={{ url('js/app.js') }} defer></script>
+@endpush
+
 @section('content')
     <section class="about_us_section">
         <h1> About us </h1>
