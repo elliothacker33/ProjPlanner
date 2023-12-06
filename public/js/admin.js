@@ -8,7 +8,7 @@ const searchBar = document.getElementById('search-bar');
 searchBar.addEventListener('input', (e) => {
     const input = encodeForAjax({"query": searchBar.value});
 
-    sendAjaxRequest("GET", "/api/users?" + input, '').catch(() => {
+    sendAjaxRequest("GET", "/api/users?" + input).catch(() => {
         console.error("Network error");
     }).then(async response => {
         const data = await response.json();

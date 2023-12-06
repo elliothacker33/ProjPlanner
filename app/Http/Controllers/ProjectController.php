@@ -166,17 +166,24 @@ class ProjectController extends Controller
         // return redirect()->route('my_projects');
     }
 
-    public function showTasks(int $projectId)
+    public function showTasks(Request $request, int $projectId)
     {
         $project=Project::find($projectId);
 
-        if ($project == null)
-            return abort(404);
+        if ($project == null) {
+            if ($request->ajax())
+                return response()->json(['error', 'Project with specified id not found']);
+            else
+                return abort(404);
+        }
 
         $this->authorize('view',[Project::class,$project]);
 
         $tasks = $project->tasks()->get();
-            
-        return view('pages.tasks',['project'=>$project, 'tasks'=>$tasks]);
+        
+        if ($request->ajax())
+            return response()->json($tasks);
+        else
+            return view('pages.tasks', ['project'=>$project, 'tasks'=>$tasks]);
     }
 }
