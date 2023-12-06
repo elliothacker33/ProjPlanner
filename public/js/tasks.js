@@ -7,13 +7,24 @@ searchBar.addEventListener('input', (e) => {
     let input = searchBar.value;
 
     const encodedInput = encodeForAjax({"query": input, "project": currentPath.split('/')[2]})
-    sendAjaxRequest("GET", "/api/tasks?" + encodedInput, '', updateSearchedTasks); 
+
+    sendAjaxRequest("GET", "/api/tasks?" + encodedInput, '').catch(() => {
+        console.error("Network error");
+    }).then(async response => {
+        const data = await response.json();
+        if (response.ok) {
+            updateSearchedTasks(data);
+        } else {
+            console.error(`Error ${response.status}: ${JSON.stringify(data.error)}`);
+        }
+    }).catch(() => {
+        console.error('Error parsing JSON');
+    });
 });
 
-export function updateSearchedTasks() {
+function updateSearchedTasks(data) {
     let tasksSection = document.querySelector('section.tasks');
     tasksSection.innerHTML = '';
-    const data =  JSON.parse(this.responseText)
 
     data.forEach(task => {
         const divWrapper = document.createElement('div');

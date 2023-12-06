@@ -16,6 +16,9 @@ class TaskController extends Controller
     {
         $project = Project::find($request->input('project'));
 
+        if ($project == null)
+            return response()->json(['error' => 'Project with specified id not found'], 404);
+
         $this->authorize('create', [Task::class, $project]);
 
         $searchedTasks = $project->tasks()
@@ -35,7 +38,6 @@ class TaskController extends Controller
 
         $project = Project::find($projectId);
         $this->authorize('create', [Task::class,  $project]);
-        dd($project->tags);
         return view('pages.' . 'createTask')->with(['projectId'=>$projectId, 'users'=>$project->users,'tags'=>$project->tags]);
     }
 
