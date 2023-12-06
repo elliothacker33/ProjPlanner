@@ -28,3 +28,25 @@ Processing '/etc/joe/editorrc'...
 Processing '/etc/joe/ftyperc'...
 Finished processing /etc/joe/ftyperc
 Finished processing /etc/joe/editorrc
+
+*** These modified files were found in JOE when it aborted on Tue Dec  5 17:15:33 2023
+*** JOE was aborted by UNIX signal 1
+
+*** File '(Unnamed)'
+hello.cpp
+/dev/null
+hello.cpp
+hello.cpp
+dfs.cpp
+dfs.cpp
+/home/tomas/Documentos/3ano/prolog/Waldmeister-board-game/.git/MERGE_MSG
+/home/tomas/Documentos/3ano/prolog/Waldmeister-board-game/.git/MERGE_MSG
+/home/tomas/Documentos/3ano/prolog/Waldmeister-board-game/.git/MERGE_MSG
+/home/tomas/Documentos/3ano/prolog/Waldmeister-board-game/.git/MERGE_MSG
+/home/tomas/Documentos/lbaw2353/.git/MERGE_MSG
+
+*** File '* Startup Log *'
+Processing '/etc/joe/editorrc'...
+Processing '/etc/joe/ftyperc'...
+Finished processing /etc/joe/ftyperc
+Finished processing /etc/joe/editorrc

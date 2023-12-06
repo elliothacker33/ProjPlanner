@@ -33,40 +33,39 @@
             </ul>
         </div>
     </div>
-    <div class="col-12 mb-5">
+    <div class="col-12  mb-5">
         <div class = "row">
-            <div class = "col-2">
+            <div class = " col-sm-12 col-lg-2 d-flex justify-content-center ">
                 <figure>
                     <img src="{{ asset('img/team-avatars/4.jpeg') }}" alt="Default Image" >
                 </figure>
             </div>
-            <div class = "col">
+            <div class = "  col-sm-12 col-lg-10 ">
                 <div class="row">
-                    <div class="col-12 ">
+                    <div class="col-12 d-flex justify-content-center justify-content-lg-start ">
                         <span class = "infos"> <i class="bi bi-person-fill"></i> Name</span>
                     </div>
                 </div>
                 <div class="row mb-5">
-                    <div class="col-12 ">
+                    <div class="col-12 d-flex justify-content-center justify-content-lg-start">
                         <span class= "infos">{{$profileName}}</span>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-12">
-                        <div class="row ">
-                            <div class="col-3">
+                    <div class="col-12 ">
+                        <div class="row   ">
+                            <div class="col-lg-3 col-sm-4  d-flex justify-content-center justify-content-lg-start ">
                                 <span class="infos">
                                     <i class="bi bi-gear-fill"></i> Role
                                 </span>
                             </div>
-                            <div class="col-3">
+                            <div class="col-lg-3 col-sm-4 d-flex justify-content-center justify-content-lg-start">
                                 <span class="infos">
                                     <i class="bi bi-envelope-fill"></i> Email
                                 </span>
                             </div>
                         </div>
                     </div>
-
                 </div>
                 <div class="row">
                     <!-- Second row -->
@@ -91,7 +90,7 @@
     <div class ="row second">
 
         <div class = "col-12 mb-5 ">
-            <header><h1>Quick tasks access</h1></header>
+            <header><h1><i class="bi bi-list-task"></i> Quick tasks access</h1></header>
         </div>
 
     <div class = "col-12 mb-5">
@@ -132,7 +131,7 @@
 
     <div class="col-12 mb-5">
         <header>
-            <h1>Task Statistics</h1>
+            <h1><i class="bi bi-calculator-fill"></i> Task Statistics</h1>
         </header>
 	</div>
 
@@ -141,28 +140,28 @@
             <div class = "col-4">
                 <div class ="row">
                     <div class="col-12 text-center">
-                        <span class="statNumber">{{$statusOpenCount = $tasks->where('status', 'open')->count()}}</span>
+                        <span class="statNumber" style="color: #2E9D7F;">{{$statusOpenCount = $tasks->where('status', 'open')->count()}}</span>
                     </div>
                     <div class="col-12 text-center">
-                        <span class="statInfo">Open Tasks</span></div>
+                        <span class="statInfo" style="color: #2E9D7F;">Open Tasks</span></div>
                     </div>
             </div>
             <div class = "col-4">
                 <div class ="row">
                     <div class="col-12 text-center">
-                        <span class="statNumber">{{$statusCanceledCount = $tasks->where('status', 'canceled')->count()}}</span>
+                        <span class="statNumber"style="color: orange;">{{$statusCanceledCount = $tasks->where('status', 'canceled')->count()}}</span>
                     </div>
                     <div class="col-12 text-center">
-                        <span class="statInfo">Canceled Tasks</span></div>
+                        <span class="statInfo"style="color: orange;">Canceled Tasks</span></div>
                 </div>
             </div>
             <div class = "col-4">
                 <div class ="row">
                     <div class="col-12 text-center">
-                        <span class="statNumber">{{$statusClosedCount = $tasks->where('status', 'closed')->count()}}</span>
+                        <span class="statNumber" style="color: #ff3333;">{{$statusClosedCount = $tasks->where('status', 'closed')->count()}}</span>
                     </div>
                     <div class="col-12 text-center">
-                        <span class="statInfo">Closed Tasks</span></div>
+                        <span class="statInfo" style="color: #ff3333;">Closed Tasks</span></div>
                     </div>
                 </div>
             </div>

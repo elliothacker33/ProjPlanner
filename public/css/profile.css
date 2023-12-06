@@ -7,9 +7,11 @@ main{
 .first header>h1{
     color : var(--primary-bg-color);
 }
-
+.test{
+   
+}
 .first{
-    background-image: linear-gradient(to right, #141e30, #243b55);
+    background-image: url("/img/profile_background.jpg");
     border-bottom-right-radius: 30px;
     border-bottom-left-radius: 30px;
     padding: 2%;
@@ -24,11 +26,18 @@ figure {
     border: white 4px solid;
     width: 10em;
     height: 10em;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    padding: 0;
     overflow: hidden;
     border-radius: 50%;
   }
   
 figure>img {
+   
+    width: 10em;
+    height: 10em;
    object-fit: cover; 
 }
 .dropdown-item{
@@ -97,4 +106,36 @@ figure>img {
 }
 .statNumber{
     font-size: 3em;
+}
+label{
+
+    font-size: 1em;
+}
+.form-group{
+    width:30%;
+}
+
+input{
+    display: block;
+    font-size: 1.2em;
+}
+input::placeholder{
+    color:black;
+}
+input:hover{
+    border-color: #243b55;
+}
+
+input:focus{
+    border-color: #243b55 !important;
+}
+.forgot > a{
+    color: #243b55 !important;
+}
+
+.goback{
+ 
+    color:white;
+    font-size: 1.5em;
+    background-color:transparent;
 }

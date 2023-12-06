@@ -34,7 +34,13 @@ class ProfileController extends Controller
 
         $this->authorize('update', $user);
 
-        return view('profile_pages.edit-profile',['usrId'=>$usrId]);
+        return view('profile_pages.edit-profile', [
+            'usrId' => $usrId,
+            'profileName' => $user->name,
+            'profileEmail' => $user->email,
+            'isAdmin' => $user->is_admin,
+        ]
+        ); // Add image here.
     }
 
     
