@@ -4,11 +4,9 @@ const currentPath = window.location.pathname;
 
 const searchBar = document.getElementById('search-bar');
 searchBar.addEventListener('input', (e) => {
-    let input = searchBar.value;
+    const input = encodeForAjax({"query": searchBar.value, "project": currentPath.split('/')[2]});
 
-    const encodedInput = encodeForAjax({"query": input, "project": currentPath.split('/')[2]})
-
-    sendAjaxRequest("GET", "/api/tasks?" + encodedInput, '').catch(() => {
+    sendAjaxRequest("GET", "/api/tasks?" + input, '').catch(() => {
         console.error("Network error");
     }).then(async response => {
         const data = await response.json();

@@ -11,15 +11,12 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function searchUsers(Request $request)
     {
         $searchTerm = '%'.$request->input('query').'%';
         $users = User::whereRaw("email Like ?  OR Name Like ? ", [$searchTerm, $searchTerm])->get();
 
-        if ($request->ajax()){
-            return view('partials.displayUsers', ['users' => $users] );
-        }
-
+        return response()->json($users);
     }
 
     /**

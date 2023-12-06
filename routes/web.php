@@ -35,7 +35,7 @@ Route::get('{page}', [StaticController::class, 'show'])->whereIn('page', StaticC
 
 // Admin
 Route::controller(UserController::class)->group(function(){
-    Route::get('/api/users', 'index')->name('search_users');
+    Route::get('/api/users', 'searchUsers')->name('search_users');
 });
 Route::controller(AdminController::class)->group(function () {
     Route::redirect('/admin', '/admin/users')->name('admin');
