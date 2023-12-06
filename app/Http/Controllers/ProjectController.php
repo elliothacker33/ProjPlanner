@@ -120,7 +120,8 @@ class ProjectController extends Controller
         if($memberExist) return back()->withErrors([
             'email' => 'Member already in the project',
         ])->onlyInput('email');
-        db::insert('Insert into project_user (user_id,project_id) values (?,?)',[$user->id,$projectId]);
+
+        $project->users()->attach($user->id);
 
         return redirect()->route('team',['team'=>$project->users,'projectId'=>$projectId]);
     }
@@ -179,7 +180,7 @@ class ProjectController extends Controller
 
         $this->authorize('view',[Project::class,$project]);
 
-        $tasks = $project->tasks()->get();
+        $tasks = $project->tasks;
         
         if ($request->ajax())
             return response()->json($tasks);

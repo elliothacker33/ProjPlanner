@@ -64,11 +64,11 @@ class TaskController extends Controller
         $task->description = $validated['description'];
         $task->opened_user_id= Auth::user()->id;
         $task->deadline = $validated['deadline'];
+        $task->project_id = $projectId;
         $task->save();
 
-        DB::insert('insert into project_task (task_id, project_id) values (?, ?)', [$task->id, $projectId]);
-        if($validated['tags'])DB::insert('insert into tag_task (tag_id, task_id) values (?, ?)', [$validated['tags'], $task->id]);
-        if($validated['users']) DB::insert('insert into task_user (user_id, task_id) values (?, ?)', [$validated['users'], $task->id]);
+        $task->assigned()->attach(Auth::user()->id);
+        $task->tags()->attach($validated['tags']);
 
         return redirect()->route('task',['projectId'=>$projectId,'id'=>$task->id]);
     }
@@ -79,17 +79,17 @@ class TaskController extends Controller
     public function show(int $projectId, int $taskId)
     {
         $task=Task::find($taskId);
-        $project_task = $task->project();
-
+        $project_task = $task->project;
+        
         if ($task == null || $project_task == null)
             return abort(404);
 
         $this->authorize('view',[$task::class,$task]);
         $users = $task->assigned;
 
-        $tags = $task->tags();
+        $tags = $task->tags;
         $creator = User::find($task->opened_user_id);
-        return view('pages.task',['task'=>$task, 'assign'=>$users,'tags'=>$tags,'creator'=>$creator]);
+        return view('pages.task',['project' => $project_task, 'task'=>$task, 'assign'=>$users,'tags'=>$tags,'creator'=>$creator]);
     }
 
     /**

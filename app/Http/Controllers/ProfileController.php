@@ -56,7 +56,7 @@ class ProfileController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-    
+
         $user = User::find($usrId);
 
         $this->authorize('update', $user);
@@ -74,5 +74,4 @@ class ProfileController extends Controller
         return redirect()->route('profile', ['usrId' => $usrId]);
 
     }
-    
 }
