@@ -101,6 +101,8 @@ a{
 .taskPage header .info{
   display: flex;
     gap :2em;
+    height: fit-content;
+    margin:  auto 0;
 }
 .taskPage header .actions{
     display: flex;

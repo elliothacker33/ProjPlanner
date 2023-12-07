@@ -36,7 +36,7 @@ class TaskController extends Controller
     public function create(Request $request, Project $project)
     {
         $this->authorize('create', [Task::class,  $project]);
-        return view('pages.' . 'createTask')->with(['project'=>$project->id, 'users'=>$project->users,'tags'=>$project->tags]);
+        return view('pages.' . 'createTask')->with(['project'=>$project, 'users'=>$project->users,'tags'=>$project->tags]);
     }
 
     /**
