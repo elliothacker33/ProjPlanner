@@ -36,7 +36,7 @@ class TaskController extends Controller
     public function create(Request $request, Project $project)
     {
         $this->authorize('create', [Task::class,  $project]);
-        return view('pages.' . 'createTask')->with(['projectId'=>$projectId, 'users'=>$project->users,'tags'=>$project->tags]);
+        return view('pages.' . 'createTask')->with(['project'=>$project->id, 'users'=>$project->users,'tags'=>$project->tags]);
     }
 
     /**
@@ -62,7 +62,7 @@ class TaskController extends Controller
         $task->description = $validated['description'];
         $task->opened_user_id= Auth::user()->id;
         $task->deadline = $validated['deadline'];
-        $task->project_id = $projectId;
+        $task->project_id = $project->id;
         $task->save();
 
         $task->assigned()->attach(Auth::user()->id);

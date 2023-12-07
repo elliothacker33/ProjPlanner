@@ -174,7 +174,7 @@ class ProjectController extends Controller
                 return abort(404);
         }
 
-        $this->authorize('view',[Project::class,$project]);
+        $this->authorize('view', [Project::class, $project]);
 
         $tasks = $project->tasks;
         

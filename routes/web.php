@@ -85,9 +85,9 @@ Route::prefix('/project')->group(function () {
             Route::get('', 'show')->name('project');
             Route::get('/team', 'show_team')->name('team');
             Route::post('/team/add', 'add_user')->name('addUser');
-            Route::delete('', 'destroy')->where('project', '[0-9]+')->name('delete_project');
-            Route::get('/edit', 'edit')->whereNumber('project')->name('show_edit_project');
-            Route::put('/edit', 'update')->whereNumber('project')->name('action_edit_project');
+            Route::delete('', 'destroy')->name('delete_project');
+            Route::get('/edit', 'edit')->name('show_edit_project');
+            Route::put('/edit', 'update')->name('action_edit_project');
 
         });
         Route::prefix('/task')->controller(TaskController::class)->group(function () {
@@ -97,6 +97,6 @@ Route::prefix('/project')->group(function () {
             Route::post('/new', 'store')->name('newTask');
         });
         
-        Route::get('/tasks', 'showTasks')->name(show_tasks);
+        Route::get('/tasks', [ProjectController::class, 'showTasks'])->name('show_tasks');
     });
 });
