@@ -33,8 +33,10 @@
 }
 .taskPage header{
     display: flex;
-    gap: 3em;
-    align-content: center;
+    gap: 1em;
+    justify-content: space-between;
+    align-content: space-between;
+    flex-wrap: wrap-reverse;
     text-align: center;
 }
 .taskPage header .status{
@@ -56,6 +58,7 @@
     display: flex;
     gap: 3em;
     flex-direction: column;
+    flex-grow: 1;
     width: 40em;
 }
 .taskPage .sideContainer{
@@ -97,14 +100,17 @@ a{
   display: flex;
     gap :2em;
 }
+.taskPage header .actions{
+    display: flex;
+    gap: 1em;
+}
 
 .taskPage header .actions a {
-    padding: 0.5em 0.7em;
+    padding: 0.3em 1em;
     background: var(--onprimary-bg-color);
     color: white;
     border-radius: 0.3em;
-
-   margin-right: 2em;
+    margin: 0;
 }
 .taskPage header .actions a:hover {
     background: var(--onsecondary-bg-color);
