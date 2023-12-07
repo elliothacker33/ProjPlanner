@@ -14,6 +14,8 @@
             @elseif($task->status == 'closed') <span class="status closed"> <i class="fa-solid fa-folder-closed"></i> Closed </span>
             @else <span class="status cancelled"> <i class="fa-solid fa-ban"></i> Cancelled </span>
             @endif
+
+            <h6>#{{$task->id}} Created by {{$task->creator->name}} on {{ date('d-m-Y', strtotime($task->startTime)) }}</h6>
             </section>
             @can('update',$task)
                 <section class="actions">

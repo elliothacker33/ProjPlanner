@@ -177,10 +177,14 @@ class ProjectController extends Controller
         $this->authorize('view', [Project::class, $project]);
 
         $tasks = $project->tasks;
+        $open = $project->tasks()->where('status','=','open')->count();
+        $closed = $project->tasks()->where('status','=','closed')->count();
+        $canceled = $project->tasks()->where('status','=','canceled')->count();
+
         
         if ($request->ajax())
             return response()->json($tasks);
         else
-            return view('pages.tasks', ['project'=>$project, 'tasks'=>$tasks]);
+            return view('pages.tasks', ['project'=>$project, 'tasks'=>$tasks, 'open'=>$open,'closed'=>$closed,'canceled'=>$canceled]);
     }
 }

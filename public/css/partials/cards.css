@@ -35,7 +35,8 @@
     display: flex;
     gap: 1em;
     flex-wrap: wrap;
-    width: 25em;
+    width: 100%;
+    max-width: 50em;
 }
 .taskCard ul header h3{
     font-size: 1.3em;

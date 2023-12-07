@@ -99,16 +99,24 @@ a{
     flex-wrap: wrap-reverse;
 }
 .taskPage header .info{
-  display: flex;
+    display: flex;
     gap :2em;
     height: fit-content;
     margin:  auto 0;
+    flex-wrap: wrap;
+    max-width: 50em;
+}
+.taskPage header .info h1{
+    max-width: 45em;
 }
 .taskPage header .actions{
     display: flex;
     gap: 1em;
 }
-
+.taskPage header .actions > *
+{
+    height: fit-content;
+}
 .taskPage header .actions a, .multiselector span {
     padding: 0.5em 0.7em;
     background: var(--onprimary-bg-color);

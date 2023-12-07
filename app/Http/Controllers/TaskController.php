@@ -65,9 +65,12 @@ class TaskController extends Controller
         $task->project_id = $project->id;
         $task->save();
         $users = array_map('intval', explode(',', $validated['users']));
+        $tags = array_map('intval', explode(',', $validated['tags']));
 
-        $task->assigned()->attach(Auth::user()->id);
-        $task->tags()->attach($validated['tags']);
+        if($validated['users'])
+            foreach ($users as $user) $task->assigned()->attach($user);
+        if($validated['tags'])
+            foreach ($tags as $tag) $task->tags()->attach($tag);
 
         return redirect()->route('task',['project'=>$project,'task'=>$task]);
     }

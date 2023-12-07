@@ -3,7 +3,22 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    align-content: flex-start;
+    min-height: 80vh;
+    padding-top: 3em;
+    gap: 1em;
 }
+.tasks-content .search{
+    width: 100%;
+    max-width: 80em;
+    display: flex;
+    gap: 1em;
+    flex-wrap: wrap;
+}
+.tasks-content .search > input{
+    max-width: 50em;
+}
+
 .tasks-content > * {
     margin:  0 auto ;
 }
@@ -11,6 +26,17 @@
     width: 100%;
     max-width: 80em;
     border: 1px solid var(--primary-border);
-
+}
+.tasks-list > .tasks{
+    max-height: 60vh;
+    overflow-y: scroll;
+}
+.tasks-list > header{
+    width: 100%;
+    padding: 1em;
+    display: flex;
+    border: 1px solid var(--primary-border);
+    gap: 2em;
+    flex-wrap: wrap;
 }
 
