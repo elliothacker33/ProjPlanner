@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.project')
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/form.css') }}">
@@ -15,7 +15,7 @@
             <header class="tasks">
                 <h2>Edit your <span class="shine">Project</span></h2>
             </header>
-            <form action="{{ route('action_edit_project', ['projectId' => $project->id]) }}" method="POST">
+            <form action="{{ route('action_edit_project', ['project' => $project]) }}" method="POST">
                 @csrf
                 @method('PUT')
                 <section class="primaryContainer">

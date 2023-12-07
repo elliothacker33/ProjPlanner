@@ -11,15 +11,19 @@
 @section('content')
     <section class="taskPage">
         <header>
+            <section class="info">
             <h1 class="title">{{$task->title}}</h1>
+
             @if($task->status == 'open') <span class="status open"> Open </span>
             @elseif($task->status == 'closed') <span class="status closed"> Closed </span>
             @else <span class="status cancelled"> Cancelled </span>
             @endif
+            </section>
             @can('update',$task)
-                <section>
+                <section class="actions">
 
                     <a class="edit">Edit</a>
+                    <a class="delete"> Delete</a>
                 </section>
             @endcan
 

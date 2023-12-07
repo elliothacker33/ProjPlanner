@@ -13,9 +13,11 @@ class ProjectController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $user = $request->user();
+        $this->authorize('viewUserProjects',Project::class);
+        return view('home.home',['projects'=>$user->projects]);
     }
 
     /**
@@ -50,14 +52,13 @@ class ProjectController extends Controller
 
         $project->users()->attach(Auth::user()->id);
 
-        return redirect()->route('project', ['projectId' => $project->id]);
+        return redirect()->route('project', ['project' => $project]);
     }
     /**
      * Display the specified resource.
      */
-    public function show(int $projectId)
+    public function show(Project $project)
     {
-        $project=Project::find($projectId);
 
         if ($project == null)
             return abort(404);
@@ -67,11 +68,11 @@ class ProjectController extends Controller
 
         $completed_task = DB::table('project_task')
             ->join('tasks','project_task.task_id','=','tasks.id')
-            ->where('project_id','=',$projectId)
+            ->where('project_id','=',$project->id)
             ->where('tasks.status','=','closed')->count();
         $open_task = DB::table('project_task')
             ->join('tasks','project_task.task_id','=','tasks.id')
-            ->where('project_id','=',$projectId)
+            ->where('project_id','=',$project->id)
             ->where('tasks.status','=','open')->count();
         $all_task = $completed_task + $open_task;
         return view('pages.project',['project'=>$project, 'team'=>$users->slice(0,4),'allTasks'=>$all_task, 'completedTasks'=>$completed_task]);
@@ -80,28 +81,25 @@ class ProjectController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Project $projectId)
+    public function edit(Project $project)
     {   
-        if ($projectId == null)
+        if ($project == null)
             return abort(404);
 
-        $this->authorize('update', [Project::class, $projectId->id]);
+        $this->authorize('update', [Project::class, $project]);
 
-        return view('pages.editProject', ['project'=>$projectId]);
+        return view('pages.editProject', ['project'=>$project]);
     }
-    public function show_team(int $projectId)
+    public function show_team(Project $project)
 
     {
-        $project = Project::find($projectId);
-
         $this->authorize('view',[Project::class,$project]);
-        return view('pages.team',['team'=>$project->users, 'projectId'=>$projectId]);
+        return view('pages.team',['team'=>$project->users, 'project'=>$project]);
     }
-    public function add_user(Request $request, int $projectId)
+    public function add_user(Request $request, Project $project)
 
     {
-        $project = Project::find($projectId);
-        $this->authorize('update',[Project::class,$project->id]);
+        $this->authorize('update',[Project::class,$project]);
         $user = User::where('email', $request->email)->first();
         if(!$user)return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
@@ -120,14 +118,14 @@ class ProjectController extends Controller
         if($memberExist) return back()->withErrors([
             'email' => 'Member already in the project',
         ])->onlyInput('email');
-        db::insert('Insert into project_user (user_id,project_id) values (?,?)',[$user->id,$projectId]);
+        db::insert('Insert into project_user (user_id,project_id) values (?,?)',[$user->id,$project->id]);
 
-        return redirect()->route('team',['team'=>$project->users,'projectId'=>$projectId]);
+        return redirect()->route('team',['team'=>$project->users,'project'=>$project]);
     }
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Project $projectId)
+    public function update(Request $request, Project $project)
     {
         $validated = $request->validate([
             'title' => 'required|string|min:5|max:100|',
@@ -135,22 +133,21 @@ class ProjectController extends Controller
             'deadline' => 'nullable|date|after_or_equal:' . date('d-m-Y'),
         ]);
 
-        $this->authorize('update', [Project::class, $projectId->id]);
+        $this->authorize('update', [Project::class, $project]);
 
-        $projectId->title = $validated['title'];
-        $projectId->description = $validated['description'];
-        $projectId->deadline = isset($validated['deadline']) ? $validated['deadline'] : null;
-        $projectId->save();
+        $project->title = $validated['title'];
+        $project->description = $validated['description'];
+        $project->deadline = isset($validated['deadline']) ? $validated['deadline'] : null;
+        $project->save();
 
-        return redirect()->route('project', ['projectId' => $projectId->id]);
+        return redirect()->route('project', ['project' => $project->id]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(int $projectId)
+    public function destroy(Project $project)
     {
-        $project = Project::find($projectId);
 
         if ($project == null)
             return abort(404);
@@ -161,14 +158,13 @@ class ProjectController extends Controller
 
         $projects = Project::all();
 
-        return redirect()->route('home', ['projects' => $projects,'usrId'=>Auth::id()]);
+        return redirect()->route('home', ['projects' => $projects,'user'=>Auth::id()]);
         // TODO: redirect to "My projects page"
         // return redirect()->route('my_projects');
     }
 
-    public function showTasks(int $projectId)
+    public function showTasks(Project $project)
     {
-        $project=Project::find($projectId);
 
         if ($project == null)
             return abort(404);
@@ -176,7 +172,7 @@ class ProjectController extends Controller
         $this->authorize('view',[Project::class,$project]);
         $tasks = DB::table('project_task')
             ->join('tasks','project_task.task_id','=','tasks.id')
-            ->where('project_id','=',$projectId)->get();
+            ->where('project_id','=',$project->id)->get();
             
         return view('pages.tasks',['project'=>$project, 'tasks'=>$tasks]);
     }

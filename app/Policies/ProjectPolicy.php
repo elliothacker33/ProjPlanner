@@ -11,9 +11,9 @@ class ProjectPolicy
     /**
      * Determine whether the user can view any models.
      */
-    public function viewAny(User $user): bool
+    public function viewUserProjects(User $user): bool
     {
-        //
+        return !$user->is_admin;
     }
 
     /**
@@ -30,7 +30,7 @@ class ProjectPolicy
             array_push($usersIds, $a_user['id']);
         }
         
-        return (in_array($user->id, $usersIds));
+        return (in_array($user->id, $usersIds)) || $user->is_admin;
     }
 
     /**
@@ -44,9 +44,8 @@ class ProjectPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, int $projectId): bool
+    public function update(User $user, Project $project): bool
     {
-        $project = Project::find($projectId);
         return $user->id === $project->user_id;
     }
 

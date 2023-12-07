@@ -21,7 +21,7 @@
     max-width: 70em;
     margin: auto;
     padding: 2em;
-    gap: 4em;
+    gap: 2em;
 }
 .projectPage .container{
     display: flex;
@@ -33,11 +33,13 @@
 }
 .projectPage header{
     display: flex;
-    gap: 3em;
-    align-content: center;
-    flex-wrap: wrap;
+   gap: 1em;
+    justify-content: space-between;
+    align-content: space-between;
+    flex-wrap: wrap-reverse;
     text-align: center;
 }
+
 .projectPage header .status{
     padding: 0.2em 0.5em ;
     border-radius: 10em;
@@ -46,17 +48,16 @@
     margin-right: auto;
 }
 .projectPage header .status.open{
-    background: var(--onprimary-bg-color);
+    background: var(--on-third-bg-color);
 }
 .projectPage header .status.archive{
-    background: var(--on-third-bg-color);
+    background: var(--onsecondary-bg-color);
 }
 .projectPage .primaryContainer{
     display: flex;
     gap: 3em;
     flex-direction: column;
     flex-grow: 1;
-    width: 40em;
     width: 40em;
 }
 .projectPage .sideContainer{
@@ -90,52 +91,39 @@
     font-weight: bold;
 }
 
-.project-action-button {
-    margin-bottom: 0;
+
+
+.projectPage header .info{
+    display: flex;
+    gap :2em;
 }
 
+.projectPage header .actions{
+    display: flex;
+    gap: 1em;
+}
+.projectPage header .actions button {
+
+    padding: 0 1em;
+    color: white;
+    border-radius: 0.3em;
+    margin: 0;
+    border: none;
+}
+.projectPage header .actions button:hover {
+    background: var(--on-third-bg-color);
+}
+.projectPage header button.delete{
+    background: var(--error-text-color);
+}
+
+
 @media(max-width: 40em) {
-    .projectPage .container{
+    .projectPage .container {
         flex-direction: column;
     }
 
-    .projectPage header {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-        grid-template-rows: 1fr 1fr;
-        gap: 1.5em;
-        flex-wrap: nowrap;
-    }
 
-    .projectPage header h1 {
-        grid-column: 1 / span 3;
-        grid-row: 1 / 2;
-        justify-self: center;
-        font-size: 1.5em;
-    }
-
-    .projectPage header .status {
-        grid-column: 4 / span 2;
-        grid-row: 1 / 2;
-        display: inline;
-    }
-
-    #edit-project-button {
-        grid-column: 1 / span 2;
-        grid-row: 2 / 3;
-        justify-self: end;
-    }
-
-    #delete-project-button {
-        grid-column: 4 / span 2;
-        grid-row: 2 / 3;
-        justify-self: start;
-    }
-
-    .project-action-button {
-        min-width: 8em;
-        justify-self: center;
-    }
 }
 
 @media (max-width: 74em) {
