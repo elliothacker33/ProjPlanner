@@ -2,6 +2,7 @@
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/tasks.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/partials/cards.css') }}">
 @endpush
 
 @push('scripts')
@@ -18,17 +19,17 @@
 
         <div class="tasks-list">
 
-            <header> 
-                <section class="task">Task</section> 
-                <section class="status">Status</section>
-            </header>
             <section class="tasks">
+                @foreach($tasks as $task)
+                    @include('partials.taskCard',['task'=>$task])
 
-                @include('partials.displayTasks')
+                @endforeach
 
             </section>
         </div>
+
         
     </section>
+
 
 @endsection

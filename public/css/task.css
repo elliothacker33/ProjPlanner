@@ -38,19 +38,19 @@
     flex-wrap: wrap-reverse;
     text-align: center;
 }
-.taskPage header .status{
+.status{
     padding: 0.2em 0.5em ;
     border-radius: 10em;
     font-size: 1em;
     color: white;
 }
-.taskPage header .status.open{
+.status.open{
     background: var(--onprimary-bg-color);
 }
-.taskPage header .status.closed{
+.status.closed{
     background: var(--on-third-bg-color);
 }
-.taskPage header .status.cancelled{
+.status.cancelled{
     background: var(--error-text-color);
 }
 .taskCreation .formContainer{
@@ -176,6 +176,7 @@ a{
 .multiselector .dropdown .item input[type="checkbox"]{
     scale: 1.5;
 }
+
 
 @media (max-width: 74em) {
 

@@ -18,6 +18,7 @@
     --sucess-text-color: #2C7E90;
     --input-secondary-bg-color: #69899613;
     --on-third-bg-color: #698996;
+    --primary-border: #CCCCCC99;
   }
 
 
@@ -39,6 +40,7 @@ header nav span {
 
 a {
     cursor: pointer;
+    color: var(--onsecondary-bg-color);
 }
 
 a h1 {

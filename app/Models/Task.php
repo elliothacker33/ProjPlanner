@@ -32,4 +32,8 @@ class Task extends Model
     {
         return $this->belongsTo(Project::class);
     }
+    public function creator():BelongsTo
+    {
+        return $this->belongsTo(User::class, 'opened_user_id' );
+    }
 }
