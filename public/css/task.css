@@ -97,7 +97,7 @@ a{
     flex-wrap: wrap-reverse;
 }
 .taskPage header .info{
-  display: flex;
+    display: flex;
     gap :2em;
 }
 .taskPage header .actions{
@@ -105,18 +105,24 @@ a{
     gap: 1em;
 }
 
-.taskPage header .actions a {
+.taskPage .buttonLink {
     padding: 0.3em 1em;
     background: var(--onprimary-bg-color);
     color: white;
     border-radius: 0.3em;
     margin: 0;
 }
-.taskPage header .actions a:hover {
+.taskPage .buttonLink:hover {
     background: var(--onsecondary-bg-color);
 }
-.taskPage header a.delete{
+.taskPage header a.cancel{
     background: var(--error-text-color);
+}
+
+#closeTaskBtn {
+    max-width: 7em;
+    text-align: center;
+    margin: 0 0 0 auto;
 }
 
 @media (max-width: 74em) {

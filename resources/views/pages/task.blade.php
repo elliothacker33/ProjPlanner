@@ -18,8 +18,8 @@
             @can('update',$task)
                 <section class="actions">
 
-                    <a class="edit">Edit</a>
-                    <a class="delete"> Delete</a>
+                    <a class="edit buttonLink">Edit</a>
+                    <a class="cancel buttonLink"> Cancel</a>
                 </section>
             @endcan
 
@@ -30,6 +30,8 @@
                 <section class="description">
                     {{$task->description}}
                 </section>
+
+                <a class="buttonLink" id="closeTaskBtn"> Close task </a>
 
             </section>
             <section class="sideContainer">
