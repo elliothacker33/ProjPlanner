@@ -2,10 +2,7 @@
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/team.css') }}">
 @endpush
-@push('scripts')
-    <script type="text/javascript" src={{ url('js/app.js') }} defer>
-    </script>
-@endpush
+
 <section class="team">
 
     @can('update',[\App\Models\Project::class,$project])

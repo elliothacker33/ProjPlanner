@@ -1,13 +1,7 @@
-<!-- your-page.blade.php -->
-
 @extends('layouts.app')
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/static/contact.css') }}">
-@endpush
-
-@push('scripts')
-    <script type="text/javascript" src={{ url('js/app.js') }} defer></script>
 @endpush
 
 @section('content')

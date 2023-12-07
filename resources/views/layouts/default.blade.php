@@ -23,6 +23,7 @@
 
         @stack('styles')
         <!-- Scripts -->
+        <script type="module" src={{ url('js/app.js') }} defer></script>
         @stack('scripts')
 
     </head>

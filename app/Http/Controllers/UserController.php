@@ -11,20 +11,12 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function searchUsers(Request $request)
     {
-        $searchTerm = '%'.$request->searchTerm.'%';
-        $likeSearchTerm = '*' . $request->searchTerm . '*';
-        $users = User::whereRaw('(tsvectors @@ plainto_tsquery(\'portuguese\', ?))', [$request->searchTerm])
-            ->orderByRaw('ts_rank(tsvectors, plainto_tsquery(\'portuguese\', ?)) DESC', [$request->searchTerm])->get();
-        $users = User::whereRaw("email Like ?  OR Name Like ? ",[$searchTerm,$searchTerm])->get();
-        // $questions = DB::unprepared("SELECT * FROM Users, plainto_tsquery('portuguese','$searchTerm') query WHERE tsvectors @@ query ORDER BY rank DESC;");
-        //$users = DB::raw("SELECT * FROM Users");
+        $searchTerm = '%'.$request->input('query').'%';
+        $users = User::whereRaw("email Like ?  OR Name Like ? ", [$searchTerm, $searchTerm])->get();
 
-        if($request->ajax()){
-            return view('partials.displayUsers', ['users' => $users] );
-        }
-
+        return response()->json($users);
     }
 
     /**
