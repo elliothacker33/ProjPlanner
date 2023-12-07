@@ -1,10 +1,5 @@
 @extends('layouts.app')
 
-@push('scripts')
-    <script type="text/javascript" src={{ url('js/app.js') }} defer></script>
-@endpush
-
-
 @section('navbar')
     <li id="projectHome"><a href="{{route('project',['project'=>$project->id])}}"> <i class="fa-solid fa-house"></i> Project Home</a></li>
     <li id="projectTeam"><a href="{{route('team',['project'=>$project->id])}}"> <i class="fa-solid fa-users"></i> Team</a></li>

@@ -12,22 +12,21 @@ use Illuminate\Support\Facades\DB;
 
 class TaskController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index(Request $request, Project $project)
+    public function searchTasks(Request $request)
     {
+        $project = Project::find($request->input('project'));
 
-        $this->authorize('create', [Task::class,  $project]);
-        $searchTerm = '%'.$request->searchTerm.'%';
-        $likeSearchTerm = '*' . $request->searchTerm . '*';
-        $tasks = Task::whereRaw("title Like ?  ",[$searchTerm])->get();
-        // $questions = DB::unprepared("SELECT * FROM Users, plainto_tsquery('portuguese','$searchTerm') query WHERE tsvectors @@ query ORDER BY rank DESC;");
-        // $users = DB::raw("SELECT * FROM Users");
+        if ($project == null)
+            return response()->json(['error' => 'Project with specified id not found'], 404);
 
-        if($request->ajax()){
-            return view('partials.displayTasks', ['tasks' => $tasks,'project'=>$project] );
-        }
+        $this->authorize('create', [Task::class, $project]);
+
+        $searchedTasks = $project->tasks()
+            ->whereRaw("tsvectors @@ plainto_tsquery('english', ?)", [$request->input('query')])
+            ->orderByRaw("ts_rank(tsvectors, plainto_tsquery('english', ?)) DESC", [$request->input('query')])
+            ->get();
+
+        return response()->json($searchedTasks);
     }
 
     /**
@@ -36,12 +35,8 @@ class TaskController extends Controller
      */
     public function create(Request $request, Project $project)
     {
-
         $this->authorize('create', [Task::class,  $project]);
-        $res = DB::table('project_tag')
-            ->join('tags', 'tags.id', '=', 'project_tag.tag_id')
-            ->where('project_tag.project_id','=',$project->id)->get();
-        return view('pages.' . 'createTask')->with(['project'=>$project, 'users'=>$project->users,'tags'=>$res]);
+        return view('pages.' . 'createTask')->with(['project'=>$project->id, 'users'=>$project->users,'tags'=>$project->tags]);
     }
 
     /**
@@ -51,7 +46,7 @@ class TaskController extends Controller
     public function store(Request $request, Project $project)
     {
         // Validate input
-        $this->authorize('create', [Task::class,  $project]);
+        $this->authorize('create', [Task::class, $project]);
         $validated = $request->validate([
             'title' => 'required|string|min:5|max:100|',
             'description' => 'required|string|min:10|max:1024',
@@ -67,12 +62,12 @@ class TaskController extends Controller
         $task->description = $validated['description'];
         $task->opened_user_id= Auth::user()->id;
         $task->deadline = $validated['deadline'];
+        $task->project_id = $project->id;
         $task->save();
         $users = array_map('intval', explode(',', $validated['users']));
 
-        DB::insert('insert into project_task (task_id, project_id) values (?, ?)', [$task->id, $project->id]);
-        if($validated['tags'])DB::insert('insert into tag_task (tag_id, task_id) values (?, ?)', [$validated['tags'], $task->id]);
-        if( $validated['users'])foreach ($users as $user) DB::insert('insert into task_user (user_id, task_id) values (?, ?)', [$user, $task->id]);
+        $task->assigned()->attach(Auth::user()->id);
+        $task->tags()->attach($validated['tags']);
 
         return redirect()->route('task',['project'=>$project,'task'=>$task]);
     }
@@ -82,22 +77,17 @@ class TaskController extends Controller
      */
     public function show(Project $project, Task $task)
     {
-        $project_task = DB::table('project_task')
-            ->where('task_id','=',$task->id)
-            ->where('project_id','=',$project->id)->get();
-
-        if ($task == null || $project_task->isEmpty())
+        $project_task = $task->project;
+        
+        if ($task == null || $project_task == null)
             return abort(404);
 
         $this->authorize('view',[$task::class,$task]);
         $users = $task->assigned;
 
-        $tags = DB::table('tag_task')
-            ->join('tags','tag_task.tag_id','=','tags.id')
-            ->where('task_id','=',$task->id)->get();
+        $tags = $task->tags;
         $creator = User::find($task->opened_user_id);
-
-        return view('pages.task',['project'=>$project,'task'=>$task, 'assign'=>$users,'tags'=>$tags,'creator'=>$creator]);
+        return view('pages.task',['project' => $project_task, 'task'=>$task, 'assign'=>$users,'tags'=>$tags,'creator'=>$creator]);
     }
 
     /**

@@ -16,9 +16,7 @@ class ProjectController extends Controller
     public function index(Request $request)
     {
         $user = $request->user();
-        $this->authorize('viewAny',Project::class);
-        
-        if(!$user) abort(404);
+        $this->authorize('viewUserProjects',Project::class);
         return view('home.home',['projects'=>$user->projects]);
     }
 
@@ -68,16 +66,16 @@ class ProjectController extends Controller
         $this->authorize('view',[Project::class,$project]);
         $users = $project->users;
 
-        $completed_task = DB::table('project_task')
-            ->join('tasks','project_task.task_id','=','tasks.id')
-            ->where('project_id','=',$project->id)
-            ->where('tasks.status','=','closed')->count();
-        $open_task = DB::table('project_task')
-            ->join('tasks','project_task.task_id','=','tasks.id')
-            ->where('project_id','=',$project->id)
-            ->where('tasks.status','=','open')->count();
-        $all_task = $completed_task + $open_task;
-        return view('pages.project',['project'=>$project, 'team'=>$users->slice(0,4),'allTasks'=>$all_task, 'completedTasks'=>$completed_task]);
+        $completed_tasks = $project->tasks()
+            ->where('tasks.status','=','closed')
+            ->count();
+        
+        $open_tasks = $project->tasks()
+            ->where('tasks.status','=','open')
+            ->count();
+
+        $all_task = $completed_tasks + $open_tasks;
+        return view('pages.project',['project'=>$project, 'team'=>$users->slice(0,4),'allTasks'=>$all_task, 'completedTasks'=>$completed_tasks]);
     }
 
     /**
@@ -120,7 +118,8 @@ class ProjectController extends Controller
         if($memberExist) return back()->withErrors([
             'email' => 'Member already in the project',
         ])->onlyInput('email');
-        db::insert('Insert into project_user (user_id,project_id) values (?,?)',[$user->id,$project->id]);
+
+        $project->users()->attach($user->id);
 
         return redirect()->route('team',['team'=>$project->users,'project'=>$project]);
     }
@@ -165,17 +164,23 @@ class ProjectController extends Controller
         // return redirect()->route('my_projects');
     }
 
-    public function showTasks(Project $project)
+
+    public function showTasks(Request $request, Project $project)
     {
+        if ($project == null) {
+            if ($request->ajax())
+                return response()->json(['error', 'Project with specified id not found']);
+            else
+                return abort(404);
+        }
 
-        if ($project == null)
-            return abort(404);
+        $this->authorize('view', [Project::class, $project]);
 
-        $this->authorize('view',[Project::class,$project]);
-        $tasks = DB::table('project_task')
-            ->join('tasks','project_task.task_id','=','tasks.id')
-            ->where('project_id','=',$project->id)->get();
-            
-        return view('pages.tasks',['project'=>$project, 'tasks'=>$tasks]);
+        $tasks = $project->tasks;
+        
+        if ($request->ajax())
+            return response()->json($tasks);
+        else
+            return view('pages.tasks', ['project'=>$project, 'tasks'=>$tasks]);
     }
 }

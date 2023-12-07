@@ -54,7 +54,6 @@ class ProfileController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-
         $this->authorize('update', $user);
     
         $user->name = $request->name;
@@ -70,5 +69,4 @@ class ProfileController extends Controller
         return redirect()->route('profile', ['user' => $user]);
 
     }
-    
 }

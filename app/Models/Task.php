@@ -20,8 +20,6 @@ class Task extends Model
         'deadline',
     ];
 
-    
-
     public function assigned(): BelongsToMany {
         return $this->belongsToMany(User::class);
     }

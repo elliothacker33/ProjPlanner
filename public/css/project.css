@@ -21,7 +21,7 @@
     max-width: 70em;
     margin: auto;
     padding: 2em;
-    gap: 4em;
+    gap: 2em;
 }
 .projectPage .container{
     display: flex;
@@ -33,11 +33,13 @@
 }
 .projectPage header{
     display: flex;
-    gap: 3em;
-    align-content: center;
-    flex-wrap: wrap;
+   gap: 1em;
+    justify-content: space-between;
+    align-content: space-between;
+    flex-wrap: wrap-reverse;
     text-align: center;
 }
+
 .projectPage header .status{
     padding: 0.2em 0.5em ;
     border-radius: 10em;
@@ -91,24 +93,22 @@
 }
 
 
-.projectPage header{
-    display: flex;
-    justify-content: space-between;
-    align-content: space-between;
-    flex-wrap: wrap-reverse;
-}
+
 .projectPage header .info{
     display: flex;
     gap :2em;
 }
 
+.projectPage header .actions{
+    display: flex;
+    gap: 1em;
+}
 .projectPage header .actions button {
 
     padding: 0 1em;
     color: white;
     border-radius: 0.3em;
-    margin: 0 0 0 1em;
-
+    margin: 0;
     border: none;
 }
 .projectPage header .actions button:hover {
