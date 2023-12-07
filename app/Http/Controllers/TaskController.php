@@ -33,9 +33,8 @@ class TaskController extends Controller
      * Show the form for creating a new resource.
      * @throws AuthorizationException
      */
-    public function create(Request $request, int $projectId)
+    public function create(Request $request, Project $project)
     {
-        $project = Project::find($projectId);
         $this->authorize('create', [Task::class,  $project]);
         return view('pages.' . 'createTask')->with(['projectId'=>$projectId, 'users'=>$project->users,'tags'=>$project->tags]);
     }
@@ -44,11 +43,10 @@ class TaskController extends Controller
      * Store a newly created resource in storage.
      * @throws AuthorizationException
      */
-    public function store(Request $request, int $projectId)
+    public function store(Request $request, Project $project)
     {
         // Validate input
-        $project = Project::find($projectId);
-        $this->authorize('create', [Task::class,  $project]);
+        $this->authorize('create', [Task::class, $project]);
         $validated = $request->validate([
             'title' => 'required|string|min:5|max:100|',
             'description' => 'required|string|min:10|max:1024',
@@ -70,15 +68,14 @@ class TaskController extends Controller
         $task->assigned()->attach(Auth::user()->id);
         $task->tags()->attach($validated['tags']);
 
-        return redirect()->route('task',['projectId'=>$projectId,'id'=>$task->id]);
+        return redirect()->route('task',['project'=>$project,'task'=>$task]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(int $projectId, int $taskId)
+    public function show(Project $project, Task $task)
     {
-        $task=Task::find($taskId);
         $project_task = $task->project;
         
         if ($task == null || $project_task == null)

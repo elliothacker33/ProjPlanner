@@ -8,23 +8,20 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 class ProfileController extends Controller
 {
-    public function showProfile($usrId) : View
-    {
-        $user = User::find($usrId);
 
+    public function show(Request $request){
+        return redirect()->route('profile',['user' => $request->user()]);
+    }
+    public function showProfile(User $user) : View
+    {
         if (!$user) {
             abort(404, 'User profile page not found.');
         }
 
-        return view('profile_pages.profile', [
-            'usrId' => $usrId,
-            'profileName' => $user->name,
-            'profileEmail' => $user->email]
-        ); // Add image here.
+        return view('profile_pages.profile', ['user' => $user]); // Add image here.
     }
-    public function showEditProfile($usrId) : View
+    public function showEditProfile(User $user) : View
     {
-        $user = User::find($usrId);
 
         if (!$user) {
             abort(404, 'User profile page not found.');
@@ -32,11 +29,11 @@ class ProfileController extends Controller
 
         $this->authorize('update', $user);
 
-        return view('profile_pages.edit-profile',['usrId'=>$usrId]);
+        return view('profile_pages.edit-profile',['user'=>$user]);
     }
 
     
-    public function updateProfile(Request $request, $usrId)
+    public function updateProfile(Request $request, User $user)
     {
 
         $rules = [
@@ -57,8 +54,6 @@ class ProfileController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        $user = User::find($usrId);
-
         $this->authorize('update', $user);
     
         $user->name = $request->name;
@@ -71,7 +66,7 @@ class ProfileController extends Controller
             $user->password = Hash::make($request->new_password);
         }
         $user->save();
-        return redirect()->route('profile', ['usrId' => $usrId]);
+        return redirect()->route('profile', ['user' => $user]);
 
     }
 }

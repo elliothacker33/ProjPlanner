@@ -31,15 +31,11 @@
 <body>
     <header>
         <section>
-            @if (Auth::check())
-                <h1 id="header_title"><a href="{{ route('home', ['usrId' => Auth::id()]) }}" >ProjPlanner</a></h1>
-            @else
-                <h1 id="header_title"><a href="{{ route('landing') }}">ProjPlanner</a></h1>
-            @endif
+                <h1 id="header_title"><a href="{{ route('home')}}" >ProjPlanner</a></h1>
 
             @if (Auth::check())
 
-                <a class="user_icon" href="{{ route('profile', ['usrId' => Auth::id()]) }}"> 
+                <a class="user_icon" href="{{ route('user-profile') }}">
                     <img class="icon avatar" src="{{ asset('img/default_user.png') }}" alt="default user icon">
                 </a>
                 <a id="logout" href="{{ route('logout') }}">Logout</a>

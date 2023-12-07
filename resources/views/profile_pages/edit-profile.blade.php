@@ -15,7 +15,7 @@
     <figure>
         <img src="{{ asset('img/default-profile-photo.jpg') }}" alt="Default Image">
     </figure>
-    <form method="POST" action="{{ route('update_profile', ['usrId' => $usrId])}}">
+    <form method="POST" action="{{ route('update_profile', ['user' => $user])}}">
         @csrf()
         @method('PUT')
         <input type="text" name="name" placeholder="Choose your name" value="{{ old('name') }}">
