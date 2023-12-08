@@ -13,48 +13,50 @@ use Illuminate\Support\Facades\DB;
 
 class TaskPolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): bool
-    {
-        //
-    }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Task $task): bool
+    public function view(User $user, Project $project): bool
     {
-        return true;
+        if ($user->is_admin) return true;
+
+        $users = $project->users()->get()->toArray();
+
+        foreach ($users as $user_) {
+            if ($user->id === $user_['id']) return true;
+        }
+
+        return false;
     }
 
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user,Project $project): bool
+    public function create(User $user, Project $project): bool
     {
         $users = $project->users()->get()->toArray();
-        $member=false;
-        foreach ($users as $user_){
-            if($user->id===$user_['id']) $member= true;
+
+        foreach ($users as $user_) {
+            if ($user->id === $user_['id']) return true;
         }
 
-        return (!$user->isAdmin) and $member;
+        return false;
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Task $task): bool
+    public function update(User $user, Project $project): bool
     {
-        $coordinator = $task->project->user_id;
+        
+        $users = $project->users()->get()->toArray();
 
-        $assigned = $task->assigned;
+        foreach ($users as $user_) {
+            if ($user->id === $user_['id']) return true;
+        }
 
-        if ($assigned != null && $coordinator != null) return true;
         return false;
-
     }
 
     /**
@@ -62,22 +64,45 @@ class TaskPolicy
      */
     public function delete(User $user, Task $task): bool
     {
-        //
+        return ($task->project->coordinator->id === $user->id);
     }
 
     /**
-     * Determine whether the user can restore the model.
+     * Determine whether the user can assign someone to the model. 
      */
-    public function restore(User $user, Task $task): bool
+    public function assign(User $user, Task $task): bool
     {
-        //
+        $users = $task->project->users()->get()->toArray();
+
+        foreach ($users as $user_) {
+            if ($user->id === $user_['id']) return true;
+        }
+
+        return false;;
     }
 
     /**
-     * Determine whether the user can permanently delete the model.
+     * Determine whether the user can comment on the model.
      */
-    public function forceDelete(User $user, Task $task): bool
+    public function comment(User $user, Task $task): bool
     {
-        //
+        $users = $task->project->users()->get()->toArray();
+
+        foreach ($users as $user_) {
+            if ($user->id === $user_['id']) return true;
+        }
+
+        return false;
     }
+
+    /**
+     * Determine whether the user can change the status of the model.
+     */
+    public function changeStatus(User $user, Task $task): bool
+    {
+        return $user->id === $task->project->coordinator->id;
+    }
+
+
+
 }

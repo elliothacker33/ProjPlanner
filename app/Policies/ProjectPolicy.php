@@ -26,10 +26,10 @@ class ProjectPolicy
 
         $usersIds = array();
 
-        foreach($users as $a_user) {
+        foreach ($users as $a_user) {
             array_push($usersIds, $a_user['id']);
         }
-        
+
         return (in_array($user->id, $usersIds)) || $user->is_admin;
     }
 
@@ -46,7 +46,7 @@ class ProjectPolicy
      */
     public function update(User $user, Project $project): bool
     {
-        return $user->id === $project->user_id;
+        return $user->id === $project->coordinator->id;
     }
 
     /**
@@ -54,22 +54,87 @@ class ProjectPolicy
      */
     public function delete(User $user, Project $project): bool
     {
-        return $user->id == $project->user_id;
+        return $user->id == $project->coordinator;
     }
 
     /**
-     * Determine whether the user can restore the model.
+     * Determine whether the user can archive the model.
      */
-    public function restore(User $user, Project $project): bool
+    public function archive(User $user, Project $project): bool
     {
-        //
+        return $user->id == $project->coordinator->id;
     }
 
     /**
-     * Determine whether the user can permanently delete the model.
+     * Determine whether the user can leave the model.
      */
-    public function forceDelete(User $user, Project $project): bool
+    public function leave(User $user, Project $project): bool
     {
-        //
+        $users = $project->users()->get()->toArray();
+
+        foreach ($users as $user_) {
+            if ($user->id === $user_['id']) return true;
+        }
+
+        return false;
     }
+
+    /**
+     * Determine whether the user can show the team of the model.
+     */
+    public function show_team(User $user, Project $project): bool
+    {
+
+        if ($user->is_admin) return true;
+
+        $users = $project->users()->get()->toArray();
+
+        foreach ($users as $user_) {
+            if ($user->id === $user_['id']) return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Determine whether the user can view the forum of the model.
+     */
+    public function view_forum(User $user, Project $project): bool
+    {
+
+        if ($user->is_admin) return true;
+
+        $users = $project->users()->get()->toArray();
+
+        foreach ($users as $user_) {
+            if ($user->id === $user_['id']) return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Determine whether the user can add a member to the model.
+     */
+    public function add_member(User $user, Project $project): bool
+    {
+        return $user->id == $project->coordinator->id;
+    }
+
+    /**
+     * Determine whether the user can remove a member from the model.
+     */
+    public function remove_member(User $user, Project $project): bool
+    {
+        return $user->id == $project->coordinator->id;
+    }
+
+    /**
+     * Determine whether the user can assign a new coordinator to the model.
+     */
+    public function assign_coordinator(User $user, Project $project): bool
+    {
+        return $user->id == $project->coordinator->id;
+    }
+
 }

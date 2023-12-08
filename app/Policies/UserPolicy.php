@@ -8,13 +8,6 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 
 class UserPolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): bool
-    {
-        //
-    }
 
     /**
      * Determine whether the user can view the model.
@@ -39,7 +32,7 @@ class UserPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return $user->is_admin;
     }
 
     /**
@@ -47,11 +40,7 @@ class UserPolicy
      */
     public function update(User $user, User $model): bool
     {
-
-        //
-
         return $user->id === $model->id || $user->is_admin;
-
     }
 
     /**
@@ -59,33 +48,41 @@ class UserPolicy
      */
     public function delete(User $user, User $model): bool
     {
-        //
+        return $user->id === $model->id || $user->is_admin;
     }
 
     /**
-     * Determine whether the user can restore the model.
+     * Determine whether the user can create admins.
      */
-    public function restore(User $user, User $model): bool
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, User $model): bool
-    {
-        //
-    }
-
-
     public function create_admin(User $user): bool
     {
         return $user->is_admin;
     }
+
+    /**
+     * Determine whether the user can view admins.
+     */
     public function view_admin(User $user): bool
     {
         return $user->is_admin;
     }
     
+    /**
+     * Determine whether the user can block users.
+     */
+    public function block(User $user): bool
+    {
+        return $user->is_admin;
+    }
+
+    /**
+     * Determine whether the user can unblock users.
+     */
+    public function unblock(User $user): bool
+    {
+       return $user->is_admin;
+    }
+
+    
+
 }

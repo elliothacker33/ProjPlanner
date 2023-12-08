@@ -13,23 +13,25 @@ class Project extends Model
 
     public $timestamps = false;
     protected $casts = [
-        'deadline' => 'datetime', 
+        'deadline' => 'datetime',
     ];
 
     protected $fillable = [
         'title',
         'description',
         'deadline',
-        'user_id',
+        'coordinator',
     ];
 
     protected $hidden = ['tsvectors'];
 
-    public function users(): BelongsToMany {
+    public function users(): BelongsToMany
+    {
         return $this->belongsToMany(User::class);
     }
 
-    public function coordinator() {
+    public function coordinator()
+    {
         return $this->belongsTo(User::class);
     }
     public function tasks(): HasMany
@@ -41,4 +43,3 @@ class Project extends Model
         return $this->hasMany(Tag::class);
     }
 }
-
