@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.project')
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/task.css') }}">
@@ -7,16 +7,19 @@
 
 @push('scripts')
     <script type="text/javascript" src={{ url('js/app.js') }} defer></script>
+    <script type="module" src={{ url('js/task.js') }} > </script>
+
 @endpush
 
 @section('content')
+
     <section class="taskCreation">
 
         <section class="formContainer">
             <header class="tasks">
                 <h2>Create a <span class="shine">Task</span></h2>
             </header>
-            <form method="POST" action="{{ route('newTask', ['projectId' => $projectId])  }}">
+            <form method="POST" action="{{ route('newTask', ['project' => $project])  }}" id="create_task">
                 @csrf
                 <section class="primaryContainer">
                     <input type="text" name="title" placeholder="Task Title" required value="{{ old('title') }}">
@@ -38,18 +41,11 @@
                         </span>
                     @endif
 
-                    <section class="buttons">
-                        <button type="submit">
-                            Create
-                        </button>
-                        <a >
-                            Cancel
-                        </a>
-                    </section>
+
                 </section>
                 <section class="sideContainer">
                     <label for="deadline" >
-                        Deadline
+                        <i class="fa-solid fa-clock"></i> Deadline
                     </label>
                     <input id = "deadline" type="date" name="deadline" value="{{ old('deadline') }}">
                     @if ($errors->has('deadline'))
@@ -58,47 +54,28 @@
                         </span>
                     @endif
 
-                    <label for="users">
-                        Assign User
-                    </label>
+                    @include('partials.multiselector',["data"=>"users"])
 
-                    <select id="users" name="users" value="{{ old('users') }}" >
-                        <option selected="selected"> </option>
-
-                        @foreach($users as $user )
-                            @if( old('users') == $user->id ) <option value="{{$user->id}}" selected="selected"> {{$user->name}} </option>
-                            @else <option value="{{$user->id}}"> {{$user->name}} </option>
-                            @endif
-                        @endforeach
-                    </select>
-                    @if ($errors->has('users'))
-                        <span class="error">
-                            {{ $errors->first('users') }}
-                        </span>
-                    @endif
-
-                    <label for="tags">
-                        Choose a tag
-                    </label>
-                    <select id='tags' name="tags" value="{{ old('tags') }}">
-                        <option selected="selected"> </option>
-
-                        @foreach($tags as $tag )
-
-                            @if( old('tags') == $tag->id ) <option value="{{$tag->id}}" selected="selected"> {{$tag->title}} </option>
-                            @else <option value="{{$tag->id}}"> {{$tag->title}} </option>
-                            @endif
-                        @endforeach
-                    </select>
+                    @include('partials.multiselector',["data"=>"tags"])
                     @if ($errors->has('tags'))
                         <span class="error">
                             {{ $errors->first('tags') }}
                         </span>
                     @endif
 
-
                 </section>
+
+                <input type="hidden" name ='users' id="assigns" value="">
+                <input type="hidden" name ='tags' id="tags" value="">
             </form>
+            <section class="buttons">
+                <button type="submit" form="create_task">
+                    Create
+                </button>
+                <a href="{{route('show_tasks',['project'=>$project])}}">
+                    Cancel
+                </a>
+            </section>
 
         </section>
 

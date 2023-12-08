@@ -4,7 +4,6 @@
     justify-content: center;
     align-content: center;
 }
-
 .taskCreation .formContainer form input,.formContainer form textarea{
     background: var(--input-bg-color);
 }
@@ -33,8 +32,10 @@
 }
 .taskPage header{
     display: flex;
-    gap: 3em;
-    align-content: center;
+    gap: 1em;
+    justify-content: space-between;
+    align-content: space-between;
+    flex-wrap: wrap-reverse;
     text-align: center;
 }
 .taskPage header .status{
@@ -42,7 +43,6 @@
     border-radius: 10em;
     font-size: 1em;
     color: white;
-
 }
 .taskPage header .status.open{
     background: var(--onprimary-bg-color);
@@ -53,15 +53,19 @@
 .taskPage header .status.cancelled{
     background: var(--error-text-color);
 }
+.taskCreation .formContainer{
+    max-width: 60em;
+}
 .taskPage .primaryContainer{
     display: flex;
     gap: 3em;
     flex-direction: column;
+    flex-grow: 1;
     width: 40em;
 }
 .taskPage .sideContainer{
     display: flex;
-    gap: 1em;
+    gap: 2em;
     flex-direction: column;
     width: 20em;
 }
@@ -88,13 +92,89 @@ a{
     font-size: 1.2em;
     font-weight: bold;
 }
-.taskPage header a.edit {
-    padding: 0.2em 0.7em;
+.taskPage header{
+    display: flex;
+    justify-content: space-between;
+    align-content: space-between;
+    flex-wrap: wrap-reverse;
+}
+.taskPage header .info{
+  display: flex;
+    gap :2em;
+    height: fit-content;
+    margin:  auto 0;
+}
+.taskPage header .actions{
+    display: flex;
+    gap: 1em;
+}
+
+.taskPage header .actions a, .multiselector span {
+    padding: 0.5em 0.7em;
     background: var(--onprimary-bg-color);
     color: white;
     border-radius: 0.3em;
-    margin-left: auto;
-    margin-right: 3em;
+    margin: 0;
+}
+.taskPage header .actions a:hover {
+    background: var(--onsecondary-bg-color);
+}
+.taskPage header a.delete{
+    background: var(--error-text-color);
+}
+.multiselector{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 2em;
+}
+.multiselector span{
+    width: 100%;
+    text-align: center;
+    background: var(--onsecondary-bg-color);
+    margin: auto;
+    border-radius: 10em;
+    cursor: pointer;
+}
+.multiselector span i{
+    margin-left: 1em;
+}
+
+.multiselector .dropdown{
+    top: 120%;
+    max-width: 40rem;
+    max-height: 25rem;
+    z-index: 2;
+    overflow-y: scroll;
+    position: absolute;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    background: white;
+    width: 100%;
+    padding:  1em;
+    box-shadow: 0 0.5em 0.5em #00000004,0 1em 1em #00000003,0 1.5em 1.5em #00000002,0 2em 2em #00000001;
+}
+.multiselector .dropdown.hidden{
+    display: none;
+}
+.multiselector .dropdown .item{
+    display: flex;
+    gap: 1em;
+    justify-content: flex-start;
+    align-content: flex-start;
+    align-items: center;
+    padding: 1em;
+}
+.multiselector .dropdown .item * {
+    margin: 0;
+    padding: 0;
+
+}
+.multiselector .dropdown .item input[type="checkbox"]{
+    scale: 1.5;
 }
 
 @media (max-width: 74em) {
@@ -113,6 +193,8 @@ a{
     }
 
 }
+
+
 @media (max-width: 40em) {
 
     .taskPage {
