@@ -14,14 +14,15 @@ class TaskController extends Controller
 {
     public function searchTasks(Request $request)
     {
+
         $project = Project::find($request->input('project'));
 
         if ($project == null)
             return response()->json(['error' => 'Project with specified id not found'], 404);
 
         $this->authorize('create', [Task::class, $project]);
-
         $searchedTasks = $project->tasks()
+            ->with('creator') // Eager load the creator relationship
             ->whereRaw("tsvectors @@ plainto_tsquery('english', ?)", [$request->input('query')])
             ->orderByRaw("ts_rank(tsvectors, plainto_tsquery('english', ?)) DESC", [$request->input('query')])
             ->get();
