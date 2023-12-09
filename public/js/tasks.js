@@ -47,4 +47,3 @@ function updateSearchedTasks(data) {
         tasksSection.appendChild(divWrapper);
     });
 }
-

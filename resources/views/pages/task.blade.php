@@ -4,6 +4,10 @@
     <link rel="stylesheet" href="{{ asset('css/task.css') }}">
 @endpush
 
+@push('scripts')
+    <script type="module" src="{{ asset('js/task.js') }}" defer></script>
+@endpush
+
 @section('content')
     <section class="taskPage">
         <header>
@@ -17,7 +21,6 @@
             </section>
             @can('update',$task)
                 <section class="actions">
-
                     <a class="edit buttonLink">Edit</a>
                     <a class="cancel buttonLink"> Cancel</a>
                 </section>
@@ -31,7 +34,7 @@
                     {{$task->description}}
                 </section>
 
-                <a class="buttonLink" id="closeTaskBtn"> Close task </a>
+                <a class="buttonLink" id="closeTaskBtn" data-userid="{{ Auth::user()->id }}"> Close task </a>
 
             </section>
             <section class="sideContainer">

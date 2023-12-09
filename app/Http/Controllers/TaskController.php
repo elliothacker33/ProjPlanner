@@ -8,7 +8,7 @@ use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+
 
 class TaskController extends Controller
 {
@@ -111,5 +111,25 @@ class TaskController extends Controller
     public function destroy(Task $task)
     {
         //
+    }
+
+    /**
+     * Mark a task as closed
+     */
+    public function close(Request $request, Project $project, Task $task) {
+        $user = User::find($request->input('closed_user_id'));
+        Log::info($user);
+
+        if ($user == null)
+            return abort(404);
+
+        $this->authorize('close', [Task::class, $user, $project, $task]);
+
+        $task->status = 'closed';
+        $task->closed_user_id = $user->id;
+        $task->endtime = now();
+        $task->save();
+
+        return response('Task closed successfully', 200);
     }
 }

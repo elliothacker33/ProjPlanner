@@ -18,6 +18,7 @@ class Task extends Model
         'status',
         'description',
         'deadline',
+        'closed_user_id',
     ];
 
     public function assigned(): BelongsToMany {
