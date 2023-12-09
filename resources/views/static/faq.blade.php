@@ -13,26 +13,28 @@
 
   <div class ="row"> 
 
-  <div class="col-2 col-sm-12 col-md-2 col-lg-2 col-xl-2 options p-5">
-
-      <div class="row header-options ">
+  <div class="col-2 col-sm-12 col-md-6 col-lg-4 col-xl-2 options p-5">
+      <div class="row">
+      <div class="col-12 header-options ">
         <h2>Faq Topics </h2>
       </div>
-      <div class="row header-options ">
-        <button type="button" class="btn all btn-link text-start">All</button>
-      </div>
-      <div class="row header-options ">
-        <button type="button" class="btn general btn-link text-start">General Information</button>
-      </div>
-      <div class="row header-options ">
+        <div class = "col-12 header-options">
+          <button type="button" class="btn all btn-link text-start">All</button>
+        </div>
+        <div class = "col-12 header-options">
+          <button type="button" class="btn general btn-link text-start">General Information</button>
+        </div>
+        <div class = "col-12 header-options">
         <button type="button" class="btn functionalities btn-link text-start">Functionalities</button>
-      </div>
-      <div class="row header-options ">
+        </div>
+        <div class = "col-12 header-options">
         <button type="button" class="btn navigation btn-link text-start">Navigation</button>
-      </div>
-      <div class="row header-options ">
-        <button type="button" class="btn pricing  btn-link text-start">Pricing</button>
-      </div>
+        </div>
+        <div class = "col-12 header-options">
+          <button type="button" class="btn pricing  btn-link text-start">Pricing</button>
+        </div> 
+        </div>
+
     </div>
 
     <div class ="col p-5">

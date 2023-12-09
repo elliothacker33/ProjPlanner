@@ -40,45 +40,50 @@
                     <img src="{{ asset('img/team-avatars/4.jpeg') }}" alt="Default Image" >
                 </figure>
             </div>
-            <div class = "  col-sm-12 col-lg-10 ">
+            <div class = "col-sm-12 col-lg-10   d-flex flex-column justify-content-center">
                 <div class="row">
-                    <div class="col-12 d-flex justify-content-center justify-content-lg-start ">
-                        <span class = "infos"> <i class="bi bi-person-fill"></i> Name</span>
-                    </div>
-                </div>
-                <div class="row mb-5">
-                    <div class="col-12 d-flex justify-content-center justify-content-lg-start">
-                        <span class= "infos">{{$profileName}}</span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12 ">
-                        <div class="row   ">
-                            <div class="col-lg-3 col-sm-4  d-flex justify-content-center justify-content-lg-start ">
-                                <span class="infos">
-                                    <i class="bi bi-gear-fill"></i> Role
-                                </span>
+                    <div class="col-12">
+                        <div class="row ">
+                            <div class="col col-sm-4 mx-auto text-center d-flex justify-content-center justify-content-lg-start">
+                                <div class = "row">
+                                    <div class = "col-12">
+                                        <span class="infos">
+                                            <i class="bi bi-person-fill"></i> Name
+                                        </span>
+                                    </div>
+                                    <div class = "col-12">
+                                        <span class="infos">
+                                            {{$profileName}}
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-lg-3 col-sm-4 d-flex justify-content-center justify-content-lg-start">
-                                <span class="infos">
-                                    <i class="bi bi-envelope-fill"></i> Email
-                                </span>
+                            <div class="col col-sm-4 mx-auto text-center  d-flex justify-content-center justify-content-lg-start">
+                                <div class = "row">
+                                    <div class = "col-12">
+                                        <span class="infos">
+                                            <i class="bi bi-person-fill"></i> Email
+                                        </span>
+                                    </div>
+                                    <div class = "col-12">
+                                        <span class="infos">{{$profileEmail}}</span>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <!-- Second row -->
-                    <div class="col-12 ">
-                        <div class="row">
-                            <div class="col-3">
-                                @if($isAdmin)
-                                    <span class="infos">Admin Account</span>
-                                @else <span class="infos">User Account</span>
-                                @endif
-                            </div>
-                            <div class="col-3">
-                                <span class="infos">{{$profileEmail}}</span>
+                            <div class="col col-sm-4  mx-auto text-center d-flex  justify-content-center justify-content-lg-start">
+                                <div class = "row">
+                                    <div class = "col-12">
+                                        <span class="infos">
+                                            <i class="bi bi-person-fill"></i> Role
+                                        </span>
+                                    </div>
+                                    <div class = "col-12">
+                                        @if($isAdmin)
+                                            <span class="infos">Admin Account</span>
+                                        @else <span class="infos">User Account</span>
+                                        @endif
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -135,9 +140,9 @@
         </header>
 	</div>
 
-    <div class="col-12">
-        <div class = "row">
-            <div class = "col-4">
+    <div class="col-12  d-flex justify-content-center">
+        <div class = "row ">
+            <div class = "col-4 mx-auto">
                 <div class ="row">
                     <div class="col-12 text-center">
                         <span class="statNumber" style="color: #2E9D7F;">{{$statusOpenCount = $tasks->where('status', 'open')->count()}}</span>
@@ -146,7 +151,7 @@
                         <span class="statInfo" style="color: #2E9D7F;">Open Tasks</span></div>
                     </div>
             </div>
-            <div class = "col-4">
+            <div class = "col-4 mx-auto">
                 <div class ="row">
                     <div class="col-12 text-center">
                         <span class="statNumber"style="color: orange;">{{$statusCanceledCount = $tasks->where('status', 'canceled')->count()}}</span>
@@ -155,7 +160,7 @@
                         <span class="statInfo"style="color: orange;">Canceled Tasks</span></div>
                 </div>
             </div>
-            <div class = "col-4">
+            <div class = "col-4 mx-auto">
                 <div class ="row">
                     <div class="col-12 text-center">
                         <span class="statNumber" style="color: #ff3333;">{{$statusClosedCount = $tasks->where('status', 'closed')->count()}}</span>

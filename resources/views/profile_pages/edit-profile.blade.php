@@ -39,48 +39,53 @@
         <div class = "row">
             <div class = " col-sm-12 col-lg-2 d-flex justify-content-center ">
                 <figure>
-                    <img src="{{ asset('img/default_user.png') }}" alt="Default Image" >
+                    <img src="{{ asset('img/default-profile-photo.jpg') }}" alt="Default Image" >
                 </figure>
             </div>
-            <div class = "col-sm-12 col-lg-10 ">
+            <div class = "col-sm-12 col-lg-10   d-flex flex-column justify-content-center">
                 <div class="row">
-                    <div class="col-12 d-flex justify-content-center justify-content-lg-start ">
-                        <span class = "infos"> <i class="bi bi-person-fill"></i> Name</span>
-                    </div>
-                </div>
-                <div class="row mb-5">
-                    <div class="col-12 d-flex justify-content-center justify-content-lg-start">
-                        <span class= "infos">{{$profileName}}</span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12 ">
-                        <div class="row   ">
-                            <div class="col-lg-3 col-sm-4  d-flex justify-content-center justify-content-lg-start ">
-                                <span class="infos">
-                                    <i class="bi bi-gear-fill"></i> Role
-                                </span>
-                            </div>
-                            <div class="col-lg-3 col-sm-4 d-flex justify-content-center justify-content-lg-start">
-                                <span class="infos">
-                                    <i class="bi bi-envelope-fill"></i> Email
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <!-- Second row -->
-                    <div class="col-12 ">
+                    <div class="col-12">
                         <div class="row">
-                            <div class="col-3">
-                                @if($isAdmin)
-                                    <span class="infos">Admin Account</span>
-                                @else <span class="infos">User Account</span>
-                                @endif
+                            <div class="col-lg-3 col-sm-4 mx-auto text-center d-flex justify-content-center justify-content-lg-start">
+                                <div class = "row">
+                                    <div class = "col-12">
+                                        <span class="infos">
+                                            <i class="bi bi-person-fill"></i> Name
+                                        </span>
+                                    </div>
+                                    <div class = "col-12">
+                                        <span class="infos">
+                                            {{$profileName}}
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-3">
-                                <span class="infos">{{$profileEmail}}</span>
+                            <div class="col-lg-3 col-sm-4 mx-auto text-center d-flex justify-content-center justify-content-lg-start">
+                                <div class = "row">
+                                    <div class = "col-12">
+                                        <span class="infos">
+                                            <i class="bi bi-person-fill"></i> Email
+                                        </span>
+                                    </div>
+                                    <div class = "col-12">
+                                        <span class="infos">{{$profileEmail}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-sm-4 mx-auto text-center d-flex justify-content-center justify-content-lg-start">
+                                <div class = "row">
+                                    <div class = "col-12">
+                                        <span class="infos">
+                                            <i class="bi bi-person-fill"></i> Role
+                                        </span>
+                                    </div>
+                                    <div class = "col-12">
+                                        @if($isAdmin)
+                                            <span class="infos">Admin Account</span>
+                                        @else <span class="infos">User Account</span>
+                                        @endif
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -101,7 +106,7 @@
             </div>
         </div>
         <div class = "col-12">
-            <form method="POST" class ="row d-flex align-items-center " action="{{ route('update_profile', ['usrId' => $usrId])}}">
+            <form method="POST" class ="row d-flex align-items-center" action="{{ route('update_profile', ['usrId' => $usrId])}}">
                 @csrf()
                 @method('PUT')
                 <div class = "form-group col-12 mb-3">
@@ -142,7 +147,18 @@
             </form>
         </div>
         <div class = "col-12 mb-5 ">
-            <header><h1><i class="bi bi-sliders"></i> Preferences of user profile</h1></header>
+            <header><h1><i class="bi bi-sliders"></i> Change your profile image</h1></header>
+        </div>
+        <div class = "col-12 ">
+            <form  method="POST" action="{{ route('update_profile', ['usrId' => $usrId])}}" id="updateProfileForm" enctype="multipart/form-data" class="class =row d-flex align-items-center">
+                @csrf
+                @method('PUT') 
+                <div class="mb-3">
+                    <label for="profileImageInput" class="form-label">Choose Profile Image</label>
+                    <input type="file" name="profile_image" id="profileImageInput">
+                </div>
+                <button type="submit">Update Profile Image</button>
+            </form>
         </div>
 </div>
 

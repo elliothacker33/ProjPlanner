@@ -7,13 +7,16 @@ main{
 .first header>h1{
     color : var(--primary-bg-color);
 }
-.test{
-   
+.dropdown-menu {
+    width: 200px; /* Adjust the width as needed */
+    height: 200px;
+}
+
+.dropdown>ul>li{
+    margin-bottom: 2em;
 }
 .first{
     background-image: url("/img/profile_background.jpg");
-    border-bottom-right-radius: 30px;
-    border-bottom-left-radius: 30px;
     padding: 2%;
  
 }
@@ -23,7 +26,7 @@ main{
     text-transform: capitalize;
 }
 figure {
-    border: white 4px solid;
+    border: 2px solid white;
     width: 10em;
     height: 10em;
     background-repeat: no-repeat;
@@ -33,12 +36,14 @@ figure {
     overflow: hidden;
     border-radius: 50%;
   }
-  
+.test{
+    border: red solid 2px;
+}
 figure>img {
-   
+    border-radius: 50%;
     width: 10em;
     height: 10em;
-   object-fit: cover; 
+    object-fit: cover; 
 }
 .dropdown-item{
     font-weight: 500;
@@ -116,7 +121,6 @@ label{
 }
 
 input{
-    display: block;
     font-size: 1.2em;
 }
 input::placeholder{
