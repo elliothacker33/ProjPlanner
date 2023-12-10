@@ -72,8 +72,8 @@ class TaskPolicy
     /**
      * Determine whether the user can close a specific task
      */
-    public function close(User $authUser, User $closedUser, Project $project, Task $task): bool
+    public function closeAndCancel(User $authUser, User $actionUser, Project $project, Task $task): bool
     {
-        return ($closedUser->id == $project->user_id || $task->assigned->contains($closedUser)) && $task->status == 'open';
+        return ($actionUser->id == $project->user_id || $task->assigned->contains($actionUser)) && $task->status == 'open';
     }
 }

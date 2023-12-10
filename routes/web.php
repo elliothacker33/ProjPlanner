@@ -98,6 +98,7 @@ Route::prefix('/project')->group(function () {
             Route::prefix('/{task}')->whereNumber('task')->group(function () {
                 Route::get('', 'show')->name('task');
                 Route::put('/close', 'close')->name('close_task');
+                Route::put('/cancel', 'cancel')->name('cancel_task');
             });
         });
         

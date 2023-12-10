@@ -51,7 +51,7 @@
 .taskPage header .status.closed{
     background: var(--on-third-bg-color);
 }
-.taskPage header .status.cancelled{
+.taskPage header .status.canceled{
     background: var(--error-text-color);
 }
 .taskPage .primaryContainer{

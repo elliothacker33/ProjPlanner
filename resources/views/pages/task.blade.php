@@ -16,13 +16,13 @@
 
             @if($task->status == 'open') <span class="status open"> Open </span>
             @elseif($task->status == 'closed') <span class="status closed"> Closed </span>
-            @else <span class="status cancelled"> Cancelled </span>
+            @else <span class="status canceled"> Canceled </span>
             @endif
             </section>
             @can('update',$task)
                 <section class="actions">
                     <a class="edit buttonLink">Edit</a>
-                    <a class="cancel buttonLink"> Cancel</a>
+                    <a class="cancel buttonLink" id="cancelTaskBtn" data-userid="{{ Auth::user()->id }}">Cancel</a>
                 </section>
             @endcan
 
