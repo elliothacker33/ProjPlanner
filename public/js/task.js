@@ -3,57 +3,46 @@ import {sendAjaxRequest} from './app.js'
 const currentPath = window.location.pathname;
 
 function addTaskEventHandlers() {
-    closeTaskButtonEvent();
-    cancelTaskButtonEvent();
-}
-
-function closeTaskButtonEvent() {
     const closeTaskButton = document.querySelector('#closeTaskBtn');
+    const cancelTaskButton = document.querySelector('#cancelTaskBtn');
 
-    closeTaskButton.addEventListener('click', (e) => {
-        const userid = closeTaskButton.dataset.userid;
+    if (closeTaskButton != null) closeAndCancelEvent(closeTaskButton, '/close', 'Closed');
+    if (cancelTaskButton != null) closeAndCancelEvent(cancelTaskButton, '/cancel', 'Canceled');
+};
 
-        sendAjaxRequest('PUT', currentPath + '/close', {'closed_user_id': userid}).catch(() => {
+function closeAndCancelEvent(button, route, actionString) {
+    button.addEventListener('click', (e) => {
+        const userid = button.dataset.userid;
+
+        sendAjaxRequest('PUT', currentPath + route, {'closed_user_id': userid}).catch(() => {
             console.error("Network error");
         }).then(response => {
             if (response.ok) {
                 const statusChip = document.querySelector('.status');
+                const deadline = document.querySelector('.deadlineContainer')
+                const finishedTimeSpan = document.createElement('span');
 
                 document.querySelectorAll('.actions a').forEach(element => {
                     element.remove();
                 })
-                closeTaskButton.remove();
+                document.querySelector('#closeTaskBtn').remove();
+
                 statusChip.classList.remove('open');
-                statusChip.classList.add('closed');
-                statusChip.innerHTML = 'Closed';
+                statusChip.classList.add(actionString.toLowerCase());
+                statusChip.innerHTML = actionString;
+
+                deadline.innerHTML = '';
+
+                const today = new Date();
+                const day = String(today.getDate()).padStart(2, '0');
+                const month = String(today.getMonth() + 1).padStart(2, '0');
+                const year = today.getFullYear();
+
+                finishedTimeSpan.innerHTML = `${actionString} at: ${day}/${month}/${year}`;
+                deadline.appendChild(finishedTimeSpan);
             }
         })
     });
 };
-
-function cancelTaskButtonEvent() {
-    const cancelTaskButton = document.querySelector('#cancelTaskBtn');
-
-    cancelTaskButton.addEventListener('click', (e) => {
-        const userid = cancelTaskButton.dataset.userid;
-
-        sendAjaxRequest('PUT', currentPath + '/cancel', {'canceled_user_id': userid}).catch(() => {
-            console.error("Network error");
-        }).then(response => {
-            if (response.ok) {
-                const statusChip = document.querySelector('.status');
-
-                document.querySelectorAll('.actions a').forEach(element => {
-                    element.remove();
-                })
-
-                document.querySelector('#closeTaskBtn').remove();
-                statusChip.classList.remove('open');
-                statusChip.classList.add('canceled');
-                statusChip.innerHTML = 'Canceled';
-            }
-        })
-    });
-}
 
 addTaskEventHandlers();

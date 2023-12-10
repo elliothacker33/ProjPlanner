@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Models\Project;
 use App\Models\Task;
 use App\Models\User;
+use Illuminate\Auth\Access\Response;
 
 class TaskPolicy
 {
@@ -37,12 +38,7 @@ class TaskPolicy
      */
     public function update(User $user, Task $task): bool
     {
-        $coordinator = $task->project->user_id;
-
-        $assigned = $task->assigned;
-
-        if ($assigned != null && $coordinator != null) return true;
-        return false;
+        return ($task->project->user_id == $user->id || $task->assigned->contains($user)) && $task->status == 'open';
     }
 
     /**
@@ -72,8 +68,13 @@ class TaskPolicy
     /**
      * Determine whether the user can close a specific task
      */
-    public function closeAndCancel(User $authUser, User $actionUser, Project $project, Task $task): bool
-    {
-        return ($actionUser->id == $project->user_id || $task->assigned->contains($actionUser)) && $task->status == 'open';
+    public function apiUpdate(User $authUser, User $actionUser, Project $project, Task $task)
+    {   
+        if (!($actionUser->id == $project->user_id || $task->assigned->contains($actionUser)))
+            return Response::denyWithStatus(403);
+        else if ($task->status != 'open')
+            return Response::denyWithStatus(409);
+
+        return Response::allow();
     }
 }

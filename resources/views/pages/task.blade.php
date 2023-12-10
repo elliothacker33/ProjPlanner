@@ -19,7 +19,7 @@
             @else <span class="status canceled"> Canceled </span>
             @endif
             </section>
-            @can('update',$task)
+            @can('update', $task)
                 <section class="actions">
                     <a class="edit buttonLink">Edit</a>
                     <a class="cancel buttonLink" id="cancelTaskBtn" data-userid="{{ Auth::user()->id }}">Cancel</a>
@@ -34,7 +34,9 @@
                     {{$task->description}}
                 </section>
 
-                <a class="buttonLink" id="closeTaskBtn" data-userid="{{ Auth::user()->id }}"> Close task </a>
+                @can('update', $task)
+                    <a class="buttonLink" id="closeTaskBtn" data-userid="{{ Auth::user()->id }}"> Close task </a> 
+                @endcan
 
             </section>
             <section class="sideContainer">
