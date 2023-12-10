@@ -530,6 +530,11 @@ EXECUTE FUNCTION update_last_edit_comment_date();
 CREATE OR REPLACE FUNCTION update_task_end_date()
 RETURNS TRIGGER AS $BODY$
 BEGIN
+	IF (OLD.status != 'open') THEN
+		RAISE EXCEPTION 'A closed or canceled task status cannot be updated.';
+    ELSIF (NEW.status = 'open') THEN
+        RAISE EXCEPTION 'A task status cannot be updated to open.';
+    END IF;
 
     NEW.endtime := NOW();
 
@@ -541,7 +546,6 @@ LANGUAGE plpgsql;
 CREATE TRIGGER finalize_task_trigger
 BEFORE UPDATE ON lbaw2353.tasks
 FOR EACH ROW
-WHEN (NEW.status <> OLD.status AND NEW.status = 'closed')
 EXECUTE FUNCTION update_task_end_date();
 
 /*Only a user who is part of the projects's team can be task_user as the projects user_id for that projects*/
@@ -602,7 +606,7 @@ LANGUAGE plpgsql;
 CREATE TRIGGER task_closed_trigger
 BEFORE UPDATE ON lbaw2353.tasks
 FOR EACH ROW
-WHEN (NEW.status <> OLD.status AND NEW.status = 'closed') 
+WHEN (NEW.status <> OLD.status AND (NEW.status = 'closed' OR NEW.status = 'canceled') ) 
 EXECUTE FUNCTION check_who_closed_task();
 
 /*Admins should not be able to participate in a project*/
