@@ -27,7 +27,7 @@
                 <h6 class="dropdown-header">Profile Actions</h6>
             </li>
             <li>
-                <a href= "{{ route('edit_profile', ['usrId' => $usrId]) }}" class="dropdown-item editbutton">Edit Account</a>
+                <a href= "{{ route('edit_profile', ['usrId' => Auth::id()]) }}" class="dropdown-item editbutton">Edit Account</a>
             </li>
             <li>
                 <a href= "" class="dropdown-item delete-btn">Delete Account</a>
@@ -39,7 +39,7 @@
         <div class = "row">
             <div class = " col-sm-12 col-lg-2 d-flex justify-content-center ">
                 <figure>
-                    <img src="{{ asset('img/default-profile-photo.jpg') }}" alt="Default Image" >
+                    <img src="{{ $image }}" alt="Default Image" >
                 </figure>
             </div>
             <div class = "col-sm-12 col-lg-10   d-flex flex-column justify-content-center">
@@ -55,7 +55,7 @@
                                     </div>
                                     <div class = "col-12">
                                         <span class="infos">
-                                            {{$profileName}}
+                                            {{$user->name}}
                                         </span>
                                     </div>
                                 </div>
@@ -68,7 +68,7 @@
                                         </span>
                                     </div>
                                     <div class = "col-12">
-                                        <span class="infos">{{$profileEmail}}</span>
+                                        <span class="infos">{{$user->email}}</span>
                                     </div>
                                 </div>
                             </div>
@@ -80,7 +80,7 @@
                                         </span>
                                     </div>
                                     <div class = "col-12">
-                                        @if($isAdmin)
+                                        @if($user->is_admin)
                                             <span class="infos">Admin Account</span>
                                         @else <span class="infos">User Account</span>
                                         @endif
@@ -106,7 +106,7 @@
             </div>
         </div>
         <div class = "col-12">
-            <form method="POST" class ="row d-flex align-items-center" action="{{ route('update_profile', ['usrId' => $usrId])}}">
+            <form method="POST" class ="row d-flex align-items-center" action="{{ route('update_profile', ['usrId' => Auth::id()])}}">
                 @csrf()
                 @method('PUT')
                 <div class = "form-group col-12 mb-3">
@@ -150,15 +150,28 @@
             <header><h1><i class="bi bi-sliders"></i> Change your profile image</h1></header>
         </div>
         <div class = "col-12 ">
-            <form  method="POST" action="{{ route('update_profile', ['usrId' => $usrId])}}" id="updateProfileForm" enctype="multipart/form-data" class="class =row d-flex align-items-center">
-                @csrf
-                @method('PUT') 
-                <div class="mb-3">
-                    <label for="profileImageInput" class="form-label">Choose Profile Image</label>
-                    <input type="file" name="profile_image" id="profileImageInput">
+        <form method="post" action="{{ route('upload_profile_file')}}" id="updateProfileForm" enctype="multipart/form-data" class="row d-flex align-items-center">
+            @csrf
+            <div class="mb-3">
+                <label for="profileImageInput" class="form-label">Choose Profile Image</label>
+                <input type="file" name="file" id="profileImageInput">
+            </div>
+            <input name="id" type="number" value="{{Auth::id()}}" hidden>
+            <input name="type" type="text" value="user" hidden>
+            <button type="submit">Update Profile Image</button>
+            @if(session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
                 </div>
-                <button type="submit">Update Profile Image</button>
-            </form>
+            @endif
+
+            @if(session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
+        </form>
+
         </div>
 </div>
 
@@ -166,44 +179,3 @@
     
 @endsection
 
-<!-- <header>
-        <h1>Edit Profile</h1>
-    </header>
-    <figure>
-        <img src="{{ asset('img/default-profile-photo.jpg') }}" alt="Default Image">
-    </figure>
-    <form method="POST" action="{{ route('update_profile', ['usrId' => $usrId])}}">
-        @csrf()
-        @method('PUT')
-        <input type="text" name="name" placeholder="Choose your name" value="{{ old('name') }}">
-
-        @if ($errors->has('name'))
-            <span class="error">
-                {{ $errors->first('name') }}
-            </span>
-        @endif
-
-
-        <input type="password" name="old_password" placeholder="Old password">
-
-        @if ($errors->has('old_password'))
-            <span class="error">
-                {{ $errors->first('old_password') }}
-            </span>
-        @elseif(session('error'))
-            <span class="error">
-                {{ session('error') }}
-            </span>
-        @endif
-
-        <input type="password" name="new_password" placeholder="Choose new password">
-
-        @if ($errors->has('new_password'))
-            <span class="error">
-                {{ $errors->first('new_password') }}
-            </span>
-        @endif
-
-        <button><p>Update Profile</p></button>
-    </form> -->
-    

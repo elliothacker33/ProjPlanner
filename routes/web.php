@@ -10,7 +10,7 @@ use App\Http\Controllers\StaticController;
 use App\Http\Controllers\HomeController;
 
 use App\Http\Controllers\AdminController;
-
+use App\Http\Controllers\FileController;
 use App\Http\Controllers\ProfileController;
 
 use App\Http\Controllers\ProjectController;
@@ -76,6 +76,10 @@ Route::controller(ProfileController::class)->group(function () {
     Route::get('/user-profile/{usrId}/edit','showEditProfile')->name('edit_profile');
 });
 
+// Files 
+Route::controller(FileController::class)->group(function () {
+    Route::post('/file/upload','upload')->name('upload_profile_file');
+});
 
 Route::controller(HomeController::class)->group(function () {
     Route::get('/homepage/{usrId}','showHome')->name('home');

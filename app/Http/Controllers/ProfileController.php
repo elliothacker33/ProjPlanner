@@ -8,41 +8,38 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 class ProfileController extends Controller
 {
-    public function showProfile($usrId) : View
-    {
-        $user = User::find($usrId);
 
-        if (!$user) {
-            abort(404, 'User profile page not found.');
+        public function showProfile($usrId): View
+        {
+            $user = User::find($usrId);
+            if (!$user) {
+                abort(404, 'User profile page not found.');
+            }
+            
+            return view('profile_pages.profile', [
+                'user' => $user,
+                'image' => $user->getProfileImage(),
+                'tasks' => $user->tasks ?? []
+            ]);
         }
         
-        return view('profile_pages.profile', [
-            'usrId' => $usrId,
-            'profileName' => $user->name,
-            'profileEmail' => $user->email,
-            'isAdmin' => $user->is_admin,
-            'tasks' => $user->tasks ? $user->tasks : []]
-        ); // Add image here.
-    }
-    public function showEditProfile($usrId) : View
-    {
-        $user = User::find($usrId);
 
-        if (!$user) {
-            abort(404, 'User profile page not found.');
+        public function showEditProfile($usrId): View
+        {
+            $user = User::find($usrId);
+        
+            if (!$user) {
+                abort(404, 'User profile page not found.');
+            }
+        
+            $this->authorize('update', $user);
+        
+            return view('profile_pages.edit-profile', [
+                'user' => $user,
+                'image' => $user->getProfileImage()
+            ]);
         }
-
-        $this->authorize('update', $user);
-
-        return view('profile_pages.edit-profile', [
-            'usrId' => $usrId,
-            'profileName' => $user->name,
-            'profileEmail' => $user->email,
-            'isAdmin' => $user->is_admin,
-        ]
-        ); // Add image here.
-    }
-
+        
     
     public function updateProfile(Request $request, $usrId)
     {

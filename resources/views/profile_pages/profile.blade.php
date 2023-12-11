@@ -25,7 +25,7 @@
                 <h6 class="dropdown-header">Profile Actions</h6>
             </li>
             <li>
-                <a href= "{{ route('edit_profile', ['usrId' => $usrId]) }}" class="dropdown-item editbutton">Edit Account</a>
+                <a href= "{{ route('edit_profile', ['usrId' => Auth::id()]) }}" class="dropdown-item editbutton">Edit Account</a>
             </li>
             <li>
                 <a href= "" class="dropdown-item delete-btn">Delete Account</a>
@@ -37,7 +37,7 @@
         <div class = "row">
             <div class = " col-sm-12 col-lg-2 d-flex justify-content-center ">
                 <figure>
-                    <img src="{{ asset('img/team-avatars/4.jpeg') }}" alt="Default Image" >
+                    <img src="{{ $image }}" alt="Default Image" >
                 </figure>
             </div>
             <div class = "col-sm-12 col-lg-10   d-flex flex-column justify-content-center">
@@ -53,7 +53,7 @@
                                     </div>
                                     <div class = "col-12">
                                         <span class="infos">
-                                            {{$profileName}}
+                                            {{$user->name}}
                                         </span>
                                     </div>
                                 </div>
@@ -66,7 +66,7 @@
                                         </span>
                                     </div>
                                     <div class = "col-12">
-                                        <span class="infos">{{$profileEmail}}</span>
+                                        <span class="infos">{{$user->email}}</span>
                                     </div>
                                 </div>
                             </div>
@@ -78,7 +78,7 @@
                                         </span>
                                     </div>
                                     <div class = "col-12">
-                                        @if($isAdmin)
+                                        @if($user->is_admin)
                                             <span class="infos">Admin Account</span>
                                         @else <span class="infos">User Account</span>
                                         @endif
@@ -100,6 +100,9 @@
 
     <div class = "col-12 mb-5">
         <div class ="row">
+
+   
+
         @foreach($tasks as $task)
             <div class="col-12 mb-4">
                 <div class = "row p-3 task">
@@ -145,7 +148,7 @@
             <div class = "col-4 mx-auto">
                 <div class ="row">
                     <div class="col-12 text-center">
-                        <span class="statNumber" style="color: #2E9D7F;">{{$statusOpenCount = $tasks->where('status', 'open')->count()}}</span>
+                        <span class="statNumber" style="color: #2E9D7F;">{{$statusOpenCount =$tasks->where('status', 'open')->count()}}</span>
                     </div>
                     <div class="col-12 text-center">
                         <span class="statInfo" style="color: #2E9D7F;">Open Tasks</span></div>

@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('FILESYSTEM_DISK', 'local'),
+    'default' => env('FILESYSTEM_DISK', 'proj_planner_files'),
 
     /*
     |--------------------------------------------------------------------------
@@ -46,7 +46,7 @@ return [
 
         'proj_planner_files' => [
             'driver' => 'local',        // The storage driver being used (in this case, local storage).
-            'root' => public_path(),    // The root directory for the storage, typically the public path of your application.
+            'root' => 'img',    // The root directory for the storage, typically the public path of your application.
             'url' => env('APP_URL'),    // The base URL for accessing files stored in this disk.
             'visibility' => 'public',   // The default visibility setting for files stored on this disk, often set to 'public'.
         ], 
