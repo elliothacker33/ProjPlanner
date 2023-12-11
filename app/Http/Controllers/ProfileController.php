@@ -15,7 +15,6 @@ class ProfileController extends Controller
             if (!$user) {
                 abort(404, 'User profile page not found.');
             } 
-            
             return view('profile_pages.profile', [
                 'user' => $user,
                 'image' => $user->getProfileImage(),

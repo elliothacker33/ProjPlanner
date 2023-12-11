@@ -6,8 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\File;
-use Illuminate\Support\Facades\Redirect;
-use function PHPUnit\Framework\isNull;
+
 
 class FileController extends Controller
 {   static $diskName = 'proj_planner_files';
@@ -42,12 +41,14 @@ class FileController extends Controller
     public static function get(String $type, int $id) {
         $diskRoot = config("filesystems.disks." . self::$diskName . ".root");
         $fileName = self::getFileName($type, $id);
+        
         if (!Storage::disk(self::$diskName)->exists('/' . $type . '/'.$fileName)) {
             $model = self::getModel($type, $id);
             $model->file = self::getDefaultName($type);
             $model->save();
+            return Storage::url('/'.$diskRoot. '/' . $type . '/' . $model->file);
         }
-        return Storage::url('/'.$diskRoot. '/' . $type . '/' . $fileName);
+        return Storage::url('/'.$diskRoot. '/' . $type . '/' .$fileName);
     }
     private static function validRequest(Request $request):bool{
         // Maybe change Validator.
