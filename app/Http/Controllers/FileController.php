@@ -46,7 +46,7 @@ class FileController extends Controller
             $model = self::getModel($type, $id);
             $model->file = self::getDefaultName($type);
             $model->save();
-            return Storage::url('/'.$diskRoot. '/' . $type . '/' . $model->file);
+            return self::defaultAsset($type, $diskRoot);
         }
         return Storage::url('/'.$diskRoot. '/' . $type . '/' .$fileName);
     }
