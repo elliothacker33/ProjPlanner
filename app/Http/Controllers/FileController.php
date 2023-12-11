@@ -24,7 +24,7 @@ class FileController extends Controller
         return $filename;
     }
     private static function defaultAsset(String $type,String $diskRoot) {
-        return asset('/'. $diskRoot .'/' . $type . '/'. self::getDefaultName($type)); 
+        return Storage::url('/'.$diskRoot. '/' . $type . '/' . self::getDefaultName($type));
     }
 
     private static function getFileName (String $type, int $id) {
@@ -42,7 +42,12 @@ class FileController extends Controller
     public static function get(String $type, int $id) {
         $diskRoot = config("filesystems.disks." . self::$diskName . ".root");
         $fileName = self::getFileName($type, $id);
-        return asset( '/'.$diskRoot.'/' . $type . '/'.$fileName); 
+        if (!Storage::disk(self::$diskName)->exists('/' . $type . '/'.$fileName)) {
+            $model = self::getModel($type, $id);
+            $model->file = self::getDefaultName($type);
+            $model->save();
+        }
+        return Storage::url('/'.$diskRoot. '/' . $type . '/' . $fileName);
     }
     private static function validRequest(Request $request):bool{
         // Maybe change Validator.
@@ -68,7 +73,6 @@ class FileController extends Controller
     }
     private static function changeModel(Request $request, Model $model):Model{
         $type = $request->type;
-        $diskRoot = config("filesystems.disks." . self::$diskName . ".root");
         switch($type){
             case "user":
                 if($model->file != self::getDefaultName($type))

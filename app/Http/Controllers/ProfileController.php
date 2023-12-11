@@ -14,7 +14,7 @@ class ProfileController extends Controller
             $user = User::find($usrId);
             if (!$user) {
                 abort(404, 'User profile page not found.');
-            }
+            } 
             
             return view('profile_pages.profile', [
                 'user' => $user,
