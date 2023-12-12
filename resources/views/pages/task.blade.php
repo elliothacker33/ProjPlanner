@@ -2,14 +2,30 @@
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/task.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/modal.css') }}">
 @endpush
 
 @push('scripts')
     <script type="module" src="{{ asset('js/task.js') }}" defer></script>
+    <script type="text/javascript" src="{{ asset('js/modal.js') }}" defer></script>
 @endpush
 
 @section('content')
     <section class="taskPage">
+        <dialog autofocus class="modal" id="close-task-modal">
+            <div class="modal-header">
+                <h3>Sample Title</h3>
+                <i class="fa-solid fa-x"></i>
+            </div>
+            <div class="modal-body">
+                <p>Sample Body</p>
+            </div>
+            <div class="modal-buttons">
+                <a class="close-modal" autofocus>Close</a>
+                <button type="button" class="modal-confirm">Confirm</button>
+            </div>
+        </dialog>
+        <button type="button" class="open-modal"> Click me! </button>
         <header>
             <section class="info">
             <h1 class="title">{{$task->title}}</h1>

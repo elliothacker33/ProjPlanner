@@ -38,7 +38,7 @@ function closeAndCancelEvent(button, route, actionString) {
                 const month = String(today.getMonth() + 1).padStart(2, '0');
                 const year = today.getFullYear();
 
-                finishedTimeSpan.innerHTML = `${actionString} at: ${day}/${month}/${year}`;
+                finishedTimeSpan.innerHTML = `${actionString} at: ${day}-${month}-${year}`;
                 deadline.appendChild(finishedTimeSpan);
             }
         })

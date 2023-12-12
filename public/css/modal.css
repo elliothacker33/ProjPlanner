@@ -1,0 +1,57 @@
+.modal {
+    background-color: white;
+    width: 95%;
+    max-width: 40em;
+    margin: auto;
+    border-radius: 0.5em;
+    border: 2px solid var(--modal-main-border)
+}
+
+.fa-x {
+    font-size: 1.2em;
+    color: var(--close-button-primary-color);
+}
+
+.fa-x:hover {
+    color: var(--close-button-hover-color);
+}
+
+.modal div {
+    padding: 1.5em;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h3 {
+    font-weight: 500;
+}
+
+.modal-body {
+    border-width: 1px 0;
+    border-style: solid;
+    border-color: var(--modal-secondary-border)
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: end;
+    column-gap: 2em;
+    align-items: center;
+}
+
+.modal p, .modal button {
+    margin: 0;
+}
+
+.modal::backdrop {
+    background: rgb(0 0 0 / 0.6);
+}
+
+.modal-confirm {
+    border: 0;
+    background-color: var(--onprimary-bg-color);
+}
