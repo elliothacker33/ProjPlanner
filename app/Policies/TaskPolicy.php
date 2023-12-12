@@ -41,6 +41,11 @@ class TaskPolicy
         return ($task->project->user_id == $user->id || $task->assigned->contains($user)) && $task->status == 'open';
     }
 
+    public function changeStatus(User $user, Task $task): bool
+    {
+        return $task->project->user_id == $user->id || $task->assigned->contains($user);
+    }
+
     /**
      * Determine whether the user can delete the model.
      */

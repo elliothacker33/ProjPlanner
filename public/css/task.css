@@ -119,8 +119,7 @@ a{
     background: var(--error-text-color);
 }
 
-#openCloseModal {
-    max-width: 7em;
+#openCloseModal, #openReopenModal {
     text-align: center;
     margin: 0 0 0 auto;
 }

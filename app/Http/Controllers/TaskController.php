@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Log;
 
 class TaskController extends Controller
@@ -136,5 +137,31 @@ class TaskController extends Controller
         $task->save();
 
         return response('Task canceled successfully', 200);
+    }
+
+    public function editStatus(Request $request, Project $project, Task $task) {
+        $this->authorize('changeStatus', [Task::class, $task]);
+
+        $validated = $request->validate([
+            'status' => [
+                'required',
+                Rule::in(['open', 'closed', 'canceled']),
+            ],
+        ]);
+
+        $invalidStatusChange =  (($validated['status'] == 'closed' || $validated['status'] == 'canceled') && $task->status != 'open');
+
+        $finjwk = 'A ' . $task->status . ' task cannot be changed to another state other than open';
+
+        if ($invalidStatusChange) {
+            return response()->json(['error', $finjwk], 400);
+        }
+
+        $task->status = $validated['status'];
+        $task->closed_user_id = $validated['status'] == 'open' ? null : Auth::id();
+        $task->endtime = $validated['status'] == 'open' ? null : now();
+        $task->save();
+        
+        return response()->json($task);
     }
 }

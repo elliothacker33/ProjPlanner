@@ -169,7 +169,7 @@ class ProjectController extends Controller
     {
         if ($project == null) {
             if ($request->ajax())
-                return response()->json(['error', 'Project with specified id not found']);
+                return response()->json(['error', 'Project with specified id not found'], 404);
             else
                 return abort(404);
         }

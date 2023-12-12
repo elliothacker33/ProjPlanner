@@ -24,6 +24,12 @@
             'actionId' => 'cancelTaskBtn',
             'openFormId' => 'openCancelModal',
         ])
+        @include('partials.modal', [
+            'modalTitle' => 'Reopen Task',
+            'modalBody' => 'Are you sure that you want to mark this task as open?',
+            'actionId' => 'reopenTaskBtn',
+            'openFormId' => 'openReopenModal',
+        ])
         <header>
             <section class="info">
             <h1 class="title">{{$task->title}}</h1>
@@ -33,11 +39,13 @@
             @else <span class="status canceled"> Canceled </span>
             @endif
             </section>
-            @can('update', $task)
-                <section class="actions">
-                    <a class="edit buttonLink">Edit</a>
-                    <a class="cancel buttonLink" id="openCancelModal">Cancel</a>
-                </section>
+            @can('changeStatus', $task)
+                @if ($task->status == 'open')
+                    <section class="actions">
+                        <a class="edit buttonLink">Edit</a>
+                        <a class="cancel buttonLink" id="openCancelModal">Cancel</a>
+                    </section>
+                @endif
             @endcan
 
         </header>
@@ -48,8 +56,12 @@
                     {{$task->description}}
                 </section>
 
-                @can('update', $task)
-                    <a class="buttonLink" id="openCloseModal"> Close task </a> 
+                @can('changeStatus', $task)
+                    @if ($task->status != 'open')
+                        <a class="buttonLink" id="openReopenModal"> Reopen task </a> 
+                    @else
+                        <a class="buttonLink" id="openCloseModal"> Close task </a> 
+                    @endif
                 @endcan
 
             </section>
