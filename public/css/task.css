@@ -96,7 +96,7 @@ a{
 }
 .taskPage header .info{
     display: flex;
-    gap :2em;
+    gap :1em;
     height: fit-content;
     margin:  auto 0;
     flex-wrap: wrap;

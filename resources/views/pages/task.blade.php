@@ -58,9 +58,6 @@
                         @endforeach
                     </ul>
                 </section>
-                <section class="taskCreator">
-                    <span><i class="fa-solid fa-user"></i> Creator: {{$creator->name}}</span>
-                </section>
             </section>
         </section>
     </section>
