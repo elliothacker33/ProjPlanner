@@ -449,15 +449,6 @@ WHEN (NEW.status <> OLD.status)
 EXECUTE FUNCTION send_task_state_notification();
 
 
-
-
-
-
-
-
-
-
-
 /*-When the projects state is changed a notification should be created for all the users in the projects*/
 
 CREATE OR REPLACE FUNCTION send_project_state_notification()
@@ -485,9 +476,7 @@ WHEN (NEW.is_archived <> OLD.is_archived)
 EXECUTE FUNCTION send_project_state_notification();
 
 
-
-
-/*-When a posts is edited it's lastedited attribute should be updated to the current date*/
+/*-When a post is edited it's lastedited attribute should be updated to the current date*/
 CREATE OR REPLACE FUNCTION update_last_edit_post_date()
 RETURNS TRIGGER AS $BODY$
 BEGIN
@@ -506,7 +495,7 @@ WHEN (NEW.content <> OLD.content)
 EXECUTE FUNCTION update_last_edit_post_date();
 
 
-/*-When a comments is edited it's lastedited attribute should be updated to the current date*/
+/*-When a comment is edited it's lastedited attribute should be updated to the current date*/
 CREATE OR REPLACE FUNCTION update_last_edit_comment_date()
 RETURNS TRIGGER AS $BODY$
 BEGIN
@@ -526,27 +515,28 @@ EXECUTE FUNCTION update_last_edit_comment_date();
 
 
 
-/*-When the state of a tasks is changed to closed then the end attribute should change to the current date*/
-CREATE OR REPLACE FUNCTION update_task_end_date()
+/*-When the state of a task is changed to closed or canceled then the end attribute should change to the current date*/
+CREATE OR REPLACE FUNCTION update_task_status()
 RETURNS TRIGGER AS $BODY$
 BEGIN
-	IF (OLD.status != 'open') THEN
-		RAISE EXCEPTION 'A closed or canceled task status cannot be updated.';
+    IF ((OLD.status = 'closed' OR OLD.status = 'canceled') AND NEW.status <> 'open') THEN
+        RAISE EXCEPTION 'Closed or canceled tasks cannot be updated to the open status';
     ELSIF (NEW.status = 'open') THEN
-        RAISE EXCEPTION 'A task status cannot be updated to open.';
+        NEW.closed_user_id := NULL;
+        NEW.endtime := NULL;
+    ELSE
+        NEW.endtime := NOW();
     END IF;
-
-    NEW.endtime := NOW();
-
+	
     RETURN NEW;
 END
 $BODY$
 LANGUAGE plpgsql;
 
-CREATE TRIGGER finalize_task_trigger
+CREATE TRIGGER edit_task_status
 BEFORE UPDATE ON lbaw2353.tasks
 FOR EACH ROW
-EXECUTE FUNCTION update_task_end_date();
+EXECUTE FUNCTION update_task_status();
 
 /*Only a user who is part of the projects's team can be task_user as the projects user_id for that projects*/
 
@@ -588,8 +578,7 @@ FOR EACH ROW
 EXECUTE FUNCTION check_if_coordinator_send_invitation();
 
 
-/*Each tasks can only be marked as completed by users that are task_user to the tasks or the projects coordinator*/
-
+/*Each task can only be marked as completed by users that are task_user to the tasks or the projects coordinator*/
 CREATE OR REPLACE FUNCTION check_who_closed_task()
 RETURNS TRIGGER AS $BODY$
 BEGIN
