@@ -8,7 +8,7 @@ use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Log;
 
 class TaskController extends Controller
 {
@@ -117,16 +117,14 @@ class TaskController extends Controller
      * Mark a task as closed
      */
     public function finish(Request $request, Project $project, Task $task) {
-        $user = User::find($request->input('closed_user_id'));
-
-        if ($user == null)
-            return abort(404);
-
-        $this->authorize('apiUpdate', [Task::class, $user, $project, $task]);
+        $this->authorize('update', [Task::class, $task]);
 
         $task->status = 'closed';
-        $task->closed_user_id = $user->id;
+
+        $task->closed_user_id = Auth::id();
+
         $task->endtime = now();
+
         $task->save();
 
         return response('Task finished successfully', 200);

@@ -17,9 +17,8 @@ function addTaskEventHandlers() {
 
 function closeAndCancelEvent(button, route, actionString) {
     button.addEventListener('click', (e) => {
-        const userid = button.dataset.userid;
-
-        sendAjaxRequest('PUT', currentPath + route, {'closed_user_id': userid}).catch(() => {
+        console.log(currentPath + route)
+        sendAjaxRequest('PUT', currentPath + route).catch(() => {
             console.error("Network error");
         }).then(response => {
             if (response.ok) {
@@ -27,10 +26,15 @@ function closeAndCancelEvent(button, route, actionString) {
                 const deadline = document.querySelector('.deadlineContainer')
                 const finishedTimeSpan = document.createElement('span');
 
+                document.querySelectorAll('dialog').forEach(dialog => {
+                    dialog.close();
+                })
+
                 document.querySelectorAll('.actions a').forEach(element => {
                     element.remove();
                 })
-                document.querySelector('#closeTaskBtn').remove();
+
+                document.querySelector('#openCloseModal').remove();
 
                 statusChip.classList.remove('open');
                 statusChip.classList.add(actionString.toLowerCase());

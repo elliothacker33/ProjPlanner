@@ -64,17 +64,4 @@ class TaskPolicy
     {
         //
     }
-
-    /**
-     * Determine whether the user can close a specific task
-     */
-    public function apiUpdate(User $authUser, User $actionUser, Project $project, Task $task)
-    {   
-        if (!($actionUser->id == $project->user_id || $task->assigned->contains($actionUser)))
-            return Response::denyWithStatus(403);
-        else if ($task->status != 'open')
-            return Response::denyWithStatus(409);
-
-        return Response::allow();
-    }
 }
