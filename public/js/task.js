@@ -11,7 +11,9 @@ function addTaskEventHandlers() {
     if (cancelTaskButton != null) closeAndCancelEvent(cancelTaskButton, '/cancel', 'Canceled');
 
     document.querySelectorAll('dialog').forEach((dialog) => {
-        attachModal(dialog);
+        const openBtn = document.querySelector('#' + dialog.dataset.openFormId);
+
+        if (openBtn != null) attachModal(dialog);
     })
 };
 

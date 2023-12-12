@@ -55,11 +55,16 @@
             </section>
             <section class="sideContainer">
                 <section class="deadlineContainer" >
-                    <span>Deadline:
-                        @if($task->deadline) {{ date('d-m-Y', strtotime($task->deadline)) }}
-                        @else There is no deadline
-                        @endif
-                    </span>
+                    @if ($task->endtime == null)
+                        <span>Deadline:
+                            @if($task->deadline) {{ date('d-m-Y', strtotime($task->deadline)) }}
+                            @else There is no deadline
+                            @endif
+                        </span>
+                    @else
+                        <span>{{ ucwords($task->status) }} at:  {{ date('d-m-Y', strtotime($task->endtime)) }}</span>
+                    @endif
+                    
                 </section>
                 <section class="assignContainer">
                     <h5>Assigned: </h5>

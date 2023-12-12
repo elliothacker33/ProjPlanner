@@ -116,17 +116,25 @@ class TaskController extends Controller
     /**
      * Mark a task as closed
      */
-    public function finish(Request $request, Project $project, Task $task) {
+    public function close(Request $request, Project $project, Task $task) {
         $this->authorize('update', [Task::class, $task]);
 
         $task->status = 'closed';
-
         $task->closed_user_id = Auth::id();
-
         $task->endtime = now();
-
         $task->save();
 
-        return response('Task finished successfully', 200);
+        return response('Task closed successfully', 200);
+    }
+
+    public function cancel(Request $request, Project $project, Task $task) {
+        $this->authorize('update', [Task::class, $task]);
+
+        $task->status = 'canceled';
+        $task->closed_user_id = Auth::id();
+        $task->endtime = now();
+        $task->save();
+
+        return response('Task canceled successfully', 200);
     }
 }
