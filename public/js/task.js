@@ -1,5 +1,5 @@
 import {sendAjaxRequest} from './app.js'
-import {attachModal} from './modal.js'
+import {attachModal, addOpenModalBtn} from './modal.js'
 
 const currentPath = window.location.pathname;
 
@@ -10,30 +10,30 @@ function addTaskEventHandlers() {
 
     if (closeTaskButton != null) changeTaskStatusEvent(closeTaskButton, 'closed');
     if (cancelTaskButton != null) changeTaskStatusEvent(cancelTaskButton, 'canceled');
-    if (reopenTaskButton != null) changeTaskStatusEvent(reopenTaskButton, 'open')
+    if (reopenTaskButton != null) changeTaskStatusEvent(reopenTaskButton, 'open');
 
     document.querySelectorAll('dialog').forEach((dialog) => {
+        attachModal(dialog);
         const openBtn = document.querySelector('#' + dialog.dataset.openFormId);
 
-        if (openBtn != null) attachModal(dialog);
+        if (openBtn != null) addOpenModalBtn(dialog);
     })
 };
 
 function changeTaskStatusEvent(button, status) {
     button.addEventListener('click', () =>{
-        sendAjaxRequest('PUT', currentPath + '/edit/status', {'status': 'closed'}).catch(() => {
+        sendAjaxRequest('PUT', currentPath + '/edit/status', {'status': status}).catch(() => {
             console.error("Network error");
         }).then(async response => {
-            const task = await response.json();
-            console.log(task);
-            
+            const data = await response.json();
+
             if (response.ok) {
                 const statusChip = document.querySelector('.status');
                 const deadline = document.querySelector('.deadlineContainer')
                 const finishedTimeSpan = document.createElement('span');
                 const actionString = status.charAt(0).toUpperCase() + status.slice(1);
                 
-                buildStatusButtons(task.status);
+                buildStatusButtons(data.status);
 
                 statusChip.classList.remove('open');
                 statusChip.classList.remove('closed');
@@ -43,12 +43,12 @@ function changeTaskStatusEvent(button, status) {
 
                 deadline.innerHTML = '';
                 
-                const today = new Date((task.status == 'open' ? task.deadline : task.endtime));
+                const today = new Date((data.status == 'open' ? data.deadline : data.endtime));
                 const day = String(today.getDate()).padStart(2, '0');
                 const month = String(today.getMonth() + 1).padStart(2, '0');
                 const year = today.getFullYear();
 
-                finishedTimeSpan.innerHTML = `${actionString} at: ${day}-${month}-${year}`;
+                finishedTimeSpan.innerHTML = (data.status == 'open' ? 'Deadline:': `${actionString} at:`) + ` ${day}-${month}-${year}`;
                 deadline.appendChild(finishedTimeSpan);
 
                 document.querySelectorAll('dialog').forEach(dialog => {
@@ -56,11 +56,11 @@ function changeTaskStatusEvent(button, status) {
                 });
             }
             else {
-                console.error(`Error ${response.status}: ${JSON.stringify(data.error)}`);
+                console.error(`Error ${response.status}: ${data.error}`);
             }
-        }).catch(() => {
+        })/*.catch(() => {
             console.error('Error parsing JSON');
-        })
+        })*/
     });
 };
 
@@ -69,7 +69,7 @@ function buildStatusButtons(status) {
     const editCancelContainer = document.querySelector('.actions');
 
     if (status == 'open') {
-        document.querySelector('openReopenModal').remove();
+        document.querySelector('#openReopenModal').remove();
 
         const closeTaskBtn = document.createElement('a');
         const cancelTaskBtn = document.createElement('a');
@@ -81,12 +81,12 @@ function buildStatusButtons(status) {
 
         cancelTaskBtn.classList.add('buttonLink');
         cancelTaskBtn.classList.add('cancel');
-        closeTaskBtn.setAttribute('id', 'openCancelModal');
-        closeTaskBtn.innerHTML = 'Cancel';
+        cancelTaskBtn.setAttribute('id', 'openCancelModal');
+        cancelTaskBtn.innerHTML = 'Cancel';
 
         editTaskBtn.classList.add('buttonLink');
         editTaskBtn.classList.add('edit');
-        closeTaskBtn.innerHTML = 'Edit';
+        editTaskBtn.innerHTML = 'Edit';
 
         closeOpenContainer.appendChild(closeTaskBtn);
         editCancelContainer.appendChild(editTaskBtn);
@@ -104,6 +104,12 @@ function buildStatusButtons(status) {
 
         closeOpenContainer.appendChild(reopenTaskBtn);
     }
+
+    document.querySelectorAll('dialog').forEach((dialog) => {
+        const openBtn = document.querySelector('#' + dialog.dataset.openFormId);
+
+        if (openBtn != null) addOpenModalBtn(dialog);
+    })
 }
 
 addTaskEventHandlers();

@@ -39,15 +39,14 @@
             @else <span class="status canceled"> Canceled </span>
             @endif
             </section>
-            @can('changeStatus', $task)
-                @if ($task->status == 'open')
-                    <section class="actions">
-                        <a class="edit buttonLink">Edit</a>
-                        <a class="cancel buttonLink" id="openCancelModal">Cancel</a>
-                    </section>
-                @endif
-            @endcan
-
+            <section class="actions">
+                @can('changeStatus', $task)
+                    @if ($task->status == 'open')
+                            <a class="edit buttonLink">Edit</a>
+                            <a class="cancel buttonLink" id="openCancelModal">Cancel</a>
+                    @endif
+                @endcan
+            </section>
         </header>
         <section class="container">
             <section class="primaryContainer">

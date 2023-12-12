@@ -151,10 +151,10 @@ class TaskController extends Controller
 
         $invalidStatusChange =  (($validated['status'] == 'closed' || $validated['status'] == 'canceled') && $task->status != 'open');
 
-        $finjwk = 'A ' . $task->status . ' task cannot be changed to another state other than open';
+        $errorMsg = 'A ' . $task->status . ' task cannot be changed to another state other than open';
 
         if ($invalidStatusChange) {
-            return response()->json(['error', $finjwk], 400);
+            return response()->json(['error' => $errorMsg], 400);
         }
 
         $task->status = $validated['status'];
