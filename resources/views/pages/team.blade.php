@@ -30,15 +30,17 @@
             @endcan
         </header>
         <section class="users">
-
+            @foreach($team as $user)
             <section class="user-item">
                 <section class="user">
-                @foreach($team as $user)
+
                     <a href="">
                     @include('partials.userCard',['user'=>$user, 'size'=>'.median'])
                     </a>
-                    <span class="status coordinator"> Coordinator</span>
-                @endforeach
+                    @if($project->user_id === $user->id)<span class="status coordinator"> Coordinator</span>
+                    @else <span class="status member"> Member</span>
+                    @endif
+
 
                 </section>
                 <section class="actions">
@@ -47,6 +49,7 @@
 
                 </section>
             </section>
+            @endforeach
         </section>
     </section>
 

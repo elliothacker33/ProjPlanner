@@ -92,7 +92,6 @@ a{
     justify-content: space-between;
     align-content: space-between;
     flex-wrap: wrap-reverse;
-    flex-wrap: wrap-reverse;
 }
 .taskPage header .info{
     display: flex;

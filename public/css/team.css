@@ -5,6 +5,7 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
+    gap: 1em;
 }
 
 .users-list{
@@ -12,6 +13,7 @@
     max-width: 60em;
     border: 1px solid var(--primary-border);
     border-radius: 1em;
+
 }
 .users-list > .users{
     max-height: 60vh;
@@ -19,10 +21,16 @@
 }
 .users-list > header{
     width: 100%;
-    padding: 1em;
+    padding:  1em ;
     display: flex;
     gap: 2em;
     flex-wrap: wrap;
+}
+.users-list header > span{
+    margin-left: 0.6em;
+}
+.users-list header > span i{
+    margin-right: 0.6em;
 }
 .status.coordinator{
     background: var(--on-third-bg-color);
@@ -84,12 +92,24 @@
 .team header .addUserContainer form{
     display: flex;
     flex-wrap: wrap;
+    justify-content: flex-end;
     gap: 1em;
     margin: 0;
 }
 .team header .addUserContainer form > *{
     margin: 0;
     max-width: 20em;
+}
+
+.search{
+    width: 100%;
+    max-width: 60em;
+    display: flex;
+    gap: 1em;
+    flex-wrap: wrap;
+}
+ .search > input{
+    max-width: 30em;
 }
 
 
