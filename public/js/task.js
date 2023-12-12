@@ -1,4 +1,5 @@
 import {sendAjaxRequest} from './app.js'
+import {attachModal} from './modal.js'
 
 const currentPath = window.location.pathname;
 
@@ -8,6 +9,10 @@ function addTaskEventHandlers() {
 
     if (closeTaskButton != null) closeAndCancelEvent(closeTaskButton, '/close', 'Closed');
     if (cancelTaskButton != null) closeAndCancelEvent(cancelTaskButton, '/cancel', 'Canceled');
+
+    document.querySelectorAll('dialog').forEach((dialog) => {
+        attachModal(dialog);
+    })
 };
 
 function closeAndCancelEvent(button, route, actionString) {

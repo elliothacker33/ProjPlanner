@@ -7,25 +7,23 @@
 
 @push('scripts')
     <script type="module" src="{{ asset('js/task.js') }}" defer></script>
-    <script type="text/javascript" src="{{ asset('js/modal.js') }}" defer></script>
+    <script type="module" src="{{ asset('js/modal.js') }}" defer></script>
 @endpush
 
 @section('content')
     <section class="taskPage">
-        <dialog autofocus class="modal" id="close-task-modal">
-            <div class="modal-header">
-                <h3>Sample Title</h3>
-                <i class="fa-solid fa-x"></i>
-            </div>
-            <div class="modal-body">
-                <p>Sample Body</p>
-            </div>
-            <div class="modal-buttons">
-                <a class="close-modal" autofocus>Close</a>
-                <button type="button" class="modal-confirm">Confirm</button>
-            </div>
-        </dialog>
-        <button type="button" class="open-modal"> Click me! </button>
+        @include('partials.modal', [
+            'modalTitle' => 'Close Task',
+            'modalBody' => 'Are you sure that you want to mark this task as closed?',
+            'actionId' => 'closeTaskBtn',
+            'openFormId' => 'openCloseModal',
+        ])
+        @include('partials.modal', [
+            'modalTitle' => 'Cancel Task',
+            'modalBody' => 'Are you sure that you want to mark this task as canceled?',
+            'actionId' => 'cancelTaskBtn',
+            'openFormId' => 'openCancelModal',
+        ])
         <header>
             <section class="info">
             <h1 class="title">{{$task->title}}</h1>
@@ -38,7 +36,7 @@
             @can('update', $task)
                 <section class="actions">
                     <a class="edit buttonLink">Edit</a>
-                    <a class="cancel buttonLink" id="cancelTaskBtn" data-userid="{{ Auth::user()->id }}">Cancel</a>
+                    <a class="cancel buttonLink" id="openCancelModal">Cancel</a>
                 </section>
             @endcan
 
@@ -51,7 +49,7 @@
                 </section>
 
                 @can('update', $task)
-                    <a class="buttonLink" id="closeTaskBtn" data-userid="{{ Auth::user()->id }}"> Close task </a> 
+                    <a class="buttonLink" id="openCloseModal"> Close task </a> 
                 @endcan
 
             </section>

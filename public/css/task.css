@@ -119,7 +119,7 @@ a{
     background: var(--error-text-color);
 }
 
-#closeTaskBtn {
+#openCloseModal {
     max-width: 7em;
     text-align: center;
     margin: 0 0 0 auto;
