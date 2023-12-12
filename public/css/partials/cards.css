@@ -16,7 +16,7 @@
 .taskCard{
     padding: 1em ;
     width: 100%;
-    border-bottom: 1px solid #CCCCCC99;
+    border-top: 1px solid #CCCCCC99;
 }
 .taskCard ul{
     display: flex;
@@ -45,5 +45,29 @@
 
 .taskCard ul .deadLine{
     width: 15em;
+}
+.userCard{
+    display: flex;
+    gap: 1em;
+    overflow: clip;
+    background: var(--primary-bg-color);
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
+}
+.userCard .info{
+    flex: 1;
+}
+
+.userCard.small h3{
+    font-size: 1em;
+}
+.userCard.small h5{
+    font-size: 0.8em;
+}
+.userCard.small .avatar{
+    width: 2em;
+    height: 2em;
+
 }
 

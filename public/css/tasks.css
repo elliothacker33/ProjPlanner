@@ -26,6 +26,7 @@
     width: 100%;
     max-width: 80em;
     border: 1px solid var(--primary-border);
+    border-radius: 1em;
 }
 .tasks-list > .tasks{
     max-height: 60vh;
@@ -35,7 +36,7 @@
     width: 100%;
     padding: 1em;
     display: flex;
-    border: 1px solid var(--primary-border);
+
     gap: 2em;
     flex-wrap: wrap;
 }

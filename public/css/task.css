@@ -38,12 +38,7 @@
     flex-wrap: wrap-reverse;
     text-align: center;
 }
-.status{
-    padding: 0.2em 0.5em ;
-    border-radius: 10em;
-    font-size: 1em;
-    color: white;
-}
+
 .status.open{
     background: var(--onprimary-bg-color);
 }
@@ -96,6 +91,7 @@ a{
     display: flex;
     justify-content: space-between;
     align-content: space-between;
+    flex-wrap: wrap-reverse;
     flex-wrap: wrap-reverse;
 }
 .taskPage header .info{

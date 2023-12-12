@@ -179,6 +179,12 @@ body > header nav ul li.selected::after{
 #content > form input {
     background-color: white;
 }
+.status{
+    padding: 0.2em 0.5em ;
+    border-radius: 10em;
+    font-size: 1em;
+    color: white;
+}
 
 @media (max-width: 70em) {
     #cards {
