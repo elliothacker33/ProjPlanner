@@ -3,6 +3,9 @@ import {encodeForAjax, sendAjaxRequest} from "./app.js";
 const teamPageRegex = /^\/project\/(\d+)\/team$/;
 const currentPath = window.location.pathname;
 
+const auth_response = await sendAjaxRequest("GET", "/api/auth");
+const auth = await auth_response.json();
+
 const userList = document.querySelector('.users');
 
 const searchBar = document.getElementById('search-bar');
@@ -68,7 +71,7 @@ async function createUserItemSection(user, project) {
     userItemSection.appendChild(userSection);
 
     // Check if the user can be updated
-    if (project && project.user_id !== user.id) {
+    if (project && project.user_id !== user.id && auth.id === project.user_id ) {
         let actionsSection = document.createElement('section');
         actionsSection.className = 'actions';
 

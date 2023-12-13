@@ -37,19 +37,23 @@ Route::get('/myProjects',[ProjectController::class, 'index'])->name('projects');
 Route::get('{page}', [StaticController::class, 'show'])->whereIn('page', StaticController::STATIC_PAGES)->name('static');
 
 // API
-Route::controller(TaskController::class)->group(function(){
-    Route::get('/api/tasks', 'searchTasks')->name('search_tasks');
-});
+Route::prefix('/api')->group(function (){
 
-Route::controller(UserController::class)->group(function(){
-    Route::get('/api/users', 'searchUsers')->name('search_users');
-});
-
-Route::controller(UserController::class)->group(function(){
-    Route::get('/api/{project}/users', 'searchTeam')->name('search_team');
-});
-Route::controller(ProjectController::class)->group(function(){
-    Route::get('/api/projects', 'search')->name('search_projects');
+    Route::controller(TaskController::class)->group(function(){
+        Route::get('/tasks', 'searchTasks')->name('search_tasks');
+    });
+    Route::controller(UserController::class)->group(function(){
+        Route::get('/users', 'searchUsers')->name('search_users');
+    });
+    Route::controller(UserController::class)->group(function(){
+        Route::get('/{project}/users', 'searchTeam')->name('search_team');
+    });
+    Route::controller(ProjectController::class)->group(function(){
+        Route::get('/projects', 'search')->name('search_projects');
+    });
+    Route::controller(LoginController::class)->group(function(){
+        Route::get('/auth', 'auth')->name('auth');
+    });
 });
 
 Route::prefix('/admin')->controller(AdminController::class)->group(function () {
