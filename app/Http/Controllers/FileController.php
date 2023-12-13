@@ -128,7 +128,6 @@ class FileController extends Controller
 
     // Delete not tested yet.
     private static function deleteFile(Request $request,String $file) {
-        $diskRoot = config("filesystems.disks." . self::$diskName . ".root");
         Storage::disk(self::$diskName)->delete('/'.$request->type.'/'.$file);
     }
     public static function delete(Request $request) {
