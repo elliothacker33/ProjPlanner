@@ -16,6 +16,7 @@
     <script src="https://kit.fontawesome.com/f09afb12ac.js" crossorigin="anonymous"></script>
     <link href="{{ url('css/milligram.min.css') }}" rel="stylesheet">
     <link href="{{ url('css/app.css') }}" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/f09afb12ac.js" crossorigin="anonymous"></script>
 
     <script type="text/javascript">
         // Fix for Firefox autofocus CSS bug
@@ -32,14 +33,14 @@
 <body>
     <header>
         <section>
-                <h1 id="header_title"><a href="{{ route('home')}}" >ProjPlanner</a></h1>
+                <h1 id="header_title"><a href="{{ route('home')}}" > <i class="fa-solid fa-bars-progress"></i>  ProjPlanner</a></h1>
 
             @if (Auth::check())
 
                 <a class="user_icon" href="{{ route('user-profile') }}">
                     <img class="icon avatar" src="{{ asset('img/default_user.png') }}" alt="default user icon">
                 </a>
-                <a id="logout" href="{{ route('logout') }}">Logout</a>
+                <a id="logout" href="{{ route('logout') }}"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
             @else
                 <a class="user_icon" href="{{ route('login') }}"> <img class="icon"
                         src="{{ asset('img/default_user.png') }}" alt="default user icon"></a>
@@ -66,9 +67,9 @@
                 <ul>
 
 
-                    <li><a href="{{ route('static',['page' => 'faq'])}}">FAQ</a></li>
-                    <li><a href="{{ route('static',['page' => 'about-us'])}}">About Us</a></li>
-                    <li><a href="{{ route('static',['page' => 'contacts'])}}">Contact Us</a></li>
+                    <li><a href="{{ route('static',['page' => 'faq'])}}"> <i class="fa-solid fa-question"></i> FAQ</a></li>
+                    <li><a href="{{ route('static',['page' => 'about-us'])}}"> <i class="fa-solid fa-address-card"></i> About Us</a></li>
+                    <li><a href="{{ route('static',['page' => 'contacts'])}}"><i class="fa-solid fa-message"></i> Contact Us</a></li>
 
                 </ul>
             </section>

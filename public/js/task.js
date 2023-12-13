@@ -1,5 +1,6 @@
 import {sendAjaxRequest} from './app.js'
 import {attachModal, addOpenModalBtn} from './modal.js'
+import {config_multiselector, multiselector} from "./multiselector.js";
 
 const currentPath = window.location.pathname;
 
@@ -7,6 +8,7 @@ function addTaskEventHandlers() {
     const closeTaskButton = document.querySelector('#closeTaskBtn');
     const cancelTaskButton = document.querySelector('#cancelTaskBtn');
     const reopenTaskButton = document.querySelector('#reopenTaskBtn');
+    const form = document.querySelector('form');
 
     if (closeTaskButton != null) changeTaskStatusEvent(closeTaskButton, 'closed');
     if (cancelTaskButton != null) changeTaskStatusEvent(cancelTaskButton, 'canceled');
@@ -18,6 +20,17 @@ function addTaskEventHandlers() {
 
         if (openBtn != null) addOpenModalBtn(dialog);
     })
+
+    config_multiselector();
+
+    if (form != null) {
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            multiselector('.users', '#assigns');
+            multiselector('.tags', '#tags');
+            form.submit();
+        });
+    }    
 };
 
 function changeTaskStatusEvent(button, status) {

@@ -33,7 +33,7 @@
 }
 .projectPage header{
     display: flex;
-   gap: 1em;
+    gap: 1em;
     justify-content: space-between;
     align-content: space-between;
     flex-wrap: wrap-reverse;
@@ -75,6 +75,7 @@
 .projectPage .primaryContainer header{
    padding: 1em;
     text-align: center;
+
 }
 
 .projectPage .sideContainer ul{
@@ -96,6 +97,8 @@
 .projectPage header .info{
     display: flex;
     gap :2em;
+    height: fit-content;
+    margin:  auto 0;
 }
 
 .projectPage header .actions{

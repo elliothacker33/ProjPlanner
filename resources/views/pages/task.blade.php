@@ -34,17 +34,15 @@
             <section class="info">
             <h1 class="title">{{$task->title}}</h1>
 
-            @if($task->status == 'open') <span class="status open"> Open </span>
-            @elseif($task->status == 'closed') <span class="status closed"> Closed </span>
-            @else <span class="status canceled"> Canceled </span>
+            @if($task->status == 'open') <span class="status open"> <i class="fa-solid fa-folder-open"></i> Open </span>
+            @elseif($task->status == 'closed') <span class="status closed"> <i class="fa-solid fa-folder-closed"></i> Closed </span>
+            @else <span class="status canceled"> <i class="fa-solid fa-ban"> Canceled </span>
             @endif
             </section>
             <section class="actions">
-                @can('changeStatus', $task)
-                    @if ($task->status == 'open')
-                            <a class="edit buttonLink">Edit</a>
-                            <a class="cancel buttonLink" id="openCancelModal">Cancel</a>
-                    @endif
+                @can('update', $task)
+                    <a class="edit buttonLink"> <i class="fa-solid fa-pen-to-square"></i> Edit</a>
+                    <a class="cancel buttonLink" id="openCancelModal"> <i class="fa-solid fa-trash"></i> Cancel</a>
                 @endcan
             </section>
         </header>
@@ -66,19 +64,20 @@
             </section>
             <section class="sideContainer">
                 <section class="deadlineContainer" >
-                    @if ($task->endtime == null)
-                        <span>Deadline:
-                            @if($task->deadline) {{ date('d-m-Y', strtotime($task->deadline)) }}
-                            @else There is no deadline
-                            @endif
-                        </span>
-                    @else
-                        <span>{{ ucwords($task->status) }} at:  {{ date('d-m-Y', strtotime($task->endtime)) }}</span>
-                    @endif
+                    <span> <i class="fa-solid fa-clock"></i>
+                        @if ($task->endtime == null)
+                            Deadline:
+                                @if ($task->deadline) {{ date('d-m-Y', strtotime($task->deadline)) }}
+                                @else There is no deadline
+                                @endif
+                        @else
+                            {{ ucwords($task->status) }} at:  {{ date('d-m-Y', strtotime($task->endtime)) }}
+                        @endif
+                    <span>
                     
                 </section>
                 <section class="assignContainer">
-                    <h5>Assigned: </h5>
+                    <h5><i class="fa-solid fa-users"></i> Assigned: </h5>
                     <ul class="assign">
                         @foreach($assign as $user)
                             <li>{{$user->name}}</li>
@@ -86,7 +85,7 @@
                     </ul>
                 </section>
                 <section class="tagsContainer">
-                    <h5>Tags: </h5>
+                    <h5><i class="fa-solid fa-tag"></i> Tags: </h5>
                     <ul class="tags">
                         @foreach($tags as $tag)
                             <li>{{$tag->title}}</li>
@@ -94,7 +93,7 @@
                     </ul>
                 </section>
                 <section class="taskCreator">
-                    <span>Creator: {{$creator->name}}</span>
+                    <span><i class="fa-solid fa-user"></i> Creator: {{$creator->name}}</span>
                 </section>
             </section>
         </section>

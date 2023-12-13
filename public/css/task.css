@@ -4,7 +4,6 @@
     justify-content: center;
     align-content: center;
 }
-
 .taskCreation .formContainer form input,.formContainer form textarea{
     background: var(--input-bg-color);
 }
@@ -54,6 +53,9 @@
 .taskPage header .status.canceled{
     background: var(--error-text-color);
 }
+.taskCreation .formContainer{
+    max-width: 60em;
+}
 .taskPage .primaryContainer{
     display: flex;
     gap: 3em;
@@ -63,7 +65,7 @@
 }
 .taskPage .sideContainer{
     display: flex;
-    gap: 1em;
+    gap: 2em;
     flex-direction: column;
     width: 20em;
 }
@@ -99,13 +101,15 @@ a{
 .taskPage header .info{
     display: flex;
     gap :2em;
+    height: fit-content;
+    margin:  auto 0;
 }
 .taskPage header .actions{
     display: flex;
     gap: 1em;
 }
 
-.taskPage .buttonLink {
+.taskPage .buttonLink, .multiselector span{
     padding: 0.3em 1em;
     background: var(--onprimary-bg-color);
     color: white;
@@ -118,10 +122,68 @@ a{
 .taskPage header a.cancel{
     background: var(--error-text-color);
 }
+.multiselector{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 2em;
+}
+.multiselector span{
+    width: 100%;
+    text-align: center;
+    background: var(--onsecondary-bg-color);
+    margin: auto;
+    border-radius: 10em;
+    cursor: pointer;
+}
+.multiselector span i{
+    margin-left: 1em;
+}
+
+.multiselector .dropdown{
+    top: 120%;
+    max-width: 40rem;
+    max-height: 25rem;
+    z-index: 2;
+    overflow-y: scroll;
+    position: absolute;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    background: white;
+    width: 100%;
+    padding:  1em;
+    box-shadow: 0 0.5em 0.5em #00000004,0 1em 1em #00000003,0 1.5em 1.5em #00000002,0 2em 2em #00000001;
+}
+.multiselector .dropdown.hidden{
+    display: none;
+}
+.multiselector .dropdown .item{
+    display: flex;
+    gap: 1em;
+    justify-content: flex-start;
+    align-content: flex-start;
+    align-items: center;
+    padding: 1em;
+}
+.multiselector .dropdown .item * {
+    margin: 0;
+    padding: 0;
+
+}
+.multiselector .dropdown .item input[type="checkbox"]{
+    scale: 1.5;
+}
 
 #openCloseModal, #openReopenModal {
     text-align: center;
     margin: 0 0 0 auto;
+}
+
+.buttons * {
+    margin: auto 0;
 }
 
 @media (max-width: 74em) {
@@ -140,6 +202,8 @@ a{
     }
 
 }
+
+
 @media (max-width: 40em) {
 
     .taskPage {
