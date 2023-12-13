@@ -30,7 +30,11 @@
     @if(auth()->check() && auth()->user()->id == $user->id)
         <section class="actions">
             <div>
-                <a>Remove Account</a>
+                <form class="hidden-form" id="remove-user-form" action="{{ route('delete_user', ['user' => Auth::id()]) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                </form>
+                <button type="submit" form="remove-user-form">Remove Account</button>
             </div>
             <div>
                 <a href="{{ route('edit_profile', ['user' => $user->id]) }}">Edit profile</a>
