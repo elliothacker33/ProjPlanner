@@ -20,6 +20,18 @@ class Task extends Model
         'deadline',
     ];
 
+    public function created_by(): BelongsTo {
+        return $this->belongsTo(User::class)->withDefault([
+            'name' => 'deleted_user',
+        ]);
+    }
+
+    public function closed_by(): BelongsTo {
+        return $this->belongsTo(User::class)->withDefault([
+            'name' => 'deleted_user',
+        ]);
+    }
+
     public function assigned(): BelongsToMany {
         return $this->belongsToMany(User::class);
     }

@@ -86,7 +86,8 @@ class TaskController extends Controller
         $users = $task->assigned;
 
         $tags = $task->tags;
-        $creator = User::find($task->opened_user_id);
+        $creator = $task->created_by;
+
         return view('pages.task',['project' => $project_task, 'task'=>$task, 'assign'=>$users,'tags'=>$tags,'creator'=>$creator]);
     }
 
