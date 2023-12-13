@@ -13,7 +13,7 @@
 
   <div class ="row"> 
 
-  <div class="col-2 col-sm-12 col-md-2 col-lg-2 col-xl-2 options p-5">
+  <div class="col-12 col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-4 options p-5">
 
       <div class="row header-options ">
         <h2>Faq Topics </h2>
