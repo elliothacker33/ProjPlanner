@@ -1,6 +1,7 @@
-import {sendAjaxRequest} from './app.js'
-import {attachModal, addOpenModalBtn} from './modal.js'
-import {config_multiselector, multiselector} from "./multiselector.js";
+import { sendAjaxRequest } from './app.js'
+import { attachModal, addOpenModalBtn } from './modal.js'
+import { config_multiselector, multiselector } from "./multiselector.js";
+import { getDateString } from './utils.js';
 
 const currentPath = window.location.pathname;
 
@@ -55,13 +56,8 @@ function changeTaskStatusEvent(button, status) {
                 statusChip.innerHTML = actionString;
 
                 deadline.innerHTML = '';
-                
-                const today = new Date((data.status == 'open' ? data.deadline : data.endtime));
-                const day = String(today.getDate()).padStart(2, '0');
-                const month = String(today.getMonth() + 1).padStart(2, '0');
-                const year = today.getFullYear();
 
-                finishedTimeSpan.innerHTML = (data.status == 'open' ? 'Deadline:': `${actionString} at:`) + ` ${day}-${month}-${year}`;
+                finishedTimeSpan.innerHTML = (data.status == 'open' ? 'Deadline: ': `${actionString} at: `) + getDateString((data.status == 'open' ? data.deadline : data.endtime));
                 deadline.appendChild(finishedTimeSpan);
 
                 document.querySelectorAll('dialog').forEach(dialog => {

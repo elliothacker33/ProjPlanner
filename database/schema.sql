@@ -520,7 +520,7 @@ CREATE OR REPLACE FUNCTION update_task_status()
 RETURNS TRIGGER AS $BODY$
 BEGIN
     IF ((OLD.status = 'closed' OR OLD.status = 'canceled') AND NEW.status <> 'open') THEN
-        RAISE EXCEPTION 'Closed or canceled tasks cannot be updated to the open status';
+        RAISE EXCEPTION 'Closed or canceled tasks can only be updated to the open status';
     ELSIF (NEW.status = 'open') THEN
         NEW.closed_user_id := NULL;
         NEW.endtime := NULL;
