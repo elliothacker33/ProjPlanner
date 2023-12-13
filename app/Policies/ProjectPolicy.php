@@ -70,6 +70,9 @@ class ProjectPolicy
      */
     public function leave(User $user, Project $project): bool
     {
+
+        if ($user->id === $project->user_id) return false;
+
         $users = $project->users()->get()->toArray();
 
         foreach ($users as $user_) {
@@ -136,5 +139,4 @@ class ProjectPolicy
     {
         return $user->id === $project->user_id;
     }
-
 }
