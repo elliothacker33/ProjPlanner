@@ -448,16 +448,6 @@ FOR EACH ROW
 WHEN (NEW.status <> OLD.status)
 EXECUTE FUNCTION send_task_state_notification();
 
-
-
-
-
-
-
-
-
-
-
 /*-When the projects state is changed a notification should be created for all the users in the projects*/
 
 CREATE OR REPLACE FUNCTION send_project_state_notification()
@@ -676,6 +666,38 @@ CREATE TRIGGER assign_user
 EXECUTE FUNCTION user_must_belong_to_project();
 
 
+CREATE OR REPLACE FUNCTION assign_random_coordinators()
+    RETURNS TRIGGER AS $BODY$
+DECLARE
+	curr_project RECORD;
+	new_coordinator INT;
+BEGIN
+	FOR curr_project IN SELECT * FROM projects WHERE user_id = OLD.id
+	LOOP
+		IF EXISTS (SELECT * FROM project_user WHERE project_id = curr_project.id AND user_id <> OLD.id) THEN
+			new_coordinator := (
+				SELECT user_id 
+				FROM project_user 
+				WHERE project_id = curr_project.id AND user_id <> OLD.id 
+				ORDER BY RANDOM() 
+				LIMIT 1
+			);
+			UPDATE projects SET user_id = new_coordinator WHERE id = curr_project.id;
+		ELSE
+			DELETE FROM projects WHERE id = curr_project.id;
+		END IF;
+	END LOOP;
+	
+	RETURN OLD;
+END
+$BODY$
+    LANGUAGE plpgsql;
+
+CREATE TRIGGER coordinator_removes_account
+    BEFORE DELETE ON lbaw2353.users
+    FOR EACH ROW
+EXECUTE FUNCTION assign_random_coordinators();
+
 --------------------------------------------------------
 -- POPULATE TABLES
 --------------------------------------------------------z
@@ -683,6 +705,7 @@ EXECUTE FUNCTION user_must_belong_to_project();
 -- Inserting data into the 'users' table
 INSERT INTO users (name, email, password, is_blocked) VALUES ('normal_user', 'user@user.com', '$2y$10$w.dlq9RxrrbtfClVxa863ehip4.WnRu/sxeQRszlCUjcDTKaCEIjy', False);
 INSERT INTO users (name, email, password, is_blocked) VALUES ('another_user', 'auser@user.com', '$2y$10$w.dlq9RxrrbtfClVxa863ehip4.WnRu/sxeQRszlCUjcDTKaCEIjy', False);
+INSERT INTO users (name, email, password, is_blocked) VALUES ('another_user2', 'auser2@user.com', '$2y$10$w.dlq9RxrrbtfClVxa863ehip4.WnRu/sxeQRszlCUjcDTKaCEIjy', False);
 INSERT INTO users (name, email, password, is_blocked) VALUES ('randalldaniel', 'loriduran@example.net', '+ybPN5ytO3', False);
 INSERT INTO users (name, email, password, is_blocked) VALUES ('tmcmahon', 'vperez@example.org', '&)^5dDswBi', False);
 INSERT INTO users (name, email, password, is_blocked) VALUES ('kimberlyhayes', 'wilcoxanita@example.net', 'B9@ZQUNi^_', False);
@@ -917,16 +940,20 @@ INSERT INTO task_notification (description, notification_date, task_id, user_id,
 INSERT INTO task_notification (description, notification_date, task_id, user_id, seen) VALUES ('Whether forget admit up.', '2023-03-16', 3, 20, True);
 -- Inserting data into the 'project_user' table
 INSERT INTO project_user (user_id, project_id) VALUES (1, 1);
+INSERT INTO project_user (user_id, project_id) VALUES (1, 2);
+INSERT INTO project_user (user_id, project_id) VALUES (1, 3);
 INSERT INTO project_user (user_id, project_id) VALUES (2, 1);
+INSERT INTO project_user (user_id, project_id) VALUES (2, 2);
+INSERT INTO project_user (user_id, project_id) VALUES (2, 3);
+INSERT INTO project_user (user_id, project_id) VALUES (3, 1);
+INSERT INTO project_user (user_id, project_id) VALUES (3, 2);
+INSERT INTO project_user (user_id, project_id) VALUES (3, 3);
 INSERT INTO project_user (user_id, project_id) VALUES (17, 13);
 INSERT INTO project_user (user_id, project_id) VALUES (13, 5);
-INSERT INTO project_user (user_id, project_id) VALUES (1, 3);
 INSERT INTO project_user (user_id, project_id) VALUES (4, 4);
 INSERT INTO project_user (user_id, project_id) VALUES (3, 8);
 INSERT INTO project_user (user_id, project_id) VALUES (14, 4);
-INSERT INTO project_user (user_id, project_id) VALUES (1, 2);
 INSERT INTO project_user (user_id, project_id) VALUES (5, 6);
-INSERT INTO project_user (user_id, project_id) VALUES (3, 2);
 INSERT INTO project_user (user_id, project_id) VALUES (20, 14);
 INSERT INTO project_user (user_id, project_id) VALUES (18, 7);
 INSERT INTO project_user (user_id, project_id) VALUES (11, 15);
@@ -941,6 +968,3 @@ INSERT INTO project_user (user_id, project_id) VALUES (7, 13);
 -- Inserting data into the 'tag_task' table
 INSERT INTO tag_task (tag_id, task_id) VALUES (1, 1);
 INSERT INTO task_user (user_id, task_id) VALUES (1, 1);
-INSERT INTO task_user (user_id, task_id) VALUES (2, 1);
-
-
