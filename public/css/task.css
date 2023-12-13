@@ -101,8 +101,13 @@ a{
     flex-wrap: wrap;
     max-width: 50em;
 }
+
+.taskPage header .info h1,h6{
+    width: 100%;
+    text-align: start;
+}
 .taskPage header .info h1{
-    max-width: 45em;
+    width: fit-content;
 }
 .taskPage header .actions{
     display: flex;

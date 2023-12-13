@@ -45,6 +45,13 @@ Route::controller(UserController::class)->group(function(){
     Route::get('/api/users', 'searchUsers')->name('search_users');
 });
 
+Route::controller(UserController::class)->group(function(){
+    Route::get('/api/{project}/users', 'searchTeam')->name('search_team');
+});
+Route::controller(ProjectController::class)->group(function(){
+    Route::get('/api/projects', 'search')->name('search_projects');
+});
+
 Route::prefix('/admin')->controller(AdminController::class)->group(function () {
     Route::redirect('/', '/admin/users')->name('admin');
     Route::get('/users', 'show')->name('admin_users');

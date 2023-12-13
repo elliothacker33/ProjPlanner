@@ -187,4 +187,34 @@ class ProjectController extends Controller
         else
             return view('pages.tasks', ['project'=>$project, 'tasks'=>$tasks, 'open'=>$open,'closed'=>$closed,'canceled'=>$canceled]);
     }
+
+    public function search(Request $request)
+    {
+        $user = $request->input('user') ;
+        $project = $request->input('project');
+        $search_term = $request->input('query');
+
+        $query = null;
+        if ($user !== null) {
+            $query = User::find($user)->projects();
+
+        }
+        else{
+            $query = Project::query();
+        }
+
+        if($search_term !== null) {
+            $query
+                ->whereRaw("tsvectors @@ plainto_tsquery('english', ?)", [$request->input('query')])
+                ->orderByRaw("ts_rank(tsvectors, plainto_tsquery('english', ?)) DESC", [$request->input('query')]);
+
+        }
+        if($project !== null){
+            $projects = $query->where('id','=',1)->first();
+            return response()->json($projects);
+        }
+        $projects = $query->get();
+
+        return response()->json($projects);
+    }
 }

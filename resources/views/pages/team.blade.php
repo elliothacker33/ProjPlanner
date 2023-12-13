@@ -5,14 +5,15 @@
 @endpush
 
 @push('scripts')
-    <script type="module" src="{{ asset('js/tasks.js') }}" defer></script>
+    <script type="module" src="{{ asset('js/user.js') }}" defer></script>
 @endpush
 
 @section('content')
 <section class="team">
 
     <section class="search">
-        <input type="search" placeholder="Search" aria-label="Search" id="search-bar" />
+        <input type="search" placeholder="&#128269 Search" aria-label="Search" id="search-bar" />
+
     </section>
 
     <section class="users-list">
@@ -22,10 +23,15 @@
                 <section class="addUserContainer">
                     <form method="POST" action="{{ route('addUser', ['project' => $project])  }}">
                         {{ csrf_field() }}
-                        <input type="email" name="email" placeholder="New member Email" required>
+                        <input type="email" name="email" placeholder="New member Email" required value="{{old('email')}}">
 
-                        <button type="submit" > Add member </button>
+                        <button type="submit" > <i class="fa-solid fa-user-plus"></i> Add member </button>
                     </form>
+                    @if ($errors->has('email'))
+                        <span class="error">
+                            {{ $errors->first('email') }}
+                        </span>
+                    @endif
                 </section>
             @endcan
         </header>
@@ -34,20 +40,23 @@
             <section class="user-item">
                 <section class="user">
 
-                    <a href="">
+                    <a href="{{route('profile',['user'=>$user])}}">
                     @include('partials.userCard',['user'=>$user, 'size'=>'.median'])
                     </a>
-                    @if($project->user_id === $user->id)<span class="status coordinator"> Coordinator</span>
-                    @else <span class="status member"> Member</span>
+                    @if($project->user_id === $user->id)<span class="status coordinator"> <i class="fa-solid fa-user-tie"></i> Coordinator</span>
+                    @else <span class="status member"> <i class="fa-solid fa-user"></i> Member</span>
                     @endif
 
 
                 </section>
-                <section class="actions">
-                    <span class="promote" id="{{$user->id}}"><i class="fa-solid fa-user-tie"></i></span>
-                    <span class = "delete" id="{{$user->id}}"><i class="fa-solid fa-user-xmark"></i></span>
-
-                </section>
+                @can('update', [\App\Models\Project::class,$project])
+                    <section class="actions">
+                        @if($project->user_id !== $user->id )
+                            <span class="promote" id="{{$user->id}}"><i class="fa-solid fa-user-tie"></i></span>
+                            <span class = "delete" id="{{$user->id}}"><i class="fa-solid fa-user-xmark"></i></span>
+                        @endif
+                    </section>
+                @endcan
             </section>
             @endforeach
         </section>

@@ -69,11 +69,15 @@
 .users .user-item  .actions > *{
     cursor: pointer;
 }
+
 .users .user-item  .actions .delete{
     color: var(--error-text-color);
 }
 .users .user-item  .actions .promote{
     color: var(--onprimary-bg-color);
+}
+.users .user-item  .actions >*:hover{
+    color: var(--on-third-bg-color);
 }
 .users .user-item  .actions i{
     scale: 2;
@@ -111,6 +115,16 @@
  .search > input{
     max-width: 30em;
 }
+.addUserContainer{
+    gap: 1em;
+    display: flex;
+    flex-direction: column;
+
+}
+.addUserContainer .error{
+    align-self: flex-end;
+
+ }
 
 
 
