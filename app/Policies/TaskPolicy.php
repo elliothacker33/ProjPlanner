@@ -17,11 +17,11 @@ class TaskPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Project $project): bool
+    public function view(User $user, Task $task): bool
     {
         if ($user->is_admin) return true;
 
-        $users = $project->users()->get()->toArray();
+        $users = $task->project->users()->get()->toArray();
 
         foreach ($users as $user_) {
             if ($user->id === $user_['id']) return true;
@@ -47,10 +47,10 @@ class TaskPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Project $project): bool
+    public function update(User $user, Task $task): bool
     {
         
-        $users = $project->users()->get()->toArray();
+        $users = $task->project->users()->get()->toArray();
 
         foreach ($users as $user_) {
             if ($user->id === $user_['id']) return true;
@@ -64,7 +64,7 @@ class TaskPolicy
      */
     public function delete(User $user, Task $task): bool
     {
-        return ($task->project->coordinator->id === $user->id);
+        return ($task->project->coordinator === $user);
     }
 
     /**
@@ -100,7 +100,7 @@ class TaskPolicy
      */
     public function changeStatus(User $user, Task $task): bool
     {
-        return $user->id === $task->project->coordinator->id;
+        return $user === $task->project->coordinator;
     }
 
 

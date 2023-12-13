@@ -29,13 +29,14 @@
     @stack('scripts')
 
 </head>
+
 <body>
     <header>
         <section>
-                <h1 id="header_title"><a href="{{ route('home')}}" > <i class="fa-solid fa-bars-progress"></i>  ProjPlanner</a></h1>
+            <h1 id="header_title"><a href="{{ route('home') }}"> <i class="fa-solid fa-bars-progress"></i>
+                    ProjPlanner</a></h1>
 
             @if (Auth::check())
-
                 <a class="user_icon" href="{{ route('user-profile') }}">
                     <img class="icon avatar" src="{{ asset('img/default_user.png') }}" alt="default user icon">
                 </a>
@@ -60,19 +61,25 @@
             @yield('content')
         </section>
 
-        </main>
-        <footer>
-            <section>
-                <ul>
+    </main>
+    <footer>
+        <section>
+            <ul>
 
 
-                    <li><a href="{{ route('static',['page' => 'faq'])}}"> <i class="fa-solid fa-question"></i> FAQ</a></li>
-                    <li><a href="{{ route('static',['page' => 'about-us'])}}"> <i class="fa-solid fa-address-card"></i> About Us</a></li>
-                    <li><a href="{{ route('static',['page' => 'contacts'])}}"><i class="fa-solid fa-message"></i> Contact Us</a></li>
+                <li><a href="{{ route('static', ['page' => 'faq']) }}"> <i class="fa-solid fa-question"></i> FAQ</a>
+                </li>
+                <li><a href="{{ route('static', ['page' => 'about-us']) }}"> <i class="fa-solid fa-address-card"></i>
+                        About Us</a></li>
+                <li><a href="{{ route('static', ['page' => 'contacts']) }}"><i class="fa-solid fa-message"></i> Contact
+                        Us</a></li>
 
-                </ul>
-            </section>
-            <section><h6>&copy;2023 ProjPlanner All Rights Reserved</h6></section>
-        </footer>
-    </body>
+            </ul>
+        </section>
+        <section>
+            <h6>&copy;2023 ProjPlanner All Rights Reserved</h6>
+        </section>
+    </footer>
+</body>
+
 </html>

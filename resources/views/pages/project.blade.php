@@ -20,11 +20,11 @@
                 @endif
             </section>
             <section class="actions">
-                @if ($project->coordinator->id === Auth::id())
+                @can('update',  $project)
                     <!--<a class="edit">Edit</a>-->
                     <button class="project-action-button edit" id="edit-project-button"> <i
                             class="fa-solid fa-pen-to-square"></i> Edit</button>
-                @endif
+                @endcan
 
                 @can('delete', $project)
                     <button class="project-action-button delete" id="delete-project-button"> <i class="fa-solid fa-trash"></i>

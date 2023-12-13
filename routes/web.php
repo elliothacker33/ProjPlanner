@@ -31,17 +31,17 @@ Route::controller(HomeController::class)->group(function () {
     Route::get('/home', 'show')->name('home');
 });
 
-Route::get('/myProjects',[ProjectController::class, 'index'])->name('projects');
+Route::get('/myProjects', [ProjectController::class, 'index'])->name('projects');
 
 // Static Pages
 Route::get('{page}', [StaticController::class, 'show'])->whereIn('page', StaticController::STATIC_PAGES)->name('static');
 
 // API
-Route::controller(TaskController::class)->group(function(){
+Route::controller(TaskController::class)->group(function () {
     Route::get('/api/tasks', 'searchTasks')->name('search_tasks');
 });
 
-Route::controller(UserController::class)->group(function(){
+Route::controller(UserController::class)->group(function () {
     Route::get('/api/users', 'searchUsers')->name('search_users');
 });
 
@@ -67,7 +67,7 @@ Route::controller(RegisterController::class)->group(function () {
 
 // Profile
 Route::prefix('/user-profile')->controller(ProfileController::class)->group(function () {
-    Route::get('/','show')->name('user-profile');
+    Route::get('/', 'show')->name('user-profile');
     Route::get('/{user}', 'showProfile')->name('profile');
     Route::put('/{user}/edit', 'updateProfile')->name('update_profile');
     Route::get('/{user}/edit', 'showEditProfile')->name('edit_profile');
@@ -88,7 +88,6 @@ Route::prefix('/project')->group(function () {
             Route::delete('', 'destroy')->name('delete_project');
             Route::get('/edit', 'edit')->name('show_edit_project');
             Route::put('/edit', 'update')->name('action_edit_project');
-
         });
         Route::prefix('/task')->controller(TaskController::class)->group(function () {
             Route::get('/{task}', 'show')->where('task', '[0-9]+')->name('task');
@@ -96,7 +95,7 @@ Route::prefix('/project')->group(function () {
             Route::get('/new', 'create')->name('createTask');
             Route::post('/new', 'store')->name('newTask');
         });
-        
+
         Route::get('/tasks', [ProjectController::class, 'showTasks'])->name('show_tasks');
     });
 });

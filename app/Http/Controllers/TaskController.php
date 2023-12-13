@@ -36,7 +36,7 @@ class TaskController extends Controller
     public function create(Request $request, Project $project)
     {
         $this->authorize('create', [Task::class,  $project]);
-        return view('pages.' . 'createTask')->with(['project'=>$project, 'users'=>$project->users,'tags'=>$project->tags]);
+        return view('pages.' . 'createTask')->with(['project' => $project, 'users' => $project->users, 'tags' => $project->tags]);
     }
 
     /**
@@ -60,7 +60,7 @@ class TaskController extends Controller
         $task = new Task();
         $task->title = $validated['title'];
         $task->description = $validated['description'];
-        $task->opened_user_id= Auth::user()->id;
+        $task->opened_user_id = Auth::user()->id;
         $task->deadline = $validated['deadline'];
         $task->project_id = $project->id;
         $task->save();
@@ -69,7 +69,7 @@ class TaskController extends Controller
         $task->assigned()->attach(Auth::user()->id);
         $task->tags()->attach($validated['tags']);
 
-        return redirect()->route('task',['project'=>$project,'task'=>$task]);
+        return redirect()->route('task', ['project' => $project, 'task' => $task]);
     }
 
     /**
@@ -78,16 +78,16 @@ class TaskController extends Controller
     public function show(Project $project, Task $task)
     {
         $project_task = $task->project;
-        
-        if ($task == null || $project_task == null)
+
+        if ($project_task->id != $project->id || $task == null || $project_task == null) 
             return abort(404);
 
-        $this->authorize('view',[$task::class,$task]);
+        $this->authorize('view', [$task::class, $task]);
         $users = $task->assigned;
 
         $tags = $task->tags;
         $creator = User::find($task->opened_user_id);
-        return view('pages.task',['project' => $project_task, 'task'=>$task, 'assign'=>$users,'tags'=>$tags,'creator'=>$creator]);
+        return view('pages.task', ['project' => $project_task, 'task' => $task, 'assign' => $users, 'tags' => $tags, 'creator' => $creator]);
     }
 
     /**

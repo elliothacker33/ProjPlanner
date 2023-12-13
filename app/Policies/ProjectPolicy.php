@@ -46,7 +46,7 @@ class ProjectPolicy
      */
     public function update(User $user, Project $project): bool
     {
-        return $user->id === $project->coordinator->id;
+        return $user->id === $project->user_id;
     }
 
     /**
@@ -54,7 +54,7 @@ class ProjectPolicy
      */
     public function delete(User $user, Project $project): bool
     {
-        return $user->id == $project->coordinator;
+        return $user->id === $project->user_id;
     }
 
     /**
@@ -62,7 +62,7 @@ class ProjectPolicy
      */
     public function archive(User $user, Project $project): bool
     {
-        return $user->id == $project->coordinator->id;
+        return $user->id == $project->user_id;
     }
 
     /**
@@ -118,7 +118,7 @@ class ProjectPolicy
      */
     public function add_member(User $user, Project $project): bool
     {
-        return $user->id == $project->coordinator->id;
+        return $user->id === $project->user_id;
     }
 
     /**
@@ -126,7 +126,7 @@ class ProjectPolicy
      */
     public function remove_member(User $user, Project $project): bool
     {
-        return $user->id == $project->coordinator->id;
+        return $user->id === $project->user_id;
     }
 
     /**
@@ -134,7 +134,7 @@ class ProjectPolicy
      */
     public function assign_coordinator(User $user, Project $project): bool
     {
-        return $user->id == $project->coordinator->id;
+        return $user->id === $project->user_id;
     }
 
 }

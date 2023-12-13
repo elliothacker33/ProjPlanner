@@ -47,7 +47,7 @@ class ProjectController extends Controller
         $project->title = $validated['title'];
         $project->description = $validated['description'];
         $project->deadline = isset($validated['deadline']) ? $validated['deadline'] : null;
-        $project->coordinator->id = Auth::user()->id;
+        $project->user_id = Auth::user()->id;
         $project->save();
 
         $project->users()->attach(Auth::user()->id);
