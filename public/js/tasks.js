@@ -1,4 +1,5 @@
 import {sendAjaxRequest, encodeForAjax} from './app.js'
+import {icons} from "./const/icons.js";
 
 const currentPath = window.location.pathname;
 
@@ -51,13 +52,11 @@ function create_task_card(task){
     // Assign text and attributes
     a.setAttribute('href', `/project/${currentPath.split('/')[2]}/task/${task.id}/`);
     a.textContent=task.title;
-    if (task.status === 'open') status.innerHTML = ' <i class="fa-solid fa-folder-open"></i> Open ';
-    else if (task.status ==='closed') status.innerHTML = ' <i class="fa-solid fa-folder-closed"></i> Closed ';
-    else status.innerHTML = ' <i class="fa-solid fa-ban"></i> Canceled ';
+    status.innerHTML = icons['task-'+task.status] + ' '+task.status;
     if(task.deadline){
-        deadline_li.innerHTML ='<i class="fa-solid fa-clock"></i> '+ convert_date(task.deadline);
+        deadline_li.innerHTML = icons['clock'] + convert_date(task.deadline);
     }
-    else deadline_li.innerHTML = '<i class="fa-solid fa-clock"></i> There is no deadline'
+    else deadline_li.innerHTML = icons['clock']+' There is no deadline'
     h6.innerHTML ='#'+task.id+ ' Created by '+ task.creator.name+' on '+ convert_date(task.starttime);
 
     // Append elements

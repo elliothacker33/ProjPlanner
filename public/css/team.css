@@ -70,7 +70,7 @@
     cursor: pointer;
 }
 
-.users .user-item  .actions .delete{
+.users .user-item  .actions .remove{
     color: var(--error-text-color);
 }
 .users .user-item  .actions .promote{

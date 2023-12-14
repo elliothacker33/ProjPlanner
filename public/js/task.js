@@ -1,4 +1,4 @@
-import {config_multiselector, multiselector} from "./multiselector.js";
+import {config_multiselector, multiselector} from "./components/multiselector.js";
 
 config_multiselector();
 const form = document.querySelector('form');

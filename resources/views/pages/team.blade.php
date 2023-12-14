@@ -5,7 +5,7 @@
 @endpush
 
 @push('scripts')
-    <script type="module" src="{{ asset('js/user.js') }}" defer></script>
+    <script type="module" src="{{ asset('js/pages/user.js') }}" defer></script>
 @endpush
 
 @section('content')
@@ -53,7 +53,7 @@
                     <section class="actions">
                         @if($project->user_id !== $user->id )
                             <span class="promote" id="{{$user->id}}"><i class="fa-solid fa-user-tie"></i></span>
-                            <span class = "delete" id="{{$user->id}}"><i class="fa-solid fa-user-xmark"></i></span>
+                            <span class = "remove" id="{{$user->id}}"><i class="fa-solid fa-user-xmark"></i></span>
                         @endif
                     </section>
                 @endcan
