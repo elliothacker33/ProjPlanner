@@ -45,10 +45,4 @@ class Task extends Model
     {
         return $this->belongsTo(Project::class);
     }
-
-    public function closed_by() : BelongsTo {
-        return $this->belongsTo(User::class, 'closed_user_id')->withDefault([
-            'name' => 'deleted_user',
-        ]);
-    }
 }
