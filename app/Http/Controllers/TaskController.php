@@ -8,10 +8,13 @@ use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Log;
 
 class TaskController extends Controller
 {
+    private $possibleStatus = ['open', 'closed', 'canceled'];
+
     public function searchTasks(Request $request)
     {
         $project = Project::find($request->input('project'));
@@ -113,5 +116,31 @@ class TaskController extends Controller
     public function destroy(Task $task)
     {
         //
+    }
+
+    public function editStatus(Request $request, Project $project, Task $task) {
+        $this->authorize('changeStatus', [Task::class, $task]);
+
+        $validated = $request->validate([
+            'status' => [
+                'required',
+                Rule::in($this->possibleStatus),
+            ],
+        ]);
+
+        $invalidStatusChange =  (($validated['status'] == 'closed' || $validated['status'] == 'canceled') && $task->status != 'open');
+
+        $errorMsg = 'A ' . $task->status . ' task cannot be changed to another state other than open';
+
+        if ($invalidStatusChange) {
+            return response()->json(['error' => $errorMsg], 400);
+        }
+
+        $task->status = $validated['status'];
+        $task->closed_user_id = $validated['status'] == 'open' ? null : Auth::id();
+        $task->endtime = $validated['status'] == 'open' ? null : now();
+        $task->save();
+        
+        return response()->json(['task' => $task, 'closed_user_name' => $task->closed_by->name]);
     }
 }

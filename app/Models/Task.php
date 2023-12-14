@@ -18,6 +18,7 @@ class Task extends Model
         'status',
         'description',
         'deadline',
+        'closed_user_id',
     ];
 
     public function created_by(): BelongsTo {
@@ -43,5 +44,11 @@ class Task extends Model
     public function project():BelongsTo
     {
         return $this->belongsTo(Project::class);
+    }
+
+    public function closed_by() : BelongsTo {
+        return $this->belongsTo(User::class, 'closed_user_id')->withDefault([
+            'name' => 'deleted_user',
+        ]);
     }
 }

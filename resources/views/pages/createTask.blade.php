@@ -6,9 +6,8 @@
 @endpush
 
 @push('scripts')
-    <script type="text/javascript" src={{ url('js/app.js') }} defer></script>
+    <script type="module" src={{ url('js/app.js') }} defer></script>
     <script type="module" src={{ url('js/task.js') }} > </script>
-
 @endpush
 
 @section('content')

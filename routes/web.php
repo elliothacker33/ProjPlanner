@@ -97,10 +97,14 @@ Route::prefix('/project')->group(function () {
 
         });
         Route::prefix('/task')->controller(TaskController::class)->group(function () {
-            Route::get('/{task}', 'show')->where('task', '[0-9]+')->name('task');
             Route::get('/search', 'index')->name('search_tasks');
             Route::get('/new', 'create')->name('createTask');
             Route::post('/new', 'store')->name('newTask');
+
+            Route::prefix('/{task}')->whereNumber('task')->group(function () {
+                Route::get('', 'show')->name('task');
+                Route::put('/edit/status', 'editStatus')->name('edit_status');
+            });
         });
         
         Route::get('/tasks', [ProjectController::class, 'showTasks'])->name('show_tasks');
