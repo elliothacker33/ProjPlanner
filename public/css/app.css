@@ -292,3 +292,6 @@ input[type=password]:focus {
 .invisible:hover{
     background: transparent;
 }
+.hidden{
+    display: none;
+}

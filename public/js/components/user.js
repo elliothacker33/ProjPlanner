@@ -43,11 +43,9 @@ export async function createUserItem(user) {
         userSection.appendChild(statusSpan);
     }
     userItemSection.appendChild(userSection);
-    console.log(auth);
     if (isTeamPage && (project.user_id !== user.id && auth.id === project.user_id)) {
         userItemSection.appendChild(createActionsSection(user, ['promote', 'remove']));
     } else if (idAdminPage && auth.is_admin) {
-        console.log("Admin")
         userItemSection.appendChild(createActionsSection(user, ['edit', 'block', 'delete']));
     }
 
@@ -87,11 +85,20 @@ function createActionsSection(user, actions) {
             span = document.createElement('a');
             span.href = "/user-profile/"+user.id+"/edit";
         }else{
-            span = document.createElement('label');
+            span = document.createElement('button');
             span.for= user.id+"-"+action;
-            button
+
+            span.classList.add('invisible');
+
+            const form = document.querySelector('#delete');
+
+            span.setAttribute('form', form.id);
+            span.setAttribute('formAction', '/user/' + user.id + '/' + action);
+
+
         }
-        span.className = action;
+
+        span.classList.add( action);
         span.id = user.id;
         span.innerHTML = icons['user-' + action];
         actionsSection.appendChild(span);

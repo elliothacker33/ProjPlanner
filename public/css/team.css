@@ -88,24 +88,24 @@
     scale: 1.5;
 }
 
- header{
+ .team header, .adminPage header{
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
     align-items: center;
 }
- header .addUserContainer{
+.team header .addUserContainer{
 
     width: 30em;
 }
- header .addUserContainer form{
+ .team header .addUserContainer form{
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-end;
     gap: 1em;
     margin: 0;
 }
- header .addUserContainer form > *{
+ .team header .addUserContainer form > *{
     margin: 0;
     max-width: 20em;
 }

@@ -15,7 +15,7 @@
             @else <span class="status cancelled"> <i class="fa-solid fa-ban"></i> Cancelled </span>
             @endif
 
-            <h6>#{{$task->id}} Created by {{$task->creator->name}} on {{ date('d-m-Y', strtotime($task->starttime)) }}</h6>
+            <h6>#{{$task->id}} Created by {{$task->created_by->name}} on {{ date('d-m-Y', strtotime($task->starttime)) }}</h6>
             </section>
             @can('update',$task)
                 <section class="actions">

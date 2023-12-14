@@ -15,5 +15,5 @@
             @endif
         </li>
     </ul>
-    <h6>#{{$task->id}} Created by {{$task->creator->name}} on {{ date('d-m-Y', strtotime($task->starttime)) }}</h6>
+    <h6>#{{$task->id}} Created by {{$task->created_by->name}} on {{ date('d-m-Y', strtotime($task->starttime)) }}</h6>
 </section>

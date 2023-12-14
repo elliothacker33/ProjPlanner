@@ -17,7 +17,10 @@
             <input type="search" placeholder="&#128269 Search" aria-label="Search" id="search-bar" />
 
         </section>
-
+        <form method="POST" class="hidden" id="delete" >
+            @csrf
+            @method("DELETE")
+        </form>
         <section class="users-list">
             <header>
                 <span> <i class="fa-solid fa-users"></i>  {{count($users)}} Users </span>
@@ -39,9 +42,11 @@
                         </section>
                         @can('update', [\App\Http\Controllers\User::class,$user])
                             <section class="actions">
-                                    <a href="{{route("edit_profile",['user'=>$user])}}" class="edit" id="{{$user->id}}"><i class="fa-solid fa-user-pen"></i></a>
-                                    <button class = "block invisible" id="{{$user->id}}" formaction="{{route('admin_user_create')}}"><i class="fa-solid fa-ban"></i></button>
-                                    <button class = "delete invisible" id="{{$user->id}}"><i class="fa-solid fa-trash"></i></button>
+                                <a href="{{route("edit_profile",['user'=>$user])}}" class="edit" id="{{$user->id}}"><i class="fa-solid fa-user-pen"></i></a>
+                                <button class = "block invisible" id="{{$user->id}}" form="block-{{($user->id)}}"><i class="fa-solid fa-ban"></i></button>
+                                <button class = "delete invisible" id="{{$user->id}}"form="delete" formaction="{{route("delete_user",["user"=>$user])}}"><i class="fa-solid fa-trash"></i></button>
+                                <form class="hidden" id ="block-{{($user->id)}}" action=""></form>
+
                             </section>
                         @endcan
                     </section>

@@ -14,7 +14,9 @@ searchBar.addEventListener('input', (e) => {
     }).then(async response => {
         const data = await response.json();
         if (response.ok) {
+
             updateSearchedTasks(data);
+
         } else {
             console.error(`Error ${response.status}: ${JSON.stringify(data.error)}`);
         }
@@ -57,7 +59,7 @@ function create_task_card(task){
         deadline_li.innerHTML = icons['calendar'] + convert_date(task.deadline);
     }
     else deadline_li.innerHTML = icons['calendar']+' There is no deadline'
-    h6.innerHTML ='#'+task.id+ ' Created by '+ task.creator.name+' on '+ convert_date(task.starttime);
+    h6.innerHTML ='#'+task.id+ ' Created by '+ task.created_by.name+' on '+ convert_date(task.starttime);
 
     // Append elements
     h3.appendChild(a);
