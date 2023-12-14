@@ -42,17 +42,19 @@ function changeTaskStatusEvent(button, status) {
             const data = await response.json();
 
             if (response.ok) {
+                const task = data.task;
                 const deadline = document.querySelector('.deadlineContainer')
                 const finishedTimeSpan = document.createElement('span');
                 const actionString = status.charAt(0).toUpperCase() + status.slice(1);
                 
-                buildStatusButtons(data.status);
+                buildStatusDependantElems(task.status, data.closed_user_name);
 
                 editStatusChip(status);
 
                 deadline.innerHTML = '';
-
-                finishedTimeSpan.innerHTML = (data.status == 'open' ? 'Deadline: ': `${actionString} at: `) + getDateString((data.status == 'open' ? data.deadline : data.endtime));
+                
+                finishedTimeSpan.innerHTML = '<i class="fa-solid fa-clock"></i> '
+                finishedTimeSpan.innerHTML += (task.status == 'open' ? 'Deadline: ': `${actionString} at: `) + getDateString((task.status == 'open' ? task.deadline : task.endtime));
                 deadline.appendChild(finishedTimeSpan);
 
                 document.querySelectorAll('dialog').forEach(dialog => {
@@ -62,18 +64,20 @@ function changeTaskStatusEvent(button, status) {
             else {
                 console.error(`Error ${response.status}: ${data.error}`);
             }
-        })/*.catch(() => {
+        }).catch(() => {
             console.error('Error parsing JSON');
-        })*/
+        })
     });
 };
 
-function buildStatusButtons(status) {
+function buildStatusDependantElems(status, closed_user_name) {
     const closeOpenContainer = document.querySelector('.primaryContainer');
     const editCancelContainer = document.querySelector('.actions');
+    const actionString = status.charAt(0).toUpperCase() + status.slice(1);
 
     if (status == 'open') {
         document.querySelector('#openReopenModal').remove();
+        document.querySelector('#finishedTaskUser').remove();
 
         const closeTaskBtn = document.createElement('a');
         const cancelTaskBtn = document.createElement('a');
@@ -100,6 +104,15 @@ function buildStatusButtons(status) {
         document.querySelector('#openCloseModal').remove();
         document.querySelector('#openCancelModal').remove();
         editCancelContainer.querySelector('.edit').remove();
+
+        const finishedTaskUser = document.createElement('section');
+        const finishedTaskUserSpan = document.createElement('span');
+        const sideContainer = document.querySelector('.sideContainer');
+
+        finishedTaskUserSpan.innerHTML = `<i class="fa-solid fa-user"></i> ${actionString} by: ${closed_user_name}`;
+        finishedTaskUser.setAttribute('id', 'finishedTaskUser');
+        finishedTaskUser.appendChild(finishedTaskUserSpan);
+        sideContainer.insertBefore(finishedTaskUser, sideContainer.children[1]);
 
         const reopenTaskBtn = document.createElement('a');
         reopenTaskBtn.classList.add('buttonLink');

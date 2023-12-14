@@ -140,6 +140,6 @@ class TaskController extends Controller
         $task->endtime = $validated['status'] == 'open' ? null : now();
         $task->save();
         
-        return response()->json($task);
+        return response()->json(['task' => $task, 'closed_user_name' => $task->closed_by->name]);
     }
 }

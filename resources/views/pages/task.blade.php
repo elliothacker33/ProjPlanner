@@ -74,8 +74,12 @@
                             {{ ucwords($task->status) }} at:  {{ date('d-m-Y', strtotime($task->endtime)) }}
                         @endif
                     <span>
-                    
                 </section>
+                @if ($task->closed_by != null)
+                    <section id="finishedTaskUser">
+                        <span><i class="fa-solid fa-user"></i> {{ ucwords($task->status) }} by: {{$task->closed_by->name}}</span>
+                    </section>
+                @endif
                 <section class="assignContainer">
                     <h5><i class="fa-solid fa-users"></i> Assigned: </h5>
                     <ul class="assign">
