@@ -2,6 +2,8 @@
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/team.css') }}">
     <link rel="stylesheet" href="{{ asset('css/partials/cards.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/user.css') }}">
+
 @endpush
 
 @push('scripts')
@@ -38,7 +40,7 @@
         <section class="users">
             @foreach($team as $user)
             <section class="user-item">
-                <section class="user">
+                <section class="userSection">
 
                     <a href="{{route('profile',['user'=>$user])}}">
                     @include('partials.userCard',['user'=>$user, 'size'=>'.median'])

@@ -1,5 +1,5 @@
 import {icons} from "../const/icons.js";
-import {adminPageRegex, teamPageRegex} from "../const/regex.js";
+import {adminPageRegex, teamPageProjectRegex, teamPageRegex} from "../const/regex.js";
 import {getProject} from "../project.js";
 import {getAuth} from "../api/user.js";
 
@@ -7,9 +7,11 @@ const currentPath = window.location.pathname;
 
 const isTeamPage = teamPageRegex.test(currentPath);
 const idAdminPage = adminPageRegex.test(currentPath);
-const project_id = currentPath.match(/\/project\/(\d+)\/team/)[1];
+const matches = currentPath.match(teamPageProjectRegex);
+let project_id = null;
+if(matches) project_id = matches[0];
 const project = await getProject(project_id);
-const auth = getAuth();
+const auth = await getAuth();
 
 export async function createUserItem(user) {
     const userItemSection = document.createElement('section');
@@ -17,7 +19,6 @@ export async function createUserItem(user) {
     const userSection = (createUserSection(user));
 
     if (isTeamPage) {
-
         const statusSpan = document.createElement('span');
         statusSpan.className = 'status';
         if (project && project.user_id === user.id) {
@@ -29,11 +30,24 @@ export async function createUserItem(user) {
         }
         userSection.appendChild(statusSpan);
     }
+    else if(idAdminPage){
+        const statusSpan = document.createElement('span');
+        statusSpan.className = 'status';
+        if (user.is_admin) {
+            statusSpan.className += ' admin';
+            statusSpan.innerHTML = icons['admin'] + 'Admin';
+        } else {
+            statusSpan.className += ' user';
+            statusSpan.innerHTML = icons['user'] + 'User';
+        }
+        userSection.appendChild(statusSpan);
+    }
     userItemSection.appendChild(userSection);
-
+    console.log(auth);
     if (isTeamPage && (project.user_id !== user.id && auth.id === project.user_id)) {
         userItemSection.appendChild(createActionsSection(user, ['promote', 'remove']));
     } else if (idAdminPage && auth.is_admin) {
+        console.log("Admin")
         userItemSection.appendChild(createActionsSection(user, ['edit', 'block', 'delete']));
     }
 
@@ -53,7 +67,7 @@ function createUserCard(user) {
 
 function createUserSection(user) {
     const userSection = document.createElement('section');
-    userSection.className = 'user';
+    userSection.className = 'userSection';
 
     const profileLink = document.createElement('a');
     profileLink.href = "/user-profile/" + user.id; // Replace with the actual URL
@@ -68,7 +82,15 @@ function createActionsSection(user, actions) {
     actionsSection.className = 'actions';
 
     for (let action of actions) {
-        const span = document.createElement('span');
+        let span;
+        if(action ==='edit'){
+            span = document.createElement('a');
+            span.href = "/user-profile/"+user.id+"/edit";
+        }else{
+            span = document.createElement('label');
+            span.for= user.id+"-"+action;
+            button
+        }
         span.className = action;
         span.id = user.id;
         span.innerHTML = icons['user-' + action];

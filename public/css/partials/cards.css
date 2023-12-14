@@ -54,15 +54,16 @@
     flex-wrap: wrap;
     align-items: center;
     justify-content: flex-start;
+
 }
 .userCard .info{
     flex: 1;
 }
+
 .userCard h3{
     font-weight: 500;
-    font-size: 1.2em;
+    font-size: 1.3em;
 }
-
 .userCard.small h3{
     font-size: 1em;
 }

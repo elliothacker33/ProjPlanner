@@ -29,6 +29,7 @@ class AdminController extends Controller
         return view('admin.create_user');
     }
 
+
     public function store(Request $request){
 
         $this->authorize('create_admin',[User::class]);

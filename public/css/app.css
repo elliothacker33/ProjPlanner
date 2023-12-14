@@ -19,6 +19,7 @@
     --input-secondary-bg-color: #69899613;
     --on-third-bg-color: #698996;
     --primary-border: #CCCCCC99;
+    --warning-bg-color: #FFC107
   }
 
 
@@ -238,6 +239,9 @@ button {
 
 a.button {
     background-color: var(--onsecondary-bg-color);
+    outline: none;
+    border: none;
+    margin: 0;
 }
 
 a.button.button-outline {
@@ -274,4 +278,17 @@ input[type=password]:focus {
 
 #header_title > a {
     color: inherit
+}
+.invisible{
+    background: transparent;
+    border: 0;
+    margin: 0;
+    width: auto;
+    height: 100%;
+    padding: 0;
+    outline: none;
+}
+
+.invisible:hover{
+    background: transparent;
 }

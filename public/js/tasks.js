@@ -54,9 +54,9 @@ function create_task_card(task){
     a.textContent=task.title;
     status.innerHTML = icons['task-'+task.status] + ' '+task.status;
     if(task.deadline){
-        deadline_li.innerHTML = icons['clock'] + convert_date(task.deadline);
+        deadline_li.innerHTML = icons['calendar'] + convert_date(task.deadline);
     }
-    else deadline_li.innerHTML = icons['clock']+' There is no deadline'
+    else deadline_li.innerHTML = icons['calendar']+' There is no deadline'
     h6.innerHTML ='#'+task.id+ ' Created by '+ task.creator.name+' on '+ convert_date(task.starttime);
 
     // Append elements

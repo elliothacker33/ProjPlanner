@@ -5,12 +5,14 @@ const currentPath = window.location.pathname;
 const searchBar = document.getElementById('search-bar');
 
 searchBar.addEventListener('input', async (e) => {
-    const project_id = currentPath.match(/\/project\/(\d+)\/team/)[1];
-    const query = encodeForAjax({"query": searchBar.value}) + "&" + encodeForAjax({"project": project_id});
+    const matches = currentPath.match(/\/project\/(\d+)\/team/);
+    let query = encodeForAjax({"query": searchBar.value});
+    if(matches) query+= "&" +encodeForAjax({"project": matches[0]});
     sendAjaxRequest("GET", "/api/users?" + query).catch(() => {
         console.error("Network error");
     }).then(async response => {
         const data = await response.json();
+
         await updateUserTable(data);
     }).catch(() => {
         console.error('Error parsing JSON');

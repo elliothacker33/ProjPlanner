@@ -1,4 +1,4 @@
-.team{
+.team, .adminPage{
     min-height: 80vh;
     padding-top: 3em;
     display: flex;
@@ -13,6 +13,7 @@
     max-width: 60em;
     border: 1px solid var(--primary-border);
     border-radius: 1em;
+    margin-bottom: 3em;
 
 }
 .users-list > .users{
@@ -32,11 +33,11 @@
 .users-list header > span i{
     margin-right: 0.6em;
 }
-.status.coordinator{
+.status.coordinator, .status.admin{
     background: var(--on-third-bg-color);
     max-height: 2em;
 }
-.status.member{
+.status.member, .status.user{
     background: var(--onprimary-bg-color);
 }
 .users .user-item{
@@ -49,19 +50,17 @@
     justify-content: space-between;
     flex-wrap: wrap;
 }
-.users .user-item .user{
+.users .user-item .userSection{
     display: flex;
     align-items: center;
-    gap: 2em;
+    gap: 1em;
     flex-wrap: wrap;
 }
 
 .users .user-item  .actions{
-    width: 100%;
-    max-width: 10em;
+    flex: 1;
     display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
+    justify-content: flex-end;
     gap: 3em;
     padding: 1em;
     margin-left: auto;
@@ -70,37 +69,43 @@
     cursor: pointer;
 }
 
-.users .user-item  .actions .remove{
+.actions .remove, .actions .delete{
     color: var(--error-text-color);
 }
-.users .user-item  .actions .promote{
+.actions .block{
+    color: var(--warning-bg-color);
+}
+.actions .promote{
     color: var(--onprimary-bg-color);
+}
+.actions .edit {
+    color: var(--onsecondary-bg-color);
 }
 .users .user-item  .actions >*:hover{
     color: var(--on-third-bg-color);
 }
 .users .user-item  .actions i{
-    scale: 2;
+    scale: 1.5;
 }
 
-.team header{
+ header{
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
     align-items: center;
 }
-.team header .addUserContainer{
+ header .addUserContainer{
 
     width: 30em;
 }
-.team header .addUserContainer form{
+ header .addUserContainer form{
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-end;
     gap: 1em;
     margin: 0;
 }
-.team header .addUserContainer form > *{
+ header .addUserContainer form > *{
     margin: 0;
     max-width: 20em;
 }
@@ -125,6 +130,28 @@
     align-self: flex-end;
 
  }
+
+.userSection {
+    justify-content: space-between;
+    flex: 100%;
+    width: 100%;
+    max-width: 40em;
+}
+
+.adminPage .userSection{
+    max-width: 60em;
+}
+
+
+.adminPage .users-list, .adminPage .search{
+    max-width: 80em;
+}
+
+.invisible {
+ scale: 1.3;
+
+}
+
 
 
 

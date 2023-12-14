@@ -36,7 +36,7 @@
             </section>
             <section class="sideContainer">
                 <section class="deadlineContainer" >
-                    <span> <i class="fa-solid fa-clock"></i> Deadline:
+                    <span> <i class="fa-regular fa-calendar"></i> Deadline:
                         @if($task->deadline) {{ date('d-m-Y', strtotime($task->deadline)) }}
                         @else There is no deadline
                         @endif
