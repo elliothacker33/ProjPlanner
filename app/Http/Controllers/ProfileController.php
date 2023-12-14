@@ -14,7 +14,7 @@ class ProfileController extends Controller
             $user = User::find($usrId);
             if (!$user) {
                 abort(404, 'User profile page not found.');
-            } 
+            }
             return view('profile_pages.profile', [
                 'user' => $user,
                 'image' => $user->getProfileImage(),
@@ -33,6 +33,7 @@ class ProfileController extends Controller
         
             $this->authorize('update', $user);
         
+            
             return view('profile_pages.edit-profile', [
                 'user' => $user,
                 'image' => $user->getProfileImage()

@@ -9,8 +9,8 @@
 @endpush
 @section('content')
 <div class="container-fluid">
-	<div class="row first">
-	<div class="col-12 d-flex justify-content-between mb-5">
+	<div class="row first ">
+	<div class="col-12 d-flex justify-content-between mt-5">
         <a href = "{{ route('profile', ['usrId' => Auth::id()]) }}" class =" goback  "> 
          Go back
         </a>
@@ -101,7 +101,7 @@
                 <header><h1> <i class="bi bi-pencil"></i> Edit your credentials</h1></header>
                 </div>
                 <div class = "col-6 d-flex  forgot justify-content-end">
-                    <a href=""> Forgot your password? </a>
+                    <a href="{{ route('password.request')}} "> Forgot your password? </a>
                 </div> 
             </div>
         </div>
@@ -141,13 +141,13 @@
                     </span>
                 @endif
                 </div>
-                <div class = " col-12 ">
+                <div class = " col-12  ">
                 <button><p>Update Profile</p></button>
                 </div>
             </form>
         </div>
         <div class = "col-12 mb-5 ">
-            <header><h1><i class="bi bi-sliders"></i> Change your profile image</h1></header>
+            <header><h1><i class="bi bi-sliders"></i>Change your profile image</h1></header>
         </div>
         <div class = "col-12 ">
         <form method="post" action="{{ route('upload_profile_file')}}" id="updateProfileForm" enctype="multipart/form-data" class="row d-flex align-items-center">
