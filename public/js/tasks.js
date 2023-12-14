@@ -15,7 +15,7 @@ searchBar.addEventListener('input', (e) => {
         if (response.ok) {
             updateSearchedTasks(data);
         } else {
-            console.error(`Error ${response.status}: ${JSON.stringify(data.error)}`);
+            console.error(`Error ${response.status}: ${data.error}`);
         }
     }).catch(() => {
         console.error('Error parsing JSON');
@@ -47,4 +47,3 @@ function updateSearchedTasks(data) {
         tasksSection.appendChild(divWrapper);
     });
 }
-

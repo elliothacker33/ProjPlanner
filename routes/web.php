@@ -71,6 +71,12 @@ Route::prefix('/user-profile')->controller(ProfileController::class)->group(func
     Route::get('/{user}', 'showProfile')->name('profile');
     Route::put('/{user}/edit', 'updateProfile')->name('update_profile');
     Route::get('/{user}/edit', 'showEditProfile')->name('edit_profile');
+    Route::delete('/{user}/delete', 'destroy')->name('delete_profile');
+});
+
+// Users
+Route::prefix('/user/{user}')->whereNumber('user')->controller(UserController::class)->group(function () {
+    Route::delete('/delete', 'destroy')->name('delete_user');
 });
 
 // Projects
@@ -90,10 +96,14 @@ Route::prefix('/project')->group(function () {
             Route::put('/edit', 'update')->name('action_edit_project');
         });
         Route::prefix('/task')->controller(TaskController::class)->group(function () {
-            Route::get('/{task}', 'show')->where('task', '[0-9]+')->name('task');
             Route::get('/search', 'index')->name('search_tasks');
             Route::get('/new', 'create')->name('createTask');
             Route::post('/new', 'store')->name('newTask');
+
+            Route::prefix('/{task}')->whereNumber('task')->group(function () {
+                Route::get('', 'show')->name('task');
+                Route::put('/edit/status', 'editStatus')->name('edit_status');
+            });
         });
 
         Route::get('/tasks', [ProjectController::class, 'showTasks'])->name('show_tasks');

@@ -2,14 +2,10 @@
 
 namespace App\Policies;
 
-
-
 use App\Models\Project;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
-use Illuminate\Support\Facades\DB;
-
 
 class TaskPolicy
 {
@@ -33,15 +29,9 @@ class TaskPolicy
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user, Project $project): bool
+    public function create(User $user, Project $project)
     {
-        $users = $project->users()->get()->toArray();
-
-        foreach ($users as $user_) {
-            if ($user->id === $user_['id']) return true;
-        }
-
-        return false;
+        return !$user->isAdmin and $project->users->contains($user);
     }
 
     /**
@@ -49,14 +39,12 @@ class TaskPolicy
      */
     public function update(User $user, Task $task): bool
     {
-        
-        $users = $task->project->users()->get()->toArray();
+        return ($task->project->user_id == $user->id || $task->assigned->contains($user)) && $task->status == 'open';
+    }
 
-        foreach ($users as $user_) {
-            if ($user->id === $user_['id']) return true;
-        }
-
-        return false;
+    public function changeStatus(User $user, Task $task): bool
+    {
+        return $task->project->user_id == $user->id || $task->assigned->contains($user);
     }
 
     /**
@@ -95,13 +83,6 @@ class TaskPolicy
         return false;
     }
 
-    /**
-     * Determine whether the user can change the status of the model.
-     */
-    public function changeStatus(User $user, Task $task): bool
-    {
-        return $user === $task->project->coordinator;
-    }
 
 
 

@@ -14,15 +14,19 @@ function resetAll() {
 /*Configs all multi-selectors in the page*/
 export function config_multiselector() {
     const multiselectors = document.querySelectorAll('.multiselector');
-    multiselectors.forEach((multiselector) =>
-        multiselector.querySelector('span').addEventListener('click', (e) => {
-                const dropdown = multiselector.querySelector('.dropdown');
-                if (dropdown.classList.contains('hidden')) resetAll();
-                const icon = multiselector.querySelector('span i.fas');
-                icon.classList.toggle('fa-chevron-down')
-                dropdown.classList.toggle('hidden');
-            }
-        ))
+    
+    if (multiselectors != null) {
+        multiselectors.forEach((multiselector) =>
+            multiselector.querySelector('span').addEventListener('click', (e) => {
+                    const dropdown = multiselector.querySelector('.dropdown');
+                    if (dropdown.classList.contains('hidden')) resetAll();
+                    const icon = multiselector.querySelector('span i.fas');
+                    icon.classList.toggle('fa-chevron-down')
+                    dropdown.classList.toggle('hidden');
+                }
+            )
+        )
+    }
 }
 
 /*Extracts values from the {origin} multi-selectors and stores them in the {destiny} input*/
