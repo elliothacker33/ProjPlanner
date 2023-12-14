@@ -21,6 +21,18 @@ class Task extends Model
         'closed_user_id',
     ];
 
+    public function created_by(): BelongsTo {
+        return $this->belongsTo(User::class, 'opened_user_id')->withDefault([
+            'name' => 'deleted_user',
+        ]);
+    }
+
+    public function closed_by(): BelongsTo {
+        return $this->belongsTo(User::class, 'closed_user_id')->withDefault([
+            'name' => 'deleted_user',
+        ]);
+    }
+
     public function assigned(): BelongsToMany {
         return $this->belongsToMany(User::class);
     }
