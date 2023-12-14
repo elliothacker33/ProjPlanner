@@ -42,18 +42,13 @@ function changeTaskStatusEvent(button, status) {
             const data = await response.json();
 
             if (response.ok) {
-                const statusChip = document.querySelector('.status');
                 const deadline = document.querySelector('.deadlineContainer')
                 const finishedTimeSpan = document.createElement('span');
                 const actionString = status.charAt(0).toUpperCase() + status.slice(1);
                 
                 buildStatusButtons(data.status);
 
-                statusChip.classList.remove('open');
-                statusChip.classList.remove('closed');
-                statusChip.classList.remove('canceled');
-                statusChip.classList.add(status);
-                statusChip.innerHTML = actionString;
+                editStatusChip(status);
 
                 deadline.innerHTML = '';
 
@@ -86,16 +81,16 @@ function buildStatusButtons(status) {
 
         closeTaskBtn.classList.add('buttonLink');
         closeTaskBtn.setAttribute('id', 'openCloseModal');
-        closeTaskBtn.innerHTML = 'Close task';
+        closeTaskBtn.innerHTML += '<i class="fa-solid fa-folder-closed"></i> Close task';
 
         cancelTaskBtn.classList.add('buttonLink');
         cancelTaskBtn.classList.add('cancel');
         cancelTaskBtn.setAttribute('id', 'openCancelModal');
-        cancelTaskBtn.innerHTML = 'Cancel';
+        cancelTaskBtn.innerHTML += '<i class="fa-solid fa-ban"></i> Cancel';
 
         editTaskBtn.classList.add('buttonLink');
         editTaskBtn.classList.add('edit');
-        editTaskBtn.innerHTML = 'Edit';
+        editTaskBtn.innerHTML += '<i class="fa-solid fa-pen-to-square"></i> Edit';
 
         closeOpenContainer.appendChild(closeTaskBtn);
         editCancelContainer.appendChild(editTaskBtn);
@@ -109,7 +104,8 @@ function buildStatusButtons(status) {
         const reopenTaskBtn = document.createElement('a');
         reopenTaskBtn.classList.add('buttonLink');
         reopenTaskBtn.setAttribute('id', 'openReopenModal');
-        reopenTaskBtn.innerHTML = 'Reopen task';
+        
+        reopenTaskBtn.innerHTML = '<i class="fa-solid fa-folder-open"></i> Reopen task';
 
         closeOpenContainer.appendChild(reopenTaskBtn);
     }
@@ -119,6 +115,23 @@ function buildStatusButtons(status) {
 
         if (openBtn != null) addOpenModalBtn(dialog);
     })
+}
+
+function editStatusChip (status) {
+    const statusChip = document.querySelector('.status');
+
+    statusChip.classList.remove('open');
+    statusChip.classList.remove('closed');
+    statusChip.classList.remove('canceled');
+    statusChip.classList.add(status);
+
+    if (status == 'open') {
+        statusChip.innerHTML = '<i class="fa-solid fa-folder-open"></i> Open'
+    } else if (status == 'closed') {
+        statusChip.innerHTML = '<i class="fa-solid fa-folder-closed"></i> Closed'
+    } else {
+        statusChip.innerHTML = '<i class="fa-solid fa-ban"></i> Canceled'
+    }
 }
 
 addTaskEventHandlers();

@@ -36,13 +36,13 @@
 
             @if($task->status == 'open') <span class="status open"> <i class="fa-solid fa-folder-open"></i> Open </span>
             @elseif($task->status == 'closed') <span class="status closed"> <i class="fa-solid fa-folder-closed"></i> Closed </span>
-            @else <span class="status canceled"> <i class="fa-solid fa-ban"> Canceled </span>
+            @else <span class="status canceled"> <i class="fa-solid fa-ban"></i> Canceled </span>
             @endif
             </section>
             <section class="actions">
                 @can('update', $task)
                     <a class="edit buttonLink"> <i class="fa-solid fa-pen-to-square"></i> Edit</a>
-                    <a class="cancel buttonLink" id="openCancelModal"> <i class="fa-solid fa-trash"></i> Cancel</a>
+                    <a class="cancel buttonLink" id="openCancelModal"> <i class="fa-solid fa-ban"></i> Cancel</a>
                 @endcan
             </section>
         </header>
@@ -55,9 +55,9 @@
 
                 @can('changeStatus', $task)
                     @if ($task->status != 'open')
-                        <a class="buttonLink" id="openReopenModal"> Reopen task </a> 
+                        <a class="buttonLink" id="openReopenModal"> <i class="fa-solid fa-folder-open"></i> Reopen task </a> 
                     @else
-                        <a class="buttonLink" id="openCloseModal"> Close task </a> 
+                        <a class="buttonLink" id="openCloseModal"> <i class="fa-solid fa-folder-closed"></i> Close task </a> 
                     @endif
                 @endcan
 
