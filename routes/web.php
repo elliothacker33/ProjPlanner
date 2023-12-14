@@ -82,6 +82,12 @@ Route::prefix('/user-profile')->controller(ProfileController::class)->group(func
     Route::get('/{user}', 'showProfile')->name('profile');
     Route::put('/{user}/edit', 'updateProfile')->name('update_profile');
     Route::get('/{user}/edit', 'showEditProfile')->name('edit_profile');
+    Route::delete('/{user}/delete', 'destroy')->name('delete_profile');
+});
+
+// Users
+Route::prefix('/user/{user}')->whereNumber('user')->controller(UserController::class)->group(function () {
+    Route::delete('/delete', 'destroy')->name('delete_user');
 });
 
 // Projects

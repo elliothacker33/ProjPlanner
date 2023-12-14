@@ -91,7 +91,8 @@ class TaskController extends Controller
 
         $tags = $task->tags;
 
-        $creator = $task->creator;
+        $creator = $task->created_by;
+
 
         return view('pages.task',['project' => $project_task, 'task'=>$task, 'assign'=>$users,'tags'=>$tags,'creator'=>$creator]);
     }

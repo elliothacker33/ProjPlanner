@@ -72,6 +72,10 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        $this->authorize("delete", $user);
+
+        $user->delete();
+
+        return redirect()->route('init_page');
     }
 }

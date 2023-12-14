@@ -64,7 +64,6 @@ class User extends Authenticatable
     ];
 
     public function projects(): BelongsToMany {
-
         return $this->belongsToMany(Project::class);
     }
 
@@ -77,9 +76,15 @@ class User extends Authenticatable
     {
         return $this->hasMany(Project::class);
     }
+
     public function tasks_created(): HasMany
     {
-        return $this->hasMany(Task::class,'opened_user_id', );
+        return $this->hasMany(Task::class, 'opened_user_id',);
+    }
+
+    public function closedTasks(): HasMany {
+        return $this->hasMany(Task::class, 'closed_user_id');
+
     }
 }
 
