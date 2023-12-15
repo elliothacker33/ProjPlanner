@@ -58,18 +58,10 @@ class ProjectPolicy
     }
 
     /**
-     * Determine whether the user can restore the model.
+     * Determine whether the user can see the forum of the model.
      */
-    public function restore(User $user, Project $project): bool
+    public function viewForum(User $user, Project $project): bool
     {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Project $project): bool
-    {
-        //
+        return $project->users->contains($user);
     }
 }

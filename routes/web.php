@@ -108,5 +108,7 @@ Route::prefix('/project')->group(function () {
         });
         
         Route::get('/tasks', [ProjectController::class, 'showTasks'])->name('show_tasks');
+
+        Route::get('/forum', [ProjectController::class, 'showForum'])->name('forum');
     });
 });

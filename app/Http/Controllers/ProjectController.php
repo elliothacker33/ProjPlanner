@@ -183,4 +183,27 @@ class ProjectController extends Controller
         else
             return view('pages.tasks', ['project'=>$project, 'tasks'=>$tasks]);
     }
+
+    /**
+     * Display the specified resource.
+     */
+    public function showForum(Request $request, Project $project)
+    {
+        
+        if ($project == null) {
+            if ($request->ajax())
+                return response()->json(['error' => 'Project with specified id not found'], 404);
+            else
+                return abort(404);
+        }
+
+        $this->authorize('viewForum', [Project::class, $project]);
+
+        $posts = $project->posts;
+
+        if($request->ajax())
+            return response()->json($posts);
+        else
+            return view('pages.forum', ['project'=>$project, 'posts'=>$posts]);
+    }
 }
