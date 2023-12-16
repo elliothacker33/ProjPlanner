@@ -18,9 +18,11 @@ class UserController extends Controller
         $project = $request->input('project');
         $query = null;
         if ($project !== null) {
+            $this->authorize('viewTeam', [User::class,Project::find($project)]);
             $query = Project::find($project)->users();
         }
         else{
+            $this->authorize('viewAny',User::class);
             $query = User::query();
         }
         $users = $query->where(function ($query) use ($searchTerm) {

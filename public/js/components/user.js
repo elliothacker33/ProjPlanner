@@ -6,7 +6,6 @@ import {getAuth} from "../api/user.js";
 const currentPath = window.location.pathname;
 
 const isTeamPage = teamPageRegex.test(currentPath);
-const idAdminPage = adminPageRegex.test(currentPath);
 const matches = currentPath.match(teamPageProjectRegex);
 let project_id = null;
 if(matches) project_id = matches[0];
@@ -30,24 +29,11 @@ export async function createUserItem(user) {
         }
 
     }
-    else if(idAdminPage){
 
-        statusSpan.className = 'status';
-        if (user.is_admin) {
-            statusSpan.className += ' admin';
-            statusSpan.innerHTML = icons['admin'] + 'Admin';
-        } else {
-            statusSpan.className += ' user';
-            statusSpan.innerHTML = icons['user'] + 'User';
-        }
-        userSection.appendChild(statusSpan);
-    }
     userItemSection.appendChild(userSection);
     userItemSection.appendChild(statusSpan);
     if (isTeamPage && (project.user_id !== user.id && auth.id === project.user_id)) {
         userItemSection.appendChild(createActionsSection(user, ['promote', 'remove']));
-    } else if (idAdminPage && auth.is_admin) {
-        userItemSection.appendChild(createActionsSection(user, ['edit', 'block', 'delete']));
     }
     return userItemSection;
 }
@@ -80,23 +66,9 @@ function createActionsSection(user, actions) {
     actionsSection.className = 'actions';
     for (let action of actions) {
         let span;
-        if(action ==='edit'){
-            span = document.createElement('a');
-            span.href = "/user-profile/"+user.id+"/edit";
-        }else if(action === 'delete'){
-            span = document.createElement('button');
-            span.for= user.id+"-"+action;
 
-            span.classList.add('invisible');
-            const form = document.querySelector('#delete');
-            span.setAttribute('form', form.id);
-            span.setAttribute('formAction', '/user/' + user.id + '/' + action);
-
-        }
-        else{
             span = document.createElement('span');
             span.classList.add(action);
-        }
 
         span.classList.add( action);
         span.id = user.id;

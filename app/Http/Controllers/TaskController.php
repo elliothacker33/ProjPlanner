@@ -24,12 +24,12 @@ class TaskController extends Controller
             ->with('created_by')
             ->whereRaw("tsvectors @@ plainto_tsquery('english', ?)", [$request->input('query')])
             ->orderByRaw("ts_rank(tsvectors, plainto_tsquery('english', ?)) DESC", [$request->input('query')])
-            ->get();
+        ;
 
         if ($request->ajax())
-            return response()->json($searchedTasks);
+            return response()->json($searchedTasks->get());
         else {
-            return $searchedTasks;
+            return $searchedTasks->paginate(10);
         }
     }
 

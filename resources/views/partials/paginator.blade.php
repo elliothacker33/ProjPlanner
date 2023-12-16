@@ -23,7 +23,8 @@
             @if($page === $paginator->currentPage())
                 <a class="page current" href="{{ $paginator->url($page) }}">{{ $page }}</a>
             @else
-                <a class="page priority{{ abs($paginator->currentPage() - $page) }}" href="{{ $paginator->url($page) }}">{{ $page }}</a>
+                <a class="page priority{{ abs($paginator->currentPage() - $page) }}"
+                   href="{{ $paginator->url($page) }}">{{ $page }}</a>
             @endif
         @endfor
 

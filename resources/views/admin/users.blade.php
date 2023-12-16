@@ -1,8 +1,8 @@
+@php use App\Http\Controllers\User; @endphp
 @extends('layouts.app')
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/team.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/users.css') }}">
     <link rel="stylesheet" href="{{ asset('css/partials/cards.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/user.css') }}">
     <link rel="stylesheet" href="{{ asset('css/partials/pagination.css') }}">
 
 @endpush
@@ -14,26 +14,26 @@
 @section('content')
     <section class="adminPage">
 
-
-        <form method="POST" class="hidden" id="delete" >
+        <form method="POST" class="hidden" id="delete">
             @csrf
             @method("DELETE")
         </form>
 
 
-
         <section class="users-list">
             <header>
                 <section class="search">
-                    <form method="GET" id="search" action="{{route('admin_users')}}" >
-                    <input type="search" name="query" placeholder="&#128269 Search" aria-label="Search" id="search-bar" value="{{$query}}" />
-                    <button class="" type="submit"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
+                    <form method="GET" id="search" action="{{route('admin_users')}}">
+                        <input type="search" name="query" placeholder="&#128269 Search" aria-label="Search"
+                               id="search-bar" value="{{$query}}"/>
+                        <button class="" type="submit"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
 
                     </form>
                 </section>
                 <section>
-                <span> <i class="fa-solid fa-users"></i>  {{$registrations}} Users </span>
-                <a class="button"href="{{route('admin_user_create')}}"><i class="fa-solid fa-user-plus"></i> Add user</a>
+                    <span> <i class="fa-solid fa-users"></i>  {{$registrations}} Users </span>
+                    <a class="button" href="{{route('admin_user_create')}}"><i class="fa-solid fa-user-plus"></i> Add
+                        user</a>
                 </section>
             </header>
             <section class="users">
@@ -46,17 +46,25 @@
                             </a>
 
 
-
                         </section>
-                        @if($user->is_admin)<span class="status admin"> <i class="fa-solid fa-user-gear"></i> Admin</span>
-                        @else <span class="status user"> <i class="fa-solid fa-user"></i> User</span>
+                        @if($user->is_admin)
+                            <span class="status admin"> <i class="fa-solid fa-user-gear"></i> Admin</span>
+                        @else
+                            <span class="status user"> <i class="fa-solid fa-user"></i> User</span>
                         @endif
-                        @can('update', [\App\Http\Controllers\User::class,$user])
+                        @can('update', [User::class,$user])
                             <section class="actions">
-                                <a href="{{route("edit_profile",['user'=>$user])}}" class="edit" id="{{$user->id}}"><i class="fa-solid fa-user-pen"></i></a>
-                                <button class = "block invisible" id="{{$user->id}}" form="block-{{($user->id)}}"><i class="fa-solid fa-ban"></i></button>
-                                <button class = "delete invisible" id="{{$user->id}}"form="delete" formaction="{{route("delete_user",["user"=>$user])}}"><i class="fa-solid fa-trash"></i></button>
-                                <form class="hidden" id ="block-{{($user->id)}}" action=""></form>
+                                <a href="{{route("edit_profile",['user'=>$user])}}" class="edit" id="{{$user->id}}">
+                                    <i class="fa-solid fa-user-pen"></i>
+                                </a>
+                                <button class="block invisible" id="{{$user->id}}" form="block-{{($user->id)}}">
+                                    <i class="fa-solid fa-ban"></i>
+                                </button>
+                                <button class="delete invisible" id="{{$user->id}}" form="delete"
+                                        formaction="{{route("delete_user",["user"=>$user])}}">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                                <form class="hidden" id="block-{{($user->id)}}" action=""></form>
 
                             </section>
                         @endcan
@@ -65,8 +73,6 @@
             </section>
         </section>
         @include("partials.paginator",['paginator'=>$users])
-
-
 
     </section>
 @endsection

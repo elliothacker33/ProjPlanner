@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Models\Project;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
@@ -12,7 +13,13 @@ class UserPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return $user->is_admin;
+    }
+
+    public function viewTeam(User $user,Project $project): bool
+    {
+        return $user->projects->pluck('id')->contains($project->id) || $user->is_admin;
+
     }
 
     /**

@@ -1,6 +1,4 @@
-
-
-.team, .adminPage{
+.team, .adminPage {
     min-height: 80vh;
     display: flex;
     flex-direction: column;
@@ -9,55 +7,64 @@
     gap: 1em;
 }
 
-.users-list{
+.users-list {
     width: 100%;
 }
-.team .userSection{
+
+.team .userSection {
     margin-bottom: 2em;
 }
 
-.users-list > .users{
+.users-list > .users {
     padding: 1em 0;
 }
 
-.users-list > header{
+.users-list > header {
     width: 100%;
-    padding:  1em ;
+    padding: 1em;
     display: flex;
     gap: 1em;
     flex-wrap: wrap;
     color: white;
     background: var(--onsecondary-bg-color);
 }
-.users-list > header a{
+
+.users-list > header a {
     margin-left: auto;
     background: var(--sucess-text-color);
 }
-.users-list > header > *{
+
+.users-list > header > * {
     width: 100%;
     display: flex;
 }
-.users-list header > span{
+
+.users-list header > span {
     margin-left: 0.6em;
 }
-.users-list header input{
+
+.users-list header input {
     background: var(--primary-bg-color);
 }
-.users-list header button{
+
+.users-list header button {
     background: var(--sucess-text-color);
 }
-.users-list header > span i{
+
+.users-list header > span i {
     margin-right: 0.6em;
 }
-.status.coordinator, .status.admin{
+
+.status.coordinator, .status.admin {
     background: var(--on-third-bg-color);
     max-height: 2em;
 }
-.status.member, .status.user{
+
+.status.member, .status.user {
     background: var(--onprimary-bg-color);
 }
 
-.actions >*{
+.actions > * {
     color: white;
     height: 2.5em;
     width: 2.5em;
@@ -68,63 +75,71 @@
     justify-content: center;
     border-radius: 100%;
 }
-.actions .remove, .actions .delete{
+
+.actions .remove, .actions .delete {
     background: var(--error-text-color);
 }
-.actions .block{
+
+.actions .block {
     background: var(--warning-bg-color);
 }
-.actions .promote{
+
+.actions .promote {
     background: var(--onprimary-bg-color);
 }
+
 .actions .edit {
     background: var(--onsecondary-bg-color);
 }
-.users .user-item  .actions >*:hover{
+
+.users .user-item .actions > *:hover {
     background: var(--on-third-bg-color);
 }
-.users .user-item  .actions i{
+
+.users .user-item .actions i {
     scale: 1.3;
 }
 
- .team header, .adminPage header{
+.team header, .adminPage header {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
     align-items: center;
 }
-.team header .addUserContainer{
+
+.team header .addUserContainer {
     margin-left: auto;
     width: 30em;
 }
- .team header .addUserContainer form{
+
+.team header .addUserContainer form {
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-end;
     gap: 1em;
     margin: 0;
 }
- .team header .addUserContainer form > *{
+
+.team header .addUserContainer form > * {
     margin: 0;
     max-width: 20em;
 }
 
-
-.addUserContainer{
+.addUserContainer {
     gap: 1em;
     display: flex;
     flex-direction: column;
-
 }
-.addUserContainer .error{
+
+.addUserContainer .error {
     align-self: flex-end;
-
- }
-.invisible {
- scale: 1.3;
 }
 
-.users-list .user-item{
+.invisible {
+    scale: 1.3;
+}
+
+.users-list .user-item {
     width: 100%;
     display: flex;
     justify-content: flex-start;
@@ -133,16 +148,17 @@
     border-bottom: 1px solid var(--primary-border);
     flex-wrap: wrap;
     align-items: center;
-
 }
-.users-list .user-item > *{
+
+.users-list .user-item > * {
     width: 100%;
 }
-.users-list .user-item .userSection{
+
+.users-list .user-item .userSection {
     max-width: 50em;
 }
-.users-list .user-item .actions{
 
+.users-list .user-item .actions {
     max-width: fit-content;
     display: flex;
     align-items: center;
@@ -150,11 +166,9 @@
     justify-content: flex-end;
     margin: auto;
 }
-.users-list .user-item .status{
+
+.users-list .user-item .status {
     width: 8em;
     text-align: center;
     height: fit-content;
 }
-
-
-
