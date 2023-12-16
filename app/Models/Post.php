@@ -28,5 +28,17 @@ class Post extends Model
         return $this->belongsTo(Project::class);
     }
 
+    public function body(): string {
+        return $this->content;
+    }
+
+    public function submit_date() :string {
+        return $this->submit_date;
+    }
+
+    public function last_edited() :string {
+        return $this->last_edited;
+    }
+
 
 }

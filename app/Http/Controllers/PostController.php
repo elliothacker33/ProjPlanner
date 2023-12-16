@@ -16,7 +16,10 @@ class PostController extends Controller
     public function create(Request $request, Project $project)
     {
         $this->authorize('create', [Project::class, $project]);
-        return view('pages.' . 'createPost')->with(['project'=>$project, 'users'=>$project->users,'project'=>$project->tags]);
+
+        $posts = $project->posts();
+
+        return view('pages.' . 'createPost')->with(['posts'=>$posts]);
     }
 
     /**
@@ -48,6 +51,10 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $this->authorize('delete', [Post::class, $post]);
+
+        $post->delete();
+
+        return redirect()->route('forum');
     }
 }

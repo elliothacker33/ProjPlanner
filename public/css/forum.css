@@ -1,0 +1,71 @@
+.forum {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    margin: 0 auto;
+}
+
+.own-post,
+.participants-post {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    margin: 1em 0;
+    padding: 0.5em;
+    background: var(--posts-bg-color);
+}
+
+.own-post {
+    border: 2px solid var(--modal-main-border);
+}
+
+.participants-post {
+    border: 2px solid var(--modal-secondary-border);
+}
+
+.post-header,
+.post-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0.5em 0;
+}
+
+.post-footer {
+    align-self: flex-end;
+}
+
+.post-edit {
+    display: flex;
+    gap: 0.5em;
+}
+
+.post-edit > * {
+    margin: 0;
+}
+
+.date-post {
+    margin: 0;
+}
+
+.edit-post,
+.delete-post,
+button[type="submit"] {
+    background-color: var(--close-button-primary-color);
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-flex; 
+    align-items: center;  
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.edit-post:hover,
+.delete-post:hover,
+button[type="submit"]:hover {
+    background-color: var(--close-button-hover-color);
+}

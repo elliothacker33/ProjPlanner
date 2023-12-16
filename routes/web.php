@@ -9,6 +9,8 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\StaticController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\ForumController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -109,6 +111,18 @@ Route::prefix('/project')->group(function () {
         
         Route::get('/tasks', [ProjectController::class, 'showTasks'])->name('show_tasks');
 
-        Route::get('/forum', [ProjectController::class, 'showForum'])->name('forum');
+        Route::prefix('/forum')->group(function () {
+            Route::controller(ProjectController::class)->group(function () {
+                Route::get('', 'showForum')->name('forum'); 
+                Route::get('/new', 'create')->name('create_post');
+                
+                Route::prefix('/{post}')->whereNumber('post')->group(function() {
+                    Route::controller(PostController::class)->group(function () {
+                        Route::put('/edit', 'update')->name('edit_post');
+                        Route::delete('', 'destroy')->name('delete_post');
+                    });
+                });
+            });
+        });
     });
 });
