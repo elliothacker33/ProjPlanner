@@ -13,13 +13,15 @@
 @section('content')
 <section class="team">
 
-    <section class="search">
-        <input type="search" placeholder="&#128269 Search" aria-label="Search" id="search-bar" />
 
-    </section>
 
     <section class="users-list">
         <header>
+            <section class="search">
+                <input type="search" placeholder="&#128269 Search" aria-label="Search" id="search-bar" />
+
+            </section>
+            <section>
             <span> <i class="fa-solid fa-users"></i>  {{count($team)}} Members </span>
             @can('update',[\App\Models\Project::class,$project])
                 <section class="addUserContainer">
@@ -36,6 +38,7 @@
                     @endif
                 </section>
             @endcan
+            </section>
         </header>
         <section class="users">
             @foreach($team as $user)

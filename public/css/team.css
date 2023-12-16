@@ -1,6 +1,5 @@
 .team, .adminPage{
     min-height: 80vh;
-    padding-top: 3em;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -10,25 +9,40 @@
 
 .users-list{
     width: 100%;
-    max-width: 60em;
-    border: 1px solid var(--primary-border);
-    border-radius: 1em;
+
     margin-bottom: 3em;
 
 }
+
 .users-list > .users{
-    max-height: 60vh;
-    overflow-y: scroll;
+    padding: 1em 0;
 }
+
 .users-list > header{
     width: 100%;
     padding:  1em ;
     display: flex;
-    gap: 2em;
+    gap: 1em;
     flex-wrap: wrap;
+    color: white;
+    background: var(--onsecondary-bg-color);
+}
+.users-list > header a{
+    margin-left: auto;
+    background: var(--sucess-text-color);
+}
+.users-list > header > *{
+    width: 100%;
+    display: flex;
 }
 .users-list header > span{
     margin-left: 0.6em;
+}
+.users-list header input{
+    background: var(--primary-bg-color);
+}
+.users-list header button{
+    background: var(--sucess-text-color);
 }
 .users-list header > span i{
     margin-right: 0.6em;
@@ -39,34 +53,6 @@
 }
 .status.member, .status.user{
     background: var(--onprimary-bg-color);
-}
-.users .user-item{
-    width: 100%;
-    padding: 0 1em ;
-    border-top: 1px solid var(--primary-border) ;
-    display: flex;
-    align-items: center;
-    gap: 2em;
-    justify-content: space-between;
-    flex-wrap: wrap;
-}
-.users .user-item .userSection{
-    display: flex;
-    align-items: center;
-    gap: 1em;
-    flex-wrap: wrap;
-}
-
-.users .user-item  .actions{
-    flex: 1;
-    display: flex;
-    justify-content: flex-end;
-    gap: 3em;
-    padding: 1em;
-    margin-left: auto;
-}
-.users .user-item  .actions > *{
-    cursor: pointer;
 }
 
 .actions .remove, .actions .delete{
@@ -95,7 +81,7 @@
     align-items: center;
 }
 .team header .addUserContainer{
-
+    margin-left: auto;
     width: 30em;
 }
  .team header .addUserContainer form{
@@ -112,13 +98,14 @@
 
 .search{
     width: 100%;
-    max-width: 60em;
     display: flex;
     gap: 1em;
     flex-wrap: wrap;
+
 }
  .search > input{
     max-width: 30em;
+
 }
 .addUserContainer{
     gap: 1em;
@@ -130,28 +117,37 @@
     align-self: flex-end;
 
  }
-
-.userSection {
-    justify-content: space-between;
-    flex: 100%;
-    width: 100%;
-    max-width: 40em;
-}
-
-.adminPage .userSection{
-    max-width: 60em;
-}
-
-
-.adminPage .users-list, .adminPage .search{
-    max-width: 80em;
-}
-
 .invisible {
  scale: 1.3;
-
 }
 
+.users-list .user-item{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 1em;
+    gap: 1em;
+    border-bottom: 1px solid var(--primary-border);
+    flex-wrap: wrap;
+    align-items: center;
+}
+.users-list .user-item > *{
+    width: 100%;
+}
+.users-list .user-item .userSection{
+    max-width: 40em;
+}
+.users-list .user-item .actions{
+    max-width: fit-content;
+    margin-right: 5em;
+    display: flex;
+    align-items: center;
+    gap: 2em;
+}
+.users-list .user-item .status{
+    width: fit-content;
+    height: fit-content;
+}
 
 
 

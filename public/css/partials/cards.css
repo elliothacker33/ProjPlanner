@@ -50,10 +50,14 @@
     display: flex;
     gap: 1em;
     overflow: clip;
-    background: var(--primary-bg-color);
     flex-wrap: wrap;
     align-items: center;
     justify-content: flex-start;
+
+}
+.userCard.small .info{
+   overflow-x: clip;
+    max-width: 10em;
 
 }
 .userCard .info{
@@ -64,6 +68,7 @@
     font-weight: 500;
     font-size: 1.3em;
 }
+
 .userCard.small h3{
     font-size: 1em;
 }
