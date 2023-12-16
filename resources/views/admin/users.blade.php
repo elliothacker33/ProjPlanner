@@ -3,6 +3,7 @@
     <link rel="stylesheet" href="{{ asset('css/team.css') }}">
     <link rel="stylesheet" href="{{ asset('css/partials/cards.css') }}">
     <link rel="stylesheet" href="{{ asset('css/user.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/partials/pagination.css') }}">
 
 @endpush
 
@@ -31,7 +32,7 @@
                     </form>
                 </section>
                 <section>
-                <span> <i class="fa-solid fa-users"></i>  {{count($users)}} Users </span>
+                <span> <i class="fa-solid fa-users"></i>  {{$registrations}} Users </span>
                 <a class="button"href="{{route('admin_user_create')}}"><i class="fa-solid fa-user-plus"></i> Add user</a>
                 </section>
             </header>
@@ -63,7 +64,7 @@
                 @endforeach
             </section>
         </section>
-
+        @include("partials.paginator",['paginator'=>$users])
 
 
 

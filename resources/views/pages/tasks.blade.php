@@ -3,6 +3,7 @@
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/tasks.css') }}">
     <link rel="stylesheet" href="{{ asset('css/partials/cards.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/partials/pagination.css') }}">
 @endpush
 
 @push('scripts')
@@ -38,8 +39,9 @@
                 @endforeach
 
             </section>
-        </section>
 
+        </section>
+        @include("partials.paginator",['paginator'=>$tasks])
         
     </section>
 

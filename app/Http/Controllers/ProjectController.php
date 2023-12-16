@@ -176,7 +176,8 @@ class ProjectController extends Controller
 
         $this->authorize('view', [Project::class, $project]);
 
-        $tasks = $project->tasks()->with('created_by')->get();
+        $tasks = $project->tasks()->with('created_by')->paginate(10);
+        //dd($tasks);
         $open = $project->tasks()->where('status','=','open')->count();
         $closed = $project->tasks()->where('status','=','closed')->count();
         $canceled = $project->tasks()->where('status','=','canceled')->count();

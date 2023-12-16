@@ -16,7 +16,7 @@
 .taskCard{
     padding: 1em ;
     width: 100%;
-    border-top: 1px solid #CCCCCC99;
+    border-bottom: 1px solid var(--primary-border);
 }
 .taskCard ul{
     display: flex;

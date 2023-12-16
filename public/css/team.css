@@ -11,9 +11,9 @@
 
 .users-list{
     width: 100%;
-
-    margin-bottom: 3em;
-
+}
+.team .userSection{
+    margin-bottom: 2em;
 }
 
 .users-list > .users{

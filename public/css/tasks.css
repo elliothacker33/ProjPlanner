@@ -32,8 +32,7 @@
 }
 .tasks-list{
     width: 100%;
-    background: #DDDDDD;
-    border-bottom: 1px solid var(--primary-border) ;
+
     min-height: 56vh ;
 
 }
@@ -45,6 +44,7 @@
 
 .tasks-list > .tasks{
     max-height: 60vh;
+    padding-top:1em ;
     overflow-y: scroll;
 }
 .tasks-list > header{
