@@ -17,9 +17,9 @@ export async function createUserItem(user) {
     const userItemSection = document.createElement('section');
     userItemSection.className = 'user-item';
     const userSection = (createUserSection(user));
-
+    const statusSpan = document.createElement('span');
     if (isTeamPage) {
-        const statusSpan = document.createElement('span');
+
         statusSpan.className = 'status';
         if (project && project.user_id === user.id) {
             statusSpan.className += ' coordinator';
@@ -28,10 +28,10 @@ export async function createUserItem(user) {
             statusSpan.className += ' member';
             statusSpan.innerHTML = icons['member'] + 'Member';
         }
-        userSection.appendChild(statusSpan);
+
     }
     else if(idAdminPage){
-        const statusSpan = document.createElement('span');
+
         statusSpan.className = 'status';
         if (user.is_admin) {
             statusSpan.className += ' admin';
@@ -43,12 +43,12 @@ export async function createUserItem(user) {
         userSection.appendChild(statusSpan);
     }
     userItemSection.appendChild(userSection);
+    userItemSection.appendChild(statusSpan);
     if (isTeamPage && (project.user_id !== user.id && auth.id === project.user_id)) {
         userItemSection.appendChild(createActionsSection(user, ['promote', 'remove']));
     } else if (idAdminPage && auth.is_admin) {
         userItemSection.appendChild(createActionsSection(user, ['edit', 'block', 'delete']));
     }
-
     return userItemSection;
 }
 
@@ -78,24 +78,24 @@ function createUserSection(user) {
 function createActionsSection(user, actions) {
     const actionsSection = document.createElement('section');
     actionsSection.className = 'actions';
-
     for (let action of actions) {
         let span;
         if(action ==='edit'){
             span = document.createElement('a');
             span.href = "/user-profile/"+user.id+"/edit";
-        }else{
+        }else if(action === 'delete'){
             span = document.createElement('button');
             span.for= user.id+"-"+action;
 
             span.classList.add('invisible');
-
             const form = document.querySelector('#delete');
-
             span.setAttribute('form', form.id);
             span.setAttribute('formAction', '/user/' + user.id + '/' + action);
 
-
+        }
+        else{
+            span = document.createElement('span');
+            span.classList.add(action);
         }
 
         span.classList.add( action);

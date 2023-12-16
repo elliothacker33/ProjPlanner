@@ -12,22 +12,25 @@ use Illuminate\Support\Facades\DB;
 
 class TaskController extends Controller
 {
-    public function searchTasks(Request $request)
+    public function searchTasks(Request $request, Project $project)
     {
 
-        $project = Project::find($request->input('project'));
 
         if ($project == null)
             return response()->json(['error' => 'Project with specified id not found'], 404);
 
-        $this->authorize('create', [Task::class, $project]);
+        // $this->authorize('create', [Task::class, $project]);
         $searchedTasks = $project->tasks()
             ->with('created_by')
             ->whereRaw("tsvectors @@ plainto_tsquery('english', ?)", [$request->input('query')])
             ->orderByRaw("ts_rank(tsvectors, plainto_tsquery('english', ?)) DESC", [$request->input('query')])
             ->get();
 
-        return response()->json($searchedTasks);
+        if ($request->ajax())
+            return response()->json($searchedTasks);
+        else {
+            return $searchedTasks;
+        }
     }
 
     /**

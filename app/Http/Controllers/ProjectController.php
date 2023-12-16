@@ -180,12 +180,12 @@ class ProjectController extends Controller
         $open = $project->tasks()->where('status','=','open')->count();
         $closed = $project->tasks()->where('status','=','closed')->count();
         $canceled = $project->tasks()->where('status','=','canceled')->count();
-
+        if($request->input('query')) $tasks = app(TaskController::class)->searchTasks($request,$project);
         
         if ($request->ajax())
             return response()->json($tasks);
         else
-            return view('pages.tasks', ['project'=>$project, 'tasks'=>$tasks, 'open'=>$open,'closed'=>$closed,'canceled'=>$canceled]);
+            return view('pages.tasks', ['project'=>$project, 'tasks'=>$tasks, 'open'=>$open,'closed'=>$closed,'canceled'=>$canceled, 'query'=>$request->input('query')]);
     }
 
     public function search(Request $request)

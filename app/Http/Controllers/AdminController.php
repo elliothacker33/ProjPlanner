@@ -19,9 +19,12 @@ class AdminController extends Controller
         //$this->middleware('admin');
     }
 
-    public function show(){
+    public function show(Request $request){
         $this->authorize('view_admin',[User::class]);
-        return view('admin.users', ['users' => User::all()] );
+        $query = $request->input('query');
+        if( $query)
+            return view('admin.users', ['users' => app(UserController::class)->searchUsers($request),'query'=>$query] );
+        return view('admin.users', ['users' => User::all(),'query'=>$query] );
     }
 
     public function create(){

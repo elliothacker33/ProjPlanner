@@ -27,8 +27,12 @@ class UserController extends Controller
             $query->where('email', 'like', $searchTerm)
                 ->orWhere('name', 'like', $searchTerm);
         })->get();
-
-        return response()->json($users);
+        if ($request->ajax())
+            return response()->json($users);
+        else {
+            if($project ===null)
+                return $users;
+        }
     }
 
     /**

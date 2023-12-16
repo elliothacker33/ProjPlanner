@@ -48,12 +48,11 @@
                     <a href="{{route('profile',['user'=>$user])}}">
                     @include('partials.userCard',['user'=>$user, 'size'=>'.median'])
                     </a>
-                    @if($project->user_id === $user->id)<span class="status coordinator"> <i class="fa-solid fa-user-tie"></i> Coordinator</span>
-                    @else <span class="status member"> <i class="fa-solid fa-user"></i> Member</span>
-                    @endif
-
 
                 </section>
+                @if($project->user_id === $user->id)<span class="status coordinator"> <i class="fa-solid fa-user-tie"></i> Coordinator</span>
+                @else <span class="status member"> <i class="fa-solid fa-user"></i> Member</span>
+                @endif
                 @can('update', [\App\Models\Project::class,$project])
                     <section class="actions">
                         @if($project->user_id !== $user->id )

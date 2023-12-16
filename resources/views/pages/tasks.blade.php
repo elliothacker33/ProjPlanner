@@ -17,8 +17,12 @@
         <section class="tasks-list">
             <header>
                 <section class="search">
-                    <input type="search" placeholder="Search" aria-label="Search" id="search-bar" />
 
+                    <form method="GET" id="search" action="{{route('show_tasks',['project'=>$project])}}" >
+                        <input type="search" name="query" placeholder="&#128269 Search" aria-label="Search" id="search-bar" value="{{$query}}" />
+                        <button class="" type="submit"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
+
+                    </form>
                 </section>
                 <section >
                 <span><span class="status open"> <i class="fa-solid fa-folder-open"></i> {{$open}} Open </span>  </span>

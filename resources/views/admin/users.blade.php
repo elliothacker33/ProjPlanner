@@ -18,11 +18,17 @@
             @csrf
             @method("DELETE")
         </form>
+
+
+
         <section class="users-list">
             <header>
                 <section class="search">
-                    <input type="search" placeholder="&#128269 Search" aria-label="Search" id="search-bar" />
+                    <form method="GET" id="search" action="{{route('admin_users')}}" >
+                    <input type="search" name="query" placeholder="&#128269 Search" aria-label="Search" id="search-bar" value="{{$query}}" />
+                    <button class="" type="submit"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
 
+                    </form>
                 </section>
                 <section>
                 <span> <i class="fa-solid fa-users"></i>  {{count($users)}} Users </span>

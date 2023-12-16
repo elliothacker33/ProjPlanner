@@ -40,13 +40,10 @@ Route::get('{page}', [StaticController::class, 'show'])->whereIn('page', StaticC
 Route::prefix('/api')->group(function (){
 
     Route::controller(TaskController::class)->group(function(){
-        Route::get('/tasks', 'searchTasks')->name('search_tasks');
+        Route::get('/{project}/tasks', 'searchTasks')->name('search_tasks');
     });
     Route::controller(UserController::class)->group(function(){
         Route::get('/users', 'searchUsers')->name('search_users');
-    });
-    Route::controller(UserController::class)->group(function(){
-        Route::get('/{project}/users', 'searchTeam')->name('search_team');
     });
     Route::controller(ProjectController::class)->group(function(){
         Route::get('/projects', 'search')->name('search_projects');
@@ -109,7 +106,6 @@ Route::prefix('/project')->group(function () {
         });
         Route::prefix('/task')->controller(TaskController::class)->group(function () {
             Route::get('/{task}', 'show')->where('task', '[0-9]+')->name('task');
-            Route::get('/search', 'index')->name('search_tasks');
             Route::get('/new', 'create')->name('createTask');
             Route::post('/new', 'store')->name('newTask');
         });
