@@ -100,9 +100,6 @@
                 <div class ="col-6">
                 <header><h1> <i class="bi bi-pencil"></i> Edit your credentials</h1></header>
                 </div>
-                <div class = "col-6 d-flex  forgot justify-content-end">
-                    <a href="{{ route('password.request')}} "> Forgot your password? </a>
-                </div> 
             </div>
         </div>
         <div class = "col-12">
