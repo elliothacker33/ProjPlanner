@@ -4,30 +4,34 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Models\Project;
-use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create(Request $request, Project $project)
-    {
-        $this->authorize('create', [Project::class, $project]);
-
-        $posts = $project->posts();
-
-        return view('pages.' . 'createPost')->with(['posts'=>$posts]);
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, Project $project)
     {
-        //
+        
+        $this->authorize('create', [Project::class, $project]);
+
+        $request->validate([
+            'content' => 'required|string|max:1024',
+        ]);
+
+        $post = new Post();
+        $post->content = $request->content;
+        $post->submit_date = date('Y-m-d');
+        $post->last_edited = null;
+        $post->user_id = Auth::user()->id;
+        $post->project_id = $project->id;
+        $post->save();
+        
+        return redirect()->route('forum', ['project' => $project]);
+
     }
 
     /**

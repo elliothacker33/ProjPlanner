@@ -16,8 +16,6 @@ class Post extends Model
         'content',
         'submit_date',
         'last_edited',
-        'user_id',
-        'project_id',
     ];
 
     public function user(): BelongsTo {

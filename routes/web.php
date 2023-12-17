@@ -114,12 +114,13 @@ Route::prefix('/project')->group(function () {
         Route::prefix('/forum')->group(function () {
             Route::controller(ProjectController::class)->group(function () {
                 Route::get('', 'showForum')->name('forum'); 
-                Route::get('/new', 'create')->name('create_post');
-                
-                Route::prefix('/{post}')->whereNumber('post')->group(function() {
-                    Route::controller(PostController::class)->group(function () {
+                Route::controller(PostController::class)->group(function () {
+
+                    Route::post('/new', 'store')->name('create_post');
+
+                    Route::prefix('/{post}')->whereNumber('post')->group(function() {
                         Route::put('/edit', 'update')->name('edit_post');
-                        Route::delete('', 'destroy')->name('delete_post');
+                        Route::delete('/delete', 'destroy')->name('delete_post');
                     });
                 });
             });

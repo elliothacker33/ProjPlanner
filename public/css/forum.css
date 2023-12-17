@@ -1,18 +1,21 @@
 .forum {
     display: flex;
     flex-direction: column;
-    width: 90%;
+    width: 100%;
+    max-width: 70em;
     margin: 0 auto;
 }
 
 .own-post,
 .participants-post {
-    width: 60%;
+    width: 100%;
+    max-width: 42em;
     display: flex;
     flex-direction: column;
     margin: 1em 0;
     padding: 0.5em;
     background: var(--posts-bg-color);
+    border-radius: 5px;
 }
 
 .own-post {

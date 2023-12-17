@@ -28,7 +28,7 @@
                         @if (Auth::user()->id === $post->user_id)
                             <div class="post-edit">
                                 <button class="edit-post"><i class="fas fa-edit"></i></button>
-                                <form action="{{ route('delete_post', ['post' => $post->id, 'project' => $project->id]) }}"
+                                <form action="{{ route('delete_post', ['post' => $post]) }}"
                                     method="POST">
                                     @csrf
                                     @method('DELETE')
