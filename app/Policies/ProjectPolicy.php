@@ -77,8 +77,6 @@ class ProjectPolicy
 
     public function leave(User $user, Project $project): bool
     {
-        Log::info("Coord: " . $project->coordinator);
-        log::info("User: " . $user);
         return !$user->is_admin && $user != $project->coordinator && $project->users->contains($user);
     }
 }
