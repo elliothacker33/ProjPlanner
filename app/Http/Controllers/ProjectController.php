@@ -15,9 +15,29 @@ class ProjectController extends Controller
      */
     public function index(Request $request)
     {
-        $user = $request->user();
         $this->authorize('viewUserProjects',Project::class);
-        return view('home.home',['projects'=>$user->projects()->with('coordinator')->get(),'query'=>$request->input('query')]);
+        $projects = $this->search($request);
+        return view('home.home',['projects'=>$projects,'query'=>$request->input('query')]);
+    }
+
+    public function search(Request $request){
+        $user = $request->user();
+        if($user->is_admin){
+            $projects = Project::query();
+        }else{
+            $projects = $user->projects();
+        }
+        if($request->input('query')) {
+            $searchedProjects = $projects->with('coordinator')
+                ->whereRaw("tsvectors @@ plainto_tsquery('english', ?)", [$request->input('query')])
+                ->orderByRaw("ts_rank(tsvectors, plainto_tsquery('english', ?)) DESC", [$request->input('query')])
+                ->get();
+        }else $searchedProjects = $projects->get();
+
+        if ($request->ajax())
+            return response()->json($searchedProjects);
+        else
+            return $searchedProjects;
     }
 
     /**

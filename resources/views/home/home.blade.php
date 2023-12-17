@@ -1,4 +1,4 @@
-@extends('layouts.project')
+@extends('layouts.app')
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/home/projects.css') }}">
@@ -7,7 +7,7 @@
 @endpush
 
 @push('scripts')
-    <script type="module" src="{{ asset('js/tasks.js') }}" defer></script>
+    <script type="module" src="{{ asset('js/pages/projects.js') }}" defer></script>
 @endpush
 
 @section('content')
