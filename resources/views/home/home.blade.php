@@ -1,38 +1,49 @@
-@extends('layouts.app')
+@extends('layouts.project')
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/static/home.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/home/projects.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/partials/cards.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/partials/pagination.css') }}">
+@endpush
+
+@push('scripts')
+    <script type="module" src="{{ asset('js/tasks.js') }}" defer></script>
 @endpush
 
 @section('content')
-<header id="my-projects-header">
-    <h1>
-        Your Projects
-    </h1>
-    <a class="button" href="{{ route('show_new') }}" >Create a project</a>
-</header>
 
-<section class="projects">
+    <section class="projectPage">
 
-    @if (!isset($projects))
-        <div class="project" style="text-align: center"> <h2>You have no projects for now</h2> </div>
-    @else
-        @foreach($projects as $project)
-            <div class="project">
-                <h2>Name: {{ $project->title }}</h2>
 
-                <h2>Deadline:
-                    @if($project->deadline) {{ $project->deadline->format('Y-m-d') }}
-                    @else There is no deadline
-                    @endif
+        <section class="project-list">
+            <header>
+                <section class="search">
 
-                </h2>
-                <a href="{{ route('project', ['project' => $project]) }}"> Go to Project</a>
-            </div>
-        @endforeach
-    @endif
+                    <form method="GET" id="search" action="{{route('projects')}}">
+                        <input type="search" name="query" placeholder="&#128269 Search" aria-label="Search"
+                               id="search-bar" value="{{$query}}"/>
+                        <button class="" type="submit"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
 
-</section>
+                    </form>
+                </section>
+                <section>
+                    <h5>
+                        <i class="fa-solid fa-folder-closed"></i> My Projects:  {{count($projects)}}
+                    </h5>
+                    <a class="button" href="{{ route('show_new') }}"> <i class="fa-solid fa-folder-plus"></i> Add a Project </a>
+                </section>
+            </header>
+            <section class="projects">
+                @foreach($projects as $project)
+                    @include("partials.projectCard",['$project'=>$project])
+
+                @endforeach
+
+            </section>
+
+        </section>
+
+
+    </section>
 
 @endsection
-

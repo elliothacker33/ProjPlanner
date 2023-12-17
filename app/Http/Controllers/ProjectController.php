@@ -17,7 +17,7 @@ class ProjectController extends Controller
     {
         $user = $request->user();
         $this->authorize('viewUserProjects',Project::class);
-        return view('home.home',['projects'=>$user->projects]);
+        return view('home.home',['projects'=>$user->projects()->with('coordinator')->get(),'query'=>$request->input('query')]);
     }
 
     /**

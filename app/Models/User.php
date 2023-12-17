@@ -73,7 +73,7 @@ class User extends Authenticatable
 
     public function coordinates(): HasMany
     {
-        return $this->hasMany(Project::class);
+        return $this->hasMany(Project::class,'user_id');
     }
 
     public function openedTasks(): HasMany {
