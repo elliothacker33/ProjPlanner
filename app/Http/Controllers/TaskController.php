@@ -39,7 +39,7 @@ class TaskController extends Controller
     public function create(Request $request, Project $project)
     {
         $this->authorize('create', [Task::class,  $project]);
-        return view('pages.' . 'createTask')->with(['project'=>$project, 'users'=>$project->users,'tags'=>$project->tags]);
+        return view('pages.' . 'createTask')->with(['project'=>$project, 'users'=>$project->users,'tags'=>$project->tags,'task'=>null]);
     }
 
     /**
@@ -66,11 +66,12 @@ class TaskController extends Controller
         $task->opened_user_id= Auth::user()->id;
         $task->deadline = $validated['deadline'];
         $task->project_id = $project->id;
-        $task->save();
-        $users = array_map('intval', explode(',', $validated['users']));
 
-        $task->assigned()->attach(Auth::user()->id);
-        $task->tags()->attach($validated['tags']);
+        $users = array_map('intval', explode(',', $validated['users']));
+        $tags =array_map('intval', explode(',', $validated['tags']));
+        $task->save();
+        if($validated['users'])foreach ($users as $user) $task->assigned()->attach($user);
+        if($validated['tags'])foreach ($tags as $tag) $task->tags()->attach($tag);
 
         return redirect()->route('task',['project'=>$project,'task'=>$task]);
     }
@@ -105,9 +106,31 @@ class TaskController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Task $task)
+    public function update(Request $request, Project $project, Task $task)
     {
-        //
+        // Validate input
+        $this->authorize('update', [Task::class, $task]);
+        $validated = $request->validate([
+            'title' => 'required|string|min:5|max:100|',
+            'description' => 'required|string|min:10|max:1024',
+            'deadline' => 'nullable|date|after_or_equal:today',
+            'users' => 'nullable',
+            'tags' => 'nullable'
+        ]);
+        // Add Policy thing
+
+        $task->title = $validated['title'];
+        $task->description = $validated['description'];
+        $task->deadline = $validated['deadline'];
+        $users = array_map('intval', explode(',', $validated['users']));
+        $tags =array_map('intval', explode(',', $validated['tags']));
+        $task->save();
+        $task->assigned()->detach();
+        if($validated['users'])foreach ($users as $user) $task->assigned()->attach($user);
+        $task->tags()->detach();
+        if($validated['tags'])foreach ($tags as $tag) $task->tags()->attach($tag);
+
+        return redirect()->route('task',['project'=>$task->project,'task'=>$task]);
     }
 
     /**

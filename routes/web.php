@@ -105,6 +105,7 @@ Route::prefix('/project')->group(function () {
                 Route::get('', 'show')->name('task');
                 Route::put('/edit/status', 'editStatus')->name('edit_status');
                 Route::get('/edit', 'edit')->name('edit_task');
+                Route::put('/edit','update')->name('update_task');
             });
         });
         
