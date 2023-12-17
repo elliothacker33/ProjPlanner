@@ -2,14 +2,22 @@
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/project.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/modal.css') }}">
 @endpush
 
 @push('scripts')
-    <script type="text/javascript" src="{{ asset('js/project.js') }}" defer></script>
+    <script type="module" src="{{ asset('js/project.js') }}" defer></script>
+    <script type="module" src="{{ asset('js/modal.js') }}" defer></script>
 @endpush
 
 @section('content')
 <section class="projectPage">
+    @include('partials.modal', [
+            'modalTitle' => 'Leave Project',
+            'modalBody' => 'Are you sure that you want to leave this project?',
+            'openFormId' => 'openLeaveModal',
+            'formId' => 'leave-project-form'
+        ])
     <header>
         <section class="info">
         <h1 class="title">{{$project->title}}</h1>
@@ -18,14 +26,14 @@
         @endif
         </section>
         <section class="actions">
-        @if($project->user_id===Auth::id())
-            <!--<a class="edit">Edit</a>-->
-            <button class="project-action-button edit" id="edit-project-button"> <i class="fa-solid fa-pen-to-square"></i> Edit</button>
-        @endif
+            <button type="button" id="openLeaveModal"> <i class="fa-solid fa-arrow-right-from-bracket"></i> Leave</button>
+            @if($project->user_id===Auth::id())
+                <button class="project-action-button edit" id="edit-project-button"> <i class="fa-solid fa-pen-to-square"></i> Edit</button>
+            @endif
 
-        @can('delete', $project)
-            <button class="project-action-button delete" id="delete-project-button"> <i class="fa-solid fa-trash"></i> Delete</button>
-        @endcan
+            @can('delete', $project)
+                <button class="project-action-button delete" id="delete-project-button"> <i class="fa-solid fa-trash"></i> Delete</button>
+            @endcan
         </section>
         <!-- Hidden forms to actions in project page that don't use AJAX-->
         <form class="hidden-form" id="edit-project-form" action="{{ route('show_edit_project',['project'=>$project->id])}}" method="GET">
@@ -36,6 +44,10 @@
             @method('DELETE')
         </form>
 
+        <form class="hidden-form" id="leave-project-form" action="{{ "/project/" . $project->id . "/team/leave"}}" method="POST">
+            @csrf
+            @method('DELETE')
+        </form>
     </header>
     <section class="container">
     <section class="primaryContainer">

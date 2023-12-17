@@ -183,4 +183,15 @@ class ProjectController extends Controller
         else
             return view('pages.tasks', ['project'=>$project, 'tasks'=>$tasks]);
     }
+
+    public function leave_project(Request $request, Project $project) {    
+        $this->authorize('leave', [Project::class, $project]);
+
+        $user = Auth::user();
+
+        $user->assign()->detach();
+        $project->users()->detach($user->id);
+
+        return redirect()->route('home', ['projects' => $user->projects,'user'=>Auth::id()]);
+    }
 }

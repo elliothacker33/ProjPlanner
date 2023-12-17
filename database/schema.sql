@@ -971,3 +971,4 @@ INSERT INTO project_user (user_id, project_id) VALUES (7, 13);
 -- Inserting data into the 'tag_task' table
 INSERT INTO tag_task (tag_id, task_id) VALUES (1, 1);
 INSERT INTO task_user (user_id, task_id) VALUES (1, 1);
+INSERT INTO task_user (user_id, task_id) VALUES (2, 1);

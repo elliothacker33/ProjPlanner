@@ -1,5 +1,14 @@
+export function attachDialogs() {
+    document.querySelectorAll('dialog').forEach((dialog) => {
+        attachModal(dialog);
+        const openBtn = document.querySelector('#' + dialog.dataset.openFormId);
+
+        if (openBtn != null) addOpenModalBtn(dialog);
+    })
+}
+
 export function attachModal(dialog) {
-    const closeAnchor = dialog.querySelector('.close-modal');
+    const closeDialog = dialog.querySelector('.close-modal');
     const closeIcon = dialog.querySelector('.fa-x');
 
     dialog.addEventListener('click', (event) => {        
@@ -11,7 +20,7 @@ export function attachModal(dialog) {
         }
     });
     
-    closeAnchor.addEventListener('click', () => {
+    closeDialog.addEventListener('click', () => {
         dialog.close();
     });
     

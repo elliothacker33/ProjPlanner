@@ -43,6 +43,10 @@
     align-items: center;
 }
 
+.modal-buttons > a {
+    color: inherit;
+}
+
 .modal p, .modal button {
     margin: 0;
 }

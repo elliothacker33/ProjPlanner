@@ -91,6 +91,7 @@ Route::prefix('/project')->group(function () {
             Route::get('', 'show')->name('project');
             Route::get('/team', 'show_team')->name('team');
             Route::post('/team/add', 'add_user')->name('addUser');
+            Route::delete('team/leave', 'leave_project')->name('leave_project');
             Route::delete('', 'destroy')->name('delete_project');
             Route::get('/edit', 'edit')->name('show_edit_project');
             Route::put('/edit', 'update')->name('action_edit_project');

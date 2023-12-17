@@ -5,6 +5,8 @@ namespace App\Policies;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
+use Illuminate\Support\Facades\Log;
+
 
 class ProjectPolicy
 {
@@ -71,5 +73,12 @@ class ProjectPolicy
     public function forceDelete(User $user, Project $project): bool
     {
         //
+    }
+
+    public function leave(User $user, Project $project): bool
+    {
+        Log::info("Coord: " . $project->coordinator);
+        log::info("User: " . $user);
+        return !$user->is_admin && $user != $project->coordinator && $project->users->contains($user);
     }
 }
