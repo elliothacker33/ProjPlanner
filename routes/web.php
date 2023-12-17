@@ -8,13 +8,16 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\StaticController;
 use App\Http\Controllers\HomeController;
-
 use App\Http\Controllers\AdminController;
-
+use App\Http\Controllers\FileController;
 use App\Http\Controllers\ProfileController;
-
+use Illuminate\Support\Facades\Password;
+use Illuminate\Http\Request;
 use App\Http\Controllers\ProjectController;
-
+use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -29,6 +32,75 @@ use App\Http\Controllers\ProjectController;
 
 
 Route::redirect("/","/landing");
+
+// Recover password route
+
+ // Forgot password form
+Route::get('/forgot-password', function () {
+        return view('auth.forgot-password');
+    })->name('password.request');
+
+    
+// Handle forgot password form submission
+Route::post('/forgot-password', function (Request $request) {
+        $request->validate(['email' => 'required|email']);
+        
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return back()->withErrors(['email' => __('This email address is not registered.')]);
+        }
+
+        $status = Password::sendResetLink(
+            $request->only('email')
+        );
+
+
+        return $status === Password::RESET_LINK_SENT
+            ? back()->with(['status' => __($status)])
+            : back()->withErrors(['email' => __($status)]);
+    })->name('password.email');
+
+
+Route::get('/reset-password/{token}', function (string $token) {
+        return view('auth.reset-password', ['token' => $token]);
+    })->name('password.reset');
+
+
+     
+    Route::post('/reset-password', function (Request $request) {
+        
+        $request->validate([
+            'token' => 'required',
+            'email' => 'required|email',
+            'password' => 'required|min:8',
+            'password_confirmation' => [
+                'required',
+                'min:8',
+                Rule::in([$request->input('password')]),
+            ],
+        ]);
+
+
+        $status = Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function (User $user, string $password) {
+                $user->forceFill([
+                    'password' => Hash::make($password)
+                ])->setRememberToken(Str::random(60));
+     
+                $user->save();
+     
+                event(new PasswordReset($user));
+            }
+        );
+        dd(Password::PASSWORD_RESET);
+        
+        dd($status === Password::PASSWORD_RESET);
+        return $status === Password::PASSWORD_RESET
+                    ? redirect()->route('login')->with('status', __($status))
+                    :  back()->withErrors(['email' => [__($status)]]);
+    })->name('password.update');
 
 //Static Pages
 Route::get('{page}', [StaticController::class, 'show'])->whereIn('page', StaticController::STATIC_PAGES)->name('static');
@@ -76,7 +148,11 @@ Route::controller(ProfileController::class)->group(function () {
     Route::get('/user-profile/{usrId}/edit','showEditProfile')->name('edit_profile');
 });
 
-
+// Files 
+Route::controller(FileController::class)->group(function () {
+    Route::post('/file/upload','upload')->name('upload_profile_file');
+    Route::delete('/file/delete','delete')->name('delete_file');
+});
 
 Route::controller(HomeController::class)->group(function () {
     Route::get('/homepage/{usrId}','showHome')->name('home');

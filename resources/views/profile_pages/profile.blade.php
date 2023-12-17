@@ -10,37 +10,171 @@
 
 @section('content')
 
-    <header>
-        <h1>Profile</h1>
-    </header>
-    
-    <section class="info">
-
-        <figure>
-            <img  src="{{ asset('img/default-profile-photo.jpg') }}" alt="Default Image">
-        </figure>
-
-        <h2>{{ $profileName }}</h2>
-            <div id="wrapper">
-                <div>
-                    <p>Email:</p>
+<div class="container-fluid">
+	<div class="row first">
+	<div class="col-12 d-flex justify-content-between mb-5">
+        <header>
+            <h1>User Details</h1>
+        </header>
+        <div class="dropdown">
+            <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Options
+            </button>
+            <ul class="dropdown-menu p-4">
+            <li>
+                <h6 class="dropdown-header">Profile Actions</h6>
+            </li>
+            <li>
+                <a href= "{{ route('edit_profile', ['usrId' => Auth::id()]) }}" class="dropdown-item editbutton">Edit Account</a>
+            </li>
+            <li>
+                <a href= "" class="dropdown-item delete-btn">Delete Account</a>
+            </li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-12  mb-5">
+        <div class = "row">
+            <div class = " col-sm-12 col-lg-2 d-flex justify-content-center ">
+                <figure>
+                    <img src="{{ $image }}" alt="Default Image" >
+                </figure>
+            </div>
+            <div class = "col-sm-12 col-lg-10   d-flex flex-column justify-content-center">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row ">
+                            <div class="col col-sm-4 mx-auto text-center d-flex justify-content-center justify-content-lg-start">
+                                <div class = "row">
+                                    <div class = "col-12">
+                                        <span class="infos">
+                                            <i class="bi bi-person-fill"></i> Name
+                                        </span>
+                                    </div>
+                                    <div class = "col-12">
+                                        <span class="infos">
+                                            {{$user->name}}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col col-sm-4 mx-auto text-center  d-flex justify-content-center justify-content-lg-start">
+                                <div class = "row">
+                                    <div class = "col-12">
+                                        <span class="infos">
+                                            <i class="bi bi-person-fill"></i> Email
+                                        </span>
+                                    </div>
+                                    <div class = "col-12">
+                                        <span class="infos">{{$user->email}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col col-sm-4  mx-auto text-center d-flex  justify-content-center justify-content-lg-start">
+                                <div class = "row">
+                                    <div class = "col-12">
+                                        <span class="infos">
+                                            <i class="bi bi-person-fill"></i> Role
+                                        </span>
+                                    </div>
+                                    <div class = "col-12">
+                                        @if($user->is_admin)
+                                            <span class="infos">Admin Account</span>
+                                        @else <span class="infos">User Account</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <p>{{ $profileEmail }}</p>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class ="row second">
+
+        <div class = "col-12 mb-5 ">
+            <header><h1><i class="bi bi-list-task"></i> Quick tasks access</h1></header>
+        </div>
+
+    <div class = "col-12 mb-5">
+        <div class ="row">
+
+   
+
+        @foreach($tasks as $task)
+            <div class="col-12 mb-4">
+                <div class = "row p-3 task">
+                    <div class ="col-3 taskinfo">
+                        <span class="text-truncate">
+                            {{$task->title}} - {{$task->description}}
+                        </span>
+                    </div>
+                    <div class="col-3 taskinfo">
+                        <span><i class="bi bi-calendar-week"></i> {{ \Carbon\Carbon::parse($task->deadline)->format('Y/m/d') }}</span>
+                    </div>
+                    <div class ="col-3 taskinfo ">
+                    @if($task->status == "closed")
+                        <span>Status:</span>
+                        <span style="color: #ff3333;">{{ $task->status }}</span>
+                    @elseif($task->status == "canceled")
+                        <span>Status: </span>
+                        <span style="color: orange;">{{ $task->status }}</span>
+                    @elseif($task->status == "open")
+                        <span>Status: </span>
+                        <span style="color: #2E9D7F;"> {{ $task->status }}</span>
+                    @else
+                        <span>{{ $task->status }}</span>
+                    @endif
+                    </div>
+                    <div class="col-3">
+                        <a href="" class = "btn taskbtn" >Go to Task</a>
+                    </div>
                 </div>
             </div>
-        </section>
+        @endforeach
+        </div>
+    </div>
 
-    @if(auth()->check() && auth()->user()->id == $usrId)
-        <section class="actions">
-            <div>
-                <a>Remove Account</a>
-            </div>
-            <div>
-                <a href="{{ route('edit_profile', ['usrId' => $usrId]) }}">Edit profile</a>
-            </div>
-        </section>
-    @endif
+    <div class="col-12 mb-5">
+        <header>
+            <h1><i class="bi bi-calculator-fill"></i> Task Statistics</h1>
+        </header>
+	</div>
 
+    <div class="col-12  d-flex justify-content-center">
+        <div class = "row ">
+            <div class = "col-4 mx-auto">
+                <div class ="row">
+                    <div class="col-12 text-center">
+                        <span class="statNumber" style="color: #2E9D7F;">{{$statusOpenCount =$tasks->where('status', 'open')->count()}}</span>
+                    </div>
+                    <div class="col-12 text-center">
+                        <span class="statInfo" style="color: #2E9D7F;">Open Tasks</span></div>
+                    </div>
+            </div>
+            <div class = "col-4 mx-auto">
+                <div class ="row">
+                    <div class="col-12 text-center">
+                        <span class="statNumber"style="color: orange;">{{$statusCanceledCount = $tasks->where('status', 'canceled')->count()}}</span>
+                    </div>
+                    <div class="col-12 text-center">
+                        <span class="statInfo"style="color: orange;">Canceled Tasks</span></div>
+                </div>
+            </div>
+            <div class = "col-4 mx-auto">
+                <div class ="row">
+                    <div class="col-12 text-center">
+                        <span class="statNumber" style="color: #ff3333;">{{$statusClosedCount = $tasks->where('status', 'closed')->count()}}</span>
+                    </div>
+                    <div class="col-12 text-center">
+                        <span class="statInfo" style="color: #ff3333;">Closed Tasks</span></div>
+                    </div>
+                </div>
+            </div>
+	    </div>
+    </div>
+</div>
 
 @endsection

@@ -38,6 +38,7 @@ CREATE TABLE lbaw2353.users(
     password VARCHAR(255) NOT NULL,
     is_blocked BOOLEAN NOT NULL DEFAULT FALSE,
     is_admin BOOLEAN NOT NULL DEFAULT FALSE,
+    file VARCHAR(255),
     remember_token VARCHAR(100)
 );
 
