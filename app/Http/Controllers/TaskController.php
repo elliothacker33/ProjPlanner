@@ -97,9 +97,9 @@ class TaskController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Task $task)
+    public function edit(Project $project, Task $task)
     {
-        //
+        return view('pages.createTask',['project'=>$project, 'users'=>$project->users,'tags'=>$project->tags,'task'=>$task]);
     }
 
     /**

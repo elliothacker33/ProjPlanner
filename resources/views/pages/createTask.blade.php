@@ -16,22 +16,26 @@
 
         <section class="formContainer">
             <header class="tasks">
-                <h2>Create a <span class="shine">Task</span></h2>
+                @if($task)<h2>Edit the <span class="shine">Task</span></h2>
+                @else<h2>Create a <span class="shine">Task</span></h2>
+                @endif
             </header>
-            <form method="POST" action="{{ route('newTask', ['project' => $project])  }}" id="create_task">
+            <form method="POST" action="{{ $task? route('newTask', ['project' => $project]): route('update_task', ['project' => $project,'task'=>$task])  }}" id="create_task">
                 @csrf
                 <section class="primaryContainer">
-                    <input type="text" name="title" placeholder="Task Title" required value="{{ old('title') }}">
+                    @if(old('title'))<input type="text" name="title" placeholder="Task Title" required value="{{ old('title') }}">
+                    @else <input type="text" name="title" placeholder="Task Title" required value="{{ $task? $task->title:'' }}">
+                    @endif
                     @if ($errors->has('title'))
                         <span class="error">
                             {{ $errors->first('title') }}
                         </span>
                     @endif
 
-                    @if (old('description') != null)
+                    @if (old('description') !== null)
                         <textarea name="description" placeholder="Project's Description">{{ old('description') }}</textarea>
                     @else
-                        <textarea name="description" placeholder="Project's Description"></textarea>
+                        <textarea name="description" placeholder="Project's Description">{{$task? $task->description:''}}</textarea>
                     @endif
 
                 @if ($errors->has('description'))
@@ -46,16 +50,22 @@
                     <label for="deadline" >
                         <i class="fa-solid fa-clock"></i> Deadline
                     </label>
-                    <input id = "deadline" type="date" name="deadline" value="{{ old('deadline') }}">
+                    @if(old('deadline'))<input id = "deadline" type="date" name="deadline" value="{{ old('deadline') }}">
+                    @else<input id = "deadline" type="date" name="deadline" value="{{ $task?$task->deadline:null}}">
+                    @endif
                     @if ($errors->has('deadline'))
                         <span class="error">
                             {{ $errors->first('deadline') }}
                         </span>
                     @endif
 
-                    @include('partials.multiselector',["data"=>"users"])
+                    @if(old('users'))@include('partials.multiselector',["data"=>"users","selected"=>[]])
+                    @else @include('partials.multiselector',["data"=>"users","selected"=>($task?$task->assigned:[])])
+                    @endif
 
-                    @include('partials.multiselector',["data"=>"tags"])
+                    @if(old('tags'))@include('partials.multiselector',["data"=>"tags","selected"=>[]])
+                    @else @include('partials.multiselector',["data"=>"tags","selected"=>($task?$task->tags:[])])
+                    @endif
                     @if ($errors->has('tags'))
                         <span class="error">
                             {{ $errors->first('tags') }}
@@ -69,13 +79,12 @@
             </form>
             <section class="buttons">
                 <button type="submit" form="create_task">
-                    Create
+                    {{$task?'Edit':'Create'}}
                 </button>
-                <a href="{{route('show_tasks',['project'=>$project])}}">
+                <a href="{{$task?route('task',['project'=>$project,'task'=>$task]):route('show_tasks',['project'=>$project])}}">
                     Cancel
                 </a>
             </section>
-
         </section>
 
     </section>
