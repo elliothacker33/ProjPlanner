@@ -12,11 +12,6 @@ class Post extends Model
 
     public $timestamps = false;
 
-    protected $casts = [
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
-    ];
-
     protected $fillable = [
         'content',
         'author',

@@ -110,12 +110,8 @@ class ProjectController extends Controller
         if ($user->is_block) return back()->withErrors([
             'email' => 'User is blocked',
         ])->onlyInput('email');
-        $users = $project->users;
-        $memberExist = false;
-        foreach ($users as $member) {
-            if ($member->id === $user->id) $memberExist = true;
-        }
-        if ($memberExist) return back()->withErrors([
+        
+        if($project->users->contains($user)) return back()->withErrors([
             'email' => 'Member already in the project',
         ])->onlyInput('email');
 

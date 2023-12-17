@@ -15,13 +15,7 @@ class TagPolicy
      */
     public function create(User $user, Project $project): bool
     {
-        $members = $project->users()->get()->toArray();
-
-        foreach ($members as $member) {
-            if ($member['id'] === $user->id) return true;
-        }
-
-        return false;
+        return $project->users()->contains($user);
     }
 
     /**
@@ -29,13 +23,7 @@ class TagPolicy
      */
     public function update(User $user, Tag $tag, Project $project): bool
     {
-        $members = $project->users()->get()->toArray();
-
-        foreach ($members as $member) {
-            if ($member['id'] === $user->id) return true;
-        }
-
-        return false;
+        return $project->users()->contains($user);
     }
 
     /**
@@ -43,12 +31,6 @@ class TagPolicy
      */
     public function delete(User $user, Tag $tag, Project $project): bool
     {
-        $members = $project->users()->get()->toArray();
-
-        foreach ($members as $member) {
-            if ($member['id'] === $user->id) return true;
-        }
-
-        return false;
+        return $project->users()->contains($user);
     }
 }

@@ -21,16 +21,7 @@ class ProjectPolicy
      */
     public function view(User $user, Project $project): bool
     {
-
-        $users = $project->users()->get()->toArray();
-
-        $usersIds = array();
-
-        foreach ($users as $a_user) {
-            array_push($usersIds, $a_user['id']);
-        }
-
-        return (in_array($user->id, $usersIds)) || $user->is_admin;
+        return $project->users()->contains($user) || $user->is_admin;
     }
 
     /**
@@ -73,13 +64,7 @@ class ProjectPolicy
 
         if ($user->id === $project->user_id) return false;
 
-        $users = $project->users()->get()->toArray();
-
-        foreach ($users as $user_) {
-            if ($user->id === $user_['id']) return true;
-        }
-
-        return false;
+        return $project->users()->contains($user);
     }
 
     /**
@@ -87,16 +72,7 @@ class ProjectPolicy
      */
     public function show_team(User $user, Project $project): bool
     {
-
-        if ($user->is_admin) return true;
-
-        $users = $project->users()->get()->toArray();
-
-        foreach ($users as $user_) {
-            if ($user->id === $user_['id']) return true;
-        }
-
-        return false;
+        return $project->users()->contains($user) || $user->is_admin;
     }
 
     /**
@@ -105,15 +81,7 @@ class ProjectPolicy
     public function view_forum(User $user, Project $project): bool
     {
 
-        if ($user->is_admin) return true;
-
-        $users = $project->users()->get()->toArray();
-
-        foreach ($users as $user_) {
-            if ($user->id === $user_['id']) return true;
-        }
-
-        return false;
+        return $user->is_admin || $project->users()->contains($user);
     }
 
     /**

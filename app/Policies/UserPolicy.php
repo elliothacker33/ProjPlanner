@@ -14,17 +14,7 @@ class UserPolicy
      */
     public function view(User $user, User $user_profile): bool
     {
-        if ($user->is_admin) {
-            return true;
-        }
-
-        else if ($user_profile->is_blocked) {
-            return false;
-        }
-        
-        else {
-            return $user_profile->id===$user->id;
-        }
+        return $user->is_admin || ($user_profile->id===$user->id && !$user_profile->is_blocked);
     }
 
     /**

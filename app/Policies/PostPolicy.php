@@ -15,15 +15,7 @@ class PostPolicy
     public function view(User $user, Post $post): bool
     {
         
-        if ($user->is_admin) return true;
-
-        $members = $post->project()->get()->toArray();
-        
-        foreach ($members as $member) {
-            if ($member['id'] == $user->id) return true;
-        }
-
-        return false;
+        return $user->is_admin || $post->project->users()->contains($user);
 
     }
 
@@ -32,13 +24,7 @@ class PostPolicy
      */
     public function create(User $user, Project $project): bool
     {
-        $members = $project->members()->get()->toArray();
-
-        foreach ($members as $member) {
-            if ($member['id'] == $user->id) return true;
-        }
-
-        return false;
+        return $project->users()->contains($user);
     }
 
     /**
