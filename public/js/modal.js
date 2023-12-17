@@ -20,13 +20,15 @@ export function attachModal(dialog) {
         }
     });
     
-    closeDialog.addEventListener('click', () => {
-        dialog.close();
-    });
+    if (closeDialog != null)
+        closeDialog.addEventListener('click', () => {
+            dialog.close();
+        });
     
-    closeIcon.addEventListener('click', () => {
-        dialog.close();
-    });
+    if (closeIcon != null)
+        closeIcon.addEventListener('click', () => {
+            dialog.close();
+        });
 }
 
 export function addOpenModalBtn(dialog) {
@@ -35,6 +37,7 @@ export function addOpenModalBtn(dialog) {
 
     openBtn.addEventListener('click', () => {
         dialog.showModal();
-        confirmBtn.blur();
+        if (confirmBtn != null)
+            confirmBtn.blur();
     });
 }

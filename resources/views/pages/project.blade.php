@@ -12,12 +12,19 @@
 
 @section('content')
 <section class="projectPage">
-    @include('partials.modal', [
-            'modalTitle' => 'Leave Project',
-            'modalBody' => 'Are you sure that you want to leave this project?',
-            'openFormId' => 'openLeaveModal',
-            'formId' => 'leave-project-form'
-        ])
+    @includeWhen(Auth::id() != $project->user_id, 'partials.modal', [
+        'modalTitle' => 'Leave Project',
+        'modalBody' => 'Are you sure that you want to leave this project?',
+        'openFormId' => 'openLeaveModal',
+        'formId' => 'leave-project-form'
+    ])
+    @includeWhen(Auth::id() == $project->user_id, 'partials.modalOk', [
+        'modalTitle' => 'Leave Project',
+        'modalBody' => 'Before leaving the project you must assign another project member as the new
+        project coordinator. You can do so in the team section.',
+        'type' => 'modal-warning',
+        'openFormId' => 'openLeaveModal',
+    ])
     <header>
         <section class="info">
         <h1 class="title">{{$project->title}}</h1>

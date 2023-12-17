@@ -4,19 +4,18 @@
     max-width: 40em;
     margin: auto;
     border-radius: 0.5em;
-    border: 2px solid var(--modal-main-border)
 }
 
 .fa-x {
     font-size: 1.2em;
-    color: var(--close-button-primary-color);
+    color: inherit;
 }
 
 .fa-x:hover {
     color: var(--close-button-hover-color);
 }
 
-.modal div {
+.modal > div {
     padding: 1.5em;
 }
 
@@ -57,5 +56,35 @@
 
 .modal-confirm {
     border: 0;
-    background-color: var(--onprimary-bg-color);
+}
+
+dialog.modal-error .modal-header {
+    background-color: var(--modal-header-error);
+    color: white
+}
+
+dialog.modal-warning .modal-header {
+    background-color: var(--modal-header-warning);
+    color: white
+}
+
+dialog.modal-info .modal-header {
+    background-color: var(--modal-header-info);
+    color: white
+}
+
+dialog.modal-success .modal-header {
+    background-color: var(--modal-header-success);
+    color: white
+}
+
+.icon-title-wrapper i {
+    font-size: 1.5em;
+}
+
+.icon-title-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    column-gap: 1em;
 }
