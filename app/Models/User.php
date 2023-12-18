@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Http\Controllers\FileController;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\Log;
 
 
 // Added to define Eloquent relationships.
@@ -61,7 +62,8 @@ class User extends Authenticatable implements CanResetPassword
         return $this->belongsToMany(Project::class, 'project_user', 'user_id', 'project_id');
     }
     public function tasks(): BelongsToMany{
-        return $this->belongsToMany(Task::class,'task_user','user_id','task_id');
+        return $this->belongsToMany(Task::class, 'task_user', 'user_id', 'task_id')->with('project'); 
+
     }
     protected $attributes = [
         'is_admin' => false,
@@ -84,6 +86,7 @@ class User extends Authenticatable implements CanResetPassword
     public function getProfileImage() {
         return FileController::get('user', $this->id);
     }
+    
     
 }
  

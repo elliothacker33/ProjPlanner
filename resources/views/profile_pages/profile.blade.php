@@ -108,28 +108,28 @@
                 <div class = "row p-3 task">
                     <div class ="col-3 taskinfo">
                         <span class="text-truncate">
-                            {{$task->title}} - {{$task->description}}
+                            {{$task['task']->title}} - {{$task['task']->description}}
                         </span>
                     </div>
                     <div class="col-3 taskinfo">
-                        <span><i class="bi bi-calendar-week"></i> {{ \Carbon\Carbon::parse($task->deadline)->format('Y/m/d') }}</span>
+                        <span><i class="bi bi-calendar-week"></i> {{ \Carbon\Carbon::parse($task['task']->deadline)->format('Y/m/d') }}</span>
                     </div>
                     <div class ="col-3 taskinfo ">
-                    @if($task->status == "closed")
+                    @if($task['task']->status == "closed")
                         <span>Status:</span>
-                        <span style="color: #ff3333;">{{ $task->status }}</span>
-                    @elseif($task->status == "canceled")
+                        <span style="color: #ff3333;">{{ $task['task']->status }}</span>
+                    @elseif($task['task']->status == "canceled")
                         <span>Status: </span>
-                        <span style="color: orange;">{{ $task->status }}</span>
-                    @elseif($task->status == "open")
+                        <span style="color: orange;">{{ $task['task']->status }}</span>
+                    @elseif($task['task']->status == "open")
                         <span>Status: </span>
-                        <span style="color: #2E9D7F;"> {{ $task->status }}</span>
+                        <span style="color: #2E9D7F;"> {{ $task['task']->status }}</span>
                     @else
-                        <span>{{ $task->status }}</span>
+                        <span>{{ $task['task']->status }}</span>
                     @endif
                     </div>
                     <div class="col-3">
-                        <a href="" class = "btn taskbtn" >Go to Task</a>
+                        <a href="{{ route('task', ['projectId' => $task['project'], 'id' => $task['task']->id]) }}" class = "btn taskbtn" >Go to Task</a>
                     </div>
                 </div>
             </div>
@@ -148,7 +148,7 @@
             <div class = "col-4 mx-auto">
                 <div class ="row">
                     <div class="col-12 text-center">
-                        <span class="statNumber" style="color: #2E9D7F;">{{$statusOpenCount =$tasks->where('status', 'open')->count()}}</span>
+                        <span class="statNumber" style="color: #2E9D7F;">{{$statusOpenCount = collect($tasks)->where('task.status', 'open')->count();}}</span>
                     </div>
                     <div class="col-12 text-center">
                         <span class="statInfo" style="color: #2E9D7F;">Open Tasks</span></div>
@@ -157,7 +157,7 @@
             <div class = "col-4 mx-auto">
                 <div class ="row">
                     <div class="col-12 text-center">
-                        <span class="statNumber"style="color: orange;">{{$statusCanceledCount = $tasks->where('status', 'canceled')->count()}}</span>
+                        <span class="statNumber"style="color: orange;">{{$statusCanceledCount = collect($tasks)->where('task.status', 'canceled')->count();}}</span>
                     </div>
                     <div class="col-12 text-center">
                         <span class="statInfo"style="color: orange;">Canceled Tasks</span></div>
@@ -166,7 +166,7 @@
             <div class = "col-4 mx-auto">
                 <div class ="row">
                     <div class="col-12 text-center">
-                        <span class="statNumber" style="color: #ff3333;">{{$statusClosedCount = $tasks->where('status', 'closed')->count()}}</span>
+                        <span class="statNumber" style="color: #ff3333;">{{$statusClosedCount = collect($tasks)->where('task.status', 'closed')->count();}}</span>
                     </div>
                     <div class="col-12 text-center">
                         <span class="statInfo" style="color: #ff3333;">Closed Tasks</span></div>

@@ -15,10 +15,19 @@ class ProfileController extends Controller
             if (!$user) {
                 abort(404, 'User profile page not found.');
             }
+            $tasks = $user->tasks;
+            $taskList = [];
+            
+            foreach ($tasks as $task) {
+
+                $project = $task->project();
+                dd($project);
+            }
+    
             return view('profile_pages.profile', [
                 'user' => $user,
                 'image' => $user->getProfileImage(),
-                'tasks' => $user->tasks ?? []
+                'tasks' => $taskList
             ]);
         }
         
@@ -32,8 +41,11 @@ class ProfileController extends Controller
             }
         
             $this->authorize('update', $user);
-        
             
+            if(empty($user->file)){
+                $user->file = 2;
+            }
+       
             return view('profile_pages.edit-profile', [
                 'user' => $user,
                 'image' => $user->getProfileImage()

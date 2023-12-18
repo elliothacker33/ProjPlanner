@@ -15,7 +15,7 @@ class FileController extends Controller
         $filename = null;
         switch ($type) {
             case "user": 
-                $filename = "default-profile-photo.jpg";
+                $filename = "default_user.jpg";
                 break;
             default: 
                 $filename = "";
@@ -42,7 +42,8 @@ class FileController extends Controller
     public static function get(String $type, int $id) {
         $diskRoot = config("filesystems.disks." . self::$diskName . ".root");
         $fileName = self::getFileName($type, $id);
-        if (!Storage::disk(self::$diskName)->exists('/' . $type . '/'.$fileName) && isNull($fileName)) {
+      
+        if (empty($fileName)) {
             $model = self::getModel($type, $id);
             $model->file = self::getDefaultName($type);
             $model->save();
@@ -133,14 +134,14 @@ class FileController extends Controller
     public static function delete(Request $request) {
         $diskRoot = config("filesystems.disks." . self::$diskName . ".root");
         $model = self::getModel($request->type,$request->id);
-        
-        if ($model->file == self::defaultAsset($request->type,$diskRoot)){
+
+        if ($model->file == self::getDefaultName($request->type)){
             return redirect()->back()->with('error', 'Nothing to delete');
         }
         if ($model && !empty($model->file) ) {
             self::deleteFile($request, $model->file);
         }
-        $model->file = self::defaultAsset($request->type,$diskRoot);
+        $model->file = self::getDefaultName($request->type);
         $model->save();
         return redirect()->back()->with('success','Delete sucessfull');
     }

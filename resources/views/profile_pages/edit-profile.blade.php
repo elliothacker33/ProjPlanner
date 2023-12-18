@@ -100,16 +100,13 @@
                 <div class ="col-6">
                 <header><h1> <i class="bi bi-pencil"></i> Edit your credentials</h1></header>
                 </div>
-                <div class = "col-6 d-flex  forgot justify-content-end">
-                    <a href="{{ route('password.request')}} "> Forgot your password? </a>
-                </div> 
             </div>
         </div>
-        <div class = "col-12">
+        <div class = "col-12 ">
             <form method="POST" class ="row d-flex align-items-center" action="{{ route('update_profile', ['usrId' => Auth::id()])}}">
                 @csrf()
                 @method('PUT')
-                <div class = "form-group col-12 mb-3">
+                <div class = "form-group col-4 mb-3">
                     <label for="name">Choose your name</label>
                     <input type="text" id = "name" name="name" placeholder="Choose your name" value="{{ old('name') }}">
                     @if ($errors->has('name'))
@@ -141,7 +138,7 @@
                     </span>
                 @endif
                 </div>
-                <div class = " col-12  ">
+                <div class = " col-12 update ">
                 <button><p>Update Profile</p></button>
                 </div>
             </form>
@@ -150,15 +147,17 @@
             <header><h1><i class="bi bi-sliders"></i>Change your profile image</h1></header>
         </div>
         <div class = "col-12 ">
-        <form method="post" action="{{ route('upload_profile_file')}}" id="updateProfileForm" enctype="multipart/form-data" class=" d-flex align-items-center">
+        <form method="post" action="{{ route('upload_profile_file')}}" id="updateProfileForm" enctype="multipart/form-data" class=" row d-flex align-items-center">
             @csrf
-            <div class="mb-3">
+            <div class="mb-3 col-12">
                 <label for="profileImageInput" class="form-label">Choose Profile Image</label>
                 <input type="file" name="file" id="profileImageInput">
             </div>
             <input name="id" type="number" value="{{Auth::id()}}" hidden>
             <input name="type" type="text" value="user" hidden>
+            <div class = "col-12">
             <button type="submit">Update Profile Image</button>
+            </div>
             @if(session('success'))
                 <div class="alert alert-success">
                     {{ session('success') }}

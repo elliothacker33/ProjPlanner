@@ -7,14 +7,11 @@
 @push('scripts')
     <script type="text/javascript" src={{ url('js/app.js') }} defer></script>
 @endpush
-<?php
-        // Get the 'email' query parameter from the URL
-        $email = $_GET['email'] ?? null;
-?>
 
 @section('content')
-    <div class = "container ">
-        <div class = "row p-4">
+<div class = "container-fluid d-flex justify-content-center ">
+        <div class = "row">
+            <div class = "col-12 d-flex justify-content-center p-4 card">
          
             <div class ="col-12" style = "margin-top: 5%;">
                 <h1>Forgot your password</h1>
@@ -23,11 +20,11 @@
                 <h2>Please enter your new password</h2>
             </div>
             <div class ="col-12" style = "margin-top: 5%;">
-            <form method="POST" class ="row" action="{{ route('password.update')}}">
+            <form method="POST" class ="row" action="{{ route('pass.update')}}">
                 @csrf()
                 <div class="form-group col-12 w-100">
     <label for="email">Email address</label>
-    <input type="text" id="email" required value="{{ $email }}" class="p-3 inputemail" name="email" placeholder="myemail@company.com" value="{{ old('email') }}">
+    <input type="text" id="email" required value="{{ $email }}" class="p-3 inputemail" name="email" readonly value="{{ old('email') }}">
 </div>
 
 <div class="form-group col-12 w-100">
@@ -44,15 +41,14 @@
 
             
                 <div class = "col-12"  style = "margin-top: 3%;" >
-                    <button class = "w-100"><p>Request reset link</p></button>
+                    <button class = "w-100"><p>Submit changes</p></button>
                 </div>
                 </form>
             </div>
 
          
         </div>
-
-
     </div>
+</div>
 
 @endsection

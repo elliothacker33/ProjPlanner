@@ -151,3 +151,18 @@ input:focus{
     border: none;
     background-color: #ff3333b8;
 }
+
+@media (max-width: 767.98px) {
+    .form-group{
+        width: 100%;
+    }
+    input::placeholder{
+        text-align: center;
+    }
+    .update{
+       display: flex;
+       justify-content: center;
+       align-items: center;
+    }
+ 
+  }
