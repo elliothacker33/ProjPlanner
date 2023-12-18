@@ -46,7 +46,7 @@
                 <a id="logout" href="{{ route('logout') }}"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
             @else
                 <a class="user_icon" href="{{ route('login') }}"> <img class=" avatar"
-                        src="{{ asset('img/default_user.png') }}" alt="default user icon"></a>
+                        src="{{ asset('img/default_user.jpg') }}" alt="default user icon"></a>
             @endif
         </section>
         @if (View::hasSection('navbar'))

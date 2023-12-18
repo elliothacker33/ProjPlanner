@@ -27,7 +27,7 @@ class UserController extends Controller
         }
         $users = $query->where(function ($query) use ($searchTerm) {
             $query->where('email', 'like', $searchTerm)
-                ->orWhere('name', 'like', $searchTerm);
+                ->orWhere('name', 'like', $searchTerm)->with('getProfileImage');
         });
         if ($request->ajax())
             return response()->json($users->get());

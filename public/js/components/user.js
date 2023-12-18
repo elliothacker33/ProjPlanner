@@ -41,7 +41,7 @@ export async function createUserItem(user) {
 function createUserCard(user) {
     const userCard = document.createElement('section');
     userCard.classList.add('userCard');
-    userCard.innerHTML = ` <img class="icon avatar" src="/img/default_user.png" alt="default user icon">
+    userCard.innerHTML = ` <img class="icon avatar" src="/img/default_user.jpg" alt="default user icon">
                           <section class="info">
                               <h3>${user.name}</h3>
                               <h5>${user.email}</h5>

@@ -52,7 +52,7 @@
     width: 100%;
     display: flex;
     background: var(--onsecondary-bg-color);
-    gap: 2em;
+    gap: 1em;
     flex-wrap: wrap;
     padding: 3em 1em 1em;
 }
