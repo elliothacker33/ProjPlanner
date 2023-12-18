@@ -1,5 +1,14 @@
+export function attachDialogs() {
+    document.querySelectorAll('dialog').forEach((dialog) => {
+        attachModal(dialog);
+        const openBtn = document.querySelector('#' + dialog.dataset.openFormId);
+
+        if (openBtn != null) addOpenModalBtn(dialog);
+    })
+}
+
 export function attachModal(dialog) {
-    const closeAnchor = dialog.querySelector('.close-modal');
+    const closeDialog = dialog.querySelector('.close-modal');
     const closeIcon = dialog.querySelector('.fa-x');
 
     dialog.addEventListener('click', (event) => {        
@@ -11,21 +20,24 @@ export function attachModal(dialog) {
         }
     });
     
-    closeAnchor.addEventListener('click', () => {
-        dialog.close();
-    });
+    if (closeDialog != null)
+        closeDialog.addEventListener('click', () => {
+            dialog.close();
+        });
     
-    closeIcon.addEventListener('click', () => {
-        dialog.close();
-    });
+    if (closeIcon != null)
+        closeIcon.addEventListener('click', () => {
+            dialog.close();
+        });
 }
 
 export function addOpenModalBtn(dialog) {
     const openBtn = document.querySelector('#' + dialog.dataset.openFormId);
-    const confirmBtn = dialog.querySelector('.modal-confirm');
+    const confirmBtn = dialog.querySelector('.mymodal-confirm');
 
     openBtn.addEventListener('click', () => {
         dialog.showModal();
-        confirmBtn.blur();
+        if (confirmBtn != null)
+            confirmBtn.blur();
     });
 }

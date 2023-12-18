@@ -4,7 +4,9 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\FileController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\StaticController;
 use App\Http\Controllers\TaskController;
@@ -33,6 +35,16 @@ Route::controller(HomeController::class)->group(function () {
     Route::get('/home', 'show')->name('home');
 });
 
+// Recover password route
+Route::middleware('guest')->group(function () {
+    Route::get('/forgot-password', [ForgotPasswordController::class, 'showForgetPasswordForm'])->name('pass.request');
+    Route::post('/forgot-password', [ForgotPasswordController::class, 'submitForgetPasswordForm'])->name('pass.email');
+    Route::get('/reset-password/{token}', [ForgotPasswordController::class, 'showResetPasswordForm'])->name('pass.reset');
+    Route::post('/reset-password', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('pass.update');
+});
+
+
+//Static Pages
 Route::get('/myProjects',[ProjectController::class, 'index'])->name('projects');
 
 // Static Pages
@@ -69,13 +81,17 @@ Route::controller(RegisterController::class)->group(function () {
 
 // Profile
 Route::prefix('/user-profile')->controller(ProfileController::class)->group(function () {
-    Route::get('/','show')->name('user-profile');
     Route::get('/{user}', 'showProfile')->name('profile');
     Route::put('/{user}/edit', 'updateProfile')->name('update_profile');
     Route::get('/{user}/edit', 'showEditProfile')->name('edit_profile');
     Route::delete('/{user}/delete', 'destroy')->name('delete_profile');
 });
 
+// Files 
+Route::controller(FileController::class)->group(function () {
+    Route::post('/file/upload','upload')->name('upload_profile_file');
+    Route::delete('/file/delete','delete')->name('delete_file');
+});
 // Users
 Route::prefix('/user/{user}')->whereNumber('user')->controller(UserController::class)->group(function () {
     Route::delete('/delete', 'destroy')->name('delete_user');
@@ -93,6 +109,7 @@ Route::prefix('/project')->group(function () {
             Route::get('', 'show')->name('project');
             Route::get('/team', 'show_team')->name('team');
             Route::post('/team/add', 'add_user')->name('addUser');
+            Route::delete('team/leave', 'remove_user')->name('leave_project');
             Route::delete('', 'destroy')->name('delete_project');
             Route::get('/edit', 'edit')->name('show_edit_project');
             Route::put('/edit', 'update')->name('action_edit_project');

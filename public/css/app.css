@@ -25,6 +25,10 @@
     --primary-border-color: #3fa86b99;
     --secondary-border-color: #52739999;
     --posts-bg-color: #f2f2f2;
+    --modal-header-error: #DE3D44;
+    --modal-header-warning: #FEBF00;
+    --modal-header-info: #04A1B9;
+    --modal-header-success: #1AA346;
   }
 
 
@@ -32,6 +36,7 @@
     padding: 0;
     border: 0;
     margin: 0;
+    font-family: 'TT Norms Pro', sans-serif;
 }
 
 h1 {
@@ -74,20 +79,23 @@ body {
 }
 
 main {
-
-   flex-grow: 1;
+    flex-grow: 1;
     width: 100%;
     display: flex;
     justify-content: center;
     flex-direction: column;
+    box-sizing: border-box;
 }
+
+
+
 
 body > header,  body > footer {
     color: var(--secondary-text-color);
     display: flex;
     flex-direction: column;
     width: 100%;
-    background-color: var(--secondary-bg-color);
+    background-color:var(--secondary-bg-color);
     padding: 0.5em;
 }
 

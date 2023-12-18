@@ -5,6 +5,8 @@ namespace App\Policies;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
+use Illuminate\Support\Facades\Log;
+
 
 class ProjectPolicy
 {
@@ -63,5 +65,12 @@ class ProjectPolicy
     public function viewForum(User $user, Project $project): bool
     {
         return $project->users->contains($user);
+    }
+
+    public function removeUser(User $user, Project $project, User $removedUser): bool
+    {
+        $leaveProject = $user == $removedUser && $user != $project->coordinator;
+        $removeUser = $user == $project->coordinator && $removedUser != $project->coordinator;
+        return $project->users->contains($removedUser) && ($leaveProject || $removeUser);
     }
 }

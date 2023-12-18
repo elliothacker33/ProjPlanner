@@ -5,33 +5,49 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 class ProfileController extends Controller
-{
-
-    public function show(Request $request){
-        return redirect()->route('profile',['user' => $request->user()]);
-    }
-    public function showProfile(User $user) : View
-    {
-        if (!$user) {
-            abort(404, 'User profile page not found.');
+{       
+       
+        public function showProfile(User $user): View
+        {   
+            if (!$user) {
+                abort(404, 'User profile page not found.');
+            }
+            $tasks = $user->tasks;
+            $taskList = [];
+            
+            foreach ($tasks as $task) {
+                $taskList[]  = ['task' => $task, 'project' => $task->project];
+            }
+            return view('profile_pages.profile', [
+                'user' => $user,
+                'image' => $user->getProfileImage(),
+                'tasks' => $taskList
+            ]);
         }
+        
 
-        return view('profile_pages.profile', ['user' => $user]); // Add image here.
-    }
-    public function showEditProfile(User $user) : View
-    {
-
-        if (!$user) {
-            abort(404, 'User profile page not found.');
+        public function showEditProfile(User $user): View
+        {
+        
+            if (!$user) {
+                abort(404, 'User profile page not found.');
+            }
+        
+            $this->authorize('update', $user);
+            
+            if(empty($user->file)){
+                $user->file = 2;
+            }
+       
+            return view('profile_pages.edit-profile', [
+                'user' => $user,
+                'image' => $user->getProfileImage()
+            ]);
         }
-
-        $this->authorize('update', $user);
-
-        return view('profile_pages.edit-profile',['user'=>$user]);
-    }
-
+        
     
     public function updateProfile(Request $request, User $user)
     {
@@ -69,4 +85,5 @@ class ProfileController extends Controller
         return redirect()->route('profile', ['user' => $user]);
 
     }
+    
 }

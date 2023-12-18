@@ -30,7 +30,7 @@ class Project extends Model
     }
 
     public function coordinator() {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
     public function tasks(): HasMany
     {
