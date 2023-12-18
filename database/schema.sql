@@ -537,6 +537,7 @@ LANGUAGE plpgsql;
 CREATE TRIGGER edit_task_status
 BEFORE UPDATE ON lbaw2353.tasks
 FOR EACH ROW
+WHEN (OLD.status <> NEW.status)
 EXECUTE FUNCTION update_task_status();
 
 /*Only a user who is part of the projects's team can be task_user as the projects user_id for that projects*/
@@ -732,7 +733,7 @@ INSERT INTO users (name, email, password, is_blocked) VALUES ( 'hortonkendra', '
 INSERT INTO users (name, email, password, is_blocked, is_admin) VALUES ( 'admin', 'admin@admin.com', '$2y$10$VGUby/.o07FO5PtXNJ0x1u5BvzrV74W8akrfiw8BlNBjcu7hruXkK', False, True);
 
 -- Inserting data into the 'projects' table
-INSERT INTO projects (title, description, is_archived, creation, deadline, user_id) VALUES ('Apple catch', 'A small game about catching apples.', False, '2023-03-30', '2024-06-14', 1);
+INSERT INTO projects (title, description, is_archived, creation, deadline, user_id) VALUES ('Game apple catch', 'A small game about catching apples.', False, '2023-03-30', '2024-06-14', 1);
 INSERT INTO projects (title, description, is_archived, creation, deadline, user_id) VALUES ('Poster Event', 'Create some posters for the event at the town hall', False, '2022-12-31', '2024-06-29', 1);
 INSERT INTO projects (title, description, is_archived, creation, deadline, user_id) VALUES ('Security project', 'A small project to develop an application to get our website secure', False, '2022-12-11', '2024-06-28', 1);
 INSERT INTO projects (title, description, is_archived, creation, deadline, user_id) VALUES ('leg', 'Ask environment American glass lose sing.', True, '2022-01-22', '2024-06-26', 10);
@@ -753,7 +754,7 @@ INSERT INTO projects (title, description, is_archived, creation, deadline, user_
 INSERT INTO projects (title, description, is_archived, creation, deadline, user_id) VALUES ( 'development', 'Attorney our close serve outside hold shake.', False, '2022-06-23', '2024-06-06', 10);
 INSERT INTO projects (title, description, is_archived, creation, deadline, user_id) VALUES ( 'rule', 'Finally clearly child them word.', False, '2023-05-30', '2024-03-05', 10);
 -- Inserting data into the 'tags' table
-INSERT INTO tags (title, project_id) VALUES ('eye', 1);
+INSERT INTO tags (title, project_id) VALUES ('instagram', 1);
 INSERT INTO tags (title, project_id) VALUES ('chair', 2);
 INSERT INTO tags (title, project_id) VALUES ('various', 3);
 INSERT INTO tags (title, project_id) VALUES ('down', 4);
@@ -774,7 +775,7 @@ INSERT INTO tags (title, project_id) VALUES ( 'hit', 18);
 INSERT INTO tags (title, project_id) VALUES ( 'develop', 19);
 INSERT INTO tags (title, project_id) VALUES ( 'cold', 20);
 -- Inserting data into the 'tasks' table
-INSERT INTO tasks (title, description, status, starttime, endtime, deadline, opened_user_id, closed_user_id, project_id) VALUES ('speak', 'Issue close eye music others forward.', 'open', '2022-10-31', NULL, '2024-07-22', 1, NULL, 1);
+INSERT INTO tasks (title, description, status, starttime, endtime, deadline, opened_user_id, closed_user_id, project_id) VALUES ('Finish instagram post', 'Finish the post we discussed in the meeting', 'open', '2022-10-31', NULL, '2024-07-22', 1, NULL, 1);
 INSERT INTO tasks (title, description, status, starttime, endtime, deadline, opened_user_id, closed_user_id, project_id) VALUES ('race', 'See soon onto senior prepare fine.', 'open', '2023-08-24', NULL, '2024-06-10', 9, NULL, 2);
 INSERT INTO tasks (title, description, status, starttime, endtime, deadline, opened_user_id, closed_user_id, project_id) VALUES ('play', 'Three floor country prove bar management.', 'open', '2023-04-03', NULL, '2024-07-14', 8, NULL, 3);
 INSERT INTO tasks (title, description, status, starttime, endtime, deadline, opened_user_id, closed_user_id, project_id) VALUES ('sort', 'Fund make learn.', 'open', '2022-12-19', NULL, '2023-12-10', 20, NULL, 4);
@@ -972,3 +973,4 @@ INSERT INTO project_user (user_id, project_id) VALUES (7, 13);
 -- Inserting data into the 'tag_task' table
 INSERT INTO tag_task (tag_id, task_id) VALUES (1, 1);
 INSERT INTO task_user (user_id, task_id) VALUES (1, 1);
+INSERT INTO task_user (user_id, task_id) VALUES (2, 1);

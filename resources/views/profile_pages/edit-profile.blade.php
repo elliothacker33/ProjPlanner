@@ -5,7 +5,7 @@
 @endpush
 
 @push('scripts')
-    <script type="text/javascript" src={{ url('js/app.js') }} defer></script>
+    <script type="module" src={{ url('js/app.js') }} defer></script>
 @endpush
 @section('content')
 <div class="container-fluid">
@@ -116,7 +116,7 @@
                 @endif
                 </div>
                 <div class = "form-group col-12 mb-3">
-                    <label for="password">Enter your old password</label>
+                    <label for="old_password">Enter your old password</label>
                     <input type="password" id = "old_password" name="old_password" placeholder="Old password">
                     @if ($errors->has('old_password'))
                     <span class="error">
