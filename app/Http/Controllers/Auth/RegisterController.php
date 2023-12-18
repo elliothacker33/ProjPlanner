@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-
+use App\Http\Controllers\FileController;
 
 use Illuminate\View\View;
 
@@ -55,13 +55,14 @@ class RegisterController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-
-        User::create([
+        $user =User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password)
         ]);
 
+        $user->file = FileController::getDefaultName('user');
+        $user-> save();
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) { 

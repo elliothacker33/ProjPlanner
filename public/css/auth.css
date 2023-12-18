@@ -20,6 +20,12 @@
 .register .shine{
     color:#698996;
 }
+.forgot>a{
+    color:#698996; 
+}
+.forgot>a:hover{
+    color:#698996c0;
+}
 /*#CCFFCC*/
 /*#00D9D5*/
 .authentication .container{

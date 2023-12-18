@@ -11,7 +11,9 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'ProjPlanner') }}</title>
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Styles -->
     <script src="https://kit.fontawesome.com/f09afb12ac.js" crossorigin="anonymous"></script>
     <link href="{{ url('css/milligram.min.css') }}" rel="stylesheet">
@@ -38,13 +40,13 @@
                     ProjPlanner</a></h1>
 
             @if (Auth::check())
-                <a class="user_icon" href="{{ route('user-profile') }}">
-                    <img class="icon avatar" src="{{ asset('img/default_user.png') }}" alt="default user icon">
+                <a class="user_icon" href="{{ route('profile', ['user' => Auth::user()]) }}"> 
+                    <img class="icon avatar" src="{{ auth()->user()->getProfileImage() }}" alt="default user icon">
                 </a>
                 <a id="logout" href="{{ route('logout') }}"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
             @else
-                <a class="user_icon" href="{{ route('login') }}"> <img class="icon"
-                        src="{{ asset('img/default_user.png') }}" alt="default user icon"></a>
+                <a class="user_icon" href="{{ route('login') }}"> <img class="icon avatar"
+                        src="{{ asset('img/user/default_user.jpg') }}" alt="default user icon"></a>
             @endif
         </section>
         @if (View::hasSection('navbar'))
