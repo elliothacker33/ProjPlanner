@@ -45,7 +45,8 @@
 .status.closed{
     background: var(--on-third-bg-color);
 }
-.status.cancelled{
+
+.taskPage header .status.canceled{
     background: var(--error-text-color);
 }
 .taskCreation .formContainer{
@@ -92,6 +93,7 @@ a{
     justify-content: space-between;
     align-content: space-between;
     flex-wrap: wrap-reverse;
+
 }
 .taskPage header .info{
     display: flex;
@@ -117,17 +119,18 @@ a{
 {
     height: fit-content;
 }
-.taskPage header .actions a, .multiselector span {
+.taskPage header .actions a, .multiselector span,.taskPage .buttonLink {
     padding: 0.5em 0.7em;
     background: var(--onprimary-bg-color);
     color: white;
     border-radius: 0.3em;
     margin: 0;
 }
-.taskPage header .actions a:hover {
+
+.taskPage .buttonLink:hover {
     background: var(--onsecondary-bg-color);
 }
-.taskPage header a.delete{
+.taskPage header a.cancel{
     background: var(--error-text-color);
 }
 .multiselector{
@@ -183,6 +186,15 @@ a{
 }
 .multiselector .dropdown .item input[type="checkbox"]{
     scale: 1.5;
+}
+
+#openCloseModal, #openReopenModal {
+    text-align: center;
+    margin: 0 0 0 auto;
+}
+
+.buttons * {
+    margin: auto 0;
 }
 
 

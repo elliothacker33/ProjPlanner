@@ -57,10 +57,10 @@
                                 <a href="{{route("edit_profile",['user'=>$user])}}" class="edit" id="{{$user->id}}">
                                     <i class="fa-solid fa-user-pen"></i>
                                 </a>
-                                <button class="block invisible" id="{{$user->id}}" form="block-{{($user->id)}}">
+                                <button class="block" id="{{$user->id}}" form="block-{{($user->id)}}">
                                     <i class="fa-solid fa-ban"></i>
                                 </button>
-                                <button class="delete invisible" id="{{$user->id}}" form="delete"
+                                <button class="delete" id="{{$user->id}}" form="delete"
                                         formaction="{{route("delete_user",["user"=>$user])}}">
                                     <i class="fa-solid fa-trash"></i>
                                 </button>

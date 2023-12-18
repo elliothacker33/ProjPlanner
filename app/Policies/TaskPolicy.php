@@ -2,45 +2,28 @@
 
 namespace App\Policies;
 
-
-
 use App\Models\Project;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
-use Illuminate\Support\Facades\DB;
-
 
 class TaskPolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): bool
-    {
-        //
-    }
 
     /**
      * Determine whether the user can view the model.
      */
     public function view(User $user, Task $task): bool
     {
-        return true;
+        return $user->is_admin || $task->project->users->contains($user);
     }
 
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user,Project $project): bool
+    public function create(User $user, Project $project)
     {
-        $users = $project->users()->get()->toArray();
-        $member=false;
-        foreach ($users as $user_){
-            if($user->id===$user_['id']) $member= true;
-        }
-
-        return (!$user->isAdmin) and $member;
+        return !$user->isAdmin and $project->users->contains($user);
     }
 
     /**
@@ -48,36 +31,19 @@ class TaskPolicy
      */
     public function update(User $user, Task $task): bool
     {
-        $coordinator = $task->project->user_id;
+        return ($task->project->user_id == $user->id || $task->assigned->contains($user)) && $task->status == 'open';
+    }
 
-        $assigned = $task->assigned;
-
-        if ($assigned != null && $coordinator != null) return true;
-        return false;
-
+    public function changeStatus(User $user, Task $task): bool
+    {
+        return $task->project->user_id == $user->id || $task->assigned->contains($user);
     }
 
     /**
-     * Determine whether the user can delete the model.
+     * Determine whether the user can comment on the model.
      */
-    public function delete(User $user, Task $task): bool
+    public function comment(User $user, Task $task): bool
     {
-        //
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Task $task): bool
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Task $task): bool
-    {
-        //
+        return $task->project->users->contains($user);
     }
 }

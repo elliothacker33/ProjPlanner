@@ -8,14 +8,16 @@ use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Log;
 
 class TaskController extends Controller
 {
+
+    private $possibleStatus = ['open', 'closed', 'canceled'];
+
     public function searchTasks(Request $request, Project $project)
     {
-
-
         if ($project == null)
             return response()->json(['error' => 'Project with specified id not found'], 404);
 
@@ -40,7 +42,7 @@ class TaskController extends Controller
     public function create(Request $request, Project $project)
     {
         $this->authorize('create', [Task::class,  $project]);
-        return view('pages.' . 'createTask')->with(['project'=>$project, 'users'=>$project->users,'tags'=>$project->tags]);
+        return view('pages.' . 'createTask')->with(['project' => $project, 'users' => $project->users, 'tags' => $project->tags]);
     }
 
     /**
@@ -64,7 +66,7 @@ class TaskController extends Controller
         $task = new Task();
         $task->title = $validated['title'];
         $task->description = $validated['description'];
-        $task->opened_user_id= Auth::user()->id;
+        $task->opened_user_id = Auth::user()->id;
         $task->deadline = $validated['deadline'];
         $task->project_id = $project->id;
         $task->save();
@@ -76,7 +78,7 @@ class TaskController extends Controller
         if($validated['tags'])
             foreach ($tags as $tag) $task->tags()->attach($tag);
 
-        return redirect()->route('task',['project'=>$project,'task'=>$task]);
+        return redirect()->route('task', ['project' => $project, 'task' => $task]);
     }
 
     /**
@@ -85,11 +87,11 @@ class TaskController extends Controller
     public function show(Project $project, Task $task)
     {
         $project_task = $task->project;
-        
-        if ($task == null || $project_task == null)
+
+        if ($project_task->id != $project->id || $task == null || $project_task == null) 
             return abort(404);
 
-        $this->authorize('view',[$task::class,$task]);
+        $this->authorize('view', [$task::class, $task]);
         $users = $task->assigned;
 
         $tags = $task->tags;
@@ -122,5 +124,31 @@ class TaskController extends Controller
     public function destroy(Task $task)
     {
         //
+    }
+
+    public function editStatus(Request $request, Project $project, Task $task) {
+        $this->authorize('changeStatus', [Task::class, $task]);
+
+        $validated = $request->validate([
+            'status' => [
+                'required',
+                Rule::in($this->possibleStatus),
+            ],
+        ]);
+
+        $invalidStatusChange =  (($validated['status'] == 'closed' || $validated['status'] == 'canceled') && $task->status != 'open');
+
+        $errorMsg = 'A ' . $task->status . ' task cannot be changed to another state other than open';
+
+        if ($invalidStatusChange) {
+            return response()->json(['error' => $errorMsg], 400);
+        }
+
+        $task->status = $validated['status'];
+        $task->closed_user_id = $validated['status'] == 'open' ? null : Auth::id();
+        $task->endtime = $validated['status'] == 'open' ? null : now();
+        $task->save();
+        
+        return response()->json(['task' => $task, 'closed_user_name' => $task->closed_by->name]);
     }
 }

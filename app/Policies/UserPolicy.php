@@ -4,10 +4,12 @@ namespace App\Policies;
 
 use App\Models\Project;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
+
+use Illuminate\Auth\Access\HandlesAuthorization;
 
 class UserPolicy
 {
+
     /**
      * Determine whether the user can view any models.
      */
@@ -22,12 +24,13 @@ class UserPolicy
 
     }
 
+
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, User $model): bool
+    public function view(User $user, User $user_profile): bool
     {
-        //
+        return $user->is_admin || ($user_profile->id===$user->id && !$user_profile->is_blocked);
     }
 
     /**
@@ -35,7 +38,7 @@ class UserPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return $user->is_admin;
     }
 
     /**
@@ -43,11 +46,7 @@ class UserPolicy
      */
     public function update(User $user, User $model): bool
     {
-
-        //
-
         return $user->id === $model->id || $user->is_admin;
-
     }
 
     /**
@@ -59,30 +58,37 @@ class UserPolicy
     }
 
     /**
-     * Determine whether the user can restore the model.
+     * Determine whether the user can create admins.
      */
-    public function restore(User $user, User $model): bool
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, User $model): bool
-    {
-        //
-    }
-
-
     public function create_admin(User $user): bool
     {
         return $user->is_admin;
     }
 
+    /**
+     * Determine whether the user can view admins.
+     */
     public function view_admin(User $user): bool
     {
         return $user->is_admin;
     }
+    
+    /**
+     * Determine whether the user can block users.
+     */
+    public function block(User $user): bool
+    {
+        return $user->is_admin;
+    }
+
+    /**
+     * Determine whether the user can unblock users.
+     */
+    public function unblock(User $user): bool
+    {
+       return $user->is_admin;
+    }
+
+    
 
 }

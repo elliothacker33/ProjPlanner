@@ -8,6 +8,7 @@
     gap: 1em;
 }
 
+
 .tasks-list > header > * {
     width: 100%;
     display: flex;
@@ -49,9 +50,9 @@
 
 .tasks-list > header {
     width: 100%;
-    padding: 1em;
     display: flex;
     background: var(--onsecondary-bg-color);
     gap: 2em;
     flex-wrap: wrap;
+    padding: 3em 1em 1em;
 }

@@ -27,6 +27,7 @@
     flex-wrap: wrap;
     color: white;
     background: var(--onsecondary-bg-color);
+    padding-top: 2em;
 }
 
 .users-list > header a {
@@ -106,15 +107,19 @@
     flex-wrap: wrap;
     align-items: center;
 }
-
+.team header section{
+    display: flex;
+    flex-wrap: wrap;
+}
 .team header .addUserContainer {
     margin-left: auto;
-    width: 30em;
+    width: 100%;
+    max-width: 30em;
 }
 
 .team header .addUserContainer form {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     justify-content: flex-end;
     gap: 1em;
     margin: 0;
@@ -135,19 +140,21 @@
     align-self: flex-end;
 }
 
-.invisible {
-    scale: 1.3;
+.actions button {
+    scale: 1.5;
+    margin: 0;
 }
 
 .users-list .user-item {
     width: 100%;
     display: flex;
     justify-content: flex-start;
-    padding: 0 1em;
+    padding: 0.5em 1em;
     gap: 1em;
     border-bottom: 1px solid var(--primary-border);
     flex-wrap: wrap;
     align-items: center;
+    height: fit-content;
 }
 
 .users-list .user-item > * {
@@ -156,6 +163,8 @@
 
 .users-list .user-item .userSection {
     max-width: 50em;
+    margin: 0;
+
 }
 
 .users-list .user-item .actions {
@@ -164,11 +173,17 @@
     align-items: center;
     gap: 1.5em;
     justify-content: flex-end;
-    margin: auto;
+    margin: 0 auto;
+}
+
+.users-list .user-item .actions button{
+    width: fit-content;
+    outline: none;
+    border: none;
 }
 
 .users-list .user-item .status {
     width: 8em;
     text-align: center;
-    height: fit-content;
+
 }

@@ -75,9 +75,16 @@
 .userCard.small h5{
     font-size: 0.8em;
 }
+
 .userCard.small .avatar{
     width: 2em;
     height: 2em;
+
+}
+
+.userCard .avatar{
+    width: 3em;
+    height: 3em;
 
 }
 
