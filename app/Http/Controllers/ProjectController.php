@@ -184,7 +184,7 @@ class ProjectController extends Controller
             return view('pages.tasks', ['project'=>$project, 'tasks'=>$tasks]);
     }
 
-    public function leave_project(Request $request, Project $project) {  
+    public function remove_user(Request $request, Project $project) {  
         $removedUser = User::find($request->user);
         
         if ($removedUser == null)
