@@ -75,7 +75,7 @@
                         @endif
                     <span>
                 </section>
-                @if ($task->closed_by->id != null)
+                @if ($task->status != 'open')
                     <section id="finishedTaskUser">
                         <span><i class="fa-solid fa-user"></i> {{ ucwords($task->status) }} by: {{$task->closed_by->name}}</span>
                     </section>
