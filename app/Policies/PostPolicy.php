@@ -15,7 +15,7 @@ class PostPolicy
     public function view(User $user, Post $post): bool
     {
         
-        return $user->is_admin || $post->project->users()->contains($user);
+        return $user->is_admin || $post->project->users->contains($user);
 
     }
 
@@ -24,7 +24,7 @@ class PostPolicy
      */
     public function create(User $user, Project $project): bool
     {
-        return $project->users()->contains($user);
+        return $project->users->contains($user);
     }
 
     /**

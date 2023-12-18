@@ -15,7 +15,7 @@ class TaskPolicy
      */
     public function view(User $user, Task $task): bool
     {
-        return $user->is_admin || $task->project->users()->contains($user);
+        return $user->is_admin || $task->project->users->contains($user);
     }
 
     /**
@@ -39,7 +39,7 @@ class TaskPolicy
      */
     public function comment(User $user, Task $task): bool
     {
-        return $task->project->users()->contains($user);
+        return $task->project->users->contains($user);
     }
 
 

@@ -21,7 +21,7 @@ class ProjectPolicy
      */
     public function view(User $user, Project $project): bool
     {
-        return $project->users()->contains($user) || $user->is_admin;
+        return $project->users->contains($user) || $user->is_admin;
     }
 
     /**
@@ -64,7 +64,7 @@ class ProjectPolicy
 
         if ($user->id === $project->user_id) return false;
 
-        return $project->users()->contains($user);
+        return $project->users->contains($user);
     }
 
     /**
@@ -72,7 +72,7 @@ class ProjectPolicy
      */
     public function show_team(User $user, Project $project): bool
     {
-        return $project->users()->contains($user) || $user->is_admin;
+        return $project->users->contains($user) || $user->is_admin;
     }
 
     /**
@@ -81,7 +81,7 @@ class ProjectPolicy
     public function view_forum(User $user, Project $project): bool
     {
 
-        return $user->is_admin || $project->users()->contains($user);
+        return $user->is_admin || $project->users->contains($user);
     }
 
     /**
