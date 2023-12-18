@@ -46,10 +46,10 @@
         <form class="hidden-form" id="edit-project-form" action="{{ route('show_edit_project',['project'=>$project->id])}}" method="GET">
         </form>
 
-        <form class="hidden-form" id="delete-project-form" action="{{ "/project/" . $project->id }}" method="POST">
-            @csrf
-            @method('DELETE')
-        </form>
+            <form class="hidden-form" id="delete-project-form" action="{{ '/project/' . $project->id }}" method="POST">
+                @csrf
+                @method('DELETE')
+            </form>
 
         <form class="hidden-form" id="leave-project-form" action="{{ "/project/" . $project->id . "/team/leave"}}" method="POST">
             @csrf
@@ -60,33 +60,36 @@
     <section class="container">
     <section class="primaryContainer">
 
-        <section class="description">
-            {{$project->description}}
-        </section>
+                <section class="description">
+                    {{ $project->description }}
+                </section>
 
-    </section>
-    <section class="sideContainer">
-        <section class="completionContainer">
-            <span class="completion"><i class="fa-solid fa-list-check"></i>  Completed Tasks {{$completedTasks}}/{{$allTasks}}</span>
-        </section>
-        <section class="deadlineContainer" >
-            <span><i class="fa-solid fa-clock"></i> Deadline:
-                @if($project->deadline) {{ date('d-m-Y', strtotime($project->deadline)) }}
-                @else There is no deadline
-                @endif
+            </section>
+            <section class="sideContainer">
+                <section class="completionContainer">
+                    <span class="completion"><i class="fa-solid fa-list-check"></i> Completed Tasks
+                        {{ $completedTasks }}/{{ $allTasks }}</span>
+                </section>
+                <section class="deadlineContainer">
+                    <span><i class="fa-solid fa-clock"></i> Deadline:
+                        @if ($project->deadline)
+                            {{ date('d-m-Y', strtotime($project->deadline)) }}
+                        @else
+                            There is no deadline
+                        @endif
 
-            </span>
-        </section>
-        <section class="teamContainer">
-            <h5><i class="fa-solid fa-users"></i>  Team: </h5>
-            <ul class="team">
-                @foreach($team as $member)
-                    <li>{{$member->name}}</li>
-                @endforeach
-            </ul>
-            <a href="{{route('team',['project'=>$project->id])}}" >See all</a>
+                    </span>
+                </section>
+                <section class="teamContainer">
+                    <h5><i class="fa-solid fa-users"></i> Team: </h5>
+                    <ul class="team">
+                        @foreach ($team as $member)
+                            <li>{{ $member->name }}</li>
+                        @endforeach
+                    </ul>
+                    <a href="{{ route('team', ['project' => $project->id]) }}">See all</a>
+                </section>
+            </section>
         </section>
     </section>
-    </section>
-</section>
 @endsection

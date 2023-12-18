@@ -12,6 +12,9 @@ class ProfileController extends Controller
        
         public function showProfile(User $user): View
         {   
+
+            $this->authorize('view', $user);
+
             if (!$user) {
                 abort(404, 'User profile page not found.');
             }
