@@ -1,3 +1,5 @@
+import { attachDialogs } from './modal.js'
+
 document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('.project-action-button').forEach(function (action) {
       action.addEventListener('click', function () {
@@ -9,3 +11,5 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     })
 });
+
+attachDialogs();
