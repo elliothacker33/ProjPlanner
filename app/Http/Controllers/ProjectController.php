@@ -184,14 +184,19 @@ class ProjectController extends Controller
             return view('pages.tasks', ['project'=>$project, 'tasks'=>$tasks]);
     }
 
-    public function leave_project(Request $request, Project $project) {    
-        $this->authorize('leave', [Project::class, $project]);
+    public function leave_project(Request $request, Project $project) {  
+        $removedUser = User::find($request->user);
+        
+        if ($removedUser == null)
+            abort(404, 'User to remove from project not found');
 
-        $user = Auth::user();
+        $this->authorize('removeUser', [Project::class, $project, $removedUser]);
 
-        $user->assign()->detach();
-        $project->users()->detach($user->id);
+        $removedUser->assign()->detach();
+        $project->users()->detach($removedUser->id);
 
-        return redirect()->route('home', ['projects' => $user->projects,'user'=>Auth::id()]);
+        if (Auth::user() == $removedUser)
+            return redirect()->route('home', ['projects' => $removedUser->projects,'user'=>Auth::id()]);
+        // Return when coordinator is removing a user from the project
     }
 }

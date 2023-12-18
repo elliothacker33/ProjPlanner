@@ -9,6 +9,7 @@
 .fa-x {
     font-size: 1.2em;
     color: inherit;
+    cursor: pointer;
 }
 
 .fa-x:hover {

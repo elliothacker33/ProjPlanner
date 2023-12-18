@@ -54,6 +54,7 @@
         <form class="hidden-form" id="leave-project-form" action="{{ "/project/" . $project->id . "/team/leave"}}" method="POST">
             @csrf
             @method('DELETE')
+            <input type="hidden" value="{{ Auth::id() }}" name="user">
         </form>
     </header>
     <section class="container">

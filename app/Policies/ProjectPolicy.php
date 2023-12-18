@@ -75,8 +75,10 @@ class ProjectPolicy
         //
     }
 
-    public function leave(User $user, Project $project): bool
+    public function removeUser(User $user, Project $project, User $removedUser): bool
     {
-        return !$user->is_admin && $user != $project->coordinator && $project->users->contains($user);
+        $leaveProject = $user == $removedUser && $user != $project->coordinator;
+        $removeUser = $user == $project->coordinator && $removedUser != $project->coordinator;
+        return !$user->is_admin && $project->users->contains($removedUser) && ($leaveProject || $removeUser);
     }
 }
