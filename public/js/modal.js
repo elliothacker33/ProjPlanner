@@ -33,7 +33,7 @@ export function attachModal(dialog) {
 
 export function addOpenModalBtn(dialog) {
     const openBtn = document.querySelector('#' + dialog.dataset.openFormId);
-    const confirmBtn = dialog.querySelector('.modal-confirm');
+    const confirmBtn = dialog.querySelector('.mymodal-confirm');
 
     openBtn.addEventListener('click', () => {
         dialog.showModal();

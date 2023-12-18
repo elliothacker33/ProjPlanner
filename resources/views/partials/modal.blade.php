@@ -1,14 +1,14 @@
-<dialog class="modal" data-open-form-id="{{ $openFormId }}">
-    <div class="modal-header">
+<dialog class="mymodal" data-open-form-id="{{ $openFormId }}">
+    <div class="mymodal-header">
         <h3> {{ $modalTitle }}</h3>
         <i class="fa-solid fa-x"></i>
     </div>
-    <div class="modal-body">
+    <div class="mymodal-body">
         <p> {{ $modalBody }}</p>
     </div>
-    <div class="modal-buttons">
+    <div class="mymodal-buttons">
         <a class="close-modal">Close</a>
-        <button type="{{ isset($formId) ? "submit" : "button"}}" class="modal-confirm" 
+        <button type="{{ isset($formId) ? "submit" : "button"}}" class="mymodal-confirm" 
             @isset ($actionId)
                 id="{{ $actionId }}"
             @endisset 

@@ -1,4 +1,4 @@
-.modal {
+.mymodal {
     background-color: white;
     width: 95%;
     max-width: 40em;
@@ -16,65 +16,65 @@
     color: var(--close-button-hover-color);
 }
 
-.modal > div {
+.mymodal > div {
     padding: 1.5em;
 }
 
-.modal-header {
+.mymodal-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.modal-header h3 {
+.mymodal-header h3 {
     font-weight: 500;
 }
 
-.modal-body {
+.mymodal-body {
     border-width: 1px 0;
     border-style: solid;
     border-color: var(--modal-secondary-border)
 }
 
-.modal-buttons {
+.mymodal-buttons {
     display: flex;
     justify-content: end;
     column-gap: 2em;
     align-items: center;
 }
 
-.modal-buttons > a {
+.mymodal-buttons > a {
     color: inherit;
 }
 
-.modal p, .modal button {
+.mymodal p, .mymodal button {
     margin: 0;
 }
 
-.modal::backdrop {
+.mymodal::backdrop {
     background: rgb(0 0 0 / 0.6);
 }
 
-.modal-confirm {
+.mymodal-confirm {
     border: 0;
 }
 
-dialog.modal-error .modal-header {
+dialog.mymodal-error .mymodal-header {
     background-color: var(--modal-header-error);
     color: white
 }
 
-dialog.modal-warning .modal-header {
+dialog.mymodal-warning .mymodal-header {
     background-color: var(--modal-header-warning);
     color: white
 }
 
-dialog.modal-info .modal-header {
+dialog.mymodal-info .mymodal-header {
     background-color: var(--modal-header-info);
     color: white
 }
 
-dialog.modal-success .modal-header {
+dialog.mymodal-success .mymodal-header {
     background-color: var(--modal-header-success);
     color: white
 }

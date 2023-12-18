@@ -22,7 +22,7 @@
         'modalTitle' => 'Leave Project',
         'modalBody' => 'Before leaving the project you must assign another project member as the new
         project coordinator. You can do so in the team section.',
-        'type' => 'modal-warning',
+        'type' => 'mymodal-warning',
         'openFormId' => 'openLeaveModal',
     ])
     <header>
