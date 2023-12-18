@@ -14,6 +14,8 @@ class Post extends Model
 
     protected $fillable = [
         'content',
+        'author',
+        'project_id',
         'submit_date',
         'last_edited',
     ];
@@ -38,5 +40,9 @@ class Post extends Model
         return $this->last_edited;
     }
 
+    public function author(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 
 }
