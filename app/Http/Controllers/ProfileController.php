@@ -5,9 +5,11 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 class ProfileController extends Controller
-{
+{       
+       
         public function showProfile(User $user): View
         {   
             if (!$user) {
