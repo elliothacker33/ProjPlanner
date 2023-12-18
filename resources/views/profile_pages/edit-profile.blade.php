@@ -147,14 +147,12 @@
             <header><h1><i class="bi bi-sliders"></i>Change your profile image</h1></header>
         </div>
         <div class = "col-12 ">
-        <form method="post" action="{{ route('upload_profile_file')}}" id="updateProfileForm" enctype="multipart/form-data" class=" row d-flex align-items-center">
+        <form method="post" action="{{ route('upload_profile_image')}}" id="updateProfileForm" enctype="multipart/form-data" class=" row d-flex align-items-center">
             @csrf
             <div class="mb-3 col-12">
                 <label for="profileImageInput" class="form-label">Choose Profile Image</label>
                 <input type="file" name="file" id="profileImageInput">
             </div>
-            <input name="id" type="number" value="{{Auth::id()}}" hidden>
-            <input name="type" type="text" value="user" hidden>
             <div class = "col-12">
             <button type="submit">Update Profile Image</button>
             </div>
@@ -173,11 +171,9 @@
 
         </div>
         <div class = "col-12">
-            <form method="POST" action="{{ route('delete_file') }}">
+            <form method="POST" action="{{ route('delete_profile_image') }}">
             @csrf
             @method('DELETE')
-            <input name="id" type="number" value="{{Auth::id()}}" hidden>
-            <input name="type" type="text" value="user" hidden>
             <button type="submit" class = "buttonremove">Remove profile image</button>
             </form>
         </div>

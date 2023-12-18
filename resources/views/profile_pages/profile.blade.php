@@ -33,7 +33,7 @@
         <div class = "row">
             <div class = " col-sm-12 col-lg-2 d-flex justify-content-center ">
                 <figure>
-                    <img src="{{ $image }}" alt="Default Image" >
+                    <img src="{{ $user->file }}" alt="Default Image" >
                 </figure>
             </div>
             <div class = "col-sm-12 col-lg-10   d-flex flex-column justify-content-center">

@@ -83,11 +83,6 @@ class User extends Authenticatable implements CanResetPassword
         return $this->hasMany(Project::class);
     }
 
-    public function getProfileImage() {
-        return FileController::get('user', $this->id);
-    }
-    
-
     public function openedTasks(): HasMany {
         return $this->hasMany(Task::class, 'opened_user_id');
     }

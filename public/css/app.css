@@ -131,7 +131,8 @@ body > header nav ul, body >footer ul, body >footer h6 {
 }
 
 body > header nav ul {
-    overflow-x: scroll;
+    overflow-x: hidden;
+
     justify-content: flex-start;
     gap: 1em;
 }

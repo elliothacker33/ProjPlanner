@@ -1,0 +1,75 @@
+
+main{
+    justify-content: flex-start;
+}
+.container-fluid{
+
+    min-height: 70vh;
+    overflow-x: hidden;
+
+}
+.first{
+    width: 100vw;
+    border: blue solid 2px;
+ 
+}
+.container-fluid header{
+    padding: 2%;
+}
+.test1,.test2{
+    padding: 10px;
+
+}
+.container-fluid h1{
+    color: var(--primary-text-color);
+    font-size: 1.5em;
+}
+
+.main-header{
+    background-color: #e5e5e5;
+    border-bottom: rgb(120, 119, 119) 2px solid;
+}
+
+.container-fluid a{
+    color:white;
+    text-decoration: none;
+    font-size: 1em;
+
+}
+.dl{
+    margin-right: 10px;
+    background-color: var(--onprimary-bg-color);
+}
+.ra{
+    background-color: var(--error-text-color);
+}
+.file{
+    border-bottom: var(--primary-text-color) 2px solid;
+}
+.sort{
+    border-bottom: var(--primary-text-color) 2px solid;
+}
+.file-title h2{
+    font-weight: bold;
+    font-size: 1.5em;
+}
+.file-size span{
+
+}
+.dl2{
+    font-size: 1.5em;
+    color: var(--onprimary-bg-color);
+}
+.rm{
+    font-size: 1.5em;
+    color: var(--error-text-color);
+}
+
+.upload{
+    margin:0;
+    margin-left: 10px;
+    text-decoration: none;
+    color:white;
+    background-color: var(--onsecondary-bg-color);
+    font-size: 1em;
+}

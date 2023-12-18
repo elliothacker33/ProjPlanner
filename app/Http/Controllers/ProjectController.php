@@ -96,6 +96,10 @@ class ProjectController extends Controller
         $this->authorize('view',[Project::class,$project]);
         return view('pages.team',['team'=>$project->users, 'project'=>$project]);
     }
+    public function show_files(Project $project){
+        $this->authorize('view',[Project::class,$project]);
+        return view('pages.files',['files' => $project->files(),'project' => $project]);
+    }
     public function add_user(Request $request, Project $project)
 
     {

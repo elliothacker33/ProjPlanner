@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers;
 use App\Models\User;
+use App\Models\File;
+use App\Models\Project;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Http\File;
+
 
 
 class FileController extends Controller
 {   static $diskName = 'proj_planner_files';
-    public static function getDefaultName(String $type): string{
+
+/*    public static function getDefaultName(String $type): string{
         $filename = null;
         switch ($type) {
             case "user": 
@@ -34,6 +37,9 @@ class FileController extends Controller
                 $model = User::find($id);
                 $fileName = $model->file;
                 break;
+            case 'project':
+                    $model = Project::find($id);
+                    break;
             }
     
         return $fileName;
@@ -64,11 +70,7 @@ class FileController extends Controller
             case "user": 
                 $model = User::find($id);
                 break;
-            /*
-            case "task":
-                $model = Task::find($request->id);
-                break;
-            */
+          
         }
         return $model;
     }
@@ -80,8 +82,9 @@ class FileController extends Controller
                     self::deleteFile($request,$model->file);
                 $model->file = $request->file('file')->hashName();
                 break;
-            /*case 'task':
-                */
+            case "project":
+                    
+        
         }
         return $model;
     }
@@ -115,6 +118,7 @@ class FileController extends Controller
         return $message;
     }
     public static function upload(Request $request) {
+        dd($request);
         if(self::validRequest($request)){
             $model = self::getModel($request->type, $request->id);
             $model = self::changeModel($request,$model);
@@ -143,6 +147,29 @@ class FileController extends Controller
         $model->save();
         return redirect()->back()->with('success','Delete sucessfull');
     }
-    
-
+    */
+    private static function validRequest(Request $request):bool{
+        if($request->hasFile("file") && $request->file("file")->isValid()){ 
+            return true;
+        }
+        return false;
+    }
+    public static function upload(Request $request) {
+        if (self::validRequest($request)) {
+            $files = $request->file('files');
+            dd($files);
+            $project_id = $request->input('id');
+            foreach ($files as $file) {
+                $filename = $file->getClientOriginalName();
+                $hashedFilename = $filename->hashName();
+                File::create([
+                    'name' => $filename->hashName(),
+                    'project_id' => $project_id,
+                ]);
+                Storage::put("project/{$hashedFilename}", $file->get());
+            }
+            return redirect()->back()->with('success', 'Files uploaded successfully');
+        }
+        return redirect()->back()->with('error', 'Invalid request');
+    }
 }

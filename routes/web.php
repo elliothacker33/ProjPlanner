@@ -83,12 +83,14 @@ Route::prefix('/user-profile')->controller(ProfileController::class)->group(func
     Route::get('/{user}', 'showProfile')->name('profile');
     Route::put('/{user}/edit', 'updateProfile')->name('update_profile');
     Route::get('/{user}/edit', 'showEditProfile')->name('edit_profile');
+    Route::put('/{user}/update/')->name()
+    Route::delete('/{user}')
     Route::delete('/{user}/delete', 'destroy')->name('delete_profile');
 });
 
 // Files 
 Route::controller(FileController::class)->group(function () {
-    Route::post('/file/upload','upload')->name('upload_profile_file');
+    Route::post('/file/upload','upload')->name('upload_file');
     Route::delete('/file/delete','delete')->name('delete_file');
 });
 // Users
@@ -107,6 +109,7 @@ Route::prefix('/project')->group(function () {
         Route::controller(ProjectController::class)->group(function () {
             Route::get('', 'show')->name('project');
             Route::get('/team', 'show_team')->name('team');
+            Route::get('/files','show_files')->name('show_project_files');
             Route::post('/team/add', 'add_user')->name('addUser');
             Route::delete('', 'destroy')->name('delete_project');
             Route::get('/edit', 'edit')->name('show_edit_project');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -21,8 +22,7 @@ class ProfileController extends Controller
             }
             return view('profile_pages.profile', [
                 'user' => $user,
-                'image' => $user->getProfileImage(),
-                'tasks' => $taskList
+                'tasks' => $taskList,
             ]);
         }
         
@@ -35,10 +35,6 @@ class ProfileController extends Controller
             }
         
             $this->authorize('update', $user);
-            
-            if(empty($user->file)){
-                $user->file = 2;
-            }
        
             return view('profile_pages.edit-profile', [
                 'user' => $user,
@@ -83,5 +79,21 @@ class ProfileController extends Controller
         return redirect()->route('profile', ['user' => $user]);
 
     }
-    
+    private static function validRequest(Request $request):bool{
+        if($request->hasFile("file") && $request->file("file")->isValid()){ 
+            return true;
+        }
+        return false;
+    }
+    public function updateProfileImage(Request $request, User $user){
+            if(self::validRequest($request)){
+                $file = $request->file('file');
+                if ($user->file != )
+                $filename = $file->getClientOriginalName();
+                $hashedFilename = Hash::make($filename);
+                Storage::disk()->put("project/{$hashedFilename}", $file->get());
+                return redirect()->back();    
+            }
+            return redirect()->back();
+    }
 }
