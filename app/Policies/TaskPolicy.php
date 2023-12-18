@@ -2,14 +2,10 @@
 
 namespace App\Policies;
 
-
-
 use App\Models\Project;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
-use Illuminate\Support\Facades\DB;
-
 
 class TaskPolicy
 {
@@ -32,15 +28,9 @@ class TaskPolicy
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user,Project $project): bool
+    public function create(User $user, Project $project)
     {
-        $users = $project->users()->get()->toArray();
-        $member=false;
-        foreach ($users as $user_){
-            if($user->id===$user_['id']) $member= true;
-        }
-
-        return (!$user->isAdmin) and $member;
+        return !$user->isAdmin and $project->users->contains($user);
     }
 
     /**
@@ -48,17 +38,12 @@ class TaskPolicy
      */
     public function update(User $user, Task $task): bool
     {
-        $assigned = DB::table('task_user')
-            ->where('task_id','=',$task->id)
-            ->where('user_id','=', $user->id)->get();
-        $coordinator = DB::table('project_user')
-            ->join('projects','projects.id','=','project_user.project_id')
-            ->join('project_task','project_task.project_id','=','project_user.project_id')
-            ->where('task_id','=',$task->id)
-            ->where('projects.user_id','=', $user->id)->get();
-        if(!$assigned->isEmpty() || !$coordinator->isEmpty()) return true;
-        return false;
+        return ($task->project->user_id == $user->id || $task->assigned->contains($user)) && $task->status == 'open';
+    }
 
+    public function changeStatus(User $user, Task $task): bool
+    {
+        return $task->project->user_id == $user->id || $task->assigned->contains($user);
     }
 
     /**

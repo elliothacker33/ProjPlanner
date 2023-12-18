@@ -15,8 +15,11 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Styles -->
+    <script src="https://kit.fontawesome.com/f09afb12ac.js" crossorigin="anonymous"></script>
     <link href="{{ url('css/milligram.min.css') }}" rel="stylesheet">
     <link href="{{ url('css/app.css') }}" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/f09afb12ac.js" crossorigin="anonymous"></script>
+
     <script type="text/javascript">
         // Fix for Firefox autofocus CSS bug
         // See: http://stackoverflow.com/questions/18943276/html-5-autofocus-messes-up-css-loading/18945951#18945951
@@ -24,24 +27,21 @@
 
     @stack('styles')
     <!-- Scripts -->
+    <script type="module" src={{ url('js/app.js') }} defer></script>
+
     @stack('scripts')
 
 </head>
 <body>
     <header>
         <section>
-            @if (Auth::check())
-                <h1 id="header_title"><a href="{{ route('home', ['usrId' => Auth::id()]) }}" >ProjPlanner</a></h1>
-            @else
-                <h1 id="header_title"><a href="{{ route('landing') }}">ProjPlanner</a></h1>
-            @endif
+                <h1 id="header_title"><a href="{{ route('home')}}" > <i class="fa-solid fa-bars-progress"></i>  ProjPlanner</a></h1>
 
             @if (Auth::check())
-
-                <a class="user_icon" href="{{ route('profile', ['usrId' => Auth::id()]) }}"> 
+                <a class="user_icon" href="{{ route('profile', ['user' => Auth::user()]) }}"> 
                     <img class="icon avatar" src="{{ auth()->user()->getProfileImage() }}" alt="default user icon">
                 </a>
-                <a id="logout" href="{{ route('logout') }}">Logout</a>
+                <a id="logout" href="{{ route('logout') }}"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
             @else
                 <a class="user_icon" href="{{ route('login') }}"> <img class="icon avatar"
                         src="{{ asset('img/user/default_user.jpg') }}" alt="default user icon"></a>
@@ -68,9 +68,9 @@
                 <ul>
 
 
-                    <li><a href="{{ route('static',['page' => 'faq'])}}">FAQ</a></li>
-                    <li><a href="{{ route('static',['page' => 'about-us'])}}">About Us</a></li>
-                    <li><a href="{{ route('static',['page' => 'contacts'])}}">Contact Us</a></li>
+                    <li><a href="{{ route('static',['page' => 'faq'])}}"> <i class="fa-solid fa-question"></i> FAQ</a></li>
+                    <li><a href="{{ route('static',['page' => 'about-us'])}}"> <i class="fa-solid fa-address-card"></i> About Us</a></li>
+                    <li><a href="{{ route('static',['page' => 'contacts'])}}"><i class="fa-solid fa-message"></i> Contact Us</a></li>
 
                 </ul>
             </section>

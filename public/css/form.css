@@ -34,9 +34,14 @@
 .formContainer form .sideContainer{
     display: flex;
     justify-content: flex-start;
+    align-items: center;
     gap: 1em;
     flex-direction: column;
     flex-basis: 20em;
+}
+.formContainer form .sideContainer >*{
+    width: 100%;
+    max-width: 30em;
 }
 .formContainer form .sideContainer input{
     background: var(--onsecondary-bg-color);
@@ -69,7 +74,7 @@
 .formContainer form input{
     border-radius: 13em;
 }
-.formContainer form .buttons{
+.formContainer  .buttons{
     display: flex;
     gap: 2em;
     align-content: center;

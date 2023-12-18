@@ -11,7 +11,7 @@
 <div class="container-fluid">
 	<div class="row first ">
 	<div class="col-12 d-flex justify-content-between mt-5">
-        <a href = "{{ route('profile', ['usrId' => Auth::id()]) }}" class =" goback  "> 
+        <a href = "{{ route('profile', ['user' => Auth::user()]) }}" class =" goback  "> 
          Go back
         </a>
         <header>
@@ -27,7 +27,7 @@
                 <h6 class="dropdown-header">Profile Actions</h6>
             </li>
             <li>
-                <a href= "{{ route('edit_profile', ['usrId' => Auth::id()]) }}" class="dropdown-item editbutton">Edit Account</a>
+                <a href= "{{ route('edit_profile', ['user' => Auth::user()]) }}" class="dropdown-item editbutton">Edit Account</a>
             </li>
             <li>
                 <a href= "" class="dropdown-item delete-btn">Delete Account</a>
@@ -103,7 +103,7 @@
             </div>
         </div>
         <div class = "col-12 ">
-            <form method="POST" class ="row d-flex align-items-center" action="{{ route('update_profile', ['usrId' => Auth::id()])}}">
+            <form method="POST" class ="row d-flex align-items-center" action="{{ route('update_profile', ['user' => Auth::user()])}}">
                 @csrf()
                 @method('PUT')
                 <div class = "form-group col-4 mb-3">

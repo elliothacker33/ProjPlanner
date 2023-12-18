@@ -8,10 +8,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 class ProfileController extends Controller
 {
-
-        public function showProfile($usrId): View
-        {
-            $user = User::find($usrId);
+        public function showProfile(User $user): View
+        {   
             if (!$user) {
                 abort(404, 'User profile page not found.');
             }
@@ -19,11 +17,8 @@ class ProfileController extends Controller
             $taskList = [];
             
             foreach ($tasks as $task) {
-
-                $project = $task->project();
-                dd($project);
+                $taskList[]  = ['task' => $task, 'project' => $task->project];
             }
-    
             return view('profile_pages.profile', [
                 'user' => $user,
                 'image' => $user->getProfileImage(),
@@ -32,9 +27,8 @@ class ProfileController extends Controller
         }
         
 
-        public function showEditProfile($usrId): View
+        public function showEditProfile(User $user): View
         {
-            $user = User::find($usrId);
         
             if (!$user) {
                 abort(404, 'User profile page not found.');
@@ -53,7 +47,7 @@ class ProfileController extends Controller
         }
         
     
-    public function updateProfile(Request $request, $usrId)
+    public function updateProfile(Request $request, User $user)
     {
 
         $rules = [
@@ -73,8 +67,6 @@ class ProfileController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-    
-        $user = User::find($usrId);
 
         $this->authorize('update', $user);
     
@@ -88,7 +80,7 @@ class ProfileController extends Controller
             $user->password = Hash::make($request->new_password);
         }
         $user->save();
-        return redirect()->route('profile', ['usrId' => $usrId]);
+        return redirect()->route('profile', ['user' => $user]);
 
     }
     

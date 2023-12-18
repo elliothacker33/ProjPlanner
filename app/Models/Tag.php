@@ -17,13 +17,11 @@ class Tag extends Model
         'title',
     ];
 
-
-
-    public function belongs(): BelongsTo {
+    public function project(): BelongsTo {
         return $this->belongsTo(Project::class);
     }
 
-    public function isUsed():BelongsToMany
+    public function tasks() : BelongsToMany
     {
         return $this->belongsToMany(Task::class);
     }

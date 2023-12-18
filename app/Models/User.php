@@ -70,7 +70,6 @@ class User extends Authenticatable implements CanResetPassword
     ];
 
     public function projects(): BelongsToMany {
-
         return $this->belongsToMany(Project::class);
     }
 
@@ -83,11 +82,19 @@ class User extends Authenticatable implements CanResetPassword
     {
         return $this->hasMany(Project::class);
     }
+
     public function getProfileImage() {
         return FileController::get('user', $this->id);
     }
     
-    
+
+    public function openedTasks(): HasMany {
+        return $this->hasMany(Task::class, 'opened_user_id');
+    }
+
+    public function closedTasks(): HasMany {
+        return $this->hasMany(Task::class, 'closed_user_id');
+    }
 }
  
 

@@ -1,18 +1,18 @@
 <?php
 
-use App\Http\Controllers\TaskController;
-use App\Http\Controllers\UserController;
-use Illuminate\Foundation\Auth\User;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\StaticController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\AdminController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\StaticController;
+use App\Http\Controllers\TaskController;
+use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,7 +26,12 @@ use App\Http\Controllers\ProjectController;
 // Home
 
 
-Route::redirect("/","/landing");
+Route::redirect("/", 'home')->name('init_page');
+
+// Decide which Home page to use
+Route::controller(HomeController::class)->group(function () {
+    Route::get('/home', 'show')->name('home');
+});
 
 // Recover password route
 Route::middleware('guest')->group(function () {
@@ -38,32 +43,27 @@ Route::middleware('guest')->group(function () {
 
 
 //Static Pages
+Route::get('/myProjects',[ProjectController::class, 'index'])->name('projects');
+
+// Static Pages
 Route::get('{page}', [StaticController::class, 'show'])->whereIn('page', StaticController::STATIC_PAGES)->name('static');
 
-// Admin
-Route::controller(UserController::class)->group(function(){
-    Route::get('users/search', 'index')->name('search_users');
-});
-Route::controller(AdminController::class)->group(function () {
-    Route::redirect('/admin', '/admin/users')->name('admin');
-    Route::get('/admin/users', 'show')->name('admin_users');
-    Route::get('/admin/users/create', 'create');
-    Route::post('/admin/users/create', 'store')->name('admin_user_create');
+// API
+Route::controller(TaskController::class)->group(function(){
+    Route::get('/api/tasks', 'searchTasks')->name('search_tasks');
 });
 
-Route::controller(TaskController::class)->group(function(){
-    Route::get('project/{projectId}/tasks/search', 'index')->name('search_tasks');
+Route::controller(UserController::class)->group(function(){
+    Route::get('/api/users', 'searchUsers')->name('search_users');
 });
-Route::prefix('/project/{projectId}')->group(function (){
-    Route::get('',[ProjectController::class,'show'])->name('project')->whereNumber('projectId');
-    Route::get('/team',[ProjectController::class,'show_team'])->name('team');
-    Route::post('team/add',[ProjectController::class,'add_user'])->name('addUser');
-    Route::prefix('/task')->controller(TaskController::class)->group(function (){
-        Route::get('/{id}', 'show')->where('id','[0-9]+')->name('task');
-        Route::get('/new', 'create')->name('createTask');
-        Route::post('/new', 'store')->name('newTask');
-    });
+
+Route::prefix('/admin')->controller(AdminController::class)->group(function () {
+    Route::redirect('/', '/admin/users')->name('admin');
+    Route::get('/users', 'show')->name('admin_users');
+    Route::get('/users/create', 'create');
+    Route::post('/users/create', 'store')->name('admin_user_create');
 });
+
 // Authentication
 Route::controller(LoginController::class)->group(function () {
     Route::get('/login', 'showLoginForm')->name('login');
@@ -73,14 +73,17 @@ Route::controller(LoginController::class)->group(function () {
 
 // Sign-up
 Route::controller(RegisterController::class)->group(function () {
-    Route::get('/register','showRegistrationForm')->name('register');
+    Route::get('/register', 'showRegistrationForm')->name('register');
     Route::post('/register', 'register')->name('create_account');
 });
+
 // Profile
-Route::controller(ProfileController::class)->group(function () {
-    Route::get('/user-profile/{usrId}','showProfile')->name('profile');
-    Route::put('/user-profile/{usrId}/edit','updateProfile')->name('update_profile');
-    Route::get('/user-profile/{usrId}/edit','showEditProfile')->name('edit_profile');
+Route::prefix('/user-profile')->controller(ProfileController::class)->group(function () {
+    Route::get('/','show')->name('user-profile');
+    Route::get('/{user}', 'showProfile')->name('profile');
+    Route::put('/{user}/edit', 'updateProfile')->name('update_profile');
+    Route::get('/{user}/edit', 'showEditProfile')->name('edit_profile');
+    Route::delete('/{user}/delete', 'destroy')->name('delete_profile');
 });
 
 // Files 
@@ -88,16 +91,39 @@ Route::controller(FileController::class)->group(function () {
     Route::post('/file/upload','upload')->name('upload_profile_file');
     Route::delete('/file/delete','delete')->name('delete_file');
 });
-
-Route::controller(HomeController::class)->group(function () {
-    Route::get('/homepage/{usrId}','showHome')->name('home');
-    Route::get('/landing', 'showLanding')->name('landing');
+// Users
+Route::prefix('/user/{user}')->whereNumber('user')->controller(UserController::class)->group(function () {
+    Route::delete('/delete', 'destroy')->name('delete_user');
 });
-Route::controller(ProjectController::class)->group(function () {
-    Route::get('/project/new' , 'create')->name('show_new');
-    Route::post('/project/new', 'store')->name('action_new');
-    Route::delete('/project/{projectId}', 'destroy')->where('projectId', '[0-9]+')->name('delete_project');
-    Route::get('/project/{projectId}/tasks', 'showTasks')->where('projectId', '[0-9]+')->name('show_tasks');
-    Route::get('/project/{projectId}/edit', 'edit')->whereNumber('projectId')->name('show_edit_project');
-    Route::put('/project/{projectId}/edit', 'update')->whereNumber('projectId')->name('action_edit_project');
+
+// Projects
+Route::prefix('/project')->group(function () {
+    //Create projects
+    Route::controller(ProjectController::class)->group(function () {
+        Route::get('/new', 'create')->name('show_new');
+        Route::post('/new', 'store')->name('action_new');
+    });
+    Route::prefix('/{project}')->where(['project' => '[0-9]+'])->group(function () {
+        Route::controller(ProjectController::class)->group(function () {
+            Route::get('', 'show')->name('project');
+            Route::get('/team', 'show_team')->name('team');
+            Route::post('/team/add', 'add_user')->name('addUser');
+            Route::delete('', 'destroy')->name('delete_project');
+            Route::get('/edit', 'edit')->name('show_edit_project');
+            Route::put('/edit', 'update')->name('action_edit_project');
+
+        });
+        Route::prefix('/task')->controller(TaskController::class)->group(function () {
+            Route::get('/search', 'index')->name('search_tasks');
+            Route::get('/new', 'create')->name('createTask');
+            Route::post('/new', 'store')->name('newTask');
+
+            Route::prefix('/{task}')->whereNumber('task')->group(function () {
+                Route::get('', 'show')->name('task');
+                Route::put('/edit/status', 'editStatus')->name('edit_status');
+            });
+        });
+        
+        Route::get('/tasks', [ProjectController::class, 'showTasks'])->name('show_tasks');
+    });
 });

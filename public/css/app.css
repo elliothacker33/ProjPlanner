@@ -18,6 +18,10 @@
     --sucess-text-color: #2C7E90;
     --input-secondary-bg-color: #69899613;
     --on-third-bg-color: #698996;
+    --modal-main-border: #c8c8c8;
+    --modal-secondary-border: #dee2e6;
+    --close-button-primary-color: #7f7f7f;
+    --close-button-hover-color: #404040;
   }
 
 
@@ -29,8 +33,8 @@
 }
 
 h1 {
-    font-size: 1.8em;
-    font-weight: bold;
+    font-size: 1.4em;
+    font-weight: bolder;
 }
 
 header nav span {
@@ -144,12 +148,21 @@ body > header nav ul *, body >footer ul * {
     margin: 0;
     border-radius: 0.5em;
     min-width: fit-content;
+    position: relative;
 }
 
 
 body > header nav ul *:hover, body >footer ul *:hover {
     background: var(--onprimary-bg-color);
     color: inherit;
+}
+body > header nav ul li.selected::after{
+    content: ' ';
+    position: absolute;
+    width: 80%;
+    left: 10%;
+    bottom: -0px;
+    border-bottom: 0.2em solid var(--onprimary-bg-color);
 }
 
 

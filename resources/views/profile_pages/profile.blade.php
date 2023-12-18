@@ -4,10 +4,6 @@
     <link rel="stylesheet" href="{{ asset('css/profile.css') }}">
 @endpush
 
-@push('scripts')
-    <script type="text/javascript" src={{ url('js/app.js') }} defer></script>
-@endpush
-
 @section('content')
 
 <div class="container-fluid">
@@ -25,7 +21,7 @@
                 <h6 class="dropdown-header">Profile Actions</h6>
             </li>
             <li>
-                <a href= "{{ route('edit_profile', ['usrId' => Auth::id()]) }}" class="dropdown-item editbutton">Edit Account</a>
+                <a href= "{{ route('edit_profile', ['user' => Auth::user()]) }}" class="dropdown-item editbutton">Edit Account</a>
             </li>
             <li>
                 <a href= "" class="dropdown-item delete-btn">Delete Account</a>
@@ -106,15 +102,15 @@
         @foreach($tasks as $task)
             <div class="col-12 mb-4">
                 <div class = "row p-3 task">
-                    <div class ="col-3 taskinfo">
+                    <div class ="col-sm-12 col-lg-3 d-flex justify-content-center taskinfo">
                         <span class="text-truncate">
                             {{$task['task']->title}} - {{$task['task']->description}}
                         </span>
                     </div>
-                    <div class="col-3 taskinfo">
+                    <div class="col-sm-6 col-lg-3 d-flex justify-content-center taskinfo">
                         <span><i class="bi bi-calendar-week"></i> {{ \Carbon\Carbon::parse($task['task']->deadline)->format('Y/m/d') }}</span>
                     </div>
-                    <div class ="col-3 taskinfo ">
+                    <div class ="col-sm-6 col-lg-3 d-flex justify-content-center taskinfo ">
                     @if($task['task']->status == "closed")
                         <span>Status:</span>
                         <span style="color: #ff3333;">{{ $task['task']->status }}</span>
@@ -128,8 +124,8 @@
                         <span>{{ $task['task']->status }}</span>
                     @endif
                     </div>
-                    <div class="col-3">
-                        <a href="{{ route('task', ['projectId' => $task['project'], 'id' => $task['task']->id]) }}" class = "btn taskbtn" >Go to Task</a>
+                    <div class="col-sm-12 col-lg-3 d-flex justify-content-center ">
+                        <a href="{{ route('task', ['project' => $task['project'], 'task' => $task['task']]) }}" class = "btn taskbtn" >Go to Task</a>
                     </div>
                 </div>
             </div>
@@ -148,7 +144,7 @@
             <div class = "col-4 mx-auto">
                 <div class ="row">
                     <div class="col-12 text-center">
-                        <span class="statNumber" style="color: #2E9D7F;">{{$statusOpenCount = collect($tasks)->where('task.status', 'open')->count();}}</span>
+                        <span class="statNumber" style="color: #2E9D7F;">{{$statusOpenCount = collect($tasks)->where('task.status', 'open')->count()}}</span>
                     </div>
                     <div class="col-12 text-center">
                         <span class="statInfo" style="color: #2E9D7F;">Open Tasks</span></div>
@@ -157,7 +153,7 @@
             <div class = "col-4 mx-auto">
                 <div class ="row">
                     <div class="col-12 text-center">
-                        <span class="statNumber"style="color: orange;">{{$statusCanceledCount = collect($tasks)->where('task.status', 'canceled')->count();}}</span>
+                        <span class="statNumber"style="color: orange;">{{$statusCanceledCount = collect($tasks)->where('task.status', 'canceled')->count()}}</span>
                     </div>
                     <div class="col-12 text-center">
                         <span class="statInfo"style="color: orange;">Canceled Tasks</span></div>
@@ -166,7 +162,7 @@
             <div class = "col-4 mx-auto">
                 <div class ="row">
                     <div class="col-12 text-center">
-                        <span class="statNumber" style="color: #ff3333;">{{$statusClosedCount = collect($tasks)->where('task.status', 'closed')->count();}}</span>
+                        <span class="statNumber" style="color: #ff3333;">{{$statusClosedCount = collect($tasks)->where('task.status', 'closed')->count()}}</span>
                     </div>
                     <div class="col-12 text-center">
                         <span class="statInfo" style="color: #ff3333;">Closed Tasks</span></div>

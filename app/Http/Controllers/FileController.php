@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\File;
 
-use function PHPUnit\Framework\isNull;
 
 class FileController extends Controller
 {   static $diskName = 'proj_planner_files';
@@ -127,7 +126,6 @@ class FileController extends Controller
         return redirect()->back()->with('error',$message);
     }
 
-    // Delete not tested yet.
     private static function deleteFile(Request $request,String $file) {
         Storage::disk(self::$diskName)->delete('/'.$request->type.'/'.$file);
     }
