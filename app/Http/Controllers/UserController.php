@@ -33,7 +33,7 @@ class UserController extends Controller
             return response()->json($users->get());
         else {
             if($project ===null)
-                return $users->paginate(10);
+                return $users->paginate(10)->withQueryString();
         }
     }
 

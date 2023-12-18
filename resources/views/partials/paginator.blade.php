@@ -7,13 +7,13 @@
             $end = min($paginator->lastPage(), $paginator->currentPage() + 3);
         @endphp
 
-        @if($paginator->currentPage() > 3)
+        @if($paginator->currentPage() > 4)
             <a class="page last" href="{{ $paginator->url(1) }}">1</a>
         @elseif($paginator->currentPage() !== 1)
             <a class="page first" href="{{ $paginator->url(1) }}">1</a>
         @endif
 
-        @if($paginator->currentPage() > 4)
+        @if($paginator->currentPage() > 5)
             <span class="last">...</span>
         @elseif($paginator->currentPage() !== 1)
             <span class="first">...</span>

@@ -29,7 +29,7 @@ class TaskController extends Controller
         if ($request->ajax())
             return response()->json($searchedTasks->get());
         else {
-            return $searchedTasks->paginate(10);
+            return $searchedTasks->paginate(10)->withQueryString();
         }
     }
 

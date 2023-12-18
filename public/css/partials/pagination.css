@@ -11,7 +11,7 @@
 
     display: flex;
     flex-wrap: nowrap;
-    overflow-x: scroll;
+
     gap: 1em;
 }
 .pagination a {

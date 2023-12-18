@@ -24,10 +24,9 @@ class AdminController extends Controller
         $this->authorize('view_admin',[User::class]);
         $query = $request->input('query');
         $users = User::query()->count();
-        // dd(db::table('users')->paginate(10));
         if( $query)
             return view('admin.users', ['users' => app(UserController::class)->searchUsers($request),'query'=>$query,'registrations'=>$users] );
-        return view('admin.users', ['users' => User::query()->paginate(10),'query'=>$query,'registrations'=>$users] );
+        return view('admin.users', ['users' => User::query()->paginate(10)->withQueryString(),'query'=>$query,'registrations'=>$users] );
     }
 
     public function create(){
