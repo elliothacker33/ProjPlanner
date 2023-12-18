@@ -116,4 +116,5 @@ class ProjectPolicy
         $removeUser = $user == $project->coordinator && $removedUser != $project->coordinator;
         return $project->users->contains($removedUser) && ($leaveProject || $removeUser);
     }
+
 }

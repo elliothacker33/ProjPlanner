@@ -33,7 +33,8 @@ class User extends Authenticatable implements CanResetPassword
         'email',
         'password',
         'is_admin',
-        'file',
+        'projects',
+        'file'
     ];
 
     /**
@@ -83,6 +84,11 @@ class User extends Authenticatable implements CanResetPassword
         return $this->hasMany(Project::class);
     }
 
+
+    public function tasks_created(): HasMany
+    {
+        return $this->hasMany(Task::class, 'opened_user_id',);
+    }
     public function getProfileImage() {
         return FileController::get('user', $this->id);
     }
@@ -90,10 +96,12 @@ class User extends Authenticatable implements CanResetPassword
 
     public function openedTasks(): HasMany {
         return $this->hasMany(Task::class, 'opened_user_id');
+
     }
 
     public function closedTasks(): HasMany {
         return $this->hasMany(Task::class, 'closed_user_id');
+
     }
 }
  

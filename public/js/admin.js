@@ -1,9 +1,5 @@
 import { encodeForAjax, sendAjaxRequest } from "./app.js";
 
-const currentPath = window.location.pathname;
-const editPage = /^\/users\/[0-9]+\/edit$/.test(currentPath);
-const searchPage = /^[/\w, \/]*\/search*$/.test(currentPath);
-
 const searchBar = document.getElementById('search-bar');
 searchBar.addEventListener('input', (e) => {
     const input = encodeForAjax({"query": searchBar.value});

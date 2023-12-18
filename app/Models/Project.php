@@ -41,4 +41,5 @@ class Project extends Model
     {
         return $this->hasMany(Tag::class);
     }
+
 }

@@ -165,22 +165,60 @@ class ProjectController extends Controller
     {
         if ($project == null) {
             if ($request->ajax())
-                return response()->json(['error' => 'Project with specified id not found'], 404);
+                return response()->json(['error', 'Project with specified id not found']);
             else
                 return abort(404);
         }
 
         $this->authorize('view', [Project::class, $project]);
 
-        $tasks = $project->tasks;
+        $tasks = $project->tasks()->with('created_by')->paginate(10)->withQueryString();
+        //dd($tasks);
+        $open = $project->tasks()->where('status','=','open')->count();
+        $closed = $project->tasks()->where('status','=','closed')->count();
+        $canceled = $project->tasks()->where('status','=','canceled')->count();
+        if($request->input('query')) $tasks = app(TaskController::class)->searchTasks($request,$project);
 
         if ($request->ajax())
             return response()->json($tasks);
         else
-            return view('pages.tasks', ['project' => $project, 'tasks' => $tasks]);
+            return view('pages.tasks', ['project'=>$project, 'tasks'=>$tasks, 'open'=>$open,'closed'=>$closed,'canceled'=>$canceled, 'query'=>$request->input('query')]);
     }
 
-    public function remove_user(Request $request, Project $project) {  
+    public function search(Request $request)
+    {
+        $user = $request->input('user') ;
+        $project = $request->input('project');
+        $search_term = $request->input('query');
+
+        $query = null;
+        if ($user !== null) {
+            $query = User::find($user)->projects();
+
+        }
+        else{
+            $query = Project::query();
+        }
+
+        if($search_term !== null) {
+            $query
+                ->whereRaw("tsvectors @@ plainto_tsquery('english', ?)", [$request->input('query')])
+                ->orderByRaw("ts_rank(tsvectors, plainto_tsquery('english', ?)) DESC", [$request->input('query')]);
+
+        }
+        if($project !== null){
+            $projects = $query->where('id','=',1)->first();
+            return response()->json($projects);
+        }
+        $projects = $query->get();
+
+        return response()->json($projects);
+    }
+
+
+
+
+public function remove_user(Request $request, Project $project) {
         $removedUser = User::find($request->user);
         
         if ($removedUser == null)
@@ -194,5 +232,6 @@ class ProjectController extends Controller
         if (Auth::user() == $removedUser)
             return redirect()->route('home', ['projects' => $removedUser->projects,'user'=>Auth::id()]);
         // Return when coordinator is removing a user from the project
+
     }
 }

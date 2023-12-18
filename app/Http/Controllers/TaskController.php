@@ -13,23 +13,26 @@ use Illuminate\Support\Facades\Log;
 
 class TaskController extends Controller
 {
+
     private $possibleStatus = ['open', 'closed', 'canceled'];
 
-    public function searchTasks(Request $request)
+    public function searchTasks(Request $request, Project $project)
     {
-        $project = Project::find($request->input('project'));
-
         if ($project == null)
             return response()->json(['error' => 'Project with specified id not found'], 404);
 
-        $this->authorize('create', [Task::class, $project]);
-
+        // $this->authorize('create', [Task::class, $project]);
         $searchedTasks = $project->tasks()
+            ->with('created_by')
             ->whereRaw("tsvectors @@ plainto_tsquery('english', ?)", [$request->input('query')])
             ->orderByRaw("ts_rank(tsvectors, plainto_tsquery('english', ?)) DESC", [$request->input('query')])
-            ->get();
+        ;
 
-        return response()->json($searchedTasks);
+        if ($request->ajax())
+            return response()->json($searchedTasks->get());
+        else {
+            return $searchedTasks->paginate(10)->withQueryString();
+        }
     }
 
     /**
@@ -68,9 +71,12 @@ class TaskController extends Controller
         $task->project_id = $project->id;
         $task->save();
         $users = array_map('intval', explode(',', $validated['users']));
+        $tags = array_map('intval', explode(',', $validated['tags']));
 
-        $task->assigned()->attach(Auth::user()->id);
-        $task->tags()->attach($validated['tags']);
+        if($validated['users'])
+            foreach ($users as $user) $task->assigned()->attach($user);
+        if($validated['tags'])
+            foreach ($tags as $tag) $task->tags()->attach($tag);
 
         return redirect()->route('task', ['project' => $project, 'task' => $task]);
     }
@@ -89,7 +95,9 @@ class TaskController extends Controller
         $users = $task->assigned;
 
         $tags = $task->tags;
+
         $creator = $task->created_by;
+
 
         return view('pages.task',['project' => $project_task, 'task'=>$task, 'assign'=>$users,'tags'=>$tags,'creator'=>$creator]);
     }

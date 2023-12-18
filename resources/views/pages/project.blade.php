@@ -64,19 +64,17 @@
                     {{ $project->description }}
                 </section>
 
-            </section>
-            <section class="sideContainer">
-                <section class="completionContainer">
-                    <span class="completion"><i class="fa-solid fa-list-check"></i> Completed Tasks
-                        {{ $completedTasks }}/{{ $allTasks }}</span>
-                </section>
-                <section class="deadlineContainer">
-                    <span><i class="fa-solid fa-clock"></i> Deadline:
-                        @if ($project->deadline)
-                            {{ date('d-m-Y', strtotime($project->deadline)) }}
-                        @else
-                            There is no deadline
-                        @endif
+
+    </section>
+    <section class="sideContainer">
+        <section class="completionContainer">
+            <span class="completion"><i class="fa-solid fa-list-check"></i>  Completed Tasks {{$completedTasks}}/{{$allTasks}}</span>
+        </section>
+        <section class="deadlineContainer" >
+            <span><i class="fa-regular fa-calendar"></i> Deadline:
+                @if($project->deadline) {{ date('d-m-Y', strtotime($project->deadline)) }}
+                @else There is no deadline
+                @endif
 
                     </span>
                 </section>
