@@ -112,9 +112,9 @@
     padding: 0.5em 2em ;
     flex-wrap: wrap;
     align-items: center;
-    border-bottom: 1px solid var(--primary-border);
+
 }
-.tagCard .tag{
+.tagCard .tagContainer{
     width: 100%;
     max-width: 25em;
 }

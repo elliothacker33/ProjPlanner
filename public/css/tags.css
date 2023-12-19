@@ -117,6 +117,31 @@
     align-self: flex-end;
 }
 
+.tagSection{
+    display: flex;
+    flex-direction:column ;
+    gap: 2em;
+    border-bottom: 1px solid var(--primary-border);
+}
+
+.tagSection >form{
+    display: flex;
+    gap: 1em;
+    padding: 0 1em ;
+
+}
+.tagSection >form.hidden{
+   display: none;
+
+}
+
+.tagSection >form input{
+    max-width: 40em;
+}
+.tagSection >form input[type='submit']{
+    background: var(--onprimary-bg-color);
+    border: none;
+}
 
 
 

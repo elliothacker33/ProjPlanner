@@ -33,6 +33,12 @@ class TagController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|min:1|max:20|',
         ]);
+        $tag = Tag::query()
+            ->where('project_id','=',$project->id)
+            ->where('title','=',$validated['title'])
+            ->get();
+
+        if($tag) return back()->withErrors(['title' => 'Tag already exists']);
 
         $tag = new Tag();
         $tag->title = $validated['title'];
@@ -62,9 +68,21 @@ class TagController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Tag $tag)
+    public function update(Request $request,Project $project, Tag $tag)
     {
-        //
+        $this->authorize('update',[Tag::class, $project]);
+        $validated = $request->validate([
+            'title' => 'required|string|min:1|max:20|',
+        ]);
+        $tag_res = Tag::query()
+            ->where('project_id','=',$project->id)
+            ->where('title','=',$validated['title'])
+            ->first();
+
+        if($tag_res) return response()->json(['errors' => ['Tag already exists']], 422);
+        $tag->title = $validated['title'];
+        $tag->save();
+        return response()->json($tag);
     }
 
     /**

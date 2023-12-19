@@ -21,7 +21,7 @@ class TagPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Tag $tag, Project $project): bool
+    public function update(User $user, Project $project): bool
     {
         return $project->users->contains($user);
     }

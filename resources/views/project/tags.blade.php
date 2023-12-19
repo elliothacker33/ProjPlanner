@@ -8,7 +8,7 @@
 @endpush
 
 @push('scripts')
-    <script type="module" src="{{ asset('js/pages/user.js') }}" defer></script>
+    <script type="module" src="{{ asset('js/pages/tags.js') }}" defer></script>
 @endpush
 
 @section('content')
@@ -28,13 +28,13 @@
                             <form method="POST" action="{{ route('add_tag', ['project' => $project])  }}">
                                 {{ csrf_field() }}
                                 <input type="text" name="title" placeholder="New Tag Title" required
-                                       value="{{old('email')}}">
+                                       value="{{old('title')}}">
 
                                 <button type="submit"><i class="fa-solid fa-plus"></i> Add Tag</button>
                             </form>
-                            @if ($errors->has('email'))
+                            @if ($errors->has('title'))
                                 <span class="error">
-                            {{ $errors->first('email') }}
+                            {{ $errors->first('title') }}
                         </span>
                             @endif
                         </section>
@@ -43,7 +43,14 @@
             </header>
             <section class="tags">
                 @foreach($tags as $tag)
-                    @include('partials.tagCard',['tag'=>$tag])
+                    <section class="tagSection">
+                        @include('partials.tagCard',['tag'=>$tag])
+                        <form class="hidden" id="edit-{{$tag->id}}" autocomplete="off">
+                            <input required maxlength="20" minlength="1" type="text" name="title" value="{{$tag->title}}">
+                            <input type="submit">
+                            <span class="error"></span>
+                        </form>
+                    </section>
                 @endforeach
             </section>
         </section>
