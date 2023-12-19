@@ -7,6 +7,9 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Log;
+
 
 class ProjectController extends Controller
 {
@@ -194,5 +197,25 @@ class ProjectController extends Controller
         if (Auth::user() == $removedUser)
             return redirect()->route('home', ['projects' => $removedUser->projects,'user'=>Auth::id()]);
         // Return when coordinator is removing a user from the project
+    }
+
+    public function assign_coordinator(Request $request, Project $project) {
+        $this->validate($request, [
+            'user_id' => [
+                'required',
+                'integer',
+                Rule::in($project->users()->pluck('id')->toArray()),
+                'different:' . Auth::id(),
+            ]
+        ]);
+
+        Log::info('Success');
+
+        $this->authorize('assign_coordinator', [Project::class, $project]);
+
+        $project->user_id = $request->input('user_id');
+        $project->save();
+
+        return redirect()->route('project', ['project' => $project->id]);
     }
 }
