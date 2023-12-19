@@ -227,6 +227,6 @@ public function remove_user(Request $request, Project $project) {
 
     public function show_tags(Request $request, Project $project){
         $this->authorize('view', $request->user());
-        return view('project.tags',['project'=>$project, 'tags'=>$project->tags]);
+        return view('project.tags',['project'=>$project, 'tags'=>$project->tags()->with('tasks')->get()]);
     }
 }

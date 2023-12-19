@@ -105,3 +105,9 @@
 
 }
 
+.tagCard{
+    display: flex;
+    gap:1em;
+    justify-content: space-between;
+    padding: 0 2em ;
+}
