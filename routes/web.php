@@ -129,16 +129,15 @@ Route::prefix('/project')->group(function () {
         Route::get('/tasks', [ProjectController::class, 'showTasks'])->name('show_tasks');
 
         Route::prefix('/forum')->group(function () {
-            Route::controller(ProjectController::class)->group(function () {
-                Route::get('', 'showForum')->name('forum'); 
-                Route::controller(PostController::class)->group(function () {
+            Route::controller(PostController::class)->group(function () {
+                Route::get('', 'index')->name('forum'); 
 
-                    Route::post('/new', 'store')->name('create_post');
+                Route::post('/new', 'store')->name('create_post');
 
-                    Route::prefix('/{post}')->whereNumber('post')->group(function() {
-                        Route::put('/edit', 'update')->name('edit_post');
-                        Route::delete('/delete', 'destroy')->name('delete_post');
-                    });
+                Route::prefix('/{post}')->whereNumber('post')->group(function() {
+                    Route::put('/edit', 'update')->name('edit_post');
+                    Route::delete('', 'destroy')->name('delete_post');
+                    
                 });
             });
         });

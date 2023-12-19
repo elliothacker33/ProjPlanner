@@ -14,7 +14,7 @@ class Post extends Model
 
     protected $fillable = [
         'content',
-        'author',
+        'user_id',
         'project_id',
         'submit_date',
         'last_edited',
@@ -26,23 +26,6 @@ class Post extends Model
 
     public function project(): BelongsTo {
         return $this->belongsTo(Project::class);
-    }
-
-    public function body(): string {
-        return $this->content;
-    }
-
-    public function submit_date() :string {
-        return $this->submit_date;
-    }
-
-    public function last_edited() :string {
-        return $this->last_edited;
-    }
-
-    public function author(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
     }
 
 }

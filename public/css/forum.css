@@ -1,9 +1,12 @@
 .forum {
-    display: flex;
-    flex-direction: column;
     width: 100%;
     max-width: 70em;
     margin: 0 auto;
+}
+
+.forum-container{
+    display: flex;
+    flex-direction: column;
 }
 
 .own-post,
@@ -16,14 +19,18 @@
     padding: 0.5em;
     background: var(--posts-bg-color);
     border-radius: 5px;
+    max-height: 100%;
+    overflow: scroll;
 }
 
 .own-post {
     border: 2px solid var(--modal-main-border);
+    align-self: flex-end;
 }
 
 .participants-post {
     border: 2px solid var(--modal-secondary-border);
+    align-self: flex-start;
 }
 
 .post-header,
@@ -71,4 +78,21 @@ button[type="submit"] {
 .delete-post:hover,
 button[type="submit"]:hover {
     background-color: var(--close-button-hover-color);
+}
+
+.no-posts {
+    width: 100%;
+    max-width: 42em;
+    margin: 2em auto;
+    padding: 1em;
+    background: var(--posts-bg-color);
+    border-radius: 5px;
+    text-align: center;
+}
+
+.new-post {
+    align-self: flex-end;
+    margin: 0 auto;
+    max-width: 60em;
+    width: 100%;
 }
