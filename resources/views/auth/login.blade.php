@@ -46,6 +46,14 @@
                 </p>
             @endif
         </form>
+        <div class ="d-flex justify-content-center forgot">
+                    <a href="{{ route('pass.request')}} "> Forgot your password? </a>
+        </div>
+        @if(session('message'))
+                <div class=" d-flex justify-content-center alert alert-success alert-dismissible fade show" style="margin-top: 3%;" role="alert">
+                    {{ session('message') }}
+                </div>
+            @endif
         </section>
         <section class="container">
             <h2>New Here?</h2>

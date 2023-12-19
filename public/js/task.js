@@ -1,6 +1,6 @@
+import {config_multiselector, multiselector} from "./components/multiselector.js";
 import { sendAjaxRequest } from './app.js'
-import { attachModal, addOpenModalBtn } from './modal.js'
-import { config_multiselector, multiselector } from "./multiselector.js";
+import { addOpenModalBtn, attachDialogs } from './modal.js'
 import { getDateString } from './utils.js';
 
 const currentPath = window.location.pathname;
@@ -15,12 +15,7 @@ function addTaskEventHandlers() {
     if (cancelTaskButton != null) changeTaskStatusEvent(cancelTaskButton, 'canceled');
     if (reopenTaskButton != null) changeTaskStatusEvent(reopenTaskButton, 'open');
 
-    document.querySelectorAll('dialog').forEach((dialog) => {
-        attachModal(dialog);
-        const openBtn = document.querySelector('#' + dialog.dataset.openFormId);
-
-        if (openBtn != null) addOpenModalBtn(dialog);
-    })
+    attachDialogs();
 
     config_multiselector();
 

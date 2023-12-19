@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -13,7 +14,7 @@ class Project extends Model
 
     public $timestamps = false;
     protected $casts = [
-        'deadline' => 'datetime', 
+        'deadline' => 'datetime',
     ];
 
     protected $fillable = [
@@ -25,12 +26,15 @@ class Project extends Model
 
     protected $hidden = ['tsvectors'];
 
-    public function users(): BelongsToMany {
+    public function users(): BelongsToMany
+    {
         return $this->belongsToMany(User::class);
     }
 
-    public function coordinator() {
-        return $this->belongsTo(User::class);
+
+    public function coordinator(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
     public function tasks(): HasMany
     {
@@ -40,5 +44,5 @@ class Project extends Model
     {
         return $this->hasMany(Tag::class);
     }
-}
 
+}

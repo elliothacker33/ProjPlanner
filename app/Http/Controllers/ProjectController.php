@@ -15,10 +15,32 @@ class ProjectController extends Controller
      */
     public function index(Request $request)
     {
-        $user = $request->user();
+
         $this->authorize('viewUserProjects',Project::class);
-        return view('home.home',['projects'=>$user->projects]);
+        $projects = $this->search($request);
+        return view('home.home',['projects'=>$projects,'query'=>$request->input('query')]);
     }
+
+    public function search(Request $request){
+        $user = $request->user();
+        if($user->is_admin){
+            $projects = Project::query();
+        }else{
+            $projects = $user->projects();
+        }
+        if($request->input('query')) {
+            $searchedProjects = $projects->with('coordinator')
+                ->whereRaw("tsvectors @@ plainto_tsquery('english', ?)", [$request->input('query')])
+                ->orderByRaw("ts_rank(tsvectors, plainto_tsquery('english', ?)) DESC", [$request->input('query')]);
+        }else $searchedProjects = $projects;
+
+        if ($request->ajax())
+            return response()->json($searchedProjects->get());
+        else
+            return $searchedProjects->paginate(10)->withQueryString();
+    }
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -26,7 +48,7 @@ class ProjectController extends Controller
     public function create()
     {
         $this->authorize('create', Project::class);
-        
+
         return view('pages.newProjectForm');
     }
 
@@ -63,65 +85,61 @@ class ProjectController extends Controller
         if ($project == null)
             return abort(404);
 
-        $this->authorize('view',[Project::class,$project]);
+        $this->authorize('view', [Project::class, $project]);
         $users = $project->users;
 
         $completed_tasks = $project->tasks()
-            ->where('tasks.status','=','closed')
+            ->where('tasks.status', '=', 'closed')
             ->count();
-        
+
         $open_tasks = $project->tasks()
-            ->where('tasks.status','=','open')
+            ->where('tasks.status', '=', 'open')
             ->count();
 
         $all_task = $completed_tasks + $open_tasks;
-        return view('pages.project',['project'=>$project, 'team'=>$users->slice(0,4),'allTasks'=>$all_task, 'completedTasks'=>$completed_tasks]);
+        return view('pages.project', ['project' => $project, 'team' => $users->slice(0, 4), 'allTasks' => $all_task, 'completedTasks' => $completed_tasks]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(Project $project)
-    {   
+    {
         if ($project == null)
             return abort(404);
 
         $this->authorize('update', [Project::class, $project]);
 
-        return view('pages.editProject', ['project'=>$project]);
+        return view('pages.editProject', ['project' => $project]);
     }
     public function show_team(Project $project)
 
     {
-        $this->authorize('view',[Project::class,$project]);
-        return view('pages.team',['team'=>$project->users, 'project'=>$project]);
+        $this->authorize('view', [Project::class, $project]);
+        return view('pages.team', ['team' => $project->users, 'project' => $project]);
     }
     public function add_user(Request $request, Project $project)
 
     {
-        $this->authorize('update',[Project::class,$project]);
+        $this->authorize('update', [Project::class, $project]);
         $user = User::where('email', $request->email)->first();
-        if(!$user)return back()->withErrors([
+        if (!$user) return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ])->onlyInput('email');
-        if($user->is_admin)return back()->withErrors([
+        if ($user->is_admin) return back()->withErrors([
             'email' => 'Admins cannot be part of a project',
         ])->onlyInput('email');
-        if($user->is_block)return back()->withErrors([
+        if ($user->is_block) return back()->withErrors([
             'email' => 'User is blocked',
         ])->onlyInput('email');
-        $users= $project->users;
-        $memberExist=false;
-        foreach ($users as $member){
-            if($member->id === $user->id) $memberExist= true;
-        }
-        if($memberExist) return back()->withErrors([
+        
+        if($project->users->contains($user)) return back()->withErrors([
             'email' => 'Member already in the project',
         ])->onlyInput('email');
 
         $project->users()->attach($user->id);
 
-        return redirect()->route('team',['team'=>$project->users,'project'=>$project]);
+        return redirect()->route('team', ['team' => $project->users, 'project' => $project]);
     }
     /**
      * Update the specified resource in storage.
@@ -159,7 +177,7 @@ class ProjectController extends Controller
 
         $projects = Project::all();
 
-        return redirect()->route('home', ['projects' => $projects,'user'=>Auth::id()]);
+        return redirect()->route('home', ['projects' => $projects, 'user' => Auth::id()]);
         // TODO: redirect to "My projects page"
         // return redirect()->route('my_projects');
     }
@@ -169,18 +187,41 @@ class ProjectController extends Controller
     {
         if ($project == null) {
             if ($request->ajax())
-                return response()->json(['error' => 'Project with specified id not found'], 404);
+                return response()->json(['error', 'Project with specified id not found']);
             else
                 return abort(404);
         }
 
         $this->authorize('view', [Project::class, $project]);
 
-        $tasks = $project->tasks;
-        
+        $tasks = $project->tasks()->with('created_by')->paginate(10)->withQueryString();
+        //dd($tasks);
+        $open = $project->tasks()->where('status','=','open')->count();
+        $closed = $project->tasks()->where('status','=','closed')->count();
+        $canceled = $project->tasks()->where('status','=','canceled')->count();
+        if($request->input('query')) $tasks = app(TaskController::class)->searchTasks($request,$project);
+
         if ($request->ajax())
             return response()->json($tasks);
         else
-            return view('pages.tasks', ['project'=>$project, 'tasks'=>$tasks]);
+            return view('pages.tasks', ['project'=>$project, 'tasks'=>$tasks, 'open'=>$open,'closed'=>$closed,'canceled'=>$canceled, 'query'=>$request->input('query')]);
+    }
+
+
+public function remove_user(Request $request, Project $project) {
+        $removedUser = User::find($request->user);
+        
+        if ($removedUser == null)
+            abort(404, 'User to remove from project not found');
+
+        $this->authorize('removeUser', [Project::class, $project, $removedUser]);
+
+        $removedUser->assign()->detach();
+        $project->users()->detach($removedUser->id);
+
+        if (Auth::user() == $removedUser)
+            return redirect()->route('home', ['projects' => $removedUser->projects,'user'=>Auth::id()]);
+        // Return when coordinator is removing a user from the project
+
     }
 }
