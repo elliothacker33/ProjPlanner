@@ -59,9 +59,9 @@ function changeTaskStatusEvent(button, status) {
             else {
                 console.error(`Error ${response.status}: ${data.error}`);
             }
-        })/*.catch(() => {
+        }).catch(() => {
             console.error('Error parsing JSON');
-        })*/
+        })
     });
 };
 
