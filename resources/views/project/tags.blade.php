@@ -1,7 +1,7 @@
 @php use App\Models\Project; @endphp
 @extends('layouts.project')
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/project/tags.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/tags.css') }}">
     <link rel="stylesheet" href="{{ asset('css/users.css') }}">
     <link rel="stylesheet" href="{{ asset('css/partials/cards.css') }}">
 
@@ -25,12 +25,12 @@
                     <span> <i class="fa-solid fa-users"></i>  {{count($tags)}} Tags </span>
                     @can('update',[Project::class,$project])
                         <section class="addUserContainer">
-                            <form method="POST" action="{{ route('addUser', ['project' => $project])  }}">
+                            <form method="POST" action="{{ route('add_tag', ['project' => $project])  }}">
                                 {{ csrf_field() }}
-                                <input type="email" name="email" placeholder="New member Email" required
+                                <input type="text" name="title" placeholder="New Tag Title" required
                                        value="{{old('email')}}">
 
-                                <button type="submit"><i class="fa-solid fa-user-plus"></i> Add member</button>
+                                <button type="submit"><i class="fa-solid fa-user-plus"></i> Add Tag</button>
                             </form>
                             @if ($errors->has('email'))
                                 <span class="error">

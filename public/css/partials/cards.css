@@ -109,5 +109,21 @@
     display: flex;
     gap:1em;
     justify-content: space-between;
-    padding: 0 2em ;
+    padding: 0.5em 2em ;
+    flex-wrap: wrap;
+    align-items: center;
+    border-bottom: 1px solid var(--primary-border);
+}
+.tagCard .tag{
+    width: 100%;
+    max-width: 25em;
+}
+
+.tagCard .actions{
+    display: flex;
+    gap: 3em;
+}
+
+.tagCard .actions >*:hover{
+    background: var(--primary-border);
 }

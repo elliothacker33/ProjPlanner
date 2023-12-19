@@ -1,3 +1,49 @@
+:root{
+    --royal-blue:#6495ED;
+    --esmeral-green:#00BBAA;
+    --sunset-orange:#FF7500;
+    --brown: #D2B48C;
+    --yellow: #FFBB00;
+    --silver: #A0A0A0;
+    --pink: #FFA6C1;
+    --blue: #4682B4;
+    --red:#FF503A;
+    --purple:#9696DA;
+
+
+}
 .tag{
-    
+    color: white;
+    padding: 0.3em 0.7em;
+    border-radius: 2em;
+}
+.tag0{
+    background: var(--royal-blue);
+}
+.tag1{
+    background: var(--esmeral-green);
+}
+.tag2{
+    background: var(--sunset-orange);
+}
+.tag3{
+    background: var(--brown);
+}
+.tag4{
+    background: var(--red);
+}
+.tag5{
+    background: var(--yellow);
+}
+.tag6{
+    background: var(--purple);
+}
+.tag7{
+    background: var(--pink);
+}
+.tag8{
+    background: var(--blue);
+}
+.tag9{
+    background: var(--silver);
 }

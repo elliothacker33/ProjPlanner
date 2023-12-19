@@ -1,5 +1,5 @@
 <section class="tagCard">
-    <span class="tag{{$tag->id%10}}">{{$tag->title}}</span>
+    <section class="tag"><span class="tag tag{{$tag->id%10}}">{{$tag->title}}</span></section>
     <span><i class="fa-solid fa-list-check"></i> {{count($tag->tasks)}}</span>
     <section class="actions">
         <span class="edit"><i class="fa-solid fa-pen-to-square"></i></span>
