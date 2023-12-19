@@ -105,3 +105,34 @@
 
 }
 
+.taskCard.small a{
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    font-size: 1.1em;
+    width: 25em;
+    border: none;
+}
+.taskCard.small header{
+    display: flex;
+    gap: 1em;
+}
+
+.taskCard.small p{
+    margin: 0;
+}
+.taskCard.small .tags{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+}
+.taskCard.small .tag{
+   background: #2C7E90;
+    color: white;
+    padding: 0.3em 0.7em;
+    border-radius: 2em;
+}
+.taskCard.small .deadLine{
+    margin-left: auto;
+}
+

@@ -123,7 +123,7 @@ Route::prefix('/api')->group(function () {
                 Route::delete('', 'destroy')->name('delete_project');
                 Route::get('/edit', 'edit')->name('show_edit_project');
                 Route::put('/edit', 'update')->name('action_edit_project');
-
+                Route::get('/board', 'show_board')->name('board');
             });
             Route::prefix('/task')->controller(TaskController::class)->group(function () {
                 Route::get('/{task}', 'show')->where('task', '[0-9]+')->name('task');

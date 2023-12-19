@@ -224,4 +224,12 @@ public function remove_user(Request $request, Project $project) {
         // Return when coordinator is removing a user from the project
 
     }
+
+    public function show_board(User $user, Project $project){
+        $this->authorize('view', [Project::class, $project]);
+        $open = $project->tasks()->where('status','=','open')->with('tags')->get();
+        $closed = $project->tasks()->where('status','=','closed')->with('tags')->get();
+        $canceled = $project->tasks()->where('status','=','canceled')->with('tags')->get();
+        return view('project.board',['project'=>$project,'open'=>$open,'closed'=>$closed,'canceled'=>$canceled]);
+    }
 }

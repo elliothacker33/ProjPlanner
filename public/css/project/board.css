@@ -1,0 +1,54 @@
+.projectBoard{
+    width: 100%;
+    height: 45em;
+    padding: 1em;
+}
+.projectBoard .board{
+    width: fit-content;
+    overflow-x: scroll;
+    min-width: 100%;
+    height: 100%;
+
+}
+.projectBoard .board > ul{
+    display: flex;
+    gap: 1em;
+    justify-content: flex-start;
+    width: fit-content;
+    min-width: 100%;
+    height: 100%;
+    padding: 0;
+}
+.projectBoard .board > ul >li{
+    border: 1px solid var(--primary-border);
+    background: var(--onsecondary-bg-color);
+    height:43em;
+    border-radius:1em ;
+}
+.board ul{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.board .container{
+    padding: 0.7em;
+}
+
+.projectBoard .board .container  li{
+    background: white;
+    border-radius: 0.5em;
+}
+.board .container > header {
+    padding: 1em;
+
+}
+.board .container > header h4{
+    font-weight: bold;
+    color: var(--secondary-text-color);
+}
+.board .quantity{
+    padding: 0 0.7em;
+    background: var(--primary-border);
+    border-radius: 1em;
+    margin-left: 0.7em;
+}

@@ -9,8 +9,9 @@
                 @endif
             </header>
         </li>
-        <li class="deadLine"><i class="fa-regular fa-calendar"></i>
-        @if($task->deadline) {{ date('d-m-Y', strtotime($task->deadline)) }}
+        <li class="deadLine">
+            <i class="fa-regular fa-calendar"></i>
+            @if($task->deadline) {{ date('d-m-Y', strtotime($task->deadline)) }}
             @else There is no deadline
             @endif
         </li>
