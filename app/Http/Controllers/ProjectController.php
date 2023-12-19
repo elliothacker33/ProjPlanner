@@ -233,12 +233,10 @@ public function remove_user(Request $request, Project $project) {
             'user_id' => [
                 'required',
                 'integer',
-                Rule::in($project->users()->pluck('id')->toArray()),
+                Rule::in($project->users->pluck('id')->toArray()),
                 'different:' . Auth::id(),
             ]
         ]);
-
-        Log::info('Success');
 
         $this->authorize('assign_coordinator', [Project::class, $project]);
 

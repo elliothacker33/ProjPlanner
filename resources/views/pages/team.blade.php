@@ -41,6 +41,10 @@
                 </section>
             </header>
             <section class="users">
+                <form class="hidden" id="assign-coordinator-form" method="POST">
+                    @csrf
+                    @method('PUT')
+                </form>
                 @foreach($team as $user)
                     <section class="user-item">
                         <section class="userSection">
@@ -58,9 +62,12 @@
                         @can('update', [Project::class,$project])
                             <section class="actions">
                                 @if($project->user_id !== $user->id )
-                                    <span class="promote" id="{{$user->id}}"><i class="fa-solid fa-user-tie"></i></span>
+                                    <button class="promote" name="user_id" value="{{ $user->id }}" type="submit" form="assign-coordinator-form" formaction="{{ route('assign_coordinator', ['project' => $project->id])}}">
+                                        <i class="fa-solid fa-user-tie"></i>
+                                    </button>
                                     <span class="remove" id="{{$user->id}}"><i
                                                 class="fa-solid fa-user-xmark"></i></span>
+                                    <p>{{$user->id}}</p>
                                 @endif
                             </section>
                         @endcan

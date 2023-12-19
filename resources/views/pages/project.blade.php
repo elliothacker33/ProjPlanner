@@ -43,15 +43,15 @@
             @endcan
         </section>
         <!-- Hidden forms to actions in project page that don't use AJAX-->
-        <form class="hidden-form" id="edit-project-form" action="{{ route('show_edit_project',['project'=>$project->id])}}" method="GET">
+        <form class="hidden" id="edit-project-form" action="{{ route('show_edit_project',['project'=>$project->id])}}" method="GET">
         </form>
 
-            <form class="hidden-form" id="delete-project-form" action="{{ '/project/' . $project->id }}" method="POST">
+            <form class="hidden" id="delete-project-form" action="{{ '/project/' . $project->id }}" method="POST">
                 @csrf
                 @method('DELETE')
             </form>
 
-        <form class="hidden-form" id="leave-project-form" action="{{ "/project/" . $project->id . "/team/leave"}}" method="POST">
+        <form class="hidden" id="leave-project-form" action="{{ "/project/" . $project->id . "/team/leave"}}" method="POST">
             @csrf
             @method('DELETE')
             <input type="hidden" value="{{ Auth::id() }}" name="user">
