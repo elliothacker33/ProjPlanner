@@ -7,17 +7,24 @@
 .status.open{
     background: var(--onprimary-bg-color);
 }
-.status.closed{
+
+.status.closed, .status.archive{
     background: var(--on-third-bg-color);
 }
 .status.cancelled{
     background: var(--error-text-color);
 }
+
+.projectCard,
 .taskCard{
+
     padding: 1em ;
     width: 100%;
     border-bottom: 1px solid var(--primary-border);
 }
+
+.projectCard ul,
+
 .taskCard ul{
     display: flex;
     justify-content: space-between;
@@ -31,18 +38,27 @@
 
 
 }
+
+.projectCard ul header ,
+
 .taskCard ul header {
+
     display: flex;
     gap: 1em;
     flex-wrap: wrap;
     width: 100%;
     max-width: 50em;
 }
+
+.projectCard ul header h3,
+
 .taskCard ul header h3{
     font-size: 1.3em;
     font-weight: normal;
 }
 
+
+.projectCard ul .deadLine,
 .taskCard ul .deadLine{
     width: 15em;
 }
@@ -56,6 +72,7 @@
 
 }
 .userCard.small .info{
+
    overflow-x: clip;
     max-width: 10em;
 

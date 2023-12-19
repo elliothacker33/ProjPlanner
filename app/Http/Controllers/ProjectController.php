@@ -15,10 +15,32 @@ class ProjectController extends Controller
      */
     public function index(Request $request)
     {
-        $user = $request->user();
-        $this->authorize('viewUserProjects', Project::class);
-        return view('home.home', ['projects' => $user->projects]);
+
+        $this->authorize('viewUserProjects',Project::class);
+        $projects = $this->search($request);
+        return view('home.home',['projects'=>$projects,'query'=>$request->input('query')]);
     }
+
+    public function search(Request $request){
+        $user = $request->user();
+        if($user->is_admin){
+            $projects = Project::query();
+        }else{
+            $projects = $user->projects();
+        }
+        if($request->input('query')) {
+            $searchedProjects = $projects->with('coordinator')
+                ->whereRaw("tsvectors @@ plainto_tsquery('english', ?)", [$request->input('query')])
+                ->orderByRaw("ts_rank(tsvectors, plainto_tsquery('english', ?)) DESC", [$request->input('query')]);
+        }else $searchedProjects = $projects;
+
+        if ($request->ajax())
+            return response()->json($searchedProjects->get());
+        else
+            return $searchedProjects->paginate(10)->withQueryString();
+    }
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -184,38 +206,6 @@ class ProjectController extends Controller
         else
             return view('pages.tasks', ['project'=>$project, 'tasks'=>$tasks, 'open'=>$open,'closed'=>$closed,'canceled'=>$canceled, 'query'=>$request->input('query')]);
     }
-
-    public function search(Request $request)
-    {
-        $user = $request->input('user') ;
-        $project = $request->input('project');
-        $search_term = $request->input('query');
-
-        $query = null;
-        if ($user !== null) {
-            $query = User::find($user)->projects();
-
-        }
-        else{
-            $query = Project::query();
-        }
-
-        if($search_term !== null) {
-            $query
-                ->whereRaw("tsvectors @@ plainto_tsquery('english', ?)", [$request->input('query')])
-                ->orderByRaw("ts_rank(tsvectors, plainto_tsquery('english', ?)) DESC", [$request->input('query')]);
-
-        }
-        if($project !== null){
-            $projects = $query->where('id','=',1)->first();
-            return response()->json($projects);
-        }
-        $projects = $query->get();
-
-        return response()->json($projects);
-    }
-
-
 
 
 public function remove_user(Request $request, Project $project) {

@@ -24,10 +24,14 @@
     --modal-secondary-border: #dee2e6;
     --close-button-primary-color: #7f7f7f;
     --close-button-hover-color: #404040;
+<<<<<<< HEAD
+    --primary-border: #CCCCCC99;
+=======
     --modal-header-error: #DE3D44;
     --modal-header-warning: #FEBF00;
     --modal-header-info: #04A1B9;
     --modal-header-success: #1AA346;
+>>>>>>> 4303e2a1b7454f40a33ac34b06d5dc78dfbdba20
   }
 
 
@@ -83,7 +87,9 @@ main {
     flex-grow: 1;
     width: 100%;
     display: flex;
-    justify-content: flex-start ;
+
+    justify-content: flex-start;
+
     flex-direction: column;
     box-sizing: border-box;
 }
@@ -292,6 +298,7 @@ input[type=password]:focus {
 #header_title > a {
     color: inherit
 }
+
 .invisible{
     background: transparent;
     border: 0;
@@ -321,6 +328,7 @@ input[type=password]:focus {
 
 }
 
+
 .search form, .search {
     width: 100%;
     display: flex;
@@ -344,3 +352,9 @@ header .search button{
     margin-right: 0.3em ;
     scale: 1.5;
 }
+
+.button {
+    outline: none;
+    border: none;
+}
+

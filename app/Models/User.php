@@ -81,7 +81,7 @@ class User extends Authenticatable implements CanResetPassword
 
     public function coordinates(): HasMany
     {
-        return $this->hasMany(Project::class);
+        return $this->hasMany(Project::class,'user_id');
     }
 
 
