@@ -5,9 +5,6 @@
     <link rel="stylesheet" href="{{ asset('css/project.css') }}">
 @endpush
 
-@push('scripts')
-    <script src="{{ asset('js/posts.js') }}" defer></script>
-@endpush
 
 @section('content')
 
@@ -27,7 +24,7 @@
                         </div>
                         @if (Auth::user()->id === $post->user_id)
                             <div class="post-edit">
-                                <button class="edit-post"><i class="fas fa-edit"></i></button>
+                                <button action="{{ route('show_edit_post', ['post' => $post, 'project' => $project]) }}" class="edit-post"><i class="fas fa-edit"></i></button>
                                 <form action="{{ route('delete_post', ['project' => $project->id, 'post' => $post->id]) }}"
                                     method="POST">
                                     @csrf

@@ -6,8 +6,6 @@ use App\Models\Post;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Pagination\CursorPaginator;
-use Illuminate\Pagination\Cursor;
 
 class PostController extends Controller
 {
@@ -38,20 +36,6 @@ class PostController extends Controller
     }
 
     /**
-     * Fetches the next page of posts.
-     */
-    public function fetch(Request $request)
-    {
-        $cursor = $request->input('cursor', null);
-
-        $posts = Post::orderBy('submit_date', 'desc')->cursorPaginate(2, ['*'], 'cursor', $cursor);
-
-        return response()->json($posts);
-    }
-
-
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request, Project $project)
@@ -80,7 +64,10 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+
+        $this->authorize('update', [Post::class, $post]);
+
+        return view('pages.editPost', ['post' => $post]);
     }
 
     /**
@@ -88,7 +75,17 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        $this->authorize('update', [Post::class, $post]);
+
+        $request->validate([
+            'content' => 'required|string|max:1024',
+        ]);
+
+        $post->content = $request->content;
+        $post->last_edited = date('Y-m-d');
+        $post->save();
+
+        return redirect()->route('forum', ['project' => $post->project]);
     }
 
     /**
