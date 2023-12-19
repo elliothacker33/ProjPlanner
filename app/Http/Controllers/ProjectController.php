@@ -224,4 +224,9 @@ public function remove_user(Request $request, Project $project) {
         // Return when coordinator is removing a user from the project
 
     }
+
+    public function show_tags(Request $request, Project $project){
+        $this->authorize('view', $request->user());
+        return view('project.tags',['project'=>$project, 'tags'=>$project->tags]);
+    }
 }
