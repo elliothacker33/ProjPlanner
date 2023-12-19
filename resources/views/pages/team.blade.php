@@ -3,17 +3,24 @@
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/users.css') }}">
     <link rel="stylesheet" href="{{ asset('css/partials/cards.css') }}">
-
+    <link rel="stylesheet" href="{{ asset('css/modal.css') }}">
 @endpush
 
 @push('scripts')
     <script type="module" src="{{ asset('js/pages/user.js') }}" defer></script>
+    <script type="module" src="{{ asset('js/app.js') }}" defer></script>
+    <script type="module" src="{{ asset('js/pages/team.js') }}" defer></script>
+    <script type="module" src="{{ asset('js/modal.js') }}" defer></script>
 @endpush
 
 @section('content')
+    @include('partials.modal', [
+        'modalTitle' => 'Remove user from project',
+        'modalBody' => 'Are you sure that you want to remove this user from the project?',
+        'actionId' => 'removeUserBtn',
+        'openFormId' => 'openRemoveUserModal',
+    ])
     <section class="team">
-
-
         <section class="users-list">
             <header>
                 <section class="search">
@@ -41,8 +48,12 @@
                 </section>
             </header>
             <section class="users">
+                <form class="hidden" id="remove-user-form" method="POST">
+                    @csrf
+                    @method('DELETE')
+                </form>
                 @foreach($team as $user)
-                    <section class="user-item">
+                    <section class="user-item" id="{{'user-item-' . $user->id }}">
                         <section class="userSection">
 
                             <a href="{{route('profile',['user'=>$user])}}">
@@ -59,8 +70,9 @@
                             <section class="actions">
                                 @if($project->user_id !== $user->id )
                                     <span class="promote" id="{{$user->id}}"><i class="fa-solid fa-user-tie"></i></span>
-                                    <span class="remove" id="{{$user->id}}"><i
-                                                class="fa-solid fa-user-xmark"></i></span>
+                                    <button id="openRemoveUserModal" class="remove remove-user-btn" data-user="{{ $user->id }}" type="button">
+                                        <i class="fa-solid fa-user-xmark"></i>
+                                    </button>
                                 @endif
                             </section>
                         @endcan
