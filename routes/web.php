@@ -113,6 +113,7 @@ Route::prefix('/api')->group(function () {
             Route::get('/new', 'create')->name('show_new');
             Route::post('/new', 'store')->name('action_new');
         });
+
         Route::prefix('/{project}')->where(['project' => '[0-9]+'])->group(function () {
             Route::controller(ProjectController::class)->group(function () {
                 Route::get('', 'show')->name('project');
@@ -122,6 +123,7 @@ Route::prefix('/api')->group(function () {
                 Route::delete('', 'destroy')->name('delete_project');
                 Route::get('/edit', 'edit')->name('show_edit_project');
                 Route::put('/edit', 'update')->name('action_edit_project');
+
             });
             Route::prefix('/task')->controller(TaskController::class)->group(function () {
                 Route::get('/{task}', 'show')->where('task', '[0-9]+')->name('task');
@@ -132,6 +134,8 @@ Route::prefix('/api')->group(function () {
                 Route::prefix('/{task}')->whereNumber('task')->group(function () {
                     Route::get('', 'show')->name('task');
                     Route::put('/edit/status', 'editStatus')->name('edit_status');
+                    Route::get('/edit', 'edit')->name('edit_task');
+                    Route::put('/edit','update')->name('update_task');
                 });
             });
 

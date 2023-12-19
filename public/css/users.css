@@ -178,6 +178,7 @@
 
 .users-list .user-item .actions button{
     width: fit-content;
+    padding: 1em;
     outline: none;
     border: none;
 }
@@ -187,3 +188,5 @@
     text-align: center;
 
 }
+
+
