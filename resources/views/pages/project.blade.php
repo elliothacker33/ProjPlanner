@@ -79,6 +79,9 @@
                     </span>
                 </section>
                 <section class="teamContainer">
+                    <h5><i class="fa-solid fa-user-tie"></i> Coordinator: {{ $coordinator }}</h5>
+                </section>
+                <section class="teamContainer">
                     <h5><i class="fa-solid fa-users"></i> Team: </h5>
                     <ul class="team">
                         @foreach ($team as $member)
