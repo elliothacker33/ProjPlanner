@@ -18,6 +18,11 @@ class TagPolicy
         return $project->users->contains($user);
     }
 
+    public function view(User $user, Project $project): bool
+    {
+        return $project->users->contains($user);
+    }
+
     /**
      * Determine whether the user can update the model.
      */

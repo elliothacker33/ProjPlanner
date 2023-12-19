@@ -13,5 +13,7 @@ export const icons ={
     'calendar': '<i class="fa-regular fa-calendar"></i> ',
     'user': '<i class="fa-solid fa-user"></i> ',
     'admin': '<i class="fa-solid fa-user-gear"></i> ',
-
+    'tasks': '<i class="fa-solid fa-list-check"></i> ',
+    'edit': '<i class="fa-solid fa-pen-to-square"></i>',
+    'trash': '<i class="fa-solid fa-trash"></i>'
 }

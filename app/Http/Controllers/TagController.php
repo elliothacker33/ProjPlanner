@@ -96,4 +96,14 @@ class TagController extends Controller
         $tag->delete();
         return response()->json();
     }
+    public function search(Request $request){
+        response()->json(1);
+        if($request->input('project')){
+            $searchTerm = '%' . $request->input('query') . '%';
+            $project = Project::find($request->input('project'));
+            $this->authorize('view',[Tag::class,$project]);
+            $tags = $project->tags()->with('tasks')->where('title','like',$searchTerm)->get();
+            return response()->json($tags);
+        }
+    }
 }
