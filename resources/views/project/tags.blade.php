@@ -12,25 +12,25 @@
 @endpush
 
 @section('content')
-    <section class="team">
+    <section class="tagsPage">
 
 
-        <section class="users-list">
+        <section class="tags-list">
             <header>
                 <section class="search">
                     <input type="search" placeholder="&#128269 Search" aria-label="Search" id="search-bar"/>
 
                 </section>
                 <section>
-                    <span> <i class="fa-solid fa-users"></i>  {{count($tags)}} Tags </span>
+                    <span> <i class="fa-solid fa-tags"></i>  {{count($tags)}} Tags </span>
                     @can('update',[Project::class,$project])
-                        <section class="addUserContainer">
+                        <section class="addTagContainer">
                             <form method="POST" action="{{ route('add_tag', ['project' => $project])  }}">
                                 {{ csrf_field() }}
                                 <input type="text" name="title" placeholder="New Tag Title" required
                                        value="{{old('email')}}">
 
-                                <button type="submit"><i class="fa-solid fa-user-plus"></i> Add Tag</button>
+                                <button type="submit"><i class="fa-solid fa-plus"></i> Add Tag</button>
                             </form>
                             @if ($errors->has('email'))
                                 <span class="error">
@@ -41,7 +41,7 @@
                     @endcan
                 </section>
             </header>
-            <section class="users">
+            <section class="tags">
                 @foreach($tags as $tag)
                     @include('partials.tagCard',['tag'=>$tag])
                 @endforeach

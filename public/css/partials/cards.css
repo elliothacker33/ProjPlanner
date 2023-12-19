@@ -125,5 +125,5 @@
 }
 
 .tagCard .actions >*:hover{
-    background: var(--primary-border);
+    background: var(--on-third-bg-color);
 }
