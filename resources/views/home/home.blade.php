@@ -42,7 +42,7 @@
             </section>
 
         </section>
-
+        @include("partials.paginator",['paginator'=>$projects])
 
     </section>
 

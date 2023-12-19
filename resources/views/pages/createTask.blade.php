@@ -3,6 +3,7 @@
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/task.css') }}">
     <link rel="stylesheet" href="{{ asset('css/form.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/partials/cards.css') }}">
 @endpush
 
 @push('scripts')
@@ -44,7 +45,7 @@
                 </section>
                 <section class="sideContainer">
                     <label for="deadline" >
-                        <i class="fa-solid fa-clock"></i> Deadline
+                        <i class="fa-regular fa-calendar"></i> Deadline
                     </label>
                     <input id = "deadline" type="date" name="deadline" value="{{ old('deadline') }}">
                     @if ($errors->has('deadline'))

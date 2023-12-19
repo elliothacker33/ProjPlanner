@@ -14,15 +14,24 @@
     --primary-text-color: #333333;  /* Dark text color */
     --secondary-text-color: #FFFFFF;  /* White text color */
     --input-bg-color: #2E9D7F13;
-    --error-text-color: #ff3333;
+    --error-text-color: #DE3D44;
     --sucess-text-color: #2C7E90;
     --input-secondary-bg-color: #69899613;
     --on-third-bg-color: #698996;
+    --primary-border: #CCCCCC99;
+    --warning-bg-color: #FFC107;
     --modal-main-border: #c8c8c8;
     --modal-secondary-border: #dee2e6;
     --close-button-primary-color: #7f7f7f;
     --close-button-hover-color: #404040;
+<<<<<<< HEAD
     --primary-border: #CCCCCC99;
+=======
+    --modal-header-error: #DE3D44;
+    --modal-header-warning: #FEBF00;
+    --modal-header-info: #04A1B9;
+    --modal-header-success: #1AA346;
+>>>>>>> 4303e2a1b7454f40a33ac34b06d5dc78dfbdba20
   }
 
 
@@ -30,6 +39,7 @@
     padding: 0;
     border: 0;
     margin: 0;
+    font-family: 'TT Norms Pro', sans-serif;
 }
 
 h1 {
@@ -59,7 +69,8 @@ a h1 {
 }
 
 .user_icon {
-    width: 3em;
+    width: 2.5em;
+    height: 2.5em;
     margin-left: auto;
     margin-right:1em ;
 
@@ -73,20 +84,25 @@ body {
 }
 
 main {
-
-   flex-grow: 1;
+    flex-grow: 1;
     width: 100%;
     display: flex;
+
     justify-content: flex-start;
+
     flex-direction: column;
+    box-sizing: border-box;
 }
+
+
+
 
 body > header,  body > footer {
     color: var(--secondary-text-color);
     display: flex;
     flex-direction: column;
     width: 100%;
-    background-color: var(--secondary-bg-color);
+    background-color:var(--secondary-bg-color);
     padding: 0.5em;
 }
 
@@ -116,9 +132,7 @@ body > header section {
 }
 
 
-.icon {
-    height: 3em;
-}
+
 
 body > header nav ul, body >footer ul, body >footer h6 {
     display: flex;
@@ -183,6 +197,12 @@ body > header nav ul li.selected::after{
 #content > form input {
     background-color: white;
 }
+.status{
+    padding: 0.2em 0.5em ;
+    border-radius: 10em;
+    font-size: 1em;
+    color: white;
+}
 
 @media (max-width: 70em) {
     #cards {
@@ -236,6 +256,9 @@ button {
 
 a.button {
     background-color: var(--onsecondary-bg-color);
+    outline: none;
+    border: none;
+    margin: 0;
 }
 
 a.button.button-outline {
@@ -251,7 +274,9 @@ input[type=password]:focus {
 }
   
 .avatar {
-  border-radius: 50%;
+    width: 100%;
+    height: 100%;
+  border-radius: 100%;
   object-fit: cover;
 }
 
@@ -273,6 +298,36 @@ input[type=password]:focus {
 #header_title > a {
     color: inherit
 }
+
+.invisible{
+    background: transparent;
+    border: 0;
+    margin: 0;
+    width: auto;
+    height: 100%;
+    padding: 0;
+    outline: none;
+}
+
+.invisible:hover{
+    background: transparent;
+}
+.hidden{
+    display: none;
+}
+
+.roundButton{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+    width: fit-content;
+    height: fit-content;
+    aspect-ratio: 1 / 1;
+    padding: 0.5em;
+
+}
+
 
 .search form, .search {
     width: 100%;
@@ -297,7 +352,9 @@ header .search button{
     margin-right: 0.3em ;
     scale: 1.5;
 }
+
 .button {
     outline: none;
     border: none;
 }
+
