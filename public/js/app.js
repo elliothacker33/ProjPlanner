@@ -1,4 +1,9 @@
-import {projectHomePageRegex, projectTeamPageRegex, projectTaskPageRegex } from "./const/regex.js";
+import {
+    projectHomePageRegex,
+    projectTeamPageRegex,
+    projectTaskPageRegex,
+    projectBoardPageRegex
+} from "./const/regex.js";
 
 const header = document.querySelector('header');
 const content = document.querySelector('body');
@@ -9,11 +14,12 @@ const currentPath = window.location.pathname;
 const projectHomePage = projectHomePageRegex.test(currentPath);
 const projectTeamPage = projectTeamPageRegex.test(currentPath);
 const projectTaskPage = projectTaskPageRegex.test(currentPath);
+const projectBoardPage = projectBoardPageRegex.test(currentPath);
 
 if(projectTaskPage)document.querySelector('#projectTasks').classList.add('selected')
 else if (projectTeamPage)document.querySelector('#projectTeam').classList.add('selected')
 else if(projectHomePage) document.querySelector('#projectHome').classList.add('selected')
-
+else if(projectBoardPage) document.querySelector('#projectBoard').classList.add('selected')
 function buildFetchOptions(method, data) {
     const options = {
         method: method,

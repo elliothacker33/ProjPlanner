@@ -23,7 +23,7 @@
     border: 1px solid var(--primary-border);
     background: var(--onsecondary-bg-color);
     height:43em;
-    border-radius:1em ;
+    border-radius:0.7em ;
 }
 .board ul{
     list-style: none;
@@ -39,7 +39,8 @@
     border-radius: 0.5em;
 }
 .board .container > header {
-    padding: 1em;
+    padding: 0 0.7em ;
+    margin-bottom: 2em;
 
 }
 .board .container > header h4{
