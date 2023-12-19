@@ -30,6 +30,9 @@ function addRemoveUserEvent() {
 
             if (response.ok) {
                 document.querySelector('#user-item-' + actionBtn.dataset.user).remove();
+                document.querySelectorAll('dialog').forEach(dialog => {
+                    dialog.close();
+                });
             }
             else {
                 console.error(`Error ${response.status}: ${data.error}`);

@@ -18,7 +18,7 @@
         'modalTitle' => 'Remove user from project',
         'modalBody' => 'Are you sure that you want to remove this user from the project?',
         'actionId' => 'removeUserBtn',
-        'openFormId' => 'openRemoveUserModal',
+        'openDialogClass' => 'openRemoveUserModal',
     ])
     <section class="team">
         <section class="users-list">
@@ -70,7 +70,7 @@
                             <section class="actions">
                                 @if($project->user_id !== $user->id )
                                     <span class="promote" id="{{$user->id}}"><i class="fa-solid fa-user-tie"></i></span>
-                                    <button id="openRemoveUserModal" class="remove remove-user-btn" data-user="{{ $user->id }}" type="button">
+                                    <button class="remove remove-user-btn openRemoveUserModal" data-user="{{ $user->id }}" type="button">
                                         <i class="fa-solid fa-user-xmark"></i>
                                     </button>
                                 @endif
