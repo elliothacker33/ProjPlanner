@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Project;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -13,10 +13,28 @@ class UserController extends Controller
      */
     public function searchUsers(Request $request)
     {
-        $searchTerm = '%'.$request->input('query').'%';
-        $users = User::whereRaw("email Like ?  OR Name Like ? ", [$searchTerm, $searchTerm])->get();
+        $searchTerm = '%' . $request->input('query') . '%';
 
-        return response()->json($users);
+        $project = $request->input('project');
+        $query = null;
+        if ($project !== null) {
+            $this->authorize('viewTeam', [User::class,Project::find($project)]);
+            $query = Project::find($project)->users();
+        }
+        else{
+            $this->authorize('viewAny',User::class);
+            $query = User::query();
+        }
+        $users = $query->where(function ($query) use ($searchTerm) {
+            $query->where('email', 'like', $searchTerm)
+                ->orWhere('name', 'like', $searchTerm)->with('getProfileImage');
+        });
+        if ($request->ajax())
+            return response()->json($users->get());
+        else {
+            if($project ===null)
+                return $users->paginate(10)->withQueryString();
+        }
     }
 
     /**
@@ -54,10 +72,6 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
-    {
-        //
-    }
 
     /**
      * Remove the specified resource from storage.

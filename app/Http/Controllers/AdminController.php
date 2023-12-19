@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -13,17 +14,20 @@ use App\Models\User;
 class AdminController extends Controller
 {
 
-    public function show()
-    {
-        $this->authorize('view_admin', [User::class]);
-        return view('admin.users', ['users' => User::all()]);
+    public function show(Request $request){
+        $this->authorize('view_admin',[User::class]);
+        $query = $request->input('query');
+        $users = User::query()->count();
+        if( $query)
+            return view('admin.users', ['users' => app(UserController::class)->searchUsers($request),'query'=>$query,'registrations'=>$users] );
+        return view('admin.users', ['users' => User::query()->paginate(10)->withQueryString(),'query'=>$query,'registrations'=>$users] );
     }
 
-    public function create()
-    {
-        $this->authorize('create_admin', [User::class]);
+    public function create(){
+        $this->authorize('create_admin',[User::class]);
         return view('admin.create_user');
     }
+
 
     public function store(Request $request)
     {

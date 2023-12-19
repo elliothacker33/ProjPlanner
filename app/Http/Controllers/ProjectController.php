@@ -18,10 +18,32 @@ class ProjectController extends Controller
      */
     public function index(Request $request)
     {
-        $user = $request->user();
-        $this->authorize('viewUserProjects', Project::class);
-        return view('home.home', ['projects' => $user->projects]);
+
+        $this->authorize('viewUserProjects',Project::class);
+        $projects = $this->search($request);
+        return view('home.home',['projects'=>$projects,'query'=>$request->input('query')]);
     }
+
+    public function search(Request $request){
+        $user = $request->user();
+        if($user->is_admin){
+            $projects = Project::query();
+        }else{
+            $projects = $user->projects();
+        }
+        if($request->input('query')) {
+            $searchedProjects = $projects->with('coordinator')
+                ->whereRaw("tsvectors @@ plainto_tsquery('english', ?)", [$request->input('query')])
+                ->orderByRaw("ts_rank(tsvectors, plainto_tsquery('english', ?)) DESC", [$request->input('query')]);
+        }else $searchedProjects = $projects;
+
+        if ($request->ajax())
+            return response()->json($searchedProjects->get());
+        else
+            return $searchedProjects->paginate(10)->withQueryString();
+    }
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -168,22 +190,28 @@ class ProjectController extends Controller
     {
         if ($project == null) {
             if ($request->ajax())
-                return response()->json(['error' => 'Project with specified id not found'], 404);
+                return response()->json(['error', 'Project with specified id not found']);
             else
                 return abort(404);
         }
 
         $this->authorize('view', [Project::class, $project]);
 
-        $tasks = $project->tasks;
+        $tasks = $project->tasks()->with('created_by')->paginate(10)->withQueryString();
+        //dd($tasks);
+        $open = $project->tasks()->where('status','=','open')->count();
+        $closed = $project->tasks()->where('status','=','closed')->count();
+        $canceled = $project->tasks()->where('status','=','canceled')->count();
+        if($request->input('query')) $tasks = app(TaskController::class)->searchTasks($request,$project);
 
         if ($request->ajax())
             return response()->json($tasks);
         else
-            return view('pages.tasks', ['project' => $project, 'tasks' => $tasks]);
+            return view('pages.tasks', ['project'=>$project, 'tasks'=>$tasks, 'open'=>$open,'closed'=>$closed,'canceled'=>$canceled, 'query'=>$request->input('query')]);
     }
 
-    public function remove_user(Request $request, Project $project) {  
+
+public function remove_user(Request $request, Project $project) {
         $removedUser = User::find($request->user);
         
         if ($removedUser == null)
@@ -197,6 +225,7 @@ class ProjectController extends Controller
         if (Auth::user() == $removedUser)
             return redirect()->route('home', ['projects' => $removedUser->projects,'user'=>Auth::id()]);
         // Return when coordinator is removing a user from the project
+
     }
 
     public function assign_coordinator(Request $request, Project $project) {
