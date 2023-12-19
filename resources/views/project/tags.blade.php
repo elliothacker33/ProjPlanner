@@ -43,13 +43,14 @@
             </header>
             <section class="tags">
                 @foreach($tags as $tag)
-                    <section class="tagSection">
+                    <section class="tagSection" id="tag{{$tag->id}}">
                         @include('partials.tagCard',['tag'=>$tag])
-                        <form class="hidden" id="edit-{{$tag->id}}" autocomplete="off">
+                        <form class="hidden" id="edit" autocomplete="off">
                             <input required maxlength="20" minlength="1" type="text" name="title" value="{{$tag->title}}">
                             <input type="submit">
                             <span class="error"></span>
                         </form>
+
                     </section>
                 @endforeach
             </section>

@@ -128,7 +128,6 @@ Route::prefix('/api')->group(function () {
             });
             Route::prefix('/tag')->controller(TagController::class)->group(function () {
                 Route::post('/add','store')->name('add_tag');
-                Route::put('/{tag}/edit','update')->name('edit_tag');
             });
             Route::prefix('/task')->controller(TaskController::class)->group(function () {
                 Route::get('/{task}', 'show')->where('task', '[0-9]+')->name('task');
@@ -146,5 +145,10 @@ Route::prefix('/api')->group(function () {
 
             Route::get('/tasks', [ProjectController::class, 'showTasks'])->name('show_tasks');
         });
+});
+
+Route::prefix('/tag/{tag}')->where(['tag' => '[0-9]+'])->controller(TagController::class)->group(function () {
+    Route::put('/edit','update')->name('edit_tag');
+    Route::delete('/delete','destroy')->name('delete_tag');
 });
 

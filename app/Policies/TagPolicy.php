@@ -29,7 +29,7 @@ class TagPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Tag $tag, Project $project): bool
+    public function delete(User $user, Project $project): bool
     {
         return $project->users->contains($user);
     }

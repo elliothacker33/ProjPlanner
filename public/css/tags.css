@@ -128,7 +128,15 @@
     display: flex;
     gap: 1em;
     padding: 0 1em ;
-
+    flex-wrap: wrap;
+    margin: 0;
+}
+.tagSection >form >*{
+    margin: 0;
+}
+.tagSection >form .error{
+  width: 100%;
+    padding: 1em 1em 1em 0;
 }
 .tagSection >form.hidden{
    display: none;

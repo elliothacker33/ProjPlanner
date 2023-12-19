@@ -68,12 +68,14 @@ class TagController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request,Project $project, Tag $tag)
+    public function update(Request $request, Tag $tag)
     {
-        $this->authorize('update',[Tag::class, $project]);
+        $project = $tag->project;
+        $this->authorize('update',[Tag::class, $project ]);
         $validated = $request->validate([
             'title' => 'required|string|min:1|max:20|',
         ]);
+        if($tag->title === $validated['title']) return response()->json(['errors' => ['Title cannot be the same']], 422);
         $tag_res = Tag::query()
             ->where('project_id','=',$project->id)
             ->where('title','=',$validated['title'])
@@ -90,6 +92,8 @@ class TagController extends Controller
      */
     public function destroy(Tag $tag)
     {
-        //
+        $this->authorize('delete',[$tag::class, $tag->project]);
+        $tag->delete();
+        return response()->json();
     }
 }
