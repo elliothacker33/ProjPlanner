@@ -1,11 +1,6 @@
 import {projectHomePageRegex, projectTeamPageRegex, projectTaskPageRegex } from "./const/regex.js";
 import {getProjects} from "./api/user.js";
 
-const header = document.querySelector('header');
-const content = document.querySelector('body');
-
-content.style.paddingTop = (header.clientHeight).toString() + 'px';
-
 const currentPath = window.location.pathname;
 const projectHomePage = projectHomePageRegex.test(currentPath);
 const projectTeamPage = projectTeamPageRegex.test(currentPath);

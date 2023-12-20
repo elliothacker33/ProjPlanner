@@ -16,19 +16,19 @@
             'modalTitle' => 'Close Task',
             'modalBody' => 'Are you sure that you want to mark this task as closed?',
             'actionId' => 'closeTaskBtn',
-            'openFormId' => 'openCloseModal',
+            'openDialogClass' => 'openCloseModal',
         ])
         @include('partials.modal', [
             'modalTitle' => 'Cancel Task',
             'modalBody' => 'Are you sure that you want to mark this task as canceled?',
             'actionId' => 'cancelTaskBtn',
-            'openFormId' => 'openCancelModal',
+            'openDialogClass' => 'openCancelModal',
         ])
         @include('partials.modal', [
             'modalTitle' => 'Reopen Task',
             'modalBody' => 'Are you sure that you want to mark this task as open?',
             'actionId' => 'reopenTaskBtn',
-            'openFormId' => 'openReopenModal',
+            'openDialogClass' => 'openReopenModal',
         ])
         <header>
             <section class="info">
@@ -42,7 +42,7 @@
             <section class="actions">
                 @can('update', $task)
                     <a class="edit buttonLink" href="{{route('edit_task',['project'=>$project,'task'=>$task])}}"> <i class="fa-solid fa-pen-to-square"></i> Edit</a>
-                    <a class="cancel buttonLink" id="openCancelModal"> <i class="fa-solid fa-ban"></i> Cancel</a>
+                    <a class="cancel buttonLink openCancelModal"> <i class="fa-solid fa-ban"></i> Cancel</a>
                 @endcan
             </section>
         </header>
@@ -55,9 +55,9 @@
 
                 @can('changeStatus', $task)
                     @if ($task->status != 'open')
-                        <a class="buttonLink" id="openReopenModal"> <i class="fa-solid fa-folder-open"></i> Reopen task </a>
+                        <a class="buttonLink openReopenModal"> <i class="fa-solid fa-folder-open"></i> Reopen task </a>
                     @else
-                        <a class="buttonLink" id="openCloseModal"> <i class="fa-solid fa-folder-closed"></i> Close task </a>
+                        <a class="buttonLink openCloseModal"> <i class="fa-solid fa-folder-closed"></i> Close task </a>
                     @endif
                 @endcan
 
