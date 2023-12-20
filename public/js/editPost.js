@@ -1,4 +1,4 @@
-import { sendAjaxRequest } from "./app";
+import { sendAjaxRequest } from "./app.js";
 
 const currentPath = window.location.pathname;
 
@@ -47,9 +47,8 @@ document.querySelectorAll('.own-post').forEach((post) => {
 
             const data = await response.json();
 
-            if (data.status === 'success') {
-                p.innerHTML = content;
-
+            if (!data.errors) {
+                post_body.innerHTML = '';
                 p.innerHTML = content;
                 post_body.appendChild(p);
             }
@@ -57,9 +56,7 @@ document.querySelectorAll('.own-post').forEach((post) => {
 
         cancel.addEventListener('click', async (e) => {
             e.preventDefault();
-
             post_body.innerHTML = '';
-
             p.innerHTML = text;
             post_body.appendChild(p);
         });

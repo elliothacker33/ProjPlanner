@@ -48,7 +48,7 @@ class PostController extends Controller
         ]);
 
         $post = new Post();
-        $post->content = $request->content;
+        $post->content = $request['content'];
         $post->submit_date = date('Y-m-d');
         $post->last_edited = null;
         $post->user_id = Auth::user()->id;
@@ -83,11 +83,11 @@ class PostController extends Controller
             'content' => 'required|string|max:1024',
         ]);
 
-        $post->content = $request->content;
+        $post->content = $request['content'];
         $post->last_edited = date('Y-m-d');
         $post->save();
 
-        return redirect()->route('forum', ['project' => $project->id]);
+        return response()->json();
     }
 
     /**

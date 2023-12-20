@@ -73,6 +73,7 @@ button[type="submit"] {
     border-radius: 5px;
     cursor: pointer;
     height: 3.8rem;
+
 }
 
 .edit-post:hover,
@@ -96,4 +97,10 @@ button[type="submit"]:hover {
     margin: 0 auto;
     max-width: 60em;
     width: 100%;
+}
+
+.post-body{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
 }

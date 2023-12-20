@@ -7,7 +7,7 @@
 @endpush
 
 @push('scripts')
-    <script src="{{ asset('js/editPost.js') }}" defer></script>
+    <script type="module" src="{{ asset('js/editPost.js') }}" defer></script>
 @endpush
 
 
