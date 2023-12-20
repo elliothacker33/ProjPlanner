@@ -42,8 +42,8 @@
             <section class="actions">
                 @can('update', $task)
                     <a class="edit buttonLink"> <i class="fa-solid fa-pen-to-square"></i> Edit</a>
-                    <a class="cancel buttonLink" id="openCancelModal"> <i class="fa-solid fa-ban"></i> Cancel</a>
                 @endcan
+                    <a class="cancel buttonLink" id="openCancelModal"> <i class="fa-solid fa-ban"></i> Cancel</a>
             </section>
         </header>
         <section class="container">

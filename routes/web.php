@@ -115,7 +115,6 @@ Route::prefix('/project')->group(function () {
             Route::get('/files','show_files')->name('show_project_files');
             Route::post('/team/add', 'add_user')->name('addUser');
             Route::delete('', 'destroy')->name('delete_project');
-            Route::put('','archive')->name('archive_project');
             Route::get('/edit', 'edit')->name('show_edit_project');
             Route::put('/edit', 'update')->name('action_edit_project');
 

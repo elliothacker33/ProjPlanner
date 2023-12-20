@@ -13,9 +13,7 @@
     <section class="tasks-content">
         <div>
             <input type="search" placeholder="Search" aria-label="Search" id="search-bar" />
-            @can('create',[Task::class, $project])
             <a class="button" href="{{ route('createTask', ['project' => $project]) }}"> Add a Task </a>
-            @endcan
         </div>
 
         <div class="tasks-list">

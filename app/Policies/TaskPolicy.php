@@ -30,7 +30,7 @@ class TaskPolicy
      */
     public function create(User $user, Project $project)
     {
-        return (!$user->isAdmin and $project->users->contains($user)) && !$project->is_archived;
+        return (!$user->isAdmin and $project->users->contains($user));
     }
 
     /**
@@ -38,12 +38,12 @@ class TaskPolicy
      */
     public function update(User $user, Task $task): bool
     {
-        return ($task->project->user_id == $user->id || $task->assigned->contains($user)) && $task->status == 'open' && !$task->project->is_archived; 
+        return ($task->project->user_id == $user->id || $task->assigned->contains($user)) && $task->status == 'open'; 
     }
 
     public function changeStatus(User $user, Task $task): bool
     {
-        return ($task->project->user_id == $user->id || $task->assigned->contains($user)) && !$task->project->is_archived;
+        return ($task->project->user_id == $user->id || $task->assigned->contains($user));
     }
 
     /**

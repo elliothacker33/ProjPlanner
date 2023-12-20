@@ -22,9 +22,6 @@
             <!--<a class="edit">Edit</a>-->
             <button class="project-action-button edit" id="edit-project-button"> <i class="fa-solid fa-pen-to-square"></i> Edit</button>
         @endcan
-        @can('archive',$project)
-            <button class="project-action-button archive" id="archive-project-button"> <i class="fa-solid fa-pen-to-square"></i>Archive</button>
-        @endcan
         @can('delete', $project)
             <button class="project-action-button delete" id="delete-project-button"> <i class="fa-solid fa-trash"></i> Delete</button>
         @endcan
@@ -32,10 +29,7 @@
         <!-- Hidden forms to actions in project page that don't use AJAX-->
         <form class="hidden-form" id="edit-project-form" action="{{ route('show_edit_project',['project'=>$project->id])}}" method="GET">
         </form>
-        <form class="hidden-form" id="archive-project-form" action="{{ route('archive_project',['project'=>$project->id])}}" method="POST">
-            @csrf()
-            @method('PUT')
-        </form>
+    
         <form class="hidden-form" id="delete-project-form" action="{{ "/project/" . $project->id }}" method="POST">
             @csrf
             @method('DELETE')
