@@ -11,9 +11,11 @@
 @section('content')
 
     <section class="tasks-content">
-        <div> 
+        <div>
             <input type="search" placeholder="Search" aria-label="Search" id="search-bar" />
-            <a class="button" href="{{ route('createTask', ['project' => $project]) }}"> Add a Task  </a>
+            @can('create',[Task::class, $project])
+            <a class="button" href="{{ route('createTask', ['project' => $project]) }}"> Add a Task </a>
+            @endcan
         </div>
 
         <div class="tasks-list">

@@ -18,10 +18,15 @@ class ProfileController extends Controller
             $tasks = $user->tasks;
             $taskList = [];
             foreach ($tasks as $task) {
-                $taskList[]  = ['task' => $task, 'project' => $task->project];
+                $taskList[] = ['task' => $task, 'project' => $task->project];
             }
+            
+            usort($taskList, function ($a, $b) {
+                $deadlineA = $a['task']->deadline;
+                $deadlineB = $b['task']->deadline;
+                return ($deadlineA > $deadlineB) ? -1 : 1;
+            });
             $image = self::getImage($user);
-
             return view('profile_pages.profile', [
                 'user' => $user,
                 'image' => $image,
@@ -45,6 +50,15 @@ class ProfileController extends Controller
             ]);
         }
         
+        public function showDelete(User $user): View
+        {
+            if (!$user) {
+                abort(404, 'User profile page not found.');
+            }
+            return view('profile_pages.delete', [
+                'user' => $user,
+            ]);
+        }
     
     public function updateProfile(Request $request, User $user)
     {

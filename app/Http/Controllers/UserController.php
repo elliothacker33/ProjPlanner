@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -62,12 +62,20 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
-    {
-        $this->authorize("delete", $user);
+    public function destroy(Request $request, User $user){   
 
+    $this->authorize("delete", $user);
+
+    $request->validate([
+        'password' => 'required|string|',
+    ]);
+    if (Hash::check($request->input('password'), $user->password)) {
+    
         $user->delete();
-
-        return redirect()->route('init_page');
+        
+        return redirect()->route('login')->with('delete_user_success', 'Your user account was deleted successfully');
+    } else {
+        return redirect()->back()->with('password','Incorrect password');
     }
+}
 }

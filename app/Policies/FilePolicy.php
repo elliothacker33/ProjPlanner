@@ -19,7 +19,7 @@ class FilePolicy
         foreach($users as $a_user) {
             array_push($usersIds, $a_user['id']);
         }
-        return (in_array($user->id, $usersIds));
+        return (in_array($user->id, $usersIds)  && !$project->is_archived);
     }
     public function upload(User $user,Project $project):bool{
         $users = $project->users()->get()->toArray();
@@ -27,7 +27,7 @@ class FilePolicy
         foreach($users as $a_user) {
             array_push($usersIds, $a_user['id']);
         }
-        return (in_array($user->id, $usersIds));
+        return (in_array($user->id, $usersIds)  && !$project->is_archived);
     }
     public function deleteAll(User $user,Project $project):bool{
         $users = $project->users()->get()->toArray();
@@ -36,7 +36,7 @@ class FilePolicy
             array_push($usersIds, $a_user['id']);
         }
         $coordinator = $project->user_id;
-        return (in_array($user->id, $usersIds) && $user->id == $coordinator);
+        return (in_array($user->id, $usersIds) && $user->id == $coordinator && !$project->is_archived);
     }
 
     public function downloadAll(User $user,Project $project):bool{

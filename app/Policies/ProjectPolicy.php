@@ -46,7 +46,7 @@ class ProjectPolicy
      */
     public function update(User $user, Project $project): bool
     {
-        return $user->id === $project->user_id;
+        return $user->id == $project->user_id && !$project->is_archived;
     }
 
     /**
@@ -55,6 +55,16 @@ class ProjectPolicy
     public function delete(User $user, Project $project): bool
     {
         return $user->id == $project->user_id;
+    }
+
+    /**
+     * Determine whether the user can archive the project
+     */
+    public function archive(User $user, Project $project): bool
+    {
+        if($user->id == $project->user_id && !$project->is_archived)
+            return true;
+        return false;
     }
 
     /**

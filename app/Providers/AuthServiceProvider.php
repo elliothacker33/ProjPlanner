@@ -4,6 +4,10 @@ namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
 
+use App\Models\File;
+use App\Models\Task;
+use App\Models\Project;
+use App\Models\User;
 use App\Policies\FilePolicy;
 use App\Policies\TaskPolicy;
 use App\Policies\ProjectPolicy;
@@ -18,10 +22,10 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        User::Class => UserPolicy::class,
-        Task::Class => TaskPolicy::class,
-        Project::Class => ProjectPolicy::class,
-        File::Class => FilePolicy::class,
+        User::class => UserPolicy::class,
+        Task::class => TaskPolicy::class,
+        Project::class => ProjectPolicy::class,
+        File::class => FilePolicy::class,
         
     ];
 

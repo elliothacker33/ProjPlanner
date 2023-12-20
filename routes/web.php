@@ -84,6 +84,7 @@ Route::prefix('/user-profile')->controller(ProfileController::class)->group(func
     Route::get('/{user}/edit', 'showEditProfile')->name('edit_profile');
     Route::put('/{user}/update_image','updateProfileImage')->name('update_profile_image'); 
     Route::delete('/{user}/delete_image','deleteProfileImage')->name('delete_profile_image');
+    Route::get('/{user}/delete','showDelete')->name('show_delete_profile');
     Route::delete('/{user}/delete', 'destroy')->name('delete_profile');
 });
 
@@ -114,6 +115,7 @@ Route::prefix('/project')->group(function () {
             Route::get('/files','show_files')->name('show_project_files');
             Route::post('/team/add', 'add_user')->name('addUser');
             Route::delete('', 'destroy')->name('delete_project');
+            Route::put('','archive')->name('archive_project');
             Route::get('/edit', 'edit')->name('show_edit_project');
             Route::put('/edit', 'update')->name('action_edit_project');
 

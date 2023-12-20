@@ -195,4 +195,14 @@ class ProjectController extends Controller
         else
             return view('pages.tasks', ['project'=>$project, 'tasks'=>$tasks]);
     }
+
+    public function archive(Project $project){
+        $this->authorize('archive',[Project::class, $project]);
+        if ($project->is_archived == false){
+            $project->is_archived = true;
+        }
+        $project->save();
+        return redirect()->route('project', ['project' => $project]);   
+    }
+
 }

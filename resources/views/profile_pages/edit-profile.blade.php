@@ -30,7 +30,7 @@
                 <a href= "{{ route('edit_profile', ['user' => Auth::user()]) }}" class="dropdown-item editbutton">Edit Account</a>
             </li>
             <li>
-                <a href= "" class="dropdown-item delete-btn">Delete Account</a>
+                <a href= "{{ route('show_delete_profile', ['user' => Auth::user()]) }}" class="dropdown-item delete-btn">Delete Account</a>
             </li>
             </ul>
         </div>

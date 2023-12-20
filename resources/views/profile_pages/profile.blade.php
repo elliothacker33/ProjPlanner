@@ -24,7 +24,7 @@
                 <a href= "{{ route('edit_profile', ['user' => Auth::user()]) }}" class="dropdown-item editbutton">Edit Account</a>
             </li>
             <li>
-                <a href= "" class="dropdown-item delete-btn">Delete Account</a>
+                <a href= "{{ route('show_delete_profile', ['user' => Auth::user()]) }}" class="dropdown-item delete-btn">Delete Account</a>
             </li>
             </ul>
         </div>
@@ -91,15 +91,16 @@
     <div class ="row second">
 
         <div class = "col-12 mb-5 ">
-            <header><h1><i class="bi bi-list-task"></i> Quick tasks access</h1></header>
+            <header><h1><i class="fa-solid fa-list-check"></i> Critical Tasks (Deadline Approaching)</h1></header>
         </div>
 
     <div class = "col-12 mb-5">
         <div class ="row">
 
    
-
+        @php $taskCount = 0 @endphp
         @forelse($tasks as $task)
+            @if($taskCount < 5)
             <div class="col-12 mb-4">
                 <div class = "row p-3 task">
                     <div class ="col-sm-12 col-lg-3 d-flex justify-content-center taskinfo">
@@ -128,10 +129,12 @@
                         <a href="{{ route('task', ['project' => $task['project'], 'task' => $task['task']]) }}" class = "btn taskbtn" >Go to Task</a>
                     </div>
                 </div>
+                @php $taskCount++ @endphp
             </div>
+            @endif
             @empty
             <div class ="col-12 text-center empty">
-                <p>This user is not assigned to any task.</p>
+                <p>You are not assigned to any task.</p>
             </div>
         @endforelse
         </div>
@@ -147,28 +150,28 @@
         <div class = "row ">
             <div class = "col-4 mx-auto">
                 <div class ="row">
-                    <div class="col-12 text-center">
+                    <div class="col-12 d-flex justify-content-center align-items-center">
                         <span class="statNumber" style="color: #2E9D7F;">{{$statusOpenCount = collect($tasks)->where('task.status', 'open')->count()}}</span>
                     </div>
-                    <div class="col-12 text-center">
+                    <div class="col-12 d-flex justify-content-center align-items-center">
                         <span class="statInfo" style="color: #2E9D7F;">Open Tasks</span></div>
                     </div>
             </div>
             <div class = "col-4 mx-auto">
                 <div class ="row">
-                    <div class="col-12 text-center">
+                    <div class="col-12 d-flex justify-content-center align-items-center">
                         <span class="statNumber"style="color: orange;">{{$statusCanceledCount = collect($tasks)->where('task.status', 'canceled')->count()}}</span>
                     </div>
-                    <div class="col-12 text-center">
+                    <div class="col-12 d-flex justify-content-center align-items-center">
                         <span class="statInfo"style="color: orange;">Canceled Tasks</span></div>
                 </div>
             </div>
             <div class = "col-4 mx-auto">
                 <div class ="row">
-                    <div class="col-12 text-center">
+                    <div class="col-12 d-flex justify-content-center align-items-center">
                         <span class="statNumber" style="color: #ff3333;">{{$statusClosedCount = collect($tasks)->where('task.status', 'closed')->count()}}</span>
                     </div>
-                    <div class="col-12 text-center">
+                    <div class="col-12 d-flex justify-content-center align-items-center">
                         <span class="statInfo" style="color: #ff3333;">Closed Tasks</span></div>
                     </div>
                 </div>
