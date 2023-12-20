@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class ProjectController extends Controller
 {
@@ -18,10 +19,15 @@ class ProjectController extends Controller
      */
     public function index(Request $request)
     {
-
         $this->authorize('viewUserProjects',Project::class);
+
         $projects = $this->search($request);
-        return view('home.home',['projects'=>$projects,'query'=>$request->input('query')]);
+
+        if ($request->session()->has('message')) {
+            return view('home.home',['projects'=>$projects,'query'=>$request->input('query')])->with('message', $request->session()->get('message'));
+        }
+        else
+            return view('home.home',['projects'=>$projects,'query'=>$request->input('query')]);
     }
 
     public function search(Request $request){
@@ -255,7 +261,7 @@ public function remove_user(Request $request, Project $project) {
         DB::table('invites')->insert([
             'email' => $request->email, 
             'project_id' => $project->id,
-            'token' => Hash::make($token),
+            'token' => $token,
             'invite_date' => now(),
         ]);
     

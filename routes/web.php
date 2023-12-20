@@ -41,6 +41,7 @@ Route::middleware('guest')->group(function () {
     Route::post('/reset-password', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('pass.update');
 });
 
+Route::get('/accept-invite/{token}', [ForgotPasswordController::class, 'accept_invite'])->name('accept.invite');
 
 //Static Pages
 Route::get('/myProjects', [ProjectController::class, 'index'])->name('projects');

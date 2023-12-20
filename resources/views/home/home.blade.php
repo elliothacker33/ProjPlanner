@@ -17,6 +17,11 @@
 
         <section class="project-list">
             <header>
+                @isset($message)
+                <h1>{{ $message[0] }}</h1>
+                <h2>{{ $message[1] }}</h2>
+                    
+                @endisset
                 <section class="search">
 
                     <form method="GET" id="search" action="{{route('projects')}}">

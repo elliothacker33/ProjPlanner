@@ -18,7 +18,7 @@
                 <h2>Click the button below to create a new account and join the project.</h2>
             </div>
             <div class ="col-12 d-flex justify-content-center" style = "margin-top: 5%;">
-                <a href="/" style="padding: 10px; background-color: #3490dc; color: #ffffff; text-decoration: none; border-radius: 5px; display: inline-block;" target="_blank">Reset Password</a>
+                <a href="{{ route('accept.invite', ['token' => $mailData['token']]) }}" style="padding: 10px; background-color: #3490dc; color: #ffffff; text-decoration: none; border-radius: 5px; display: inline-block;" target="_blank">Join Project</a>
             </div>
 
 @endsection
