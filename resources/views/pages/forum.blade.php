@@ -18,7 +18,7 @@
 
         <div class="forum-container">
             
-            @if ($posts->isEmpty())
+            @if (count($posts) === 0)
                 <div id="no-posts">
                     <p>There are no posts yet. Be the first posting here!</p>
                 </div>

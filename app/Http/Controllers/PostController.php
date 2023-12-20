@@ -25,7 +25,8 @@ class PostController extends Controller
 
         $this->authorize('view_forum', [Project::class, $project]);
 
-        $posts = $project->posts()->orderBy('submit_date', 'asc')->cursorPaginate(5);
+        //$posts = $project->posts()->orderBy('submit_date', 'asc')->cursorPaginate(5);
+        $posts = $project->posts;
 
         if($request->ajax()) {
             $response = view('pages.forum', ['project'=>$project, 'posts'=>$posts])->render();
