@@ -17,6 +17,11 @@
 
         <div class="forum-container">
             
+            @if ($posts->isEmpty())
+                <div class="no-posts">
+                    <p>There are no posts yet. Be the first posting here!</p>
+                </div>
+            @endif
             @foreach ($posts as $post)
                 @if (Auth::user()->id == $post->user_id)
                     <div class="own-post" id="{{$post->id}}">
@@ -25,7 +30,7 @@
                 @endif
                     <div class="post-header">
                         <div class="post-user">
-                            @include('partials.userCard', ['size' => 'small', 'user' => $post->user])
+                            @include('partials.userCard', ['size' => '', 'user' => $post->user])
                         </div>
                         @if (Auth::user()->id === $post->user_id)
                             <div class="post-edit">
@@ -49,19 +54,21 @@
             @endforeach
 
         </div>
+
+        <div class="new-post">
+            <form action="{{ route('create_post', ['project' => $project->id]) }}" method="POST">
+                @csrf
+                <div class="new-post-body">
+                    <textarea name="content" id="content" cols="30" rows="10" placeholder="Write your post here..."></textarea>
+                </div>
+                <div class="new-post-footer">
+                    <button type="submit">Post</button>
+                </div>
+            </form>
+        </div>
         
     </section>
 
-    <div class="new-post">
-        <form action="{{ route('create_post', ['project' => $project->id]) }}" method="POST">
-            @csrf
-            <div class="new-post-body">
-                <textarea name="content" id="content" cols="30" rows="10" placeholder="Write your post here..."></textarea>
-            </div>
-            <div class="new-post-footer">
-                <button type="submit">Post</button>
-            </div>
-        </form>
-    </div>
+    
 
 @endsection

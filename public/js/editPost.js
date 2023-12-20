@@ -2,8 +2,6 @@ import { sendAjaxRequest } from "./app.js";
 
 const currentPath = window.location.pathname;
 
-console.log(currentPath);
-
 document.querySelectorAll('.own-post').forEach((post) => {
 
     post.querySelector('.edit-post').addEventListener('click', async (e) => {
@@ -15,16 +13,15 @@ document.querySelectorAll('.own-post').forEach((post) => {
         const text = post.querySelector('.content').innerHTML;
 
         const textarea = document.createElement('textarea');
-        const submit = document.createElement('a');
+        const submit = document.createElement('button');
         const cancel = document.createElement('button');
 
         textarea.classList.add('editPostTextarea');
-        submit.classList.add('edit-post');
-        cancel.classList.add('edit-post');
+        submit.classList.add('post-edit');
+        cancel.classList.add('cancel-edit');
 
         textarea.value = text;
         
-        submit.href = '/forum/'+id+'/edit';
         submit.innerHTML = 'Save';
         cancel.innerHTML = 'Cancel';
 
@@ -40,8 +37,6 @@ document.querySelectorAll('.own-post').forEach((post) => {
             e.preventDefault();
 
             const content = textarea.value;
-
-            console.log(currentPath+'/'+id+'/edit');
 
             const response = await sendAjaxRequest('PUT', currentPath+'/'+id+'/edit', {'content': content});
 
