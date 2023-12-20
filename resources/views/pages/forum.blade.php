@@ -19,7 +19,7 @@
             
             @foreach ($posts as $post)
                 @if (Auth::user()->id == $post->user_id)
-                    <div class="own-post">
+                    <div class="own-post" id="{{$post->id}}">
                 @else
                     <div class="participants-post">
                 @endif
