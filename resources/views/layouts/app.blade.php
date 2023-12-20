@@ -39,12 +39,12 @@
 
             @if (Auth::check())
                 <a class="user_icon" href="{{ route('profile', ['user' => Auth::user()]) }}"> 
-                    <img class="icon avatar" src="{{ auth()->user()->getProfileImage() }}" alt="default user icon">
+                    <img class="icon avatar" src="{{auth()->user()->image()}}" alt="default user icon">
                 </a>
                 <a id="logout" href="{{ route('logout') }}"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
             @else
                 <a class="user_icon" href="{{ route('login') }}"> <img class="icon avatar"
-                        src="{{ asset('img/user/default_user.jpg') }}" alt="default user icon"></a>
+                        src="{{ asset('files/user/default_user.jpg') }}" alt="default user icon"></a>
             @endif
         </section>
         @if (View::hasSection('navbar'))

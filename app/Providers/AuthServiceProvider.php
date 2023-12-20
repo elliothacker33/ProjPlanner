@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
+
+use App\Policies\FilePolicy;
 use App\Policies\TaskPolicy;
 use App\Policies\ProjectPolicy;
 use App\Policies\UserPolicy;
@@ -19,6 +21,8 @@ class AuthServiceProvider extends ServiceProvider
         User::Class => UserPolicy::class,
         Task::Class => TaskPolicy::class,
         Project::Class => ProjectPolicy::class,
+        File::Class => FilePolicy::class,
+        
     ];
 
     /**

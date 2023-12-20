@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\User;
+use Illuminate\Http\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
@@ -16,12 +17,14 @@ class ProfileController extends Controller
             }
             $tasks = $user->tasks;
             $taskList = [];
-            
             foreach ($tasks as $task) {
                 $taskList[]  = ['task' => $task, 'project' => $task->project];
             }
+            $image = self::getImage($user);
+
             return view('profile_pages.profile', [
                 'user' => $user,
+                'image' => $image,
                 'tasks' => $taskList,
             ]);
         }
@@ -29,16 +32,16 @@ class ProfileController extends Controller
 
         public function showEditProfile(User $user): View
         {
-        
             if (!$user) {
                 abort(404, 'User profile page not found.');
             }
         
             $this->authorize('update', $user);
-       
+
+            $image = self::getImage($user);
             return view('profile_pages.edit-profile', [
                 'user' => $user,
-                'image' => $user->getProfileImage()
+                'image' =>$image,
             ]);
         }
         
@@ -85,15 +88,44 @@ class ProfileController extends Controller
         }
         return false;
     }
+    public static function getImage(User $user){
+        $fileName = $user->file;
+      
+        if (empty($fileName)) {
+            $user->file = 'default_user.jpg';
+            $user->save();
+        }
+
+        return Storage::url('/files'. '/user'. '/' .$user->file);
+    }
     public function updateProfileImage(Request $request, User $user){
             if(self::validRequest($request)){
+                // Hash and Get image
                 $file = $request->file('file');
-                if ($user->file != )
-                $filename = $file->getClientOriginalName();
-                $hashedFilename = Hash::make($filename);
-                Storage::disk()->put("project/{$hashedFilename}", $file->get());
-                return redirect()->back();    
+                $hashedFilename = $file->hashName();
+                // Save image and delte image if not default
+                if($user->file != 'default_user.jpg')
+                    self::deleteImage($user);
+                $user->file = $hashedFilename;
+                $user->save();
+                Storage::putFileAs('user', new File($request->file('file')),$user->file);
+                return redirect()->back()->with('success_image','Profile picture uploaded successfully');    
             }
-            return redirect()->back();
+            return redirect()->back()->with('error_image','Cant submit picture');
+    }
+    private static function deleteImage(User $user){
+        Storage::disk('proj_planner_files')->delete('/user'.'/'.$user->file);
+    }
+
+    public static function deleteProfileImage(User $user){
+        if ($user->file == 'default_user.jpg'){
+            return redirect()->back()->with('delete_error_image', 'Nothing to delete');
+        }
+        if ($user && !empty($user->file) ) {
+            self::deleteImage($user);
+        }
+        $user->file = 'default_user.jpg';
+        $user->save();
+        return redirect()->back()->with('delete_success_image','Delete sucessfull');
     }
 }

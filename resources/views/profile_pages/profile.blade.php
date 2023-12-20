@@ -33,7 +33,7 @@
         <div class = "row">
             <div class = " col-sm-12 col-lg-2 d-flex justify-content-center ">
                 <figure>
-                    <img src="{{ $user->file }}" alt="Default Image" >
+                    <img src="{{$image}}" alt="Default Image" >
                 </figure>
             </div>
             <div class = "col-sm-12 col-lg-10   d-flex flex-column justify-content-center">
@@ -99,7 +99,7 @@
 
    
 
-        @foreach($tasks as $task)
+        @forelse($tasks as $task)
             <div class="col-12 mb-4">
                 <div class = "row p-3 task">
                     <div class ="col-sm-12 col-lg-3 d-flex justify-content-center taskinfo">
@@ -129,7 +129,11 @@
                     </div>
                 </div>
             </div>
-        @endforeach
+            @empty
+            <div class ="col-12 text-center empty">
+                <p>This user is not assigned to any task.</p>
+            </div>
+        @endforelse
         </div>
     </div>
 

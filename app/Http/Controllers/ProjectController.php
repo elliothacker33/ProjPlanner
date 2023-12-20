@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Http\Controllers\FileController;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -98,7 +99,7 @@ class ProjectController extends Controller
     }
     public function show_files(Project $project){
         $this->authorize('view',[Project::class,$project]);
-        return view('pages.files',['files' => $project->files(),'project' => $project]);
+        return view('pages.files',['files' => $project->files,'project' => $project]);
     }
     public function add_user(Request $request, Project $project)
 
@@ -158,11 +159,18 @@ class ProjectController extends Controller
             return abort(404);
 
         $this->authorize('delete', [Project::class, $project]);
-
+        $files = $project->files;
+        foreach ($files as $file) {
+            $hashedPart = FileController::getHashedPart($file);
+            $filePath = '/project/'.$project->id.'/'.$hashedPart;
+            Storage::disk('proj_planner_files')->delete($filePath);
+            $file->delete();
+        }
+        Storage::disk('proj_planner_files')->deleteDirectory('project/'.$project->id);
         $project->delete();
-
+        
         $projects = Project::all();
-
+        
         return redirect()->route('home', ['projects' => $projects,'user'=>Auth::id()]);
         // TODO: redirect to "My projects page"
         // return redirect()->route('my_projects');

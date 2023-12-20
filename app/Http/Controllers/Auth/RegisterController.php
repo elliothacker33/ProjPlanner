@@ -23,7 +23,7 @@ class RegisterController extends Controller
     {
 
         if (Auth::check())
-            return redirect()->route('user-profile');
+            return redirect()->route('profile',['user'=> Auth::user()]);
 
         return view('auth.register');
     }
@@ -55,13 +55,12 @@ class RegisterController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-        $user =User::create([
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password)
         ]);
 
-        $user->file = FileController::getDefaultName('user');
         $user-> save();
         $credentials = $request->only('email', 'password');
 

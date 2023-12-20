@@ -42,7 +42,7 @@ class Project extends Model
         return $this->hasMany(Tag::class);
     }
     public function files(): HasMany{
-        return $this->hasMany(Project::class);
+        return $this->hasMany(File::class);
     }
 }
 

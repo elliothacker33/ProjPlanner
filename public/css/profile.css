@@ -166,3 +166,9 @@ input:focus{
     }
  
   }
+
+  .empty>p{
+    padding: 20px;
+    color: var(--primary-text-color);
+    font-size: 1.5em;
+}

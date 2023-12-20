@@ -79,19 +79,21 @@ Route::controller(RegisterController::class)->group(function () {
 
 // Profile
 Route::prefix('/user-profile')->controller(ProfileController::class)->group(function () {
-    Route::get('/','show')->name('user-profile');
     Route::get('/{user}', 'showProfile')->name('profile');
     Route::put('/{user}/edit', 'updateProfile')->name('update_profile');
     Route::get('/{user}/edit', 'showEditProfile')->name('edit_profile');
-    Route::put('/{user}/update/')->name()
-    Route::delete('/{user}')
+    Route::put('/{user}/update_image','updateProfileImage')->name('update_profile_image'); 
+    Route::delete('/{user}/delete_image','deleteProfileImage')->name('delete_profile_image');
     Route::delete('/{user}/delete', 'destroy')->name('delete_profile');
 });
 
 // Files 
 Route::controller(FileController::class)->group(function () {
     Route::post('/file/upload','upload')->name('upload_file');
-    Route::delete('/file/delete','delete')->name('delete_file');
+    Route::get('/file/delete/{file}','delete')->name('delete_file');
+    Route::get('/file/download_file/{file}','download')->name('download_file');
+    Route::get('/file/downloadAll','downloadAll')->name('download_all_files');
+    Route::delete('/file/deleteAll','deleteAll')->name('delete_all_files');
 });
 // Users
 Route::prefix('/user/{user}')->whereNumber('user')->controller(UserController::class)->group(function () {

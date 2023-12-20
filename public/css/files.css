@@ -8,11 +8,18 @@ main{
     overflow-x: hidden;
 
 }
-.first{
+.row{
     width: 100vw;
-    border: blue solid 2px;
  
 }
+.sort{
+    background-color: var(--onprimary-bg-color);
+    height: 83vh;
+    overflow-x:hidden;
+}
+
+
+
 .container-fluid header{
     padding: 2%;
 }
@@ -24,52 +31,152 @@ main{
     color: var(--primary-text-color);
     font-size: 1.5em;
 }
-
-.main-header{
-    background-color: #e5e5e5;
-    border-bottom: rgb(120, 119, 119) 2px solid;
+.sort-header h1{
+    color:white;
 }
-
+.files-section{
+    border-left:var(--primary-text-color) 3px solid;
+}
 .container-fluid a{
     color:white;
     text-decoration: none;
     font-size: 1em;
 
 }
+.btn-name,.btn-date,.btn-size{
+    display: flex;
+    padding: 4%;
+    justify-content: center;
+ 
+}
+.btn-name>button,.btn-size>button,.btn-date>button{
+    width: 60%;
+    text-transform: none;
+    font-size: 1em;
+    color:white;
+    margin-right: 10px;
+    background-color: var(--onsecondary-bg-color);
+}
+
+a{
+    padding: 0 ;
+    margin: 0;
+}
+button{
+    padding: 0 ;
+    margin: 0;
+}
+.fff{
+    margin: 0 !important;
+    padding: 0 !important;
+
+}
+.btn-sort{
+    margin-top: 5px;
+    text-transform: none;
+    font-size: 1em;
+    color:white;
+    margin-right: 10px;
+    background-color: var(--primary-text-color);
+}
+.sort-btn{
+    text-align: center;
+    text-transform: none;
+    font-size: 1.5em;
+    color:var(--primary-text-color);
+    margin-right: 10px;  
+}
+.sort-btn:hover{
+    text-decoration-line: underline;
+}
 .dl{
+    margin-top: 5px;
+    text-transform: none;
+    font-size: 1em;
+    color:white;
     margin-right: 10px;
     background-color: var(--onprimary-bg-color);
 }
 .ra{
+    margin-top: 5px;
+    text-transform: none;
+    font-size: 1em;
+    color:white;
+    margin-right: 10px;
     background-color: var(--error-text-color);
+}
+.up{
+    margin-top: 5px;
+    text-transform: none;
+    font-size: 1em;
+    color:white;
+    margin-right: 10px;
+    background-color: var(--onsecondary-bg-color);
 }
 .file{
     border-bottom: var(--primary-text-color) 2px solid;
 }
-.sort{
-    border-bottom: var(--primary-text-color) 2px solid;
-}
+
 .file-title h2{
     font-weight: bold;
-    font-size: 1.5em;
+    font-size: 1.2em;
 }
-.file-size span{
 
-}
-.dl2{
+.dl2 {
     font-size: 1.5em;
     color: var(--onprimary-bg-color);
+
 }
-.rm{
+
+.dl2:hover {
+    opacity: 0.5; 
+}
+
+.rm {
     font-size: 1.5em;
     color: var(--error-text-color);
 }
 
-.upload{
-    margin:0;
-    margin-left: 10px;
-    text-decoration: none;
-    color:white;
-    background-color: var(--onsecondary-bg-color);
-    font-size: 1em;
+.rm:hover {
+    opacity: 0.5; 
 }
+
+span{
+    font-size: 1.2em;
+}
+.empty>p{
+    padding: 20px;
+    color: var(--primary-text-color);
+    font-size: 1.5em;
+}
+
+@media (max-width: 575.98px) { 
+    .options{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+  
+  @media (min-width: 576px) and (max-width: 767.98px) { 
+    .options {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+  
+  @media (min-width: 768px) and (max-width: 991.98px) { 
+    .options {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+  @media (min-width: 992px) { 
+    .options {
+        display: flex;
+        justify-content: end;
+        align-items: center;
+      }
+  }
