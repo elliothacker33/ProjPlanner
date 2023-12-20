@@ -1,4 +1,5 @@
 import {projectHomePageRegex, projectTeamPageRegex, projectTaskPageRegex } from "./const/regex.js";
+import {getProjects} from "./api/user.js";
 
 const header = document.querySelector('header');
 const content = document.querySelector('body');
@@ -40,3 +41,36 @@ export function encodeForAjax(data) {
 export async function sendAjaxRequest(method, url, data) {
     return await fetch(url, buildFetchOptions(method, data));
 }
+
+// realtime-notifications.js
+
+const subscribeToProjectChannels = (projects) => {
+    const pusher = new Pusher("8afd0da3d4993e84efef", {
+        cluster: 'eu',
+        encrypted: true,
+    });
+
+    projects.forEach(project => {
+        console.log(project.id)
+        const channel = pusher.subscribe('project.' + project.id);
+        channel.bind('App\\Events\\ProjectNotification', function (data) {
+            console.log('New project notification:', data.message);
+            // Handle the new notification on the frontend for the specific project
+        });
+    });
+};
+const projects = await getProjects();
+console.log(projects);
+//subscribeToProjectChannels(projects);
+
+const pusher = new Pusher("8afd0da3d4993e84efef", {
+    cluster: 'eu',
+    encrypted: true
+});
+
+const channel = pusher.subscribe('tutorial02');
+channel.bind('notification-postlike', function(data) {
+    console.log(`New notification: ${data.message}`);
+});
+
+sendAjaxRequest('GET','/post/send');

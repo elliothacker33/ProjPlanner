@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\ProjectController;
@@ -142,4 +143,6 @@ Route::prefix('/api')->group(function () {
             Route::get('/tasks', [ProjectController::class, 'showTasks'])->name('show_tasks');
         });
 });
+
+Route::get('/post/send', [PostController::class, 'send']);
 

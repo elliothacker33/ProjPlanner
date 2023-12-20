@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ProjectNotification;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -30,6 +31,7 @@ class UserController extends Controller
                 ->orWhere('name', 'like', $searchTerm)->with('getProfileImage');
         });
         if ($request->ajax())
+
             return response()->json($users->get());
         else {
             if($project ===null)

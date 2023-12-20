@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'paths' => ['api/*', 'sanctum/csrf-cookie'],
+    'paths' => ['api/*', 'sanctum/csrf-cookie','https://js.pusher.com/7.0/pusher.min.js'],
 
     'allowed_methods' => ['*'],
 
