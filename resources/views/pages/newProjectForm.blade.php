@@ -39,7 +39,7 @@
                     @endif
 
                     <label for="deadline">
-                        Deadline
+                        <i class="fa-regular fa-calendar"></i> Deadline
                     </label>
                     <input type="date" name="deadline" id="deadline" value = "{{ old('deadline') }}">
 

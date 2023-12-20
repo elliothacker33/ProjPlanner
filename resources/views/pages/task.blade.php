@@ -32,16 +32,16 @@
         ])
         <header>
             <section class="info">
-            <h1 class="title">{{$task->title}}</h1>
+                <h1 class="title">{{$task->title}}</h1>
 
-            @if($task->status == 'open') <span class="status open"> <i class="fa-solid fa-folder-open"></i> Open </span>
-            @elseif($task->status == 'closed') <span class="status closed"> <i class="fa-solid fa-folder-closed"></i> Closed </span>
-            @else <span class="status canceled"> <i class="fa-solid fa-ban"></i> Canceled </span>
-            @endif
+                @if($task->status == 'open') <span class="status open"> <i class="fa-solid fa-folder-open"></i> Open </span>
+                @elseif($task->status == 'closed') <span class="status closed"> <i class="fa-solid fa-folder-closed"></i> Closed </span>
+                @else <span class="status canceled"> <i class="fa-solid fa-ban"></i> Canceled </span>
+                @endif
             </section>
             <section class="actions">
                 @can('update', $task)
-                    <a class="edit buttonLink"> <i class="fa-solid fa-pen-to-square"></i> Edit</a>
+                    <a class="edit buttonLink" href="{{route('edit_task',['project'=>$project,'task'=>$task])}}"> <i class="fa-solid fa-pen-to-square"></i> Edit</a>
                     <a class="cancel buttonLink" id="openCancelModal"> <i class="fa-solid fa-ban"></i> Cancel</a>
                 @endcan
             </section>
@@ -55,9 +55,9 @@
 
                 @can('changeStatus', $task)
                     @if ($task->status != 'open')
-                        <a class="buttonLink" id="openReopenModal"> <i class="fa-solid fa-folder-open"></i> Reopen task </a> 
+                        <a class="buttonLink" id="openReopenModal"> <i class="fa-solid fa-folder-open"></i> Reopen task </a>
                     @else
-                        <a class="buttonLink" id="openCloseModal"> <i class="fa-solid fa-folder-closed"></i> Close task </a> 
+                        <a class="buttonLink" id="openCloseModal"> <i class="fa-solid fa-folder-closed"></i> Close task </a>
                     @endif
                 @endcan
 
@@ -67,13 +67,13 @@
                     <span> <i class="fa-solid fa-clock"></i>
                         @if ($task->endtime == null)
                             Deadline:
-                                @if ($task->deadline) {{ date('d-m-Y', strtotime($task->deadline)) }}
-                                @else There is no deadline
-                                @endif
+                            @if ($task->deadline) {{ date('d-m-Y', strtotime($task->deadline)) }}
+                            @else There is no deadline
+                            @endif
                         @else
                             {{ ucwords($task->status) }} at:  {{ date('d-m-Y', strtotime($task->endtime)) }}
                         @endif
-                    <span>
+                    </span>
                 </section>
                 @if ($task->status != 'open')
                     <section id="finishedTaskUser">

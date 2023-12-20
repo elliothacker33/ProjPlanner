@@ -5,7 +5,7 @@
         <section class="dropdown hidden">
             @foreach($users as $user )
                 <section class="item" id="assign">
-                    @if(old($user->id))
+                    @if(old($user->id)||($selected && $selected->pluck('id')->contains($user->id) ))
                         <input type="checkbox" name="{{$user->id}}" id="{{$user->id}}" value="{{$user->id}}" checked>
                     @else
                         <input type="checkbox" name="{{$user->id}}" id="{{$user->id}}" value="{{$user->id}}">
@@ -21,7 +21,7 @@
         <section class="dropdown hidden">
             @foreach($tags as $tag )
                 <section class="item">
-                    @if(old($tag->id))
+                    @if(old($tag->id)||($selected && $selected->pluck('id')->contains($tag->id) ))
                         <input type="checkbox" name="{{$tag->id}}" id="{{$tag->id}}" value="{{$tag->id}}" checked>
                     @else
                         <input type="checkbox" name="{{$tag->id}}" id="{{$tag->id}}" value="{{$tag->id}}">

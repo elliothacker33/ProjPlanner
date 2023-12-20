@@ -2,7 +2,7 @@
 
 @push('styles')
 
-    <link href="{{ asset('css/static/home.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/static/projects.css') }}" rel="stylesheet">
 
     <link href="{{ asset('css/landing.css') }}" rel="stylesheet">
 @endpush
