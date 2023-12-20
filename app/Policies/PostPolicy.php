@@ -31,7 +31,7 @@ class PostPolicy
      */
     public function delete(User $user, Post $post): bool
     {
-        return $post->user_id == $user->id || $post->project->coordinator->id == $user->id || $user->is_admin;
+        return $post->user_id == $user->id || $post->project->user_id == $user->id || $user->is_admin;
     }
 
 }

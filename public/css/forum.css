@@ -72,6 +72,7 @@ button[type="submit"] {
     font-size: 14px;
     border-radius: 5px;
     cursor: pointer;
+    height: 3.8rem;
 }
 
 .edit-post:hover,

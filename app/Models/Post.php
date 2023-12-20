@@ -15,7 +15,6 @@ class Post extends Model
     protected $fillable = [
         'content',
         'user_id',
-        'project_id',
         'submit_date',
         'last_edited',
     ];
@@ -24,8 +23,9 @@ class Post extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function project(): BelongsTo {
-        return $this->belongsTo(Project::class);
+    public function project():BelongsTo
+    {
+        return $this->belongsTo(Project::class,'project_id');
     }
 
 }

@@ -1,8 +1,13 @@
 @extends('layouts.project')
 
 @push('styles')
+    <link rel="stylesheet" href="{{ asset('css/user.css') }}">
     <link rel="stylesheet" href="{{ asset('css/forum.css') }}">
     <link rel="stylesheet" href="{{ asset('css/project.css') }}">
+@endpush
+
+@push('scripts')
+    <script src="{{ asset('js/editPost.js') }}" defer></script>
 @endpush
 
 
@@ -24,8 +29,8 @@
                         </div>
                         @if (Auth::user()->id === $post->user_id)
                             <div class="post-edit">
-                                <button action="{{ route('show_edit_post', ['post' => $post, 'project' => $project]) }}" class="edit-post"><i class="fas fa-edit"></i></button>
-                                <form action="{{ route('delete_post', ['project' => $project->id, 'post' => $post->id]) }}"
+                                <button class="edit-post"><i class="fas fa-edit"></i></button>
+                                <form action="{{ route('delete_post', ['project' => $project, 'post' => $post]) }}"
                                     method="POST">
                                     @csrf
                                     @method('DELETE')
@@ -35,7 +40,7 @@
                         @endif
                     </div>
                     <div class="post-body">
-                        <p>{{ $post->content }}</p>
+                        <p class="content">{{ $post->content }}</p>
                     </div>
                     <div class="post-footer">
                         <p class="date-post"> Posted: {{ date('d-m-Y', strtotime($post->submit_date)) }}</p>

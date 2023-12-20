@@ -25,7 +25,7 @@ class PostController extends Controller
 
         $this->authorize('view_forum', [Project::class, $project]);
 
-        $posts = $project->posts()->orderBy('submit_date', 'asc')->cursorPaginate(3);
+        $posts = $project->posts()->orderBy('submit_date', 'asc')->cursorPaginate(5);
 
         if($request->ajax()) {
             $response = view('pages.forum', ['project'=>$project, 'posts'=>$posts])->render();
@@ -62,18 +62,20 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Post $post)
+    public function edit(Request $request, Project $project, Post $post)
     {
+        if ($post == null)
+            return abort(404);
 
         $this->authorize('update', [Post::class, $post]);
 
-        return view('pages.editPost', ['post' => $post]);
+        return view('pages.editPost', ['project' => $project, 'post' => $post]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Post $post)
+    public function update(Request $request, Project $project, Post $post)
     {
         $this->authorize('update', [Post::class, $post]);
 
@@ -85,18 +87,18 @@ class PostController extends Controller
         $post->last_edited = date('Y-m-d');
         $post->save();
 
-        return redirect()->route('forum', ['project' => $post->project]);
+        return redirect()->route('forum', ['project' => $project->id]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request, Post $post)
+    public function destroy(Request $request, Project $project, Post $post)
     {
         $this->authorize('delete', [Post::class, $post]);
 
         $post->delete();
 
-        return redirect()->route('forum');
+        return redirect()->route('forum', ['project' => $project->id]);
     }
 }
