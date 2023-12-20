@@ -43,7 +43,6 @@ body > header input[type='checkbox']{
 body > header .profile{
     position: relative;
     width: fit-content;
-    margin-left: auto;
 }
 
 body > header .profile ul{

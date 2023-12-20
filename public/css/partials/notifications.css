@@ -1,0 +1,38 @@
+.notifications{
+    margin-left: auto;
+    width: fit-content;
+}
+.notifications  .number{
+    background: red;
+    position: absolute;
+    bottom:50%;
+    left:0;
+    padding: 0;
+    z-index: 2;
+}
+
+ input#notifications + .notificationsContainer{
+    display: none;
+}
+ input#notifications:checked + .notificationsContainer{
+    display: flex;
+}
+
+ .notificationsContainer{
+    position: fixed;
+    height: 100vh;
+     display: flex;
+     flex-direction: column;
+     padding: 1em;
+     gap: 1em;
+     top: 0;
+     right: 0;
+     width: 100%;
+     max-width: 30em;
+     z-index: 13;
+  background: var(--secondary-bg-color);
+     border-left: 1px solid var(--primary-border)
+}
+ .notificationsContainer label i{
+     color: var(--secondary-text-color);
+ }
