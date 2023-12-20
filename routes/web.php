@@ -65,6 +65,9 @@ Route::prefix('/api')->group(function () {
     Route::controller(LoginController::class)->group(function () {
         Route::get('/auth', 'auth')->name('auth');
     });
+    Route::controller(UserController::class)->group(function () {
+        Route::get('/notifications', 'getUserNotification')->name('notifications');
+    });
 
 });
 

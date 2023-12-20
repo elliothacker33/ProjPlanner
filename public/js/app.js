@@ -1,5 +1,6 @@
 import {projectHomePageRegex, projectTeamPageRegex, projectTaskPageRegex } from "./const/regex.js";
-import {getProjects} from "./api/user.js";
+import {getNotifications, getProjects} from "./api/user.js";
+import {notificationSection} from "./components/notifications.js";
 
 const currentPath = window.location.pathname;
 const projectHomePage = projectHomePageRegex.test(currentPath);
@@ -58,5 +59,7 @@ const projects = await getProjects();
 
 subscribeToProjectChannels(projects);
 
+console.log(await getNotifications());
 
+document.querySelector('.notificationsContainer').append(notificationSection('Project',(await getNotifications()).projectNotifications))
 

@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\ProjectNotification;
+
 use App\Models\Project;
+use App\Models\ProjectNotification;
 use App\Models\User;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+DB::enableQueryLog();
 class UserController extends Controller
 {
     /**
@@ -85,5 +88,9 @@ class UserController extends Controller
         $user->delete();
 
         return redirect()->route('init_page');
+    }
+    public function getUserNotification(Request $request){
+        if(!$request->user()) abort(404, 'user not found');
+        return response()->json(['projectNotifications'=>$request->user()->projectNotifications()->with('project')->get()]);
     }
 }

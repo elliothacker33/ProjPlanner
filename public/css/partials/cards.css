@@ -113,6 +113,11 @@
     color: var(--primary-text-color);
     border-radius: 0.3em;
 }
+.notificationCard >a > header.seen i{
+    color: var(--sucess-text-color);
+
+
+}
 .notificationCard a{
     display: flex;
     flex-direction: column;

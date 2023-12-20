@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\ProjectNotification;
+use App\Events\ProjectNotificationEvent;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -139,7 +140,7 @@ class ProjectController extends Controller
         ])->onlyInput('email');
 
         $project->users()->attach($user->id);
-        event(new ProjectNotification($project, 'New notification message'));
+        event(new ProjectNotificationEvent($project, 'New notification message'));
 
         return redirect()->route('team', ['team' => $project->users, 'project' => $project]);
     }

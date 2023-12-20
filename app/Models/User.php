@@ -103,6 +103,10 @@ class User extends Authenticatable implements CanResetPassword
         return $this->hasMany(Task::class, 'closed_user_id');
 
     }
+    public function projectNotifications(): HasMany
+    {
+        return $this->hasMany(ProjectNotification::class,'user_id');
+    }
 }
  
 
