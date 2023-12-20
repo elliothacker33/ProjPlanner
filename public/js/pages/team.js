@@ -46,7 +46,6 @@ function addRemoveUserEvent() {
 }
 
 function addUserBtnEvent() {
-    const button = document.querySelector('#add-user-btn');
     const submitForm = document.querySelector('#add-user-form');
     const formInput = submitForm.querySelector('input[name=\'email\']')
     const sendEmailDialog = document.querySelector('dialog[data-open-form-id=openSendEmailInviteModal');
@@ -76,3 +75,25 @@ function addUserBtnEvent() {
     })
 }
 
+function addSendEmailBtnEvent() {
+    const button = document.querySelector('#send-email-invite-btn');
+    const submitForm = document.querySelector('#add-user-form');
+    const formInput = submitForm.querySelector('input[name=\'email\']')
+
+    button.addEventListener('click', () => {
+        sendAjaxRequest('POST', currentPath + '/invite', {'email': formInput.value.toLowerCase()}).catch(() => {
+            console.error("Network error");
+        }).then(async response => {
+            const data = await response.json();
+
+            if (response.ok) {
+                console.log(data.message);
+            }
+            else {
+                console.error(`Error ${response.status}: ${data.error}`);
+            }
+        }).catch(() => {
+            console.error('Error parsing JSON');
+        })
+    });
+}

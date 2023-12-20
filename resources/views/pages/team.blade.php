@@ -20,6 +20,13 @@
         'actionId' => 'removeUserBtn',
         'openDialogClass' => 'openRemoveUserModal',
     ])
+    @include('partials.modal', [
+        'modalTitle' => 'Send invite by email',
+        'modalBody' => 'There isn\'t a user with the email that you have inserted in our system. If you continue we will send
+        an email to the email address suplied to invite them to this project. Do you want to proceed?',
+        'actionId' => 'send-email-invite-btn',
+        'openDialogClass' => 'openSendEmailInviteModal',
+    ])
     <section class="team">
         <section class="users-list">
             <header>
@@ -31,12 +38,12 @@
                     <span> <i class="fa-solid fa-users"></i>  {{count($team)}} Members </span>
                     @can('update',[Project::class,$project])
                         <section class="addUserContainer">
-                            <form method="POST" action="{{ route('addUser', ['project' => $project])  }}">
+                            <form method="POST" action="{{ route('addUser', ['project' => $project])  }}" id="add-user-form">
                                 {{ csrf_field() }}
                                 <input type="email" name="email" placeholder="New member Email" required
                                        value="{{old('email')}}">
 
-                                <button type="submit"><i class="fa-solid fa-user-plus"></i> Add member</button>
+                                <button type="submit" id="add-user-btn"><i class="fa-solid fa-user-plus"></i> Add member</button>
                             </form>
                             @if ($errors->has('email'))
                                 <span class="error">

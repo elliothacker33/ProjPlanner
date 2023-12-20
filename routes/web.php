@@ -33,7 +33,7 @@ Route::controller(HomeController::class)->group(function () {
     Route::get('/home', 'show')->name('home');
 });
 
-// Recover password route
+// Guest routes
 Route::middleware('guest')->group(function () {
     Route::get('/forgot-password', [ForgotPasswordController::class, 'showForgetPasswordForm'])->name('pass.request');
     Route::post('/forgot-password', [ForgotPasswordController::class, 'submitForgetPasswordForm'])->name('pass.email');
@@ -51,12 +51,12 @@ Route::get('{page}', [StaticController::class, 'show'])->whereIn('page', StaticC
 // API
 
 Route::prefix('/api')->group(function () {
-
     Route::controller(TaskController::class)->group(function () {
         Route::get('/{project}/tasks', 'searchTasks')->name('search_tasks');
     });
     Route::controller(UserController::class)->group(function () {
         Route::get('/users', 'searchUsers')->name('search_users');
+        Route::get('/check-user/{email}', 'checkUserExists')->name('check_user_exists');
     });
     Route::controller(ProjectController::class)->group(function () {
         Route::get('/projects', 'search')->name('search_projects');
@@ -64,7 +64,6 @@ Route::prefix('/api')->group(function () {
     Route::controller(LoginController::class)->group(function () {
         Route::get('/auth', 'auth')->name('auth');
     });
-
 });
 
     Route::prefix('/admin')->controller(AdminController::class)->group(function () {
@@ -124,6 +123,7 @@ Route::prefix('/api')->group(function () {
                 Route::delete('', 'destroy')->name('delete_project');
                 Route::get('/edit', 'edit')->name('show_edit_project');
                 Route::put('/edit', 'update')->name('action_edit_project');
+                Route::post('/team/invite', 'send_email_invite')->name('send_email_invite');
 
             });
             Route::prefix('/task')->controller(TaskController::class)->group(function () {
