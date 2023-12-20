@@ -60,17 +60,8 @@ const subscribeToProjectChannels = (projects) => {
     });
 };
 const projects = await getProjects();
-console.log(projects);
-//subscribeToProjectChannels(projects);
 
-const pusher = new Pusher("8afd0da3d4993e84efef", {
-    cluster: 'eu',
-    encrypted: true
-});
+subscribeToProjectChannels(projects);
 
-const channel = pusher.subscribe('tutorial02');
-channel.bind('notification-postlike', function(data) {
-    console.log(`New notification: ${data.message}`);
-});
 
-sendAjaxRequest('GET','/post/send');
+

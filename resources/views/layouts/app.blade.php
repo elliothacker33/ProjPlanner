@@ -20,7 +20,6 @@
     <link href="{{ url('css/milligram.min.css') }}" rel="stylesheet">
     <link href="{{ url('css/app.css') }}" rel="stylesheet">
     <script src="https://kit.fontawesome.com/f09afb12ac.js" crossorigin="anonymous"></script>
-    <script src="https://js.pusher.com/beams/1.0/push-notifications-cdn.js"></script>
     <script type="text/javascript">
         // Fix for Firefox autofocus CSS bug
         // See: http://stackoverflow.com/questions/18943276/html-5-autofocus-messes-up-css-loading/18945951#18945951
@@ -29,16 +28,7 @@
 
 
 
-    <script>
-        const beamsClient = new PusherPushNotifications.Client({
-            instanceId: 'ccc85661-0abc-4212-ab43-b916de00ffca',
-        });
 
-        beamsClient.start()
-            .then(() => beamsClient.addDeviceInterest('hello'))
-            .then(() => console.log('Successfully registered and subscribed!'))
-            .catch(console.error);
-    </script>
 
     @stack('styles')
     <!-- Scripts -->

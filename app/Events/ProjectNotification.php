@@ -26,10 +26,8 @@ class ProjectNotification implements ShouldBroadcast
 
     public function broadcastOn()
     {
-        return new Channel('tutorial02');
+        return new Channel('project.'. $this->project->id);
     }
-    public function broadcastAs() {
-        return 'notification-postlike';
-    }
+
 
 }
