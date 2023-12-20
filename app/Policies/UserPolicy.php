@@ -89,6 +89,15 @@ class UserPolicy
        return $user->is_admin;
     }
 
+    public function showAppealForUnblock(User $user): bool
+    {
+        return $user->is_blocked;
+    }
+
+    public function storeAppealForUnblock(User $user): bool
+    {
+        return $user->is_blocked && !$user->appeal;
+    }
     
 
 }

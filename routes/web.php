@@ -33,6 +33,13 @@ Route::controller(HomeController::class)->group(function () {
     Route::get('/home', 'show')->name('home');
 });
 
+// Blocked User
+Route::prefix('/blocked')->controller(UserController::class)->group(function () {
+    Route::get('', 'showBlocked')->name('blocked');
+    Route::post('/create', 'create_appeal')->name('create_appeal');
+});
+
+
 // Recover password route
 Route::middleware('guest')->group(function () {
     Route::get('/forgot-password', [ForgotPasswordController::class, 'showForgetPasswordForm'])->name('pass.request');
@@ -104,6 +111,8 @@ Route::prefix('/api')->group(function () {
 // Users
     Route::prefix('/user/{user}')->whereNumber('user')->controller(UserController::class)->group(function () {
         Route::delete('/delete', 'destroy')->name('delete_user');
+        Route::put('/block', 'block')->name('block_user');
+        Route::put('/unblock', 'unblock')->name('unblock_user');
     });
 
 // Projects

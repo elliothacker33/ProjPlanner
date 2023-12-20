@@ -11,6 +11,7 @@ class HomeController extends Controller
         $user = $request->user();
 
         if($user){
+            if($user->is_blocked ) return redirect()->route('blocked', ['user'=>$user]);
             if($user->is_admin) return redirect()->route('admin');
             return redirect()->route('projects',['user'=>$user->id]);
         }

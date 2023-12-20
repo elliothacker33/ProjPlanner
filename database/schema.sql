@@ -164,6 +164,12 @@ CREATE TABLE lbaw2353.tag_task(
     PRIMARY KEY (tag_id,task_id)
 );
 
+CREATE TABLE lbaw2353.unblock_request(
+    id SERIAL PRIMARY KEY,
+    description VARCHAR(2000) NOT NULL,
+    user_id INTEGER REFERENCES lbaw2353.users(id) ON UPDATE CASCADE ON DELETE CASCADE NOT NULL
+);
+
 --------------------------------------------------------
 -- Performance Indexes 
 --------------------------------------------------------
