@@ -16,12 +16,17 @@ class ProjectNotificationEvent implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $project;
-    public $message;
+    public $description;
+    public $date;
+    public $seen;
 
     public function __construct(Project $project, $message)
     {
         $this->project = $project;
         $this->message = $message;
+        $this->date = Now();
+        $this->seen= False;
+
     }
 
     public function broadcastOn()

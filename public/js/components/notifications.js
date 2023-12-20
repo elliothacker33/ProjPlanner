@@ -1,4 +1,5 @@
 import {getDateString} from "../utils.js";
+import {seenProjectNotifications} from "../api/notifications.js";
 
 export function notificationSection(title, notifications) {
     const section = document.createElement('section');
@@ -13,15 +14,11 @@ export function notificationSection(title, notifications) {
     notificationCount.classList.add('number')
 
     const chevronUp = document.createElement('span');
-    chevronUp.className = 'input-1';
     chevronUp.innerHTML = '<i class="fas fa-chevron-up"></i>';
 
 
-
-
-
     const notificationsList = document.createElement('section');
-    notificationsList.className = 'input-1 notifications-list';
+    notificationsList.className = 'title-'+title+' notifications-list';
     let unseen =0;
     notifications.forEach(notification => {
         if(!notification.seen) unseen++;
@@ -36,6 +33,7 @@ export function notificationSection(title, notifications) {
         const i= header.querySelector('i');
         i.classList.toggle('fa-chevron-down');
         notificationsList.classList.toggle('hidden');
+        seenProjectNotifications().then();
     })
     section.appendChild(header);
     // Append the notifications list to the main section

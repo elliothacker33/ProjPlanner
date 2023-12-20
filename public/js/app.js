@@ -1,6 +1,6 @@
 import {projectHomePageRegex, projectTeamPageRegex, projectTaskPageRegex } from "./const/regex.js";
 import {getNotifications, getProjects} from "./api/user.js";
-import {notificationSection} from "./components/notifications.js";
+import {notificationSection, projectNotificationCard} from "./components/notifications.js";
 
 const currentPath = window.location.pathname;
 const projectHomePage = projectHomePageRegex.test(currentPath);
@@ -50,8 +50,7 @@ const subscribeToProjectChannels = (projects) => {
         console.log(project.id)
         const channel = pusher.subscribe('project.' + project.id);
         channel.bind('App\\Events\\ProjectNotification', function (data) {
-            console.log('New project notification:', data.message);
-            // Handle the new notification on the frontend for the specific project
+            document.querySelector('.notificationSection.title-Project').append(projectNotificationCard(data))
         });
     });
 };

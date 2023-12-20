@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
@@ -67,6 +68,9 @@ Route::prefix('/api')->group(function () {
     });
     Route::controller(UserController::class)->group(function () {
         Route::get('/notifications', 'getUserNotification')->name('notifications');
+    });
+    Route::controller(NotificationController::class)->group(function (){
+        Route::put('profileNotifications/seen','seenProjectNotification')->name('see_profile_notification');
     });
 
 });
