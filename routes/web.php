@@ -122,6 +122,7 @@ Route::prefix('/api')->group(function () {
                 Route::delete('team/leave', 'remove_user')->name('leave_project');
                 Route::delete('/team/remove', 'remove_user')->name('remove_member');
                 Route::delete('', 'destroy')->name('delete_project');
+                Route::put('/favorite','favorite')->name('favorite_project');
                 Route::get('/edit', 'edit')->name('show_edit_project');
                 Route::put('/edit', 'update')->name('action_edit_project');
 

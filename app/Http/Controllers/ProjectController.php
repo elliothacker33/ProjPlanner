@@ -18,7 +18,10 @@ class ProjectController extends Controller
 
         $this->authorize('viewUserProjects',Project::class);
         $projects = $this->search($request);
-        return view('home.home',['projects'=>$projects,'query'=>$request->input('query')]);
+        $user = Auth::user();
+        $favorites = $user->favoriteProjects;
+        $favoritesArray = $favorites->pluck('id')->toArray();
+        return view('home.home',['projects'=>$projects,'favorites'=>$favoritesArray,'query'=>$request->input('query')]);
     }
 
     public function search(Request $request){
@@ -97,7 +100,10 @@ class ProjectController extends Controller
             ->count();
 
         $all_task = $completed_tasks + $open_tasks;
-        return view('pages.project', ['project' => $project, 'team' => $users->slice(0, 4), 'allTasks' => $all_task, 'completedTasks' => $completed_tasks]);
+        $user = Auth::user();
+        $favorites = $user->favoriteProjects;
+        $favoritesArray = $favorites->pluck('id')->toArray();
+        return view('pages.project', ['project' => $project,'favorites' => $favoritesArray, 'team' => $users->slice(0, 4), 'allTasks' => $all_task, 'completedTasks' => $completed_tasks]);
     }
 
     /**
@@ -208,7 +214,7 @@ class ProjectController extends Controller
     }
 
 
-public function remove_user(Request $request, Project $project) {
+    public function remove_user(Request $request, Project $project) {
         $removedUser = User::find($request->user);
         
         if ($removedUser == null) {
@@ -227,5 +233,31 @@ public function remove_user(Request $request, Project $project) {
             return redirect()->route('home', ['projects' => $removedUser->projects,'user'=>Auth::id()]);
         else
             return response()->json(['message' => 'User has been successfully removed'], 200);
+    }
+    public function favorite(Request $request,$projectId){
+          
+            $userId = Auth::user()->id;
+
+         
+            $exists = DB::table('favorites')
+                ->where('project_id', $projectId)
+                ->where('user_id', $userId)
+                ->exists();
+
+            if ($exists) {
+                DB::table('favorites')
+                    ->where('project_id', $projectId)
+                    ->where('user_id', $userId)
+                    ->delete();
+    
+                return response()->json(['status' => 'unfavorited']);
+            } else {
+                 DB::table('favorites')->insert([
+                    'user_id' => $userId,
+                    'project_id' => $projectId,
+                ]);
+    
+                return response()->json(['status' => 'favorited']);
+            }
     }
 }

@@ -60,7 +60,7 @@ class User extends Authenticatable implements CanResetPassword
 
     public function projects_for_user(): BelongsToMany
     {
-        return $this->belongsToMany(Project::class, 'project_user', 'user_id', 'project_id');
+        return $this->belongsToMany(Project::class, 'project_user', 'user_id', 'project_id');  
     }
     public function tasks(): BelongsToMany{
         return $this->belongsToMany(Task::class, 'task_user', 'user_id', 'task_id')->with('project'); 
@@ -103,6 +103,11 @@ class User extends Authenticatable implements CanResetPassword
         return $this->hasMany(Task::class, 'closed_user_id');
 
     }
+
+    public function favoriteProjects(): BelongsToMany{
+        return $this->belongsToMany(Project::class, 'favorites', 'user_id', 'project_id');
+    }
 }
+
  
 
