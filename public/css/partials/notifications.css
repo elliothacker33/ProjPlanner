@@ -3,12 +3,19 @@
     width: fit-content;
 }
 .notifications  .number{
-    background: red;
+    background: var(--error-text-color);
     position: absolute;
     bottom:50%;
     left:0;
     padding: 0;
+    border-radius: 100%;
+    width: 1.1em;
+    text-align: center;
     z-index: 2;
+}
+.notifications label,.notificationsContainer label{
+    cursor: pointer;
+    width: fit-content;
 }
 
  input#notifications + .notificationsContainer{
@@ -17,13 +24,14 @@
  input#notifications:checked + .notificationsContainer{
     display: flex;
 }
-
+#notifications{
+    display: none;
+}
  .notificationsContainer{
     position: fixed;
     height: 100vh;
      display: flex;
      flex-direction: column;
-     padding: 1em;
      gap: 1em;
      top: 0;
      right: 0;
@@ -35,4 +43,40 @@
 }
  .notificationsContainer label i{
      color: var(--secondary-text-color);
+     margin-left: 1em;
+     margin-top: 1em;
+     scale: 1.5;
  }
+
+ .notificationSection{
+     background: var(--onsecondary-bg-color);
+     color: var(--secondary-text-color);
+     width: 100%;
+     display: flex;
+     flex-direction: column;
+     justify-content: space-evenly;
+ }
+
+.notificationSection > header{
+    display: flex;
+    justify-content: center;
+    gap: 2em;
+    align-items: center;
+    background: var(--sucess-text-color);
+    padding: 1em;
+}
+.notificationSection > header > *{
+    font-weight: bold;
+}
+.notificationSection .notifications-list{
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    padding: 1em;
+}
+.notifications-list .projectNotification header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 3em;
+}

@@ -105,3 +105,20 @@
 
 }
 
+.notificationCard {
+    display: flex;
+    flex-direction: column;
+    padding: 1em;
+    background: var(--primary-bg-color);
+    color: var(--primary-text-color);
+    border-radius: 0.3em;
+}
+.notificationCard a{
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+.notificationCard a footer{
+    width: fit-content;
+    margin-left: auto;
+}
