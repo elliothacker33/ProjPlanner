@@ -17,8 +17,8 @@ document.querySelectorAll('.own-post').forEach((post) => {
         const cancel = document.createElement('button');
 
         textarea.classList.add('editPostTextarea');
-        submit.classList.add('post-edit');
-        cancel.classList.add('cancel-edit');
+        submit.classList.add('edit-post');
+        cancel.classList.add('edit-post');
 
         textarea.value = text;
         

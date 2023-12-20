@@ -6,6 +6,10 @@
     height: 100%;
 }
 
+ .forum-container * {
+    color:white;
+}
+
 .forum-container {
     display: flex;
     flex-direction: column;
@@ -13,11 +17,14 @@
     padding-bottom: 4rem;
     overflow-y: auto;
     margin: 1em auto;
+    width: 100%;
+    max-width: 80em;
+    border: 1px solid (--primary-bg-color);
 }
 
-.post-container {
+.own-post,
+.participants-post {
     width: 100%;
-    max-width: 42em;
     display: flex;
     flex-direction: column;
     margin: 1em 0;
@@ -27,17 +34,13 @@
 }
 
 .own-post {
-    width: 100%;
-    max-width: 42em;
+    background-color: var(--onsecondary-bg-color);
     border: 2px solid var(--onsecondary-bg-color);
-    align-self: flex-end;
 }
 
 .participants-post {
-    width: 100%;
-    max-width: 42em;
+    background-color: var(--onprimary-bg-color);
     border: 2px solid var(--onprimary-bg-color);
-    align-self: flex-start;
 }
 
 .post-header,
@@ -48,8 +51,19 @@
     margin: 1em 0;
 }
 
+.post-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.content {
+    text-overflow:clip;
+    overflow: hidden;
+}
+
 .post-footer {
     align-self: flex-end;
+    margin-right: 1em;
 }
 
 .post-edit,
@@ -61,7 +75,7 @@
 .edit-post,
 .delete-post,
 button[type="submit"] {
-    background-color: var(--onsecondary-bg-color);
+    background-color: var(--on-third-bg-color);
     color: white;
     border: none;
     padding: 0.5em 1em;
@@ -75,7 +89,11 @@ button[type="submit"] {
     transition: background-color 0.3s ease-in-out;
 }
 
-.no-posts {
+.post-edit * {
+    margin: 0.5em;
+}
+
+#no-posts {
     width: 100%;
     max-width: 42em;
     margin: 2em auto;
@@ -86,16 +104,20 @@ button[type="submit"] {
     color: var(--secondary-bg-color);
 }
 
+#no-posts p {
+    color: black;
+}
+
 .new-post {
     width: 100%;
     max-width: 60em;
     margin: 1em auto;
     padding: 1em;
-    background: var(--onprimary-bg-color);
+    background: var(--primary-bg-color);
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    
 }
+
 
 .post-body {
     display: flex;
