@@ -199,4 +199,12 @@ class ProjectController extends Controller
             return redirect()->route('home', ['projects' => $removedUser->projects,'user'=>Auth::id()]);
         // Return when coordinator is removing a user from the project
     }
+    public function archive(Project $project){
+        $this->authorize('archive',[Project::class,$project]);
+        if($project->is_archived == false){
+            $project->is_archived = true;
+        }
+        $project->save();
+        return redirect()->route('project', ['project' => $project->id]);
+    }
 }

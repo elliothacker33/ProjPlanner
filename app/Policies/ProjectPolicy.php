@@ -48,7 +48,7 @@ class ProjectPolicy
      */
     public function update(User $user, Project $project): bool
     {
-        return $user->id === $project->user_id;
+        return ($user->id === $project->user_id && !$project->is_archived);
     }
 
     /**
@@ -59,6 +59,10 @@ class ProjectPolicy
         return $user->id == $project->user_id;
     }
 
+    public function archive(User $user, Project $project): bool
+    {
+        return $user->id == $project->user_id && !$project->is_archived;
+    }
     /**
      * Determine whether the user can restore the model.
      */
@@ -79,6 +83,6 @@ class ProjectPolicy
     {
         $leaveProject = $user == $removedUser && $user != $project->coordinator;
         $removeUser = $user == $project->coordinator && $removedUser != $project->coordinator;
-        return $project->users->contains($removedUser) && ($leaveProject || $removeUser);
+        return $project->users->contains($removedUser) && ($leaveProject || $removeUser) && !$project->is_archived;
     }
 }
