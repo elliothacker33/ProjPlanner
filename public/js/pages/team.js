@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', function () {
     attachDialogs();
     addRemoveUserEvent();
     giveUserToActionHandler();
+    addUserBtnEvent();
+    addSendEmailBtnEvent();
 });
 
 function giveUserToActionHandler() {
@@ -42,3 +44,35 @@ function addRemoveUserEvent() {
         })
     });
 }
+
+function addUserBtnEvent() {
+    const button = document.querySelector('#add-user-btn');
+    const submitForm = document.querySelector('#add-user-form');
+    const formInput = submitForm.querySelector('input[name=\'email\']')
+    const sendEmailDialog = document.querySelector('dialog[data-open-form-id=openSendEmailInviteModal');
+
+    submitForm.addEventListener('submit', event => {
+        console.log(formInput.value.toLowerCase())
+        event.preventDefault();
+
+        sendAjaxRequest('GET', '/api/check-user/' + formInput.value.toLowerCase()).catch(() => {
+            console.error("Network error");
+        }).then(async response => {
+            const data = await response.json();
+
+            if (response.ok) {
+                if (data) {
+                    submitForm.submit();
+                } else {
+                    sendEmailDialog.showModal()
+                }
+            }
+            else {
+                console.error(`Error ${response.status}: ${data.error}`);
+            }
+        }).catch(() => {
+            console.error('Error parsing JSON');
+        })
+    })
+}
+
