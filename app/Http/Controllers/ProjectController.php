@@ -253,7 +253,7 @@ public function remove_user(Request $request, Project $project) {
             ->first();
 
         if ($lastInviteToken && Date::parse($lastInviteToken->invite_date)->diffInMinutes(now()) < 5) {
-            return response()->json(['error' => 'Invite to ' . $request->email . 'already sent within the last 5 minutes'], 429);
+            return response()->json(['message' => 'Invite to ' . $request->email . 'already sent within the last 5 minutes'], 429);
         }
         
         $token = Str::random(64);

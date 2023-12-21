@@ -6,6 +6,7 @@ export function showSnackbar() {
   
     setTimeout(function () { 
         snackbar.classList.toggle('showSnackbar');
+        snackbar.remove();
     }, 5000); 
 }
 
