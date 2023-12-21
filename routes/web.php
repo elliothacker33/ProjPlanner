@@ -82,26 +82,16 @@ Route::prefix('/api')->group(function () {
 
     Route::prefix('/admin')->controller(AdminController::class)->group(function () {
         Route::redirect('/', '/admin/users')->name('admin');
-<<<<<<< HEAD
-
-        Route::prefix('/users')->group( function() {
-            Route::get('', 'show')->name('admin_users');
-            Route::get('/create', 'create');
-            Route::post('/create', 'store')->name('admin_user_create');
-        });
-
         Route::prefix('/appeals')->controller(AppealController::class)->group( function() {
             Route::get('', 'show')->name('admin_appeals');
             Route::delete('/{appeal}/deny', 'deny')->name('deny_appeal');
             Route::put('/{appeal}/accept', 'accept')->name('accept_appeal');
         });
 
-=======
         Route::get('/users', 'show')->name('admin_users');
         Route::get('/users/create', 'create');
         Route::post('/users/create', 'store')->name('admin_user_create');
         Route::get('/projects','showProjects')->name('admin_show_projects');
->>>>>>> main
     });
 
 // Authentication
