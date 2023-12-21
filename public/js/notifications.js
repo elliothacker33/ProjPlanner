@@ -18,7 +18,7 @@ const subscribeToProjectChannels = (projects) => {
             const notification_section =document.querySelector('.notificationSection.title-'+data.type);
             if(data.type === 'Project')notification_section.insertBefore(projectNotificationCard(data,data.project),notification_section.firstChild);
             else if(data.type === 'Forum') notification_section.insertBefore(projectNotificationCard(data,data.post.project),notification_section.firstChild);
-            updateNumbers(data.type);
+            updateNumbers(data.type,1);
         });
     });
 };
@@ -30,7 +30,7 @@ const subscribeToTasksChannels = (tasks) => {
             const notification_section =document.querySelector('.notificationSection.title-'+data.type);
             if(data.type==='Task') notification_section.insertBefore(taskNotificationCard(data,data.task),notification_section.firstChild);
             else if (data.type==='Comment')  notification_section.insertBefore(taskNotificationCard(data,data.comment.task),notification_section.firstChild);
-            updateNumbers(data.type);
+            updateNumbers(data.type,1);
         });
     });
 };
@@ -39,7 +39,7 @@ const subscribeToUserChannels = (user) => {
     channel.bind('notification-user', function (data) {
         const notification_section =document.querySelector('.notificationSection.title-'+data.type);
         notification_section.insertBefore(projectNotificationCard(data,data.project),notification_section.firstChild);
-        updateNumbers(data.type);
+        updateNumbers(data.type,1);
     });
 };
 

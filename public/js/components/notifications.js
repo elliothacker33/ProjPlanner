@@ -46,6 +46,7 @@ export function notificationSection(title, notifications) {
         i.classList.toggle('fa-chevron-down');
         notificationsList.classList.toggle('hidden');
         seenProjectNotifications().then();
+        resetNumber(title);
         if(title ==='Project') seenProjectNotifications().then();
         else if(title ==='Invite') seenInviteNotifications().then();
         else if(title === 'Task') seenTaskNotifications().then();
@@ -133,11 +134,17 @@ export function taskNotificationCard(notification,task) {
     return notificationCard;
 }
 
-export function updateNumbers(type){
+function resetNumber(type){
     let number =document.querySelector('.title-'+type+'.notificationSection header .number');
-    number.innerHTML = parseInt(number.innerHTML)+1;
     const notification = document.querySelector('body > header .notifications .number');
-    notification.innerHTML = parseInt(notification.innerHTML)+1;
+    notification.innerHTML = parseInt(notification.innerHTML)- parseInt(number.innerHTML);
+    number.innerHTML = 0;
+}
+export function updateNumbers(type,n){
+    let number =document.querySelector('.title-'+type+'.notificationSection header .number');
+    number.innerHTML = parseInt(number.innerHTML)+n;
+    const notification = document.querySelector('body > header .notifications .number');
+    notification.innerHTML = parseInt(notification.innerHTML)+n;
 
 }
 export function calculateNumbers(){

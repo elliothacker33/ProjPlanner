@@ -12,7 +12,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class inviteNotificationEvent implements  ShouldBroadcast
+class InviteNotificationEvent implements  ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 

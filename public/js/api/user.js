@@ -10,7 +10,7 @@ export async function getProjects(){
     return await projects_response.json();
 }
 export async function getTasks(){
-    const tasks_response = await sendAjaxRequest("GET", "api/tasks");
+    const tasks_response = await sendAjaxRequest("GET", "/api/tasks");
     return await tasks_response.json();
 }
 export async function getNotifications(){

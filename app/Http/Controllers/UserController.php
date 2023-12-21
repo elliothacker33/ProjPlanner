@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Events\ProjectNotificationEvent;
 use App\Models\Project;
 use App\Models\ProjectNotification;
 use App\Models\User;
@@ -17,6 +18,7 @@ class UserController extends Controller
      */
     public function searchUsers(Request $request)
     {
+
         $searchTerm = '%' . $request->input('query') . '%';
 
         $project = $request->input('project');

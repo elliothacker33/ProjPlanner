@@ -21,6 +21,7 @@
     <link href="{{ url('css/app.css') }}" rel="stylesheet">
     <link href="{{ url('css/partials/navbar.css') }}" rel="stylesheet">
     <link href="{{ url('css/partials/notifications.css') }}" rel="stylesheet">
+    <link href="{{ url('css/partials/cards.css') }}" rel="stylesheet">
     <script src="https://kit.fontawesome.com/f09afb12ac.js" crossorigin="anonymous"></script>
     <script type="text/javascript">
         // Fix for Firefox autofocus CSS bug

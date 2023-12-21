@@ -431,7 +431,7 @@ RETURNS TRIGGER AS $BODY$
 BEGIN
     INSERT INTO lbaw2353.task_notifications (description, notifications_date, task_id, user_id)
     SELECT
-        'task state changed to ' || NEW.status,
+        'Task state was changed to ' || NEW.status,
         NOW(),
         NEW.id,
         user_id

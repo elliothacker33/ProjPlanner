@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ProjectNotificationEvent;
+use App\Events\TaskNotificationEvent;
 use App\Models\Project;
 use App\Models\Task;
-use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -149,7 +150,7 @@ class TaskController extends Controller
 
     public function editStatus(Request $request, Project $project, Task $task) {
         $this->authorize('changeStatus', [Task::class, $task]);
-
+        if(!$project) abort(404);
         $validated = $request->validate([
             'status' => [
                 'required',
@@ -169,7 +170,7 @@ class TaskController extends Controller
         $task->closed_user_id = $validated['status'] == 'open' ? null : Auth::id();
         $task->endtime = $validated['status'] == 'open' ? null : now();
         $task->save();
-        
+        event(new TaskNotificationEvent($project,$task, 'Task Status was changed to'.$task->status));
         return response()->json(['task' => $task, 'closed_user_name' => $task->closed_by->name]);
     }
 }
