@@ -68,7 +68,7 @@ class AdminController extends Controller
     }
 
     public function showProjects(Request $request){
-        $this->authorize('view_all_projects',Project::class);
+        $this->authorize('view_all_projects', Project::class);
         $projects = app(ProjectController::class)->search($request);
         return view('admin.projects',['projects'=>$projects,'query'=>$request->input('query'),'status'=>$request->input('status')]);
 

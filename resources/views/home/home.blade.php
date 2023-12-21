@@ -40,7 +40,7 @@
                 </section>
                 <section>
                     <h5>
-                        <i class="fa-solid fa-folder-closed"></i> My Projects:  {{count($projects)}}
+                        <i class="fa-solid fa-folder-closed"></i> My Projects:  {{$projects->total()}}
                     </h5>
                     <a class="button" href="{{ route('show_new') }}"> <i class="fa-solid fa-folder-plus"></i> Add a Project </a>
                 </section>

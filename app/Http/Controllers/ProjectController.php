@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 
-
 class ProjectController extends Controller
 {
     private $possibleTaskStatus = ['open', 'closed', 'canceled'];
@@ -18,8 +17,7 @@ class ProjectController extends Controller
      */
     public function index(Request $request)
     {
-
-        $this->authorize('viewUserProjects',Project::class);
+        $this->authorize('viewUserProjects', Project::class);
         $projects = $this->search($request);
         return view('home.home',['projects'=>$projects,'query'=>$request->input('query'),'status'=>$request->input('status')]);
     }

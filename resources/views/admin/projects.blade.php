@@ -19,7 +19,7 @@
             <header>
                 <section class="search">
 
-                    <form method="GET" id="search" action="{{route('projects')}}">
+                    <form method="GET" id="search" action="{{route('admin_show_projects')}}">
                         <input type="search" name="query" placeholder="&#128269 Search" aria-label="Search"
                                id="search-bar" value="{{$query}}"/>
                         <button class="" type="submit"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
@@ -40,7 +40,7 @@
                 </section>
                 <section>
                     <h5>
-                        <i class="fa-solid fa-folder-closed"></i> All Projects:  {{count($projects)}}
+                        <i class="fa-solid fa-folder-closed"></i> All Projects:  {{$projects->total()}}
                     </h5>
 
                 </section>
