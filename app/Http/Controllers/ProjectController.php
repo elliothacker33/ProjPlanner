@@ -6,10 +6,12 @@ use App\Models\Project;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+
+
 
 class ProjectController extends Controller
 {
+    private $possibleTaskStatus = ['open', 'closed', 'canceled'];
     /**
      * Display a listing of the resource.
      */
@@ -194,7 +196,11 @@ class ProjectController extends Controller
 
         $this->authorize('view', [Project::class, $project]);
 
-        $tasks = $project->tasks()->with('created_by')->paginate(10)->withQueryString();
+        $tasks = $project->tasks()->with('created_by');
+        if($request->input('status') and in_array($request->input('status'),$this->possibleTaskStatus) )
+            $tasks = $tasks->where('status','=',$request->input('status'));
+
+        $tasks = $tasks->paginate(10)->withQueryString();
         //dd($tasks);
         $open = $project->tasks()->where('status','=','open')->count();
         $closed = $project->tasks()->where('status','=','closed')->count();
@@ -204,7 +210,7 @@ class ProjectController extends Controller
         if ($request->ajax())
             return response()->json($tasks);
         else
-            return view('pages.tasks', ['project'=>$project, 'tasks'=>$tasks, 'open'=>$open,'closed'=>$closed,'canceled'=>$canceled, 'query'=>$request->input('query')]);
+            return view('pages.tasks', ['project'=>$project, 'tasks'=>$tasks, 'open'=>$open,'closed'=>$closed,'canceled'=>$canceled, 'query'=>$request->input('query'),'status'=>$request->input('status')]);
     }
 
 
