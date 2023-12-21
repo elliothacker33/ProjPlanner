@@ -15,7 +15,7 @@
     @includeWhen(Auth::id() != $project->user_id, 'partials.modal', [
         'modalTitle' => 'Leave Project',
         'modalBody' => 'Are you sure that you want to leave this project?',
-        'openFormId' => 'openLeaveModal',
+        'openDialogClass' => 'openLeaveModal',
         'formId' => 'leave-project-form'
     ])
     @includeWhen(Auth::id() == $project->user_id, 'partials.modalOk', [
@@ -23,7 +23,7 @@
         'modalBody' => 'Before leaving the project you must assign another project member as the new
         project coordinator. You can do so in the team section.',
         'type' => 'mymodal-warning',
-        'openFormId' => 'openLeaveModal',
+        'openDialogClass' => 'openLeaveModal',
     ])
     <header>
         <section class="info">
@@ -33,7 +33,7 @@
         @endif
         </section>
         <section class="actions">
-            <button type="button" id="openLeaveModal"> <i class="fa-solid fa-arrow-right-from-bracket"></i> Leave</button>
+            <button type="button" class="openLeaveModal"> <i class="fa-solid fa-arrow-right-from-bracket"></i> Leave</button>
             @if($project->user_id===Auth::id())
                 <button class="project-action-button edit" id="edit-project-button"> <i class="fa-solid fa-pen-to-square"></i> Edit</button>
             @endif

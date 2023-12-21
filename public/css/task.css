@@ -124,7 +124,6 @@ a{
     background: var(--onprimary-bg-color);
     color: white;
     border-radius: 0.3em;
-    margin: 0;
 }
 
 .taskPage .buttonLink:hover {
@@ -188,9 +187,10 @@ a{
     scale: 1.5;
 }
 
-#openCloseModal, #openReopenModal {
+.openCloseModal, .openReopenModal {
     text-align: center;
     margin: 0 0 0 auto;
+    max-width: 10em;
 }
 
 .buttons * {
