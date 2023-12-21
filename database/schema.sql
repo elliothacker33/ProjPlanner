@@ -50,6 +50,12 @@ CREATE TABLE lbaw2353.projects (
     deadline TIMESTAMP WITH TIME ZONE CHECK (deadline IS NULL OR (creation < deadline)),
     user_id INTEGER REFERENCES lbaw2353.users(id) ON UPDATE CASCADE ON DELETE SET DEFAULT NULL
 );
+
+CREATE TABLE lbaw2353.favorites(
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES lbaw2353.users(id) ON UPDATE CASCADE ON DELETE SET DEFAULT NULL,
+    project_id INTEGER REFERENCES lbaw2353.projects(id) on UPDATE CASCADE ON DELETE SET DEFAULT NULL
+);
 --1 
 CREATE TABLE lbaw2353.tags(
     id SERIAL PRIMARY KEY,
@@ -915,3 +921,5 @@ INSERT INTO project_user (user_id, project_id) VALUES (7, 13);
 INSERT INTO tag_task (tag_id, task_id) VALUES (1, 1);
 INSERT INTO task_user (user_id, task_id) VALUES (1, 1);
 INSERT INTO task_user (user_id, task_id) VALUES (2, 1);
+
+INSERT INTO favorites(user_id,project_id) VALUES(1,1);

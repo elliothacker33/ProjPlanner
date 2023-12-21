@@ -134,6 +134,7 @@ Route::controller(FileController::class)->group(function () {
                 Route::put('/team/assign-coordinator', 'assign_coordinator')->name('assign_coordinator');
                 Route::delete('/team/remove', 'remove_user')->name('remove_member');
                 Route::delete('', 'destroy')->name('delete_project');
+                Route::put('/favorite','favorite')->name('favorite_project');
                 Route::get('/edit', 'edit')->name('show_edit_project');
                 Route::put('/edit', 'update')->name('action_edit_project');
                 Route::post('/team/invite', 'send_email_invite')->name('send_email_invite');
