@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="{{ asset('css/tags.css') }}">
     <link rel="stylesheet" href="{{ asset('css/users.css') }}">
     <link rel="stylesheet" href="{{ asset('css/partials/cards.css') }}">
-
+    <link rel="stylesheet" href="{{ asset('css/modal.css') }}">
 @endpush
 
 @push('scripts')
@@ -13,8 +13,13 @@
 
 @section('content')
     <section class="tagsPage">
-
-
+        @include('partials.modal', [
+            'modalTitle' => 'Delete Tag',
+            'modalBody' => 'Are you sure that you want to delete this tag? All of the tasks that are using this tag will stop
+            using it.',
+            'actionId' => 'deleteTagBtn',
+            'openDialogClass' => 'delete',
+        ])
         <section class="tags-list">
             <header>
                 <section class="search">

@@ -36,9 +36,9 @@ class TagController extends Controller
         $tag = Tag::query()
             ->where('project_id','=',$project->id)
             ->where('title','=',$validated['title'])
-            ->get();
-
-        if($tag) return back()->withErrors(['title' => 'Tag already exists']);
+            ->first();
+        
+        if($tag != null) return back()->withErrors(['title' => 'Tag already exists']);
 
         $tag = new Tag();
         $tag->title = $validated['title'];
