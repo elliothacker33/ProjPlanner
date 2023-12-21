@@ -67,7 +67,6 @@
                                     </button>
                                     <span class="remove" id="{{$user->id}}"><i
                                                 class="fa-solid fa-user-xmark"></i></span>
-                                    <p>{{$user->id}}</p>
                                 @endif
                             </section>
                         @endcan

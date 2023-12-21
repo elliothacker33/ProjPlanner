@@ -100,7 +100,7 @@ class ProjectController extends Controller
             ->count();
 
         $all_task = $completed_tasks + $open_tasks;
-        return view('pages.project', ['project' => $project, 'team' => $users->slice(0, 4), 'allTasks' => $all_task, 'completedTasks' => $completed_tasks, 'coordinator' => $project->coordinator->name]);
+        return view('pages.project', ['project' => $project, 'team' => $users->slice(0, 4), 'allTasks' => $all_task, 'completedTasks' => $completed_tasks]);
     }
 
     /**

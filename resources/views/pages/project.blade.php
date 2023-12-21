@@ -79,7 +79,7 @@
                     </span>
                 </section>
                 <section class="teamContainer">
-                    <h5><i class="fa-solid fa-user-tie"></i> Coordinator: {{ $coordinator }}</h5>
+                    <span><i class="fa-solid fa-user-tie"></i> Coordinator: {{ $project->coordinator->name }}</span>
                 </section>
                 <section class="teamContainer">
                     <h5><i class="fa-solid fa-users"></i> Team: </h5>
