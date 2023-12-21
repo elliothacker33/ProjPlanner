@@ -137,7 +137,7 @@ class ProjectController extends Controller
         if ($user->is_admin) return back()->withErrors([
             'email' => 'Admins cannot be part of a project',
         ])->onlyInput('email');
-        if ($user->is_block) return back()->withErrors([
+        if ($user->is_blocked) return back()->withErrors([
             'email' => 'User is blocked',
         ])->onlyInput('email');
         
