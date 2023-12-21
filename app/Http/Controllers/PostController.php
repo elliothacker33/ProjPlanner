@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\PostNotification;
+use App\Events\PostNotificationEvent;
 use App\Events\ProjectNotification;
 use App\Models\Project;
 use http\Env\Response;

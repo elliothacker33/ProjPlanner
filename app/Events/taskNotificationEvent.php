@@ -3,6 +3,7 @@
 namespace App\Events;
 
 use App\Models\Project;
+use App\Models\Task;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -11,34 +12,34 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class ProjectNotificationEvent implements ShouldBroadcast
+class taskNotificationEvent implements  ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $project;
+    public $task;
     public $description;
     public $date;
     public $seen;
-    public $type ;
+    public $type;
 
-    public function __construct(Project $project, $message)
+    public function __construct(Project $project,Task $task, $message)
     {
         $this->project = $project;
         $this->description = $message;
         $this->date = Now();
         $this->seen= False;
-        $this->type='Project';
-
+        $this->task= $task;
+        $this->type = 'Task';
     }
 
     public function broadcastOn()
     {
-        return new Channel('project.'. $this->project->id);
+        return new Channel('task.'. $this->task->id);
     }
     public function broadcastAs() {
-        return 'notification-project';
+        return 'notification-task';
     }
-
 
 
 }

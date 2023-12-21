@@ -22,7 +22,7 @@ export function notificationSection(title, notifications) {
     let unseen =0;
     notifications.forEach(notification => {
         if(!notification.seen) unseen++;
-        notificationsList.appendChild(projectNotificationCard(notification));
+        notificationsList.insertBefore(projectNotificationCard(notification),notificationsList.firstChild);
     });
     notificationCount.textContent = unseen.toString();
     header.appendChild(titleElement);

@@ -11,7 +11,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class ProjectNotificationEvent implements ShouldBroadcast
+class PostNotificationEvent implements  ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -27,8 +27,7 @@ class ProjectNotificationEvent implements ShouldBroadcast
         $this->description = $message;
         $this->date = Now();
         $this->seen= False;
-        $this->type='Project';
-
+        $this->type='Post';
     }
 
     public function broadcastOn()
@@ -38,7 +37,6 @@ class ProjectNotificationEvent implements ShouldBroadcast
     public function broadcastAs() {
         return 'notification-project';
     }
-
 
 
 }
