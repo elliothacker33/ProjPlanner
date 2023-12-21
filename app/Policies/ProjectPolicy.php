@@ -39,7 +39,7 @@ class ProjectPolicy
      */
     public function update(User $user, Project $project): bool
     {
-        return $user->id === $project->user_id && !$user->is_blocked;
+        return $user->id === $project->user_id && !$user->is_blocke && !$project->is_archived;
     }
 
     /**
@@ -55,9 +55,9 @@ class ProjectPolicy
      */
     public function archive(User $user, Project $project): bool
     {
-        return $user->id == $project->user_id && !$user->is_blocked;
+        return $user->id == $project->user_id && !$user->is_blocked && !$project->is_archived;
     }
-
+    
     /**
      * Determine whether the user can leave the model.
      */
@@ -111,7 +111,16 @@ class ProjectPolicy
     {
         $leaveProject = $user == $removedUser && $user != $project->coordinator;
         $removeUser = $user == $project->coordinator && $removedUser != $project->coordinator;
-        return $project->users->contains($removedUser) && ($leaveProject || $removeUser) && !$user->is_blocked;
+        return $project->users->contains($removedUser) && ($leaveProject || $removeUser) && !$user->is_blocked && !$project->is_archived;
     }
+
+    public function send_invite(User $user, Project $project): bool
+    {
+        return $user->id === $project->user_id;
+    }
+
+    public function view_all_projects(User $user){
+        return $user->is_admin;
+}
 
 }

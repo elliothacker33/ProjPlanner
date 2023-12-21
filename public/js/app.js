@@ -1,19 +1,27 @@
-import {projectHomePageRegex, projectTeamPageRegex, projectTaskPageRegex } from "./const/regex.js";
-
-const header = document.querySelector('header');
-const content = document.querySelector('body');
-
-content.style.paddingTop = (header.clientHeight).toString() + 'px';
+import {
+    projectTeamPageRegex,
+    projectTaskPageRegex,
+    adminUserPageRegex,
+    adminProjectPageRegex,
+    projectHomePageRegex,
+    projectTagsPageRegex,
+} from "./const/regex.js";
 
 const currentPath = window.location.pathname;
 const projectHomePage = projectHomePageRegex.test(currentPath);
 const projectTeamPage = projectTeamPageRegex.test(currentPath);
 const projectTaskPage = projectTaskPageRegex.test(currentPath);
+const adminUsersPage = adminUserPageRegex.test(currentPath);
+const projectAdminPage = adminProjectPageRegex.test(currentPath);
+const projectTagsPage = projectTagsPageRegex.test(currentPath);
 
 if(projectTaskPage)document.querySelector('#projectTasks').classList.add('selected')
 else if (projectTeamPage)document.querySelector('#projectTeam').classList.add('selected')
 else if(projectHomePage) document.querySelector('#projectHome').classList.add('selected')
+else if(adminUsersPage) document.querySelector('#adminUsersPage').classList.add('selected')
+else if( projectAdminPage) document.querySelector('#adminProjectsPage').classList.add('selected')
 
+else if(projectTagsPage) document.querySelector('#projectTags').classList.add('selected')
 function buildFetchOptions(method, data) {
     const options = {
         method: method,

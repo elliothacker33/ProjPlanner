@@ -22,6 +22,7 @@ class Project extends Model
         'description',
         'deadline',
         'user_id',
+        'is_archived',
     ];
 
     protected $hidden = ['tsvectors'];

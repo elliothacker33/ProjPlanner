@@ -26,6 +26,9 @@ class MailModel extends Mailable
             case 'Recover password':
                 $view = 'mail.forgot';
                 break;
+            case 'Invite to join project':
+                $view = 'mail.invite';
+                break;
         }
     
         return $this->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'))

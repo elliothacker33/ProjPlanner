@@ -13,6 +13,7 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
+    private $user_status =['admin','user'];
     public function searchUsers(Request $request)
     {
         $searchTerm = '%' . $request->input('query') . '%';
@@ -31,12 +32,23 @@ class UserController extends Controller
             $query->where('email', 'like', $searchTerm)
                 ->orWhere('name', 'like', $searchTerm)->with('getProfileImage');
         });
+        if($request->input('status') and in_array($request->input('status') ,$this->user_status)){
+            if($request->input('status') ==='admin') $users->where('is_admin','=',true);
+            else $users->where('is_admin','=',false);
+        }
         if ($request->ajax())
             return response()->json($users->get());
         else {
             if($project ===null)
                 return $users->paginate(10)->withQueryString();
         }
+    }
+
+
+    public function checkUserExists(Request $request, $email) {
+        $user = User::where('email', $email)->first();
+
+        return response()->json($user != null);
     }
 
     public function block(Request $request, User $user)
