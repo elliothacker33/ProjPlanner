@@ -18,7 +18,11 @@
         <form method="POST" action="{{ route('login') }}">
             {{ csrf_field() }}
 
-            <input id="email" type="email" name="email" placeholder="Email" value="{{ old('email') }}" required autofocus>
+            @if (isset($userEmail))
+                    <input id="email" type="email" placeholder="Insert your email" name="email" value="{{ $userEmail }}" required readonly>
+            @else
+                <input id="email" type="email" name="email" placeholder="Email" value="{{ old('email') }}" required autofocus>
+            @endif
             @if ($errors->has('email'))
                 <span class="error">
           {{ $errors->first('email') }}
@@ -45,6 +49,10 @@
                     {{ session('success') }}
                 </p>
             @endif
+
+            @isset($project)
+                <input type="hidden" name="project" value="{{ $project }}">
+            @endisset
         </form>
         <div class ="d-flex justify-content-center forgot">
                     <a href="{{ route('pass.request')}} "> Forgot your password? </a>

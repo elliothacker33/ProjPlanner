@@ -23,8 +23,11 @@
                     </span>
                 @endif
 
-
-                <input id="email" type="email" placeholder="Insert your email" name="email" value="{{ old('email') }}" required>
+                @if (isset($userEmail))
+                    <input id="email" type="email" placeholder="Insert your email" name="email" value="{{ $userEmail }}" required readonly>
+                @else
+                    <input id="email" type="email" placeholder="Insert your email" name="email" value="{{ old('email') }}" required>
+                @endif
                 @if($errors->has('email'))
                     <span class="error">
                         {{ $errors->first('email') }}
@@ -44,6 +47,10 @@
                         {{ $errors->first('password_confirmation') }}
                     </span>
                 @endif
+
+                @isset($project)
+                    <input type="hidden" name="project" value="{{ $project }}">
+                @endisset
 
                 <button type="submit">
                     Register

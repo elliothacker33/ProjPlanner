@@ -12,7 +12,11 @@ class HomeController extends Controller
 
         if($user){
             if($user->is_admin) return redirect()->route('admin');
-            return redirect()->route('projects',['user'=>$user->id]);
+
+            if ($request->session()->has('message'))
+                return redirect()->route('projects',['user'=>$user->id])->with('message', $request->session()->get('message'));
+            else
+                return redirect()->route('projects',['user'=>$user->id]);
         }
         return view('static.landing');
     }

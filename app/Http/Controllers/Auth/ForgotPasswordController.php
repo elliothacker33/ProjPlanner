@@ -105,17 +105,15 @@ class ForgotPasswordController extends Controller
         $invite = DB::table('invites')->where(['token' => $token])->first();
 
         if(!$invite)
-            return redirect()->route('projects')->with('message', ['error', 'The project you tried to join no longer exists']);
+            return redirect()->route('projects')->with('message', ['error', 'Link to join the project has expired']);
 
         $user = User::where('email', $invite->email)->first();
         $project = Project::find($invite->project_id);
 
         if (Auth::check()) {
-            // Project doens't exist
             if ($project->users->contains($user)) {
-                return redirect()->route('projects')->with('message', ['info', 'You are already in the project' . $project->name]);
+                return redirect()->route('projects')->with('message', ['info', 'You are already in the project ' . $project->name]);
             }
-            // User not in project
             else {
                 $project->users()->attach(Auth::id());
                 return redirect()->route('projects')->with('message', ['success', 'You have joined the project ' . $project->name]);
@@ -123,10 +121,10 @@ class ForgotPasswordController extends Controller
         }
         else {
             if ($user != null) {
-                return redirect()->route('login')->with(['project' => $project, 'userEmail' => $invite->email]);
+                return redirect()->route('login')->with(['project' => $project->id, 'userEmail' => $invite->email]);
             }
             else {
-                return redirect()->route('register')->with(['project' => $project, 'userEmail' => $invite->email]);
+                return redirect()->route('register')->with(['project' => $project->id, 'userEmail' => $invite->email]);
             }
         }
     }

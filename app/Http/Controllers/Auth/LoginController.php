@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Project;
 
 use Illuminate\View\View;
 
@@ -16,12 +17,19 @@ class LoginController extends Controller
     /**
      * Display a login form.
      */
-    public function showLoginForm()
+    public function showLoginForm(Request $request)
     {
         if (Auth::check())
             return redirect()->back();
 
-        return view('auth.login');
+        if ($request->session()->has('project') && $request->session()->has('userEmail')) {
+            return view('auth.login')->with([
+                'project' => $request->session()->get('project'),
+                'userEmail' => $request->session()->get('userEmail'),
+            ]);
+        }
+        else
+            return view('auth.login');
     }
 
     /**
@@ -36,8 +44,22 @@ class LoginController extends Controller
  
         if (Auth::attempt($credentials, $request->filled('remember'))) {
             $request->session()->regenerate();
-            $usrId = Auth::id();
-            return redirect()->route('home');
+
+            if ($request->has('project')) {
+                $project = Project::find($request->input('project'));
+                
+                if ($project == null)
+                    return redirect()->route('home')->with('message', ['error', 'The project you tried to join no longer exists']);
+                else if ($project->users->contains(Auth::user())) {
+                    return redirect()->route('home')->with('message', ['info', 'You are already in the project ' . $project->name]);
+                }
+                else {
+                    $project->users()->attach(Auth::id());
+                    return redirect()->route('home')->with('message', ['success', 'You have joined the project ' . $project->name]);
+                }
+            }
+            else
+                return redirect()->route('home');
         }
  
         return back()->withErrors([

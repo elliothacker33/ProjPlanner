@@ -105,9 +105,10 @@ CREATE TABLE lbaw2353.invites (
     id SERIAL PRIMARY KEY,
     email VARCHAR(1000) NOT NULL,
     invite_date TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
-    user_id INTEGER REFERENCES lbaw2353.users(id) ON UPDATE CASCADE ON DELETE CASCADE NOT NULL,
+    --user_id INTEGER REFERENCES lbaw2353.users(id) ON UPDATE CASCADE ON DELETE CASCADE NOT NULL,
     project_id INTEGER REFERENCES lbaw2353.projects(id) ON UPDATE CASCADE ON DELETE CASCADE NOT NULL,
-    accepted BOOLEAN NOT NULL DEFAULT FALSE,
+    --accepted BOOLEAN NOT NULL DEFAULT FALSE,
+    token VARCHAR(64) NOT NULL,
     UNIQUE (email, project_id)
 );
 
@@ -562,6 +563,7 @@ EXECUTE FUNCTION check_for_coordinator_in_project();
 
 /*Only projects coordinators can invites users to join their projects*/
 
+/*
 CREATE OR REPLACE FUNCTION check_if_coordinator_send_invitation()
 RETURNS TRIGGER AS $BODY$
 BEGIN
@@ -578,7 +580,7 @@ CREATE TRIGGER coordinator_send_invitation_trigger
 BEFORE INSERT ON lbaw2353.invites
 FOR EACH ROW
 EXECUTE FUNCTION check_if_coordinator_send_invitation();
-
+*/
 
 /*Each task can only be marked as completed by users that are task_user to the tasks or the projects coordinator*/
 CREATE OR REPLACE FUNCTION check_who_closed_task()
@@ -862,23 +864,25 @@ INSERT INTO files (name, project_id) VALUES ( 'run', 17);
 INSERT INTO files (name, project_id) VALUES ( 'bank', 11);
 INSERT INTO files (name, project_id) VALUES ( 'tough', 8);
 -- Inserting data into the 'invites' table
-INSERT INTO invites (email, invite_date, user_id, project_id, accepted) VALUES ('meredith24@example.com', '2023-06-23', 10, 13, False);
-INSERT INTO invites (email, invite_date, user_id, project_id, accepted) VALUES ('vickie50@example.org', '2023-05-04', 10, 17, False);
-INSERT INTO invites (email, invite_date, user_id, project_id, accepted) VALUES ('laneangela@example.net', '2023-02-26', 10, 14, False);
-INSERT INTO invites (email, invite_date, user_id, project_id, accepted) VALUES ('therman@example.net', '2023-04-10', 1, 1, False);
-INSERT INTO invites (email, invite_date, user_id, project_id, accepted) VALUES ('ksolomon@example.org', '2023-01-26', 1, 3, False);
-INSERT INTO invites (email, invite_date, user_id, project_id, accepted) VALUES ('martinstacey@example.com', '2023-01-11', 10, 6, False);
-INSERT INTO invites (email, invite_date, user_id, project_id, accepted) VALUES ( 'qcarter@example.org', '2023-03-26', 10, 6, False);
-INSERT INTO invites (email, invite_date, user_id, project_id, accepted) VALUES ( 'derekshields@example.com', '2023-05-04', 1, 2, False);
-INSERT INTO invites (email, invite_date, user_id, project_id, accepted) VALUES ( 'taylorricky@example.com', '2023-01-27', 10, 20, False);
-INSERT INTO invites (email, invite_date, user_id, project_id, accepted) VALUES ( 'robertarnold@example.org', '2023-09-04', 10, 8, False);
-INSERT INTO invites (email, invite_date, user_id, project_id, accepted) VALUES ( 'mfowler@example.org', '2023-07-18', 10, 12, False);
-INSERT INTO invites (email, invite_date, user_id, project_id, accepted) VALUES ( 'dorothy21@example.net', '2023-06-21', 10, 16, False);
-INSERT INTO invites (email, invite_date, user_id, project_id, accepted) VALUES ( 'elizabeth32@example.org', '2023-06-15', 10, 12, False);
-INSERT INTO invites (email, invite_date, user_id, project_id, accepted) VALUES ( 'micheal97@example.net', '2023-08-30', 10, 9, False);
-INSERT INTO invites (email, invite_date, user_id, project_id, accepted) VALUES ( 'pughrebekah@example.net', '2023-08-13', 10, 19, False);
-INSERT INTO invites (email, invite_date, user_id, project_id, accepted) VALUES ( 'tanya47@example.org', '2022-12-05', 10, 8, False);
-INSERT INTO invites (email, invite_date, user_id, project_id, accepted) VALUES ( 'cathyperez@example.com', '2023-03-03', 10, 18, False);
+/*
+INSERT INTO invites (email, invite_date, project_id) VALUES ('meredith24@example.com', '2023-06-23', 13);
+INSERT INTO invites (email, invite_date, project_id) VALUES ('vickie50@example.org', '2023-05-04', 17);
+INSERT INTO invites (email, invite_date, project_id) VALUES ('laneangela@example.net', '2023-02-26', 14);
+INSERT INTO invites (email, invite_date, project_id) VALUES ('therman@example.net', '2023-04-10', 1);
+INSERT INTO invites (email, invite_date, project_id) VALUES ('ksolomon@example.org', '2023-01-26', 3);
+INSERT INTO invites (email, invite_date, project_id) VALUES ('martinstacey@example.com', '2023-01-11', 6);
+INSERT INTO invites (email, invite_date, project_id) VALUES ( 'qcarter@example.org', '2023-03-26', 6);
+INSERT INTO invites (email, invite_date, project_id) VALUES ( 'derekshields@example.com', '2023-05-04', 2);
+INSERT INTO invites (email, invite_date, project_id) VALUES ( 'taylorricky@example.com', '2023-01-27', 20);
+INSERT INTO invites (email, invite_date, project_id) VALUES ( 'robertarnold@example.org', '2023-09-04', 8);
+INSERT INTO invites (email, invite_date, project_id) VALUES ( 'mfowler@example.org', '2023-07-18', 12);
+INSERT INTO invites (email, invite_date, project_id) VALUES ( 'dorothy21@example.net', '2023-06-21', 16);
+INSERT INTO invites (email, invite_date, project_id) VALUES ( 'elizabeth32@example.org', '2023-06-15', 12);
+INSERT INTO invites (email, invite_date, project_id) VALUES ( 'micheal97@example.net', '2023-08-30', 9);
+INSERT INTO invites (email, invite_date, project_id) VALUES ( 'pughrebekah@example.net', '2023-08-13', 19);
+INSERT INTO invites (email, invite_date, project_id) VALUES ( 'tanya47@example.org', '2022-12-05', 8);
+INSERT INTO invites (email, invite_date, project_id) VALUES ( 'cathyperez@example.com', '2023-03-03', 18);
+*/
 
 -- Inserting data into the 'forum_notification' table
 INSERT INTO forum_notification (description, notification_date, post_id, user_id, seen) VALUES ('Impact walk herself above score last.', '2023-09-09', 19, 17, False);
