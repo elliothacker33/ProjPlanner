@@ -46,6 +46,6 @@ export async function sendAjaxRequest(method, url, data) {
 
 // realtime-notifications.js
 
-createNotifications().then(()=>{updateNumbers('Project');updateNumbers('Task');calculateNumbers();updateNumbers('Project')});
+createNotifications().then(()=>{calculateNumbers()});
 subscribeToChannels().then()
 

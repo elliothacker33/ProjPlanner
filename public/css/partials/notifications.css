@@ -13,15 +13,14 @@
     text-align: center;
     z-index: 2;
 }
-.notificationSection .number{
-    background: var(--error-text-color);
-    font-size: 1.5em;
 
-    border-radius: 100%;
-    width: 1.1em;
-    text-align: center;
-
+.notificationSection > header .number::before{
+    content: '(';
 }
+.notificationSection > header .number::after{
+    content: ')';
+}
+
 .notifications label,.notificationsContainer label{
     cursor: pointer;
     width: fit-content;
@@ -42,27 +41,29 @@
      overflow-y: scroll;
      display: flex;
      flex-direction: column;
-     gap: 1em;
+
      top: 0;
      right: 0;
      width: 100%;
      max-width: 30em;
      z-index: 13;
-  background: var(--secondary-bg-color);
+     background: var(--onsecondary-bg-color);
      border-left: 1px solid var(--primary-border)
 }
- .notificationsContainer label i{
+ .notificationsContainer > label i{
      color: var(--secondary-text-color);
      margin-left: 1em;
      margin-top: 1em;
      scale: 1.5;
+     margin-bottom: 1em;
+
  }
  .notificationSection .notifications-list.hidden{
      display: none;
  }
 
  .notificationSection{
-     background: var(--onsecondary-bg-color);
+     border-bottom: 1px solid var(--primary-border);
      color: var(--secondary-text-color);
      width: 100%;
      display: flex;
@@ -72,15 +73,16 @@
 
 .notificationSection > header{
     display: flex;
-    justify-content: center;
-    gap: 2em;
+    justify-content: flex-start;
+    gap: 1em;
     align-items: center;
     background: var(--sucess-text-color);
-    padding: 1em;
+    padding: 0.5em 1em ;
     cursor: pointer;
 }
 .notificationSection > header > *{
     font-weight: bold;
+    font-size: 1.3em;
 }
 .notificationSection .notifications-list{
     display: flex;
