@@ -57,15 +57,4 @@
     padding: 3em 1em 1em;
 }
 
-.filters{
-    width: fit-content;
-    background: var(--onprimary-bg-color);
-    height: fit-content;
-    border: 0;
-}
-.filters select{
-    margin: 0;
-    color: var(--secondary-text-color);
-    outline: none;
-    border: 0;
-}
+

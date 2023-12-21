@@ -27,7 +27,19 @@
                         <input type="search" name="query" placeholder="&#128269 Search" aria-label="Search"
                                id="search-bar" value="{{$query}}"/>
                         <button class="" type="submit"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
-
+                        <div class="filters">
+                            <select  name="status">
+                                @if($status==='')<option selected value="">Filters</option>
+                                @else <option value="">Filters</option>
+                                @endif
+                                @if($status==='admin')<option selected value="admin">admin</option>
+                                @else <option value="admin">admin</option>
+                                @endif
+                                @if($status==='user')<option selected value="user">user</option>
+                                @else <option value="user">user</option>
+                                @endif
+                            </select>
+                        </div>
                     </form>
                 </section>
                 <section>

@@ -13,14 +13,20 @@ use App\Models\User;
 
 class AdminController extends Controller
 {
-
+    private $user_status =['admin','user'];
     public function show(Request $request){
         $this->authorize('view_admin',[User::class]);
         $query = $request->input('query');
         $users = User::query()->count();
         if( $query)
-            return view('admin.users', ['users' => app(UserController::class)->searchUsers($request),'query'=>$query,'registrations'=>$users] );
-        return view('admin.users', ['users' => User::query()->paginate(10)->withQueryString(),'query'=>$query,'registrations'=>$users] );
+            return view('admin.users', ['users' => app(UserController::class)->searchUsers($request),'query'=>$query,'status'=>$request->input('status'),'registrations'=>$users] );
+
+        $user_query =User::query();
+        if($request->input('status') and in_array($request->input('status') ,$this->user_status)){
+            if($request->input('status') ==='admin') $user_query->where('is_admin','=',true);
+            else $user_query->where('is_admin','=',false);
+        }
+        return view('admin.users', ['users' => $user_query->paginate(10)->withQueryString(),'query'=>$query,'status'=>$request->input('status'),'registrations'=>$users] );
     }
 
     public function create(){

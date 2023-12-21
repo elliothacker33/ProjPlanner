@@ -25,8 +25,8 @@
                         <button class="" type="submit"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
                         <div class="filters">
                         <select  name="status">
-                            @if($status==='')<option selected></option>
-                            @else <option ></option>
+                            @if($status==='')<option selected value="">Filters</option>
+                            @else <option value="">Filter</option>
                             @endif
                             @if($status==='open')<option selected value="open">open</option>
                             @else <option value="open">open</option>
