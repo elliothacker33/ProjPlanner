@@ -120,11 +120,11 @@ Route::prefix('/api')->group(function () {
                 Route::get('/team', 'show_team')->name('team');
                 Route::post('/team/add', 'add_user')->name('addUser');
                 Route::delete('team/leave', 'remove_user')->name('leave_project');
+                Route::put('/team/assign-coordinator', 'assign_coordinator')->name('assign_coordinator');
                 Route::delete('/team/remove', 'remove_user')->name('remove_member');
                 Route::delete('', 'destroy')->name('delete_project');
                 Route::get('/edit', 'edit')->name('show_edit_project');
                 Route::put('/edit', 'update')->name('action_edit_project');
-
             });
             Route::prefix('/task')->controller(TaskController::class)->group(function () {
                 Route::get('/{task}', 'show')->where('task', '[0-9]+')->name('task');
