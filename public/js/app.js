@@ -1,6 +1,7 @@
 import {projectHomePageRegex, projectTeamPageRegex, projectTaskPageRegex } from "./const/regex.js";
-import {getNotifications, getProjects} from "./api/user.js";
+import {getAuth, getNotifications, getProjects, getTasks} from "./api/user.js";
 import {notificationSection, projectNotificationCard} from "./components/notifications.js";
+import {createNotifications, subscribeToChannels} from "./notifications.js";
 
 const currentPath = window.location.pathname;
 const projectHomePage = projectHomePageRegex.test(currentPath);
@@ -39,54 +40,5 @@ export async function sendAjaxRequest(method, url, data) {
 }
 
 // realtime-notifications.js
-
-const subscribeToProjectChannels = (projects) => {
-    const pusher = new Pusher("8afd0da3d4993e84efef", {
-        cluster: 'eu',
-        encrypted: true,
-    });
-
-    projects.forEach(project => {
-        console.log(project.id)
-        const channel = pusher.subscribe('project.' + project.id);
-        channel.bind('notification-project', function (data) {
-            const project_section =document.querySelector('.notificationSection.title-'+data.type);
-            project_section.insertBefore(projectNotificationCard(data),project_section.firstChild);
-        });
-    });
-};
-
-const subscribeToTasksChannels = (tasks) => {
-    const pusher = new Pusher("8afd0da3d4993e84efef", {
-        cluster: 'eu',
-        encrypted: true,
-    });
-
-    tasks.forEach(task => {
-        const channel = pusher.subscribe('task.' + task.id);
-        channel.bind('notification-task', function (data) {
-            const project_section =document.querySelector('.notificationSection.title-'+data.type);
-            project_section.insertBefore(projectNotificationCard(data),project_section.firstChild);
-        });
-    });
-};
-const subscribeToUserChannels = (user) => {
-    const pusher = new Pusher("8afd0da3d4993e84efef", {
-        cluster: 'eu',
-        encrypted: true,
-    });
-
-        const channel = pusher.subscribe('user.' + user.id);
-        channel.bind('notification-user', function (data) {
-            const project_section =document.querySelector('.notificationSection.title-'+data.type);
-            project_section.insertBefore(projectNotificationCard(data),project_section.firstChild);
-        });
-};
-const projects = await getProjects();
-
-subscribeToProjectChannels(projects);
-
-console.log(await getNotifications());
-const notificationsContainer = document.querySelector('.notificationsContainer');
-notificationsContainer.append(notificationSection('Project',(await getNotifications()).projectNotifications));
-
+subscribeToChannels().then()
+createNotifications().then();

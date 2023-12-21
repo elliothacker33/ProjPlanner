@@ -27,7 +27,7 @@ class PostNotificationEvent implements  ShouldBroadcast
         $this->description = $message;
         $this->date = Now();
         $this->seen= False;
-        $this->type='Post';
+        $this->type='Forum';
     }
 
     public function broadcastOn()

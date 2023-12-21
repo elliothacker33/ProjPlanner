@@ -6,8 +6,12 @@ export async function getAuth() {
 }
 
 export async function getProjects(){
-    const auth_response = await sendAjaxRequest("GET", "/api/projects");
-    return await auth_response.json();
+    const projects_response = await sendAjaxRequest("GET", "/api/projects");
+    return await projects_response.json();
+}
+export async function getTasks(){
+    const tasks_response = await sendAjaxRequest("GET", "api/tasks");
+    return await tasks_response.json();
 }
 export async function getNotifications(){
     const notification = await sendAjaxRequest("GET", "/api/notifications");

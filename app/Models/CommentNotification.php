@@ -18,6 +18,6 @@ class CommentNotification extends Model
 
     public function comment()
     {
-        return $this->belongsTo(Comment::class,'project_id');
+        return $this->belongsTo(Comment::class,'comment_id');
     }
 }

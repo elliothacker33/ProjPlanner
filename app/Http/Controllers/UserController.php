@@ -90,16 +90,22 @@ class UserController extends Controller
         return redirect()->route('init_page');
     }
     public function getUserNotification(Request $request){
-        if(!$request->user()) abort(404, 'user not found');
+        $user = $request->user();
+        if(!$user) abort(404, 'user not found');
 
         return response()->json(
             [
-                'projectNotifications'=>$request->user()->projectNotifications()->with('project')->get(),
-                'taskNotifications' =>$request->user()->taskNotifications()->with('task.project')->get(),
-                'postNotifications'=>$request->user()->postNotifications()->get(),
-                'inviteNotifications'=>$request->user()->inviteNotifications()->with('project')->get(),
-                'commentNotifications'=>$request->user()->commentNotifications()->with('comment.task.project')->get()
+                'projectNotifications'=>$user->projectNotifications()->with('project')->get(),
+                'taskNotifications' =>$user->taskNotifications()->with('task.project')->get(),
+                'postNotifications'=>$user->postNotifications()->with('post.project')->get(),
+                'inviteNotifications'=>$user->inviteNotifications()->with('project')->get(),
+                'commentNotifications'=>$user->commentNotifications()->with('comment.task.project')->get()
             ]
         );
+    }
+    public function getUserTasks(Request $request){
+        $user = $request->user();
+        if(!$user) abort(404, 'user not found');
+        return response()->json($user->tasks);
     }
 }

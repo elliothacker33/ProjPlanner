@@ -1,5 +1,11 @@
 import {getDateString} from "../utils.js";
-import {seenProjectNotifications} from "../api/notifications.js";
+import {
+    seenCommentNotifications,
+    seenForumNotifications,
+    seenInviteNotifications,
+    seenProjectNotifications,
+    seenTaskNotifications
+} from "../api/notifications.js";
 
 export function notificationSection(title, notifications) {
     const section = document.createElement('section');
@@ -22,7 +28,11 @@ export function notificationSection(title, notifications) {
     let unseen =0;
     notifications.forEach(notification => {
         if(!notification.seen) unseen++;
-        notificationsList.insertBefore(projectNotificationCard(notification),notificationsList.firstChild);
+        if(title ==='Project') notificationsList.insertBefore(projectNotificationCard(notification,notification.project),notificationsList.firstChild);
+        else if(title ==='Invite') notificationsList.insertBefore(projectNotificationCard(notification,notification.project),notificationsList.firstChild);
+        else if(title === 'Task') notificationsList.insertBefore(taskNotificationCard(notification,notification.task),notificationsList.firstChild);
+        else if( title === 'Forum') notificationsList.insertBefore(projectNotificationCard(notification,notification.post.project),notificationsList.firstChild);
+        else if(title=== 'Comment') notificationsList.insertBefore(taskNotificationCard(notification,notification.comment.task),notificationsList.firstChild);
     });
     notificationCount.textContent = unseen.toString();
     header.appendChild(titleElement);
@@ -34,6 +44,12 @@ export function notificationSection(title, notifications) {
         i.classList.toggle('fa-chevron-down');
         notificationsList.classList.toggle('hidden');
         seenProjectNotifications().then();
+        if(title ==='Project') seenProjectNotifications().then();
+        else if(title ==='Invite') seenInviteNotifications().then();
+        else if(title === 'Task') seenTaskNotifications().then();
+        else if( title === 'Forum') seenForumNotifications().then();
+        else if(title=== 'Comment') seenCommentNotifications().then();
+
     })
     section.appendChild(header);
     // Append the notifications list to the main section
@@ -43,7 +59,7 @@ export function notificationSection(title, notifications) {
     return section
 }
 
-export function projectNotificationCard(notification) {
+export function projectNotificationCard(notification,project) {
     // Create the main section element
     const notificationCard = document.createElement('section');
     notificationCard.className = 'notificationCard projectNotification';
@@ -56,7 +72,7 @@ export function projectNotificationCard(notification) {
 
     // Create the h4 element for the project name
     const projectName = document.createElement('h4');
-    projectName.textContent = notification.project.title; // Replace with the actual property from your notification object
+    projectName.textContent = project.title; // Replace with the actual property from your notification object
 
     // Create the i element for the check icon
     const checkIcon = document.createElement('i');
@@ -66,6 +82,53 @@ export function projectNotificationCard(notification) {
     // Append project name and check icon to the header
     if(notification.seen) header.classList.add('seen');
     header.appendChild(projectName);
+    header.appendChild(checkIcon);
+
+    // Create the section element for the message
+    const messageSection = document.createElement('section');
+    messageSection.textContent = notification.description; // Replace with the actual property from your notification object
+
+    // Create the footer element for the date
+    const footer = document.createElement('footer');
+    footer.textContent = getDateString(notification.notifications_date) ; // Replace with the actual property from your notification object
+
+    // Append header, message, and footer to the anchor
+    anchor.appendChild(header);
+    anchor.appendChild(messageSection);
+    anchor.appendChild(footer);
+
+    // Append the anchor to the main section
+    notificationCard.appendChild(anchor);
+
+    return notificationCard;
+}
+export function taskNotificationCard(notification,task) {
+    // Create the main section element
+    const notificationCard = document.createElement('section');
+    notificationCard.className = 'notificationCard projectNotification';
+
+    // Create the anchor element
+    const anchor = document.createElement('a');
+
+    // Create the header element
+    const header = document.createElement('header');
+    const info = document.createElement('section');
+    info.classList.add('info');
+    // Create the h4 element for the project name
+    const projectName = document.createElement('h4');
+    projectName.textContent = task.project.title; // Replace with the actual property from your notification object
+    const  taskName = document.createElement('h6');
+    taskName.textContent = task.title;
+    info.append(projectName);
+    info.append(taskName);
+    // Create the i element for the check icon
+    const checkIcon = document.createElement('i');
+    if(!notification.seen)checkIcon.className = 'fa-solid fa-check';
+    else checkIcon.className = 'fa-solid fa-check-double';
+
+    // Append project name and check icon to the header
+    if(notification.seen) header.classList.add('seen');
+    header.appendChild(info);
     header.appendChild(checkIcon);
 
     // Create the section element for the message

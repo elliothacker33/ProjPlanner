@@ -59,6 +59,8 @@ Route::prefix('/api')->group(function () {
     });
     Route::controller(UserController::class)->group(function () {
         Route::get('/users', 'searchUsers')->name('search_users');
+        Route::get('/notifications', 'getUserNotification')->name('notifications');
+        Route::get('/tasks','getUserTasks')->name('userTasks');
     });
     Route::controller(ProjectController::class)->group(function () {
         Route::get('/projects', 'search')->name('search_projects');
@@ -66,11 +68,13 @@ Route::prefix('/api')->group(function () {
     Route::controller(LoginController::class)->group(function () {
         Route::get('/auth', 'auth')->name('auth');
     });
-    Route::controller(UserController::class)->group(function () {
-        Route::get('/notifications', 'getUserNotification')->name('notifications');
-    });
+
     Route::controller(NotificationController::class)->group(function (){
-        Route::put('profileNotifications/seen','seenProjectNotification')->name('see_profile_notification');
+        Route::put('projectNotifications/seen','seenProjectNotification')->name('see_project_notification');
+        Route::put('taskNotifications/seen','seenTaskNotification')->name('see_task_notification');
+        Route::put('inviteNotifications/seen','seenInviteNotification')->name('see_invite_notification');
+        Route::put('forumNotifications/seen','seenForumNotification')->name('see_forum_notification');
+        Route::put('commentNotifications/seen','seenCommentNotification')->name('see_comment_notification');
     });
 
 });
