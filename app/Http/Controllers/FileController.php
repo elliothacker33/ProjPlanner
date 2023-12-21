@@ -6,6 +6,7 @@ use Illuminate\Http\File;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Http\Exceptions\PostTooLargeException;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use ZipArchive;
@@ -76,9 +77,11 @@ class FileController extends Controller
         return false;
     }
     public static function upload(Request $request) {
+        try{
         if (self::validRequest($request)) {
             
             $file = $request->file('file');
+
             $project_id = $request->input('id');
             $project = Project::find($project_id);
        
@@ -99,6 +102,11 @@ class FileController extends Controller
         }
         return redirect()->back()->with('error_upload', 'File not found');
     }
+    catch (PostTooLargeException $e) {
+        // Handle the PostTooLargeException
+        return response()->back();
+    }
+}
     public static function delete(myFile $file){
         $project = $file->project;
         if (!Gate::denies('delete', [File::class,Auth::user(),$project])) {
