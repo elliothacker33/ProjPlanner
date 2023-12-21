@@ -3,7 +3,7 @@
         <li>
             <header>
                 <h3><a href="{{route('project',['project'=>$project])}}">{{$project->title}}</a></h3>
-                @if(!$project->is_archieve) <span class="status open"> <i class="fa-solid fa-box-open"></i> Open </span>
+                @if(!$project->is_archived) <span class="status open"> <i class="fa-solid fa-box-open"></i> Open </span>
                 @else <span class="status archive"> <i class="fa-solid fa-box-archive"></i> Archive </span>
                 @endif
             </header>

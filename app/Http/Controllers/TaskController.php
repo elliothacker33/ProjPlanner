@@ -28,6 +28,7 @@ class TaskController extends Controller
             ->whereRaw("tsvectors @@ plainto_tsquery('english', ?)", [$request->input('query')])
             ->orderByRaw("ts_rank(tsvectors, plainto_tsquery('english', ?)) DESC", [$request->input('query')])
         ;
+        if($request->input('status') and in_array($request->input('status'),$this->possibleStatus)) $searchedTasks = $searchedTasks->where('status','=',$request->input('status'));
 
         if ($request->ajax())
             return response()->json($searchedTasks->get());

@@ -9,13 +9,23 @@ use Illuminate\Auth\Access\Response;
 
 class PostPolicy
 {
+    
+    /**
+     * Determine whether the user can view the model.
+     */
+    public function view(User $user, Post $post): bool
+    {
+        
+        return $user->is_admin || ($post->project->users->contains($user) && !$user->is_blocked);
+
+    }
 
     /**
      * Determine whether the user can create models.
      */
     public function create(User $user, Project $project): bool
     {
-        return $project->users->contains($user);
+        return $project->users->contains($user) && !$user->is_blocked;
     }
 
     /**
@@ -23,7 +33,7 @@ class PostPolicy
      */
     public function update(User $user, Post $post): bool
     {
-        return $post->user_id == $user->id;
+        return $user->id === $post->author->id && !$user->is_blocked;
     }
 
     /**
@@ -31,7 +41,7 @@ class PostPolicy
      */
     public function delete(User $user, Post $post): bool
     {
-        return $post->user_id == $user->id || $post->project->user_id == $user->id || $user->is_admin;
+        return $user->id === $post->author->id && !$user->is_blocked;
     }
 
 }

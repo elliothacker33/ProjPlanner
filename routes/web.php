@@ -14,6 +14,7 @@ use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ForumController;
+use App\Http\Controllers\AppealController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,7 +37,14 @@ Route::controller(HomeController::class)->group(function () {
     Route::get('/home', 'show')->name('home');
 });
 
-// Guest routes
+// Blocked User
+Route::prefix('/blocked')->controller(AppealController::class)->group(function () {
+    Route::get('', 'showBlocked')->name('blocked');
+    Route::post('/create', 'store')->name('create_appeal');
+});
+
+
+// Recover password route
 Route::middleware('guest')->group(function () {
     Route::get('/forgot-password', [ForgotPasswordController::class, 'showForgetPasswordForm'])->name('pass.request');
     Route::post('/forgot-password', [ForgotPasswordController::class, 'submitForgetPasswordForm'])->name('pass.email');
@@ -76,9 +84,23 @@ Route::prefix('/api')->group(function () {
 
     Route::prefix('/admin')->controller(AdminController::class)->group(function () {
         Route::redirect('/', '/admin/users')->name('admin');
+
+        Route::prefix('/users')->group( function() {
+            Route::get('', 'show')->name('admin_users');
+            Route::get('/create', 'create');
+            Route::post('/create', 'store')->name('admin_user_create');
+        });
+
+        Route::prefix('/appeals')->controller(AppealController::class)->group( function() {
+            Route::get('', 'show')->name('admin_appeals');
+            Route::delete('/{appeal}/deny', 'deny')->name('deny_appeal');
+            Route::put('/{appeal}/accept', 'accept')->name('accept_appeal');
+        });
+
         Route::get('/users', 'show')->name('admin_users');
         Route::get('/users/create', 'create');
         Route::post('/users/create', 'store')->name('admin_user_create');
+        Route::get('/projects','showProjects')->name('admin_show_projects');
     });
 
 // Authentication
@@ -117,6 +139,8 @@ Route::controller(FileController::class)->group(function () {
 // Users
     Route::prefix('/user/{user}')->whereNumber('user')->controller(UserController::class)->group(function () {
         Route::delete('/delete', 'destroy')->name('delete_user');
+        Route::put('/block', 'block')->name('block_user');
+        Route::put('/unblock', 'unblock')->name('unblock_user');
     });
 
 // Projects
@@ -150,7 +174,7 @@ Route::controller(FileController::class)->group(function () {
             });
             Route::prefix('/task')->controller(TaskController::class)->group(function () {
                 Route::get('/{task}', 'show')->where('task', '[0-9]+')->name('task');
-                Route::get('/search', 'index')->name('search_tasks');
+                Route::get('/search', 'index')->name('index_tasks');
                 Route::get('/new', 'create')->name('createTask');
                 Route::post('/new', 'store')->name('newTask');
 

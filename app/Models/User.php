@@ -34,8 +34,10 @@ class User extends Authenticatable implements CanResetPassword
         'email',
         'password',
         'is_admin',
+        'is_blocked',
         'projects',
-        'file'
+        'file',
+        'appeal',
     ];
 
     /**
@@ -56,6 +58,7 @@ class User extends Authenticatable implements CanResetPassword
     protected $casts = [
         'password' => 'hashed',
         'is_admin' => 'boolean',
+        'is_blocked' => 'boolean',
     ];
 
 
@@ -69,6 +72,7 @@ class User extends Authenticatable implements CanResetPassword
     }
     protected $attributes = [
         'is_admin' => false,
+        'is_blocked' => false,
     ];
 
     public function projects(): BelongsToMany {
@@ -101,7 +105,9 @@ class User extends Authenticatable implements CanResetPassword
 
     public function favoriteProjects(): BelongsToMany{
         return $this->belongsToMany(Project::class, 'favorites', 'user_id', 'project_id');
-
+    }
+    public function appeal() {
+        return $this->hasOne(Appeal::class, 'user_id');
     }
 }
 
