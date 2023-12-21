@@ -148,6 +148,7 @@ a{
     border-radius: 10em;
     cursor: pointer;
 }
+
 .multiselector span i{
     margin-left: 1em;
 }
@@ -223,3 +224,121 @@ a{
     }
 }
 
+.containerBoot{
+    max-height: 50vh;
+ 
+    overflow-y: scroll;
+    overflow-x: hidden;
+   
+}
+.hello{
+    border:red solid 2px;
+}
+.own-comment{
+    
+    min-height:fit-content;
+    border: rgba(0, 0, 0, 0.264) solid 2px;
+    border-radius: 10px;
+}
+.participants-comment{
+    min-height:fit-content;
+    border: rgba(0, 0, 0, 0.264) solid 2px;
+    border-radius: 10px;
+
+
+}
+.comment-header{
+    color:var(--primary-text-color);
+    
+}
+
+.comment-header img{
+    margin-top:0;
+    border-color: 2px solid red;
+    width: 2.5em;
+    height: 2.5em;
+}
+.comment-header span{
+    padding-left: 5px;
+    margin-top: 0;
+    font-size: 1.3em;
+}
+.edit-comment{
+    margin-left:5px;
+}
+button{
+    border: none;
+    background-color:  var(--onprimary-bg-color);
+    
+}
+
+@media only screen and (max-width: 575.98px) {
+    .editButtons{
+        display: flex;
+        margin-top: 10px;
+        justify-content: center;
+    }
+    .userName{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+    }
+    .post-body{
+        text-align: center;
+    }
+  }
+  
+  @media only screen and (min-width: 576px) and (max-width: 767.98px) {
+    .editButtons{
+        display: flex;
+        margin-top: 10px;
+        justify-content: center;
+    }
+    .userName{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+    }
+    .post-body{
+        text-align: center;
+    }
+  }
+ 
+  @media only screen and (min-width: 768px) and (max-width: 991.98px) {
+    .editButtons{
+        display: flex;
+        margin-top: 10px;
+        justify-content: center;
+    }
+    .userName{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+    }
+    .post-body{
+        text-align: center;
+    }
+  }
+  @media only screen and (min-width: 992px) and (max-width: 1199.98px) {
+    .editButtons{
+        display: flex;
+        justify-content: end;
+    }
+    .userName{
+        display: flex;
+    }
+  }
+  
+  @media only screen and (min-width: 1200px) {
+    .editButtons{
+        display: flex;
+        justify-content: end;
+    }
+    .userName{
+        display: flex;
+    }
+  }
+  

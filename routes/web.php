@@ -138,6 +138,9 @@ Route::prefix('/api')->group(function () {
                     Route::put('/edit/status', 'editStatus')->name('edit_status');
                     Route::get('/edit', 'edit')->name('edit_task');
                     Route::put('/edit','update')->name('update_task');
+                    Route::post('/store_comment','storeComment')->name('store_comment');
+                    Route::delete('/delete/{comment}','deleteComment')->name('delete_comment');
+                    Route::put('/edit/{commmet}','editComment')->name('edit_comment');
                 });
             });
 
