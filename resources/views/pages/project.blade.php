@@ -28,16 +28,18 @@
     <header>
         <section class="info">
         <h1 class="title">{{$project->title}}</h1>
-        @if($project->is_archived) <span class="status archive"> <i class="fa-solid fa-box-archive"></i> Archive </span>
+        @if($project->is_archived) <span class="status archive"> <i class="fa-solid fa-box-archive"></i> Archived </span>
         @else <span class="status open"> <i class="fa-solid fa-box-open"></i> Open </span>
         @endif
         </section>
         <section class="actions">
-            <button type="button" class="openLeaveModal"> <i class="fa-solid fa-arrow-right-from-bracket"></i> Leave</button>
-            @if($project->user_id===Auth::id())
+            <button type="button" id="openLeaveModal"> <i class="fa-solid fa-arrow-right-from-bracket"></i> Leave</button>
+            @can('update',$project)
                 <button class="project-action-button edit" id="edit-project-button"> <i class="fa-solid fa-pen-to-square"></i> Edit</button>
-            @endif
-
+            @endcan
+            @can('archive',$project)
+                <button class="project-action-button archive" id="archive-project-button"> <i class="fa-solid fa-pen-to-square"></i> Archive</button>
+            @endcan
             @can('delete', $project)
                 <button class="project-action-button delete" id="delete-project-button"> <i class="fa-solid fa-trash"></i> Delete</button>
             @endcan
@@ -45,11 +47,15 @@
         <!-- Hidden forms to actions in project page that don't use AJAX-->
         <form class="hidden" id="edit-project-form" action="{{ route('show_edit_project',['project'=>$project->id])}}" method="GET">
         </form>
+        <form class="hidden" id="archive-project-form" action="{{ route('archive_project',['project'=>$project->id])}}" method="POST">
+            @csrf
+            @method('PUT')
+        </form>
 
-            <form class="hidden" id="delete-project-form" action="{{ '/project/' . $project->id }}" method="POST">
-                @csrf
-                @method('DELETE')
-            </form>
+        <form class="hidden" id="delete-project-form" action="{{ '/project/' . $project->id }}" method="POST">
+            @csrf
+            @method('DELETE')
+        </form>
 
         <form class="hidden" id="leave-project-form" action="{{ "/project/" . $project->id . "/team/leave"}}" method="POST">
             @csrf
