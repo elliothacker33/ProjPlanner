@@ -74,7 +74,7 @@ class RegisterController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
-            if ($request->has('project')) {
+            if ($request->filled('project')) {
                 $project = Project::find($request->input('project'));
                 
                 if ($project == null)

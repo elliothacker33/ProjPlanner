@@ -45,7 +45,7 @@ class LoginController extends Controller
         if (Auth::attempt($credentials, $request->filled('remember'))) {
             $request->session()->regenerate();
 
-            if ($request->has('project')) {
+            if ($request->filled('project')) {
                 $project = Project::find($request->input('project'));
                 
                 if ($project == null)
@@ -64,7 +64,7 @@ class LoginController extends Controller
  
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
-        ])->onlyInput('email');
+        ])->onlyInput('email', 'project');
     }
 
     /**

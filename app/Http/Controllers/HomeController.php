@@ -18,14 +18,12 @@ class HomeController extends Controller
             else
                 return redirect()->route('projects',['user'=>$user->id]);
         }
-        return view('static.landing');
+
+        if ($request->session()->has('message'))
+            return view('static.landing')->with('message', $request->session()->get('message'));
+        else
+            return view('static.landing');
     }
-
-        # TODO check if user is blocked
-
-
-
-
 }
 
 

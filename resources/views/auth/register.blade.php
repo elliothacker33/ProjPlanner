@@ -50,6 +50,8 @@
 
                 @isset($project)
                     <input type="hidden" name="project" value="{{ $project }}">
+                @else
+                    <input type="hidden" name="project" value="{{ old('project') }}">
                 @endisset
 
                 <button type="submit">

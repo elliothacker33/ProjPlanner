@@ -19,7 +19,7 @@
             {{ csrf_field() }}
 
             @if (isset($userEmail))
-                    <input id="email" type="email" placeholder="Insert your email" name="email" value="{{ $userEmail }}" required readonly>
+                <input id="email" type="email" placeholder="Insert your email" name="email" value="{{ $userEmail }}" required readonly>
             @else
                 <input id="email" type="email" name="email" placeholder="Email" value="{{ old('email') }}" required autofocus>
             @endif
@@ -52,6 +52,8 @@
 
             @isset($project)
                 <input type="hidden" name="project" value="{{ $project }}">
+            @else
+                <input type="hidden" name="project" value="{{ old('project') }}">
             @endisset
         </form>
         <div class ="d-flex justify-content-center forgot">

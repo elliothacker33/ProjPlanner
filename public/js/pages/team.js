@@ -48,7 +48,7 @@ function addRemoveUserEvent() {
 
 function addUserBtnEvent() {
     const submitForm = document.querySelector('#add-user-form');
-    const formInput = submitForm.querySelector('input[name=\'email\']')
+    const formInput = submitForm.querySelector('input[name=\'email\']');
     const sendEmailDialog = document.querySelector('dialog[data-open-form-id=openSendEmailInviteModal');
 
     submitForm.addEventListener('submit', event => {
@@ -77,6 +77,7 @@ function addUserBtnEvent() {
 
 function addSendEmailBtnEvent() {
     const button = document.querySelector('#send-email-invite-btn');
+    button.blur();
     const submitForm = document.querySelector('#add-user-form');
     const formInput = submitForm.querySelector('input[name=\'email\']')
 
