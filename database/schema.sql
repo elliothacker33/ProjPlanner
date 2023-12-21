@@ -340,8 +340,8 @@ BEGIN
 		
     	time_difference := EXTRACT(EPOCH FROM NOW()) - EXTRACT(EPOCH FROM past_time);
 	
-    	IF time_difference < 600.0 THEN
-     	   RAISE EXCEPTION 'You have already sent an invite in the past 10 minutes';
+    	IF time_difference < 300.0 THEN
+     	   RAISE EXCEPTION 'You have already sent an invite in the past 5 minutes';
     	ELSE
 			DELETE FROM lbaw2353.invites WHERE email = NEW.email;
     		RETURN NEW;

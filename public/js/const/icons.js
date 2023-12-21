@@ -17,4 +17,7 @@ export const icons = {
     'warning': '<i class="fa-solid fa-triangle-exclamation"></i>',
     'info': '<i class="fa-solid fa-circle-info"></i>',
     'success': '<i class="fa-solid fa-circle-check"></i>',
+    'tasks': '<i class="fa-solid fa-list-check"></i> ',
+    'edit': '<i class="fa-solid fa-pen-to-square"></i>',
+    'trash': '<i class="fa-solid fa-trash"></i>'
 }

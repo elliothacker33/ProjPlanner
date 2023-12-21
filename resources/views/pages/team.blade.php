@@ -56,6 +56,10 @@
                 </section>
             </header>
             <section class="users">
+                <form class="hidden" id="assign-coordinator-form" method="POST">
+                    @csrf
+                    @method('PUT')
+                </form>
                 <form class="hidden" id="remove-user-form" method="POST">
                     @csrf
                     @method('DELETE')
@@ -77,7 +81,10 @@
                         @can('update', [Project::class,$project])
                             <section class="actions">
                                 @if($project->user_id !== $user->id )
-                                    <span class="promote" id="{{$user->id}}"><i class="fa-solid fa-user-tie"></i></span>
+                                    <button class="promote" name="user_id" value="{{ $user->id }}" type="submit" form="assign-coordinator-form" formaction="{{ route('assign_coordinator', ['project' => $project->id])}}">
+                                        <i class="fa-solid fa-user-tie"></i>
+                                    </button>
+
                                     <button class="remove remove-user-btn openRemoveUserModal" data-user="{{ $user->id }}" type="button">
                                         <i class="fa-solid fa-user-xmark"></i>
                                     </button>
@@ -88,7 +95,5 @@
                 @endforeach
             </section>
         </section>
-
-
     </section>
 @endsection

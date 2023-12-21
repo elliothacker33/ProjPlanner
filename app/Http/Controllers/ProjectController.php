@@ -9,8 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Date;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rule;
 
 class ProjectController extends Controller
 {
@@ -253,7 +252,7 @@ public function remove_user(Request $request, Project $project) {
             ->first();
 
         if ($lastInviteToken && Date::parse($lastInviteToken->invite_date)->diffInMinutes(now()) < 5) {
-            return response()->json(['message' => 'Invite to ' . $request->email . 'already sent within the last 5 minutes'], 429);
+            return response()->json(['message' => 'Invite to ' . $request->email . ' already sent within the last 5 minutes'], 429);
         }
         
         $token = Str::random(64);
@@ -274,5 +273,28 @@ public function remove_user(Request $request, Project $project) {
         MailController::send($mailData);
         
         return response()->json(['message' => 'Invite to ' . $request->email . ' sent successfully'], 200);
+    }
+
+    public function show_tags(Request $request, Project $project){
+        $this->authorize('view', $request->user());
+        return view('project.tags',['project'=>$project, 'tags'=>$project->tags()->with('tasks')->get()]);
+    }
+
+    public function assign_coordinator(Request $request, Project $project) {
+        $this->validate($request, [
+            'user_id' => [
+                'required',
+                'integer',
+                Rule::in($project->users->pluck('id')->toArray()),
+                'different:' . Auth::id(),
+            ]
+        ]);
+
+        $this->authorize('assign_coordinator', [Project::class, $project]);
+
+        $project->user_id = $request->input('user_id');
+        $project->save();
+
+        return redirect()->route('project', ['project' => $project->id]);
     }
 }
