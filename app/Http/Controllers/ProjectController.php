@@ -13,6 +13,8 @@ use Illuminate\Validation\Rule;
 
 class ProjectController extends Controller
 {
+    private $possibleTaskStatus = ['open', 'closed', 'canceled'];
+    private $possibleProjectStatus = ['archive', 'open'];
     /**
      * Display a listing of the resource.
      */
@@ -23,15 +25,16 @@ class ProjectController extends Controller
         $projects = $this->search($request);
 
         if ($request->session()->has('message')) {
-            return view('home.home',['projects'=>$projects,'query'=>$request->input('query')])->with('message', $request->session()->get('message'));
+            return view('home.home',['projects'=>$projects,'query'=>$request->input('query'), 'status'=>$request->input('status')])->with('message', $request->session()->get('message'));
         }
         else
-            return view('home.home',['projects'=>$projects,'query'=>$request->input('query')]);
+            return view('home.home',['projects'=>$projects,'query'=>$request->input('query'), 'status'=>$request->input('status')]);
     }
 
     public function search(Request $request){
         $user = $request->user();
         if($user->is_admin){
+
             $projects = Project::query();
         }else{
             $projects = $user->projects();
@@ -42,9 +45,18 @@ class ProjectController extends Controller
                 ->orderByRaw("ts_rank(tsvectors, plainto_tsquery('english', ?)) DESC", [$request->input('query')]);
         }else $searchedProjects = $projects;
 
+        if($request->input('status') and in_array($request->input('status'),$this->possibleProjectStatus)){
+
+             if($request->input('status')==='archive') {
+                 $searchedProjects = $searchedProjects->where('is_archived', '=', true);
+
+             }
+             else $searchedProjects = $searchedProjects->where('is_archived','=',false);
+        }
         if ($request->ajax())
             return response()->json($searchedProjects->get());
         else
+
             return $searchedProjects->paginate(10)->withQueryString();
     }
 
@@ -202,7 +214,11 @@ class ProjectController extends Controller
 
         $this->authorize('view', [Project::class, $project]);
 
-        $tasks = $project->tasks()->with('created_by')->paginate(10)->withQueryString();
+        $tasks = $project->tasks()->with('created_by');
+        if($request->input('status') and in_array($request->input('status'),$this->possibleTaskStatus) )
+            $tasks = $tasks->where('status','=',$request->input('status'));
+
+        $tasks = $tasks->paginate(10)->withQueryString();
         //dd($tasks);
         $open = $project->tasks()->where('status','=','open')->count();
         $closed = $project->tasks()->where('status','=','closed')->count();
@@ -212,7 +228,7 @@ class ProjectController extends Controller
         if ($request->ajax())
             return response()->json($tasks);
         else
-            return view('pages.tasks', ['project'=>$project, 'tasks'=>$tasks, 'open'=>$open,'closed'=>$closed,'canceled'=>$canceled, 'query'=>$request->input('query')]);
+            return view('pages.tasks', ['project'=>$project, 'tasks'=>$tasks, 'open'=>$open,'closed'=>$closed,'canceled'=>$canceled, 'query'=>$request->input('query'),'status'=>$request->input('status')]);
     }
 
 

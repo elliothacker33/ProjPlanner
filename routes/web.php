@@ -77,6 +77,7 @@ Route::prefix('/api')->group(function () {
         Route::get('/users', 'show')->name('admin_users');
         Route::get('/users/create', 'create');
         Route::post('/users/create', 'store')->name('admin_user_create');
+        Route::get('/projects','showProjects')->name('admin_show_projects');
     });
 
 // Authentication
