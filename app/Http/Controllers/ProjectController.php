@@ -7,6 +7,9 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Log;
+
 
 class ProjectController extends Controller
 {
@@ -232,5 +235,22 @@ public function remove_user(Request $request, Project $project) {
     public function show_tags(Request $request, Project $project){
         $this->authorize('view', $request->user());
         return view('project.tags',['project'=>$project, 'tags'=>$project->tags()->with('tasks')->get()]);
+    }
+    public function git assign_coordinator(Request $request, Project $project) {
+        $this->validate($request, [
+            'user_id' => [
+                'required',
+                'integer',
+                Rule::in($project->users->pluck('id')->toArray()),
+                'different:' . Auth::id(),
+            ]
+        ]);
+
+        $this->authorize('assign_coordinator', [Project::class, $project]);
+
+        $project->user_id = $request->input('user_id');
+        $project->save();
+
+        return redirect()->route('project', ['project' => $project->id]);
     }
 }

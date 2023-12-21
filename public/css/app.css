@@ -263,15 +263,6 @@ input[type=password]:focus {
   object-fit: cover;
 }
 
-
-.hidden-form {
-    display: none;
-}
-
-
-
-
-
 #header_title > a {
     color: inherit
 }
