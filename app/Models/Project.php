@@ -46,8 +46,16 @@ class Project extends Model
     {
         return $this->hasMany(Tag::class);
     }
+
     public function files(): HasMany{
         return $this->hasMany(File::class);
     }
+
+
+    public function posts(): HasMany
+    {
+        return $this->hasMany(Post::class);
+    }
+
 }
 

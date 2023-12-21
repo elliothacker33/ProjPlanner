@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Models\Project;
 use App\Models\Task;
 use App\Models\User;
+use App\Models\Comment;
 use Illuminate\Auth\Access\Response;
 
 class TaskPolicy
@@ -67,5 +68,14 @@ class TaskPolicy
     public function comment(User $user, Task $task): bool
     {
         return $task->project->users->contains($user);
+    }
+
+    public function delete_comment(User $user,Comment $comment):bool
+    {
+        return $user->id == $comment->user_id;
+    }
+    public function edit_comment(User $user,Comment $comment):bool
+    {
+        return $user->id == $comment->user_id;
     }
 }

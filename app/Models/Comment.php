@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Post extends Model
+class Comment extends Model
 {
     use HasFactory;
 
@@ -15,6 +15,7 @@ class Post extends Model
     protected $fillable = [
         'content',
         'user_id',
+        'task_id',
         'submit_date',
         'last_edited',
     ];
@@ -23,9 +24,9 @@ class Post extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function project():BelongsTo
+    public function task():BelongsTo
     {
-        return $this->belongsTo(Project::class,'project_id');
+        return $this->belongsTo(Task::class,'task_id');
     }
 
 }

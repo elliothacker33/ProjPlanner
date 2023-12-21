@@ -2,22 +2,13 @@
 
 namespace App\Policies;
 
+use App\Models\Post;
 use App\Models\User;
 use App\Models\Project;
-use App\Models\Post;
+use Illuminate\Auth\Access\Response;
 
 class PostPolicy
 {
-    
-    /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, Post $post): bool
-    {
-        
-        return $user->is_admin || $post->project->users->contains($user);
-
-    }
 
     /**
      * Determine whether the user can create models.
@@ -32,7 +23,7 @@ class PostPolicy
      */
     public function update(User $user, Post $post): bool
     {
-        return $user->id === $post->author->id;
+        return $post->user_id == $user->id;
     }
 
     /**
@@ -40,7 +31,7 @@ class PostPolicy
      */
     public function delete(User $user, Post $post): bool
     {
-        return $user->id === $post->author->id;
+        return $post->user_id == $user->id || $post->project->user_id == $user->id || $user->is_admin;
     }
 
 }

@@ -12,6 +12,8 @@ use App\Http\Controllers\StaticController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\ForumController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -157,11 +159,28 @@ Route::controller(FileController::class)->group(function () {
                     Route::put('/edit/status', 'editStatus')->name('edit_status');
                     Route::get('/edit', 'edit')->name('edit_task');
                     Route::put('/edit','update')->name('update_task');
+                    Route::get('/next','getNextItems')->name('get_next_comments');
+                    Route::post('/store_comment','storeComment')->name('store_comment');
+                    Route::delete('/delete/{comment}','deleteComment')->name('delete_comment');
+                    Route::put('/edit/{commmet}','editComment')->name('edit_comment');
                 });
             });
             Route::get('/tasks', [ProjectController::class, 'showTasks'])->name('show_tasks');
+
+            Route::prefix('/forum')->group(function () {
+                Route::controller(PostController::class)->group(function () {
+                    Route::get('', 'index')->name('forum'); 
+                     Route::get('/next','getNextItems')->name('get_next_page');
+                    Route::post('/new', 'store')->name('create_post');
+                    Route::prefix('/{post}')->whereNumber('post')->group(function() {
+                        Route::put('/edit', 'update')->name('action_edit_post');
+                        Route::delete('', 'destroy')->name('delete_post');
+                        
+                    });
+                });
+            });
         });
-});
+    });
 
 Route::prefix('/tag/{tag}')->where(['tag' => '[0-9]+'])->controller(TagController::class)->group(function () {
     Route::put('/edit','update')->name('edit_tag');
