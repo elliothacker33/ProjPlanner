@@ -1,12 +1,9 @@
 import {
-    projectHomePageRegex,
     projectTeamPageRegex,
     projectTaskPageRegex,
     adminUserPageRegex,
     adminProjectPageRegex,
     projectHomePageRegex,
-    projectTeamPageRegex,
-    projectTaskPageRegex,
     projectTagsPageRegex,
 } from "./const/regex.js";
 
@@ -18,7 +15,6 @@ const adminUsersPage = adminUserPageRegex.test(currentPath);
 const projectAdminPage = adminProjectPageRegex.test(currentPath);
 const projectTagsPage = projectTagsPageRegex.test(currentPath);
 
-console.log(adminUsersPage)
 if(projectTaskPage)document.querySelector('#projectTasks').classList.add('selected')
 else if (projectTeamPage)document.querySelector('#projectTeam').classList.add('selected')
 else if(projectHomePage) document.querySelector('#projectHome').classList.add('selected')
