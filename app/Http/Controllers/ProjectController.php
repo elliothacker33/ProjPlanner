@@ -7,9 +7,9 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Log;
-
 
 class ProjectController extends Controller
 {
@@ -18,10 +18,15 @@ class ProjectController extends Controller
      */
     public function index(Request $request)
     {
-
         $this->authorize('viewUserProjects',Project::class);
+
         $projects = $this->search($request);
-        return view('home.home',['projects'=>$projects,'query'=>$request->input('query')]);
+
+        if ($request->session()->has('message')) {
+            return view('home.home',['projects'=>$projects,'query'=>$request->input('query')])->with('message', $request->session()->get('message'));
+        }
+        else
+            return view('home.home',['projects'=>$projects,'query'=>$request->input('query')]);
     }
 
     public function search(Request $request){
@@ -232,11 +237,50 @@ public function remove_user(Request $request, Project $project) {
             return response()->json(['message' => 'User has been successfully removed'], 200);
     }
 
+    public function send_email_invite(Request $request, Project $project)
+    {
+        $this->authorize('send_invite', [Project::class, $project]);
+
+        $request->validate([
+            'email' => 'required|email|',
+        ]);
+
+        $lastInviteToken = DB::table('invites')
+            ->where('email', $request->email)
+            ->where('project_id', $project->id)
+            ->orderBy('invite_date', 'desc')
+            ->first();
+
+        if ($lastInviteToken && Date::parse($lastInviteToken->invite_date)->diffInMinutes(now()) < 5) {
+            return response()->json(['message' => 'Invite to ' . $request->email . ' already sent within the last 5 minutes'], 429);
+        }
+        
+        $token = Str::random(64);
+  
+        DB::table('invites')->insert([
+            'email' => $request->email, 
+            'project_id' => $project->id,
+            'token' => $token,
+            'invite_date' => now(),
+        ]);
+    
+        $mailData = [
+            'email' => $request->email,
+            'token' => $token,
+            'subject' => "Invite to join project",
+        ];
+        
+        MailController::send($mailData);
+        
+        return response()->json(['message' => 'Invite to ' . $request->email . ' sent successfully'], 200);
+    }
+
     public function show_tags(Request $request, Project $project){
         $this->authorize('view', $request->user());
         return view('project.tags',['project'=>$project, 'tags'=>$project->tags()->with('tasks')->get()]);
     }
-    public function git assign_coordinator(Request $request, Project $project) {
+
+    public function assign_coordinator(Request $request, Project $project) {
         $this->validate($request, [
             'user_id' => [
                 'required',

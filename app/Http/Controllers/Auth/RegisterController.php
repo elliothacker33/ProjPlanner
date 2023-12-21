@@ -13,19 +13,27 @@ use App\Http\Controllers\FileController;
 use Illuminate\View\View;
 
 use App\Models\User;
+use App\Models\Project;
 
 class RegisterController extends Controller
 {
     /**
      * Display a login form.
      */
-    public function showRegistrationForm()
+    public function showRegistrationForm(Request $request)
     {
 
         if (Auth::check())
             return redirect()->route('profile',['user'=>Auth::user()]);
-
-        return view('auth.register');
+        
+        if ($request->session()->has('project') && $request->session()->has('userEmail')) {
+            return view('auth.register')->with([
+                'project' => $request->session()->get('project'),
+                'userEmail' => $request->session()->get('userEmail'),
+            ]);
+        }
+        else
+            return view('auth.register');
     }
 
     /**
@@ -62,12 +70,24 @@ class RegisterController extends Controller
         ]);
 
         $user->file = FileController::getDefaultName('user');
-        $user-> save();
+        $user->save();
         $credentials = $request->only('email', 'password');
 
-        if (Auth::attempt($credentials)) { 
-            return redirect()->route('login');
-        } else {
+        if (Auth::attempt($credentials)) {
+            if ($request->filled('project')) {
+                $project = Project::find($request->input('project'));
+                
+                if ($project == null)
+                    return redirect()->route('home')->with('message', ['error', 'The project you tried to join no longer exists']);
+                else {
+                    $project->users()->attach(Auth::id());
+                    return redirect()->route('home')->with('message', ['success', 'You have joined the project ' . $project->name]);
+                }
+            }
+            else
+                return redirect()->route('home');
+        }
+        else {
             return redirect()->back()->withError('Register failed.')->withInput();
         }
     }

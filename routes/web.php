@@ -34,7 +34,7 @@ Route::controller(HomeController::class)->group(function () {
     Route::get('/home', 'show')->name('home');
 });
 
-// Recover password route
+// Guest routes
 Route::middleware('guest')->group(function () {
     Route::get('/forgot-password', [ForgotPasswordController::class, 'showForgetPasswordForm'])->name('pass.request');
     Route::post('/forgot-password', [ForgotPasswordController::class, 'submitForgetPasswordForm'])->name('pass.email');
@@ -42,6 +42,7 @@ Route::middleware('guest')->group(function () {
     Route::post('/reset-password', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('pass.update');
 });
 
+Route::get('/accept-invite/{token}', [ForgotPasswordController::class, 'accept_invite'])->name('accept.invite');
 
 //Static Pages
 Route::get('/myProjects', [ProjectController::class, 'index'])->name('projects');
@@ -52,12 +53,12 @@ Route::get('{page}', [StaticController::class, 'show'])->whereIn('page', StaticC
 // API
 
 Route::prefix('/api')->group(function () {
-
     Route::controller(TaskController::class)->group(function () {
         Route::get('/{project}/tasks', 'searchTasks')->name('search_tasks');
     });
     Route::controller(UserController::class)->group(function () {
         Route::get('/users', 'searchUsers')->name('search_users');
+        Route::get('/check-user/{email}', 'checkUserExists')->name('check_user_exists');
     });
     Route::controller(ProjectController::class)->group(function () {
         Route::get('/projects', 'search')->name('search_projects');
@@ -129,6 +130,8 @@ Route::prefix('/api')->group(function () {
                 Route::delete('', 'destroy')->name('delete_project');
                 Route::get('/edit', 'edit')->name('show_edit_project');
                 Route::put('/edit', 'update')->name('action_edit_project');
+                Route::post('/team/invite', 'send_email_invite')->name('send_email_invite');
+
                 Route::get('/tags', 'show_tags')->name('project_tags');
             });
             Route::prefix('/tag')->controller(TagController::class)->group(function () {

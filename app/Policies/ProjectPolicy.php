@@ -117,4 +117,9 @@ class ProjectPolicy
         return $project->users->contains($removedUser) && ($leaveProject || $removeUser);
     }
 
+    public function send_invite(User $user, Project $project): bool
+    {
+        return $user->id === $project->user_id;
+    }
+
 }

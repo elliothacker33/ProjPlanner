@@ -37,6 +37,12 @@ class UserController extends Controller
         }
     }
 
+    public function checkUserExists(Request $request, $email) {
+        $user = User::where('email', $email)->first();
+
+        return response()->json($user != null);
+    }
+
     /**
      * Show the form for creating a new resource.
      */
