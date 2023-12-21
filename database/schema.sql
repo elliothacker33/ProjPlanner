@@ -839,27 +839,7 @@ INSERT INTO comments (content, submit_date, last_edited, task_id, user_id) VALUE
 INSERT INTO comments (content, submit_date, last_edited, task_id, user_id) VALUES ( 'Training concern instead.', '2023-06-27', '2023-08-11', 17, 15);
 INSERT INTO comments (content, submit_date, last_edited, task_id, user_id) VALUES ( 'Out fill tree father him such property. Wear high or position change strategy.', '2023-10-02', '2022-12-25', 7, 18);
 INSERT INTO comments (content, submit_date, last_edited, task_id, user_id) VALUES ( 'Her blue like law receive. Choice kid beautiful choice threat. Get section energy performance.', '2023-08-02', '2023-03-23', 5, 12);
--- Inserting data into the 'files' table
-INSERT INTO files (name, project_id) VALUES ('today', 1);
-INSERT INTO files (name, project_id) VALUES ('source', 14);
-INSERT INTO files (name, project_id) VALUES ('worry', 7);
-INSERT INTO files (name, project_id) VALUES ('home', 5);
-INSERT INTO files (name, project_id) VALUES ('door', 11);
-INSERT INTO files (name, project_id) VALUES ('hope', 8);
-INSERT INTO files (name, project_id) VALUES ('last', 6);
-INSERT INTO files (name, project_id) VALUES ('themselves', 2);
-INSERT INTO files (name, project_id) VALUES ('tell', 18);
-INSERT INTO files (name, project_id) VALUES ( 'stop', 15);
-INSERT INTO files (name, project_id) VALUES ( 'word', 7);
-INSERT INTO files (name, project_id) VALUES ( 'cover', 3);
-INSERT INTO files (name, project_id) VALUES ( 'positive', 7);
-INSERT INTO files (name, project_id) VALUES ( 'capital', 11);
-INSERT INTO files (name, project_id) VALUES ( 'alone', 14);
-INSERT INTO files (name, project_id) VALUES ( 'south', 19);
-INSERT INTO files (name, project_id) VALUES ( 'magazine', 11);
-INSERT INTO files (name, project_id) VALUES ( 'run', 17);
-INSERT INTO files (name, project_id) VALUES ( 'bank', 11);
-INSERT INTO files (name, project_id) VALUES ( 'tough', 8);
+
 -- Inserting data into the 'invites' table
 INSERT INTO invites (email, invite_date, user_id, project_id, accepted) VALUES ('meredith24@example.com', '2023-06-23', 10, 13, False);
 INSERT INTO invites (email, invite_date, user_id, project_id, accepted) VALUES ('vickie50@example.org', '2023-05-04', 10, 17, False);
