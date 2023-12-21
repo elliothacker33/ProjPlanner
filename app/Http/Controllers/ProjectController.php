@@ -222,7 +222,6 @@ class ProjectController extends Controller
         $this->authorize('view', [Project::class, $project]);
 
         $tasks = $project->tasks()->with('created_by')->paginate(10)->withQueryString();
-        //dd($tasks);
         $open = $project->tasks()->where('status','=','open')->count();
         $closed = $project->tasks()->where('status','=','closed')->count();
         $canceled = $project->tasks()->where('status','=','canceled')->count();
@@ -232,6 +231,18 @@ class ProjectController extends Controller
             return response()->json($tasks);
         else
             return view('pages.tasks', ['project'=>$project, 'tasks'=>$tasks, 'open'=>$open,'closed'=>$closed,'canceled'=>$canceled, 'query'=>$request->input('query')]);
+    }
+    public function getNextItems(Request $request)
+    {   
+        $page = $request->input('page', 1);
+        $projectId = $request->input('project');
+        $project = Project::find($projectId);
+        $tasks = $project->tasks()->with('created_by')->paginate(10, ['*'], 'page', $page)->withQueryString();
+        $htmlArray = [];
+        for ($i = 0; $i < $tasks->count(); $i++) {
+            $htmlArray[] = view('partials.taskCard', ['task' => $tasks[$i], 'project' => $project])->render();
+        }
+        return response()->json(['htmlArray' => $htmlArray]);
     }
 
 

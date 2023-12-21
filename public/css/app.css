@@ -129,6 +129,7 @@ body > header nav ul {
     gap: 1em;
 }
 
+
 body >footer ul, body >footer h6 {
     justify-content: center;
     align-items: center;
