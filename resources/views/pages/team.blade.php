@@ -4,6 +4,7 @@
     <link rel="stylesheet" href="{{ asset('css/users.css') }}">
     <link rel="stylesheet" href="{{ asset('css/partials/cards.css') }}">
     <link rel="stylesheet" href="{{ asset('css/modal.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/partials/snackbar.css') }}">
 @endpush
 
 @push('scripts')
@@ -20,6 +21,13 @@
         'actionId' => 'removeUserBtn',
         'openDialogClass' => 'openRemoveUserModal',
     ])
+    @include('partials.modal', [
+        'modalTitle' => 'Send invite by email',
+        'modalBody' => 'There isn\'t a user with the email that you have inserted in our system. If you continue we will send
+        an email to the email address suplied to invite them to this project. Do you want to proceed?',
+        'actionId' => 'send-email-invite-btn',
+        'openDialogClass' => 'openSendEmailInviteModal',
+    ])
     <section class="team">
         <section class="users-list">
             <header>
@@ -31,12 +39,12 @@
                     <span> <i class="fa-solid fa-users"></i>  {{count($team)}} Members </span>
                     @can('update',[Project::class,$project])
                         <section class="addUserContainer">
-                            <form method="POST" action="{{ route('addUser', ['project' => $project])  }}">
+                            <form method="POST" action="{{ route('addUser', ['project' => $project])  }}" id="add-user-form">
                                 {{ csrf_field() }}
                                 <input type="email" name="email" placeholder="New member Email" required
                                        value="{{old('email')}}">
 
-                                <button type="submit"><i class="fa-solid fa-user-plus"></i> Add member</button>
+                                <button type="submit" id="add-user-btn"><i class="fa-solid fa-user-plus"></i> Add member</button>
                             </form>
                             @if ($errors->has('email'))
                                 <span class="error">
@@ -48,6 +56,10 @@
                 </section>
             </header>
             <section class="users">
+                <form class="hidden" id="assign-coordinator-form" method="POST">
+                    @csrf
+                    @method('PUT')
+                </form>
                 <form class="hidden" id="remove-user-form" method="POST">
                     @csrf
                     @method('DELETE')
@@ -69,7 +81,10 @@
                         @can('update', [Project::class,$project])
                             <section class="actions">
                                 @if($project->user_id !== $user->id )
-                                    <span class="promote" id="{{$user->id}}"><i class="fa-solid fa-user-tie"></i></span>
+                                    <button class="promote" name="user_id" value="{{ $user->id }}" type="submit" form="assign-coordinator-form" formaction="{{ route('assign_coordinator', ['project' => $project->id])}}">
+                                        <i class="fa-solid fa-user-tie"></i>
+                                    </button>
+
                                     <button class="remove remove-user-btn openRemoveUserModal" data-user="{{ $user->id }}" type="button">
                                         <i class="fa-solid fa-user-xmark"></i>
                                     </button>
@@ -80,7 +95,5 @@
                 @endforeach
             </section>
         </section>
-
-
     </section>
 @endsection

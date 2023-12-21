@@ -4,17 +4,16 @@
     <link rel="stylesheet" href="{{ asset('css/home/projects.css') }}">
     <link rel="stylesheet" href="{{ asset('css/partials/cards.css') }}">
     <link rel="stylesheet" href="{{ asset('css/partials/pagination.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/partials/snackbar.css') }}">
 @endpush
 
 @push('scripts')
     <script type="module" src="{{ asset('js/pages/projects.js') }}" defer></script>
+    <script type="module" src="{{ asset('js/snackbar.js') }}" defer></script>
 @endpush
 
 @section('content')
-
     <section class="projectPage">
-
-
         <section class="project-list">
             <header>
                 <section class="search">
@@ -55,7 +54,9 @@
 
         </section>
         @include("partials.paginator",['paginator'=>$projects])
-
+        @isset($message)
+            @include("partials.snackbar", ['type' => $message[0], 'content' => $message[1]])
+        @endisset
     </section>
 
 @endsection

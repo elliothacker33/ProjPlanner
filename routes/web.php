@@ -9,6 +9,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\StaticController;
+use App\Http\Controllers\TagController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -33,7 +34,7 @@ Route::controller(HomeController::class)->group(function () {
     Route::get('/home', 'show')->name('home');
 });
 
-// Recover password route
+// Guest routes
 Route::middleware('guest')->group(function () {
     Route::get('/forgot-password', [ForgotPasswordController::class, 'showForgetPasswordForm'])->name('pass.request');
     Route::post('/forgot-password', [ForgotPasswordController::class, 'submitForgetPasswordForm'])->name('pass.email');
@@ -41,6 +42,7 @@ Route::middleware('guest')->group(function () {
     Route::post('/reset-password', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('pass.update');
 });
 
+Route::get('/accept-invite/{token}', [ForgotPasswordController::class, 'accept_invite'])->name('accept.invite');
 
 //Static Pages
 Route::get('/myProjects', [ProjectController::class, 'index'])->name('projects');
@@ -51,18 +53,21 @@ Route::get('{page}', [StaticController::class, 'show'])->whereIn('page', StaticC
 // API
 
 Route::prefix('/api')->group(function () {
-
     Route::controller(TaskController::class)->group(function () {
         Route::get('/{project}/tasks', 'searchTasks')->name('search_tasks');
     });
     Route::controller(UserController::class)->group(function () {
         Route::get('/users', 'searchUsers')->name('search_users');
+        Route::get('/check-user/{email}', 'checkUserExists')->name('check_user_exists');
     });
     Route::controller(ProjectController::class)->group(function () {
         Route::get('/projects', 'search')->name('search_projects');
     });
     Route::controller(LoginController::class)->group(function () {
         Route::get('/auth', 'auth')->name('auth');
+    });
+    Route::controller(TagController::class)->group(function () {
+        Route::get('/tags', 'search')->name('search_tag');
     });
 
 });
@@ -121,11 +126,18 @@ Route::prefix('/api')->group(function () {
                 Route::get('/team', 'show_team')->name('team');
                 Route::post('/team/add', 'add_user')->name('addUser');
                 Route::delete('team/leave', 'remove_user')->name('leave_project');
+                Route::put('/team/assign-coordinator', 'assign_coordinator')->name('assign_coordinator');
                 Route::delete('/team/remove', 'remove_user')->name('remove_member');
                 Route::delete('', 'destroy')->name('delete_project');
                 Route::get('/edit', 'edit')->name('show_edit_project');
                 Route::put('/edit', 'update')->name('action_edit_project');
+                Route::post('/team/invite', 'send_email_invite')->name('send_email_invite');
+                Route::put('','/archive')->name('archive_project');
 
+                Route::get('/tags', 'show_tags')->name('project_tags');
+            });
+            Route::prefix('/tag')->controller(TagController::class)->group(function () {
+                Route::post('/add','store')->name('add_tag');
             });
             Route::prefix('/task')->controller(TaskController::class)->group(function () {
                 Route::get('/{task}', 'show')->where('task', '[0-9]+')->name('task');
@@ -143,5 +155,10 @@ Route::prefix('/api')->group(function () {
 
             Route::get('/tasks', [ProjectController::class, 'showTasks'])->name('show_tasks');
         });
+});
+
+Route::prefix('/tag/{tag}')->where(['tag' => '[0-9]+'])->controller(TagController::class)->group(function () {
+    Route::put('/edit','update')->name('edit_tag');
+    Route::delete('/delete','destroy')->name('delete_tag');
 });
 

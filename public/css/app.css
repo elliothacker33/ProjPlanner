@@ -263,15 +263,6 @@ input[type=password]:focus {
   object-fit: cover;
 }
 
-
-.hidden-form {
-    display: none;
-}
-
-
-
-
-
 #header_title > a {
     color: inherit
 }
@@ -341,10 +332,31 @@ header .search button{
     height: fit-content;
     border: 0;
 }
+
 .filters select{
     margin: 0;
     color: var(--secondary-text-color);
     outline: none;
     border: 0;
+}
+
+.actions .remove, .actions .delete {
+    background: var(--error-text-color);
+}
+
+.actions .block {
+    background: var(--warning-bg-color);
+}
+
+.actions .promote {
+    background: var(--onprimary-bg-color);
+}
+
+.actions .edit {
+    background: var(--onsecondary-bg-color);
+}
+
+.actions > *:hover {
+    background: var(--on-third-bg-color);
 }
 

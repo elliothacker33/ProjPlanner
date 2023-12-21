@@ -42,3 +42,9 @@ export function addOpenModalBtn(dialog, openBtn) {
             confirmBtn.blur();
     });
 }
+
+export function closeDialogs() {
+    document.querySelectorAll('dialog').forEach(dialog => {
+        dialog.close();
+    });
+}

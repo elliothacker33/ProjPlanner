@@ -1,8 +1,8 @@
 <?php 
-  
 namespace App\Http\Controllers\Auth; 
-use App\Http\Controllers\MailController;
 
+use App\Http\Controllers\MailController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Mail; // Correct import for Mail
 use Illuminate\Support\Facades\Hash; // Correct import for Hash
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Date;
+use App\Models\Project;
+use Illuminate\Support\Facades\Log;
   
 class ForgotPasswordController extends Controller
 {
@@ -98,4 +100,38 @@ class ForgotPasswordController extends Controller
   
           return redirect('/login')->with('message', 'Your password has been changed successfully!');
       }
+
+    public function accept_invite(Request $request, $token) {
+        $invite = DB::table('invites')->where(['token' => $token])->first();
+
+        if(!$invite)
+            return redirect()->route('home')->with('message', ['error', 'Link to join the project has expired']);
+
+        $user = User::where('email', $invite->email)->first();
+        $project = Project::find($invite->project_id);
+
+        DB::table('invites')->where('email', $invite->email)->delete();
+
+        if (Auth::check()) {
+            if ($project->users->contains($user)) {
+                return redirect()->route('projects')->with('message', ['info', 'You are already in the project ' . $project->name]);
+            }
+            else {
+                if (Auth::user()->is_admin)
+                    return redirect()->route('home')->with('message', ['error', 'Administrators cannot join projects']);
+                $project->users()->attach(Auth::id());
+                return redirect()->route('projects')->with('message', ['success', 'You have joined the project ' . $project->name]);
+            }
+        }
+        else {
+            if ($user != null) {
+                if ($user->is_admin)
+                    return redirect()->route('home')->with('message', ['error', 'Administrators cannot join projects']);
+                return redirect()->route('login')->with(['project' => $project->id, 'userEmail' => $invite->email]);
+            }
+            else {
+                return redirect()->route('register')->with(['project' => $project->id, 'userEmail' => $invite->email]);
+            }
+        }
+    }
 }
