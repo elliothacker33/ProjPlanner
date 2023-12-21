@@ -83,9 +83,7 @@ main {
     flex-grow: 1;
     width: 100%;
     display: flex;
-
-    justify-content: flex-start;
-
+    justify-content: center;
     flex-direction: column;
     box-sizing: border-box;
 }
@@ -126,10 +124,10 @@ body > header nav ul, body >footer ul, body >footer h6 {
 }
 
 body > header nav ul {
-    overflow-x: scroll;
     justify-content: flex-start;
     gap: 1em;
 }
+
 
 body >footer ul, body >footer h6 {
     justify-content: center;

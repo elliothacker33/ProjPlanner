@@ -117,6 +117,7 @@ Route::prefix('/api')->group(function () {
         Route::prefix('/{project}')->where(['project' => '[0-9]+'])->group(function () {
             Route::controller(ProjectController::class)->group(function () {
                 Route::get('', 'show')->name('project');
+                Route::get('/tasks/next','getNextItems')->name('get_next_page');
                 Route::get('/team', 'show_team')->name('team');
                 Route::post('/team/add', 'add_user')->name('addUser');
                 Route::delete('team/leave', 'remove_user')->name('leave_project');
@@ -139,7 +140,6 @@ Route::prefix('/api')->group(function () {
                     Route::put('/edit','update')->name('update_task');
                 });
             });
-
             Route::get('/tasks', [ProjectController::class, 'showTasks'])->name('show_tasks');
         });
 });
