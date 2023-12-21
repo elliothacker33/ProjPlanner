@@ -92,20 +92,26 @@ Route::prefix('/api')->group(function () {
         Route::post('/register', 'register')->name('create_account');
     });
 
-// Profile
-    Route::prefix('/user-profile')->controller(ProfileController::class)->group(function () {
-        Route::get('/', 'show')->name('user-profile');
-        Route::get('/{user}', 'showProfile')->name('profile');
-        Route::put('/{user}/edit', 'updateProfile')->name('update_profile');
-        Route::get('/{user}/edit', 'showEditProfile')->name('edit_profile');
-        Route::delete('/{user}/delete', 'destroy')->name('delete_profile');
-    });
+
+Route::prefix('/user-profile')->controller(ProfileController::class)->group(function () {
+    Route::get('/', 'show')->name('user-profile');
+    Route::get('/{user}', 'showProfile')->name('profile');
+    Route::put('/{user}/edit', 'updateProfile')->name('update_profile');
+    Route::get('/{user}/edit', 'showEditProfile')->name('edit_profile');
+    Route::put('/{user}/update_image','updateProfileImage')->name('update_profile_image'); 
+    Route::delete('/{user}/delete_image','deleteProfileImage')->name('delete_profile_image');
+    Route::get('/{user}/delete','showDelete')->name('show_delete_profile');
+    Route::delete('/{user}/delete', 'destroy')->name('delete_profile');
+});
 
 // Files 
-    Route::controller(FileController::class)->group(function () {
-        Route::post('/file/upload', 'upload')->name('upload_profile_file');
-        Route::delete('/file/delete', 'delete')->name('delete_file');
-    });
+Route::controller(FileController::class)->group(function () {
+    Route::post('/file/upload','upload')->name('upload_file');
+    Route::get('/file/delete/{file}','delete')->name('delete_file');
+    Route::get('/file/download_file/{file}','download')->name('download_file');
+    Route::get('/file/downloadAll','downloadAll')->name('download_all_files');
+    Route::delete('/file/deleteAll','deleteAll')->name('delete_all_files');
+});
 // Users
     Route::prefix('/user/{user}')->whereNumber('user')->controller(UserController::class)->group(function () {
         Route::delete('/delete', 'destroy')->name('delete_user');
@@ -132,7 +138,7 @@ Route::prefix('/api')->group(function () {
                 Route::put('/edit', 'update')->name('action_edit_project');
                 Route::post('/team/invite', 'send_email_invite')->name('send_email_invite');
                 Route::put('','/archive')->name('archive_project');
-
+                Route::get('/files','show_files')->name('show_project_files');
                 Route::get('/tags', 'show_tags')->name('project_tags');
             });
             Route::prefix('/tag')->controller(TagController::class)->group(function () {

@@ -13,8 +13,7 @@
 @section('content')
 
     <section class="tasks-content">
-
-
+        
         <section class="tasks-list">
             <header>
                 <section class="search">

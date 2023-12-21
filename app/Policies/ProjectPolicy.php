@@ -77,8 +77,10 @@ class ProjectPolicy
         return $project->users->contains($user) || $user->is_admin;
     }
 
+  
+
     /**
-     * Determine whether the user can view the forum of the model.
+     * Determine whether the user can restore the model.
      */
     public function view_forum(User $user, Project $project): bool
     {

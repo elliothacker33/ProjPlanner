@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\ProfileController;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Log;
 
@@ -84,16 +85,6 @@ class User extends Authenticatable implements CanResetPassword
         return $this->hasMany(Project::class,'user_id');
     }
 
-
-    public function tasks_created(): HasMany
-    {
-        return $this->hasMany(Task::class, 'opened_user_id',);
-    }
-    public function getProfileImage() {
-        return FileController::get('user', $this->id);
-    }
-    
-
     public function openedTasks(): HasMany {
         return $this->hasMany(Task::class, 'opened_user_id');
 
@@ -102,6 +93,9 @@ class User extends Authenticatable implements CanResetPassword
     public function closedTasks(): HasMany {
         return $this->hasMany(Task::class, 'closed_user_id');
 
+    }
+    public function image(){
+        return ProfileController::getImage($this);
     }
 }
  

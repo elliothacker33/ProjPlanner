@@ -49,7 +49,11 @@
             @if (Auth::check())
                 <section class="profile">
                     <label for="profile-options" class="user_icon" href="{{ route('profile', ['user' => Auth::user()]) }}">
-                        <img class="icon avatar" src="{{ auth()->user()->getProfileImage() }}" alt="default user icon">
+                    @if (Auth::check())
+                        <img class="icon avatar" src="{{ auth()->user()->image() }}" alt="default user icon">
+                    @else
+                        <img class="icon avatar"src="{{ asset('files/user/default_user.jpg') }}" alt="default user icon">
+                    @endif
                     </label>
                     <input type="checkbox" id="profile-options" class="hidden">
                     <ul>
