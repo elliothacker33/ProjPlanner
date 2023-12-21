@@ -38,6 +38,13 @@
                 </section>
             </header>
             <section class="appeals">
+
+                @if($amount==0)
+                    <section class="no-appeals">
+                        <h1>No appeals found</h1>
+                    </section>
+                @else
+
                 @foreach($appeals as $appeal)
                     <section class="appeal-item">
                         <section class="appeal-header">
@@ -70,6 +77,7 @@
                         
                     </section>
                 @endforeach
+                @endif
             </section>
         </section>
         @include("partials.paginator",['paginator'=>$appeals])

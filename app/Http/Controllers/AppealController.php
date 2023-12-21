@@ -37,10 +37,12 @@ class AppealController extends Controller
         $query = null;
         $this->authorize('view_appeals', [User::class]);
         $query = Appeal::query();
-        $appeals = $query->where(function ($query) use ($searchTerm) {
-            $query->where('user_id', 'like', $searchTerm)
-                ->orWhere('content', 'like', $searchTerm);
-        });
+        $appeals = $query->join('users', 'users.id', '=', 'appeals.user_id')
+            ->where(function ($query) use ($searchTerm) {
+                $query->Where('content', 'like', $searchTerm)
+                    ->orWhere('users.name', 'like', $searchTerm)
+                    ->orWhere('users.email', 'like', $searchTerm);
+            });
 
         if ($request->ajax())
             return response()->json($appeals->get());

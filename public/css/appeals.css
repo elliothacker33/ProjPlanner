@@ -171,4 +171,13 @@
     justify-content: space-between;
 }
 
-
+.no-appeals{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    margin: 1em auto;
+    font-weight: bold;
+    font-size: large;
+}
