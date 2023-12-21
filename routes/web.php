@@ -137,7 +137,7 @@ Route::controller(FileController::class)->group(function () {
                 Route::get('/edit', 'edit')->name('show_edit_project');
                 Route::put('/edit', 'update')->name('action_edit_project');
                 Route::post('/team/invite', 'send_email_invite')->name('send_email_invite');
-                Route::put('','/archive')->name('archive_project');
+                Route::put('','archive')->name('archive_project');
                 Route::get('/files','show_files')->name('show_project_files');
                 Route::get('/tags', 'show_tags')->name('project_tags');
             });

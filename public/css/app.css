@@ -83,7 +83,6 @@ main {
     flex-grow: 1;
     width: 100%;
     display: flex;
-
     justify-content: flex-start;
 
     flex-direction: column;
@@ -126,8 +125,6 @@ body > header nav ul, body >footer ul, body >footer h6 {
 }
 
 body > header nav ul {
-    overflow-x: scroll;
-
     justify-content: flex-start;
     gap: 1em;
 }
