@@ -20,6 +20,7 @@ DROP TABLE IF EXISTS lbaw2353.task_notification CASCADE;
 DROP TABLE IF EXISTS lbaw2353.comment_notification CASCADE;
 DROP TABLE IF EXISTS lbaw2353.project_user CASCADE;
 DROP TABLE IF EXISTS lbaw2353.tag_task CASCADE;
+DROP TABLE IF EXISTS lbaw2353.appeals CASCADE;
 
 DROP TYPE IF EXISTS lbaw2353.task_status; 
 
@@ -164,9 +165,9 @@ CREATE TABLE lbaw2353.tag_task(
     PRIMARY KEY (tag_id,task_id)
 );
 
-CREATE TABLE lbaw2353.unblock_request(
+CREATE TABLE lbaw2353.appeals(
     id SERIAL PRIMARY KEY,
-    description VARCHAR(2000) NOT NULL,
+    content VARCHAR(2000) NOT NULL,
     user_id INTEGER REFERENCES lbaw2353.users(id) ON UPDATE CASCADE ON DELETE CASCADE NOT NULL
 );
 

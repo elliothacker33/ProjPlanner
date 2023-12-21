@@ -11,6 +11,7 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\StaticController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AppealController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,9 +35,9 @@ Route::controller(HomeController::class)->group(function () {
 });
 
 // Blocked User
-Route::prefix('/blocked')->controller(UserController::class)->group(function () {
+Route::prefix('/blocked')->controller(AppealController::class)->group(function () {
     Route::get('', 'showBlocked')->name('blocked');
-    Route::post('/create', 'create_appeal')->name('create_appeal');
+    Route::post('/create', 'storeAppeal')->name('create_appeal');
 });
 
 
@@ -76,9 +77,19 @@ Route::prefix('/api')->group(function () {
 
     Route::prefix('/admin')->controller(AdminController::class)->group(function () {
         Route::redirect('/', '/admin/users')->name('admin');
-        Route::get('/users', 'show')->name('admin_users');
-        Route::get('/users/create', 'create');
-        Route::post('/users/create', 'store')->name('admin_user_create');
+
+        Route::prefix('/users')->group( function() {
+            Route::get('', 'show')->name('admin_users');
+            Route::get('/create', 'create');
+            Route::post('/create', 'store')->name('admin_user_create');
+        });
+
+        Route::prefix('/appeals')->controller(AppealController::class)->group( function() {
+            Route::get('', 'show')->name('admin_appeals');
+            Route::delete('/{appeal_id}/deny', 'deny')->name('deny_appeal');
+            Route::put('/{appeal_id}/accept', 'accept')->name('accept_appeal');
+        });
+
     });
 
 // Authentication

@@ -99,5 +99,9 @@ class UserPolicy
         return $user->is_blocked && !$user->appeal;
     }
     
+    public function view_appeals(User $user): bool
+    {
+        return $user->is_admin;
+    }
 
 }

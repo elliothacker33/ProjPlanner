@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Project;
 use App\Models\User;
 use App\Models\Appeal;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -56,26 +57,6 @@ class UserController extends Controller
         $user->save();
 
         return redirect()->route('admin');
-    }
-
-    
-    public function showBlocked(Request $request, User $user)
-    {
-        $this->authorize("showAppealForUnblock", User::class);
-
-        return view('auth.blocked', ['user' => $user]);
-    }
-
-    public function storeAppeal(Request $request, User $user)
-    {
-        $this->authorize("storeAppealForUnblock", User::class);
-
-        $appeal = new Appeal;
-        $appeal->user_id = $user->id;
-        $appeal->content = $request->input('text');
-        $appeal->save();
-
-        return redirect()->route('init_page');
     }
 
     /**

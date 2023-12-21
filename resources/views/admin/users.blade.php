@@ -45,6 +45,7 @@
                 </section>
                 <section>
                     <span> <i class="fa-solid fa-users"></i>  {{$registrations}} Users </span>
+                    <a class="button" href="{{route('admin_appeals')}}"><i class="fa-solid fa-sync"></i> Appeals for Unblock</a>
                     <a class="button" href="{{route('admin_user_create')}}"><i class="fa-solid fa-user-plus"></i> Add
                         user</a>
                 </section>
