@@ -60,6 +60,10 @@ class AppealController extends Controller
 
         $this->authorize("storeAppealForUnblock", User::class);
 
+        if (Auth::user()->appeal) {
+            return back()->with('error', 'You have already submitted an appeal for unblock');
+        }
+
         $appeal = new Appeal;
         $appeal->user_id = Auth::user()->id;
         $appeal->content = $validated['appeal'];

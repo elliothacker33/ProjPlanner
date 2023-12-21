@@ -96,7 +96,7 @@ class UserPolicy
 
     public function storeAppealForUnblock(User $user): bool
     {
-        return $user->is_blocked && !$user->appeal;
+        return $user->is_blocked;
     }
     
     public function view_appeals(User $user): bool

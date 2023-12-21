@@ -25,10 +25,10 @@
                     <div class = "form-group col-12 w-100">
                         <label for="name">Why should you be unblocked?</label>
                         <textarea type="text" id="appeal" class="p-3" name="appeal" placeholder="I should be unblocked because..."></textarea>
-                        @if ($errors->has('appeal'))
-                        <span class="error">
-                            {{ $errors->first('appeal') }}
-                        </span>
+                        @if(session('error'))
+                            <div class="alert alert-danger alert-dismissible fade show" style="margin-top: 3%;" role="alert">
+                                {{ session('error') }}
+                            </div>
                         @endif
                     
                         <div class = "col-12"  style = "margin-top: 3%;" >
@@ -44,11 +44,6 @@
             @if(session('message'))
                 <div class="alert alert-success alert-dismissible fade show" style="margin-top: 3%;" role="alert">
                     {{ session('message') }}
-                </div>
-            @endif
-            @if(session('error'))
-                <div class="alert alert-danger alert-dismissible fade show" style="margin-top: 3%;" role="alert">
-                    {{ session('error') }}
                 </div>
             @endif
             </div>
