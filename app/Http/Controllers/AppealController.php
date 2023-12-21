@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Appeal;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class AppealController extends Controller
@@ -73,14 +74,12 @@ class AppealController extends Controller
 
         $appeals = Appeal::all();
 
-        return redirect()->route('admin_appeals', ['appeals' => $appeals], ['query' => $request['query']]);
+        return redirect()->route('admin_appeals', ['query' => $request['query']]);
     }
 
     public function accept(Request $request, Appeal $appeal) {
 
         $this->authorize('view_appeals', [User::class]);
-
-        
 
         $user = $appeal->user;
         $user->is_blocked = false;
@@ -89,7 +88,7 @@ class AppealController extends Controller
 
         $appeals = Appeal::all();
 
-        return redirect()->route('admin_appeals', ['appeals' => $appeals], ['query' => $request['query']]);
+        return redirect()->route('admin_appeals', ['query' => $request['query']]);
     }
 
 }

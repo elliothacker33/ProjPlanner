@@ -10,10 +10,14 @@
     <section class="adminPage">
 
         @foreach($appeals as $appeal)
-            <form method="Post" class="hidden" id="accept-{{$appeal->id}}"
+            <form method="POST" class="hidden" id="accept-{{$appeal->id}}"
                   action="{{route("accept_appeal",["appeal"=>$appeal])}}">
                 @csrf
                 @method("PUT")
+            </form>
+            <form method="POST" class="hidden" id="delete" action="{{route('deny_appeal', ['appeal'=>$appeal])}}">
+                @csrf
+                @method("DELETE")
             </form>
         @endforeach
 
@@ -52,7 +56,7 @@
                                         Accept Appeal
                                     </button>
                                     <button class="delete" id="{{$appeal->id}}" form="delete"
-                                            formaction="{{route('deny_appeal', ['appeal_id'=>$appeal->id])}}">
+                                            formaction="{{route('deny_appeal', ['appeal'=>$appeal])}}">
                                         Deny Appeal
                                     </button>
 

@@ -37,7 +37,7 @@ Route::controller(HomeController::class)->group(function () {
 // Blocked User
 Route::prefix('/blocked')->controller(AppealController::class)->group(function () {
     Route::get('', 'showBlocked')->name('blocked');
-    Route::post('/create', 'storeAppeal')->name('create_appeal');
+    Route::post('/create', 'store')->name('create_appeal');
 });
 
 
@@ -86,8 +86,8 @@ Route::prefix('/api')->group(function () {
 
         Route::prefix('/appeals')->controller(AppealController::class)->group( function() {
             Route::get('', 'show')->name('admin_appeals');
-            Route::delete('/{appeal_id}/deny', 'deny')->name('deny_appeal');
-            Route::put('/{appeal_id}/accept', 'accept')->name('accept_appeal');
+            Route::delete('/{appeal}/deny', 'deny')->name('deny_appeal');
+            Route::put('/{appeal}/accept', 'accept')->name('accept_appeal');
         });
 
     });
