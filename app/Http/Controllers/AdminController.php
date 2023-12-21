@@ -66,4 +66,11 @@ class AdminController extends Controller
         ]);
         return redirect()->route('admin');
     }
+
+    public function showProjects(Request $request){
+        $this->authorize('view_all_projects',Project::class);
+        $projects = app(ProjectController::class)->search($request);
+        return view('admin.projects',['projects'=>$projects,'query'=>$request->input('query'),'status'=>$request->input('status')]);
+
+    }
 }

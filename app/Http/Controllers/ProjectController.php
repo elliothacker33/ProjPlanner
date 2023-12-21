@@ -27,6 +27,7 @@ class ProjectController extends Controller
     public function search(Request $request){
         $user = $request->user();
         if($user->is_admin){
+
             $projects = Project::query();
         }else{
             $projects = $user->projects();
@@ -38,13 +39,17 @@ class ProjectController extends Controller
         }else $searchedProjects = $projects;
 
         if($request->input('status') and in_array($request->input('status'),$this->possibleProjectStatus)){
-             if($request->input('status')==='archive')
-                 $searchedProjects = $searchedProjects->where('is_archived','=',true);
+
+             if($request->input('status')==='archive') {
+                 $searchedProjects = $searchedProjects->where('is_archived', '=', true);
+
+             }
              else $searchedProjects = $searchedProjects->where('is_archived','=',false);
         }
         if ($request->ajax())
             return response()->json($searchedProjects->get());
         else
+
             return $searchedProjects->paginate(10)->withQueryString();
     }
 

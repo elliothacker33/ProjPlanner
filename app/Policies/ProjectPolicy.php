@@ -117,4 +117,8 @@ class ProjectPolicy
         return $project->users->contains($removedUser) && ($leaveProject || $removeUser);
     }
 
+    public function view_all_projects(User $user){
+        return $user->is_admin;
+}
+
 }
