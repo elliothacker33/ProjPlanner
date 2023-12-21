@@ -9,7 +9,8 @@ import {
 
 export function notificationSection(title, notifications) {
     const section = document.createElement('section');
-    section.className = 'notificationSection';
+    section.classList.add('notificationSection');
+    section.classList.add('title-'+title);
 
     const header = document.createElement('header');
 
@@ -24,7 +25,7 @@ export function notificationSection(title, notifications) {
 
 
     const notificationsList = document.createElement('section');
-    notificationsList.className = 'title-'+title+' notifications-list';
+    notificationsList.className = ' notifications-list';
     let unseen =0;
     notifications.forEach(notification => {
         if(!notification.seen) unseen++;
@@ -148,6 +149,30 @@ export function taskNotificationCard(notification,task) {
     notificationCard.appendChild(anchor);
 
     return notificationCard;
+}
+
+export function updateNumbers(type){
+    let number =document.querySelector('.title-'+type+'.notificationSection header .number');
+    number.innerHTML = parseInt(number.innerHTML)+1;
+    const notification = document.querySelector('body > header .notifications .number');
+    notification.innerHTML = parseInt(notification.innerHTML)+1;
+
+}
+export function calculateNumbers(){
+    const notification = document.querySelector('body > header .notifications .number');
+    let n=0;
+    let number = document.querySelector('.title-Project.notificationSection header .number');
+    n+= parseInt(number.innerHTML);
+    number = document.querySelector('.title-Task.notificationSection header .number');
+    n+= parseInt(number.innerHTML);
+    number = document.querySelector('.title-Invite.notificationSection header .number');
+    n+= parseInt(number.innerHTML);
+    number = document.querySelector('.title-Forum.notificationSection header .number');
+    n+= parseInt(number.innerHTML);
+    number = document.querySelector('.title-Comment.notificationSection header .number');
+    n+= parseInt(number.innerHTML);
+    notification.innerHTML=n;
+
 }
 
 

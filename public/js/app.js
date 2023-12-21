@@ -1,6 +1,11 @@
 import {projectHomePageRegex, projectTeamPageRegex, projectTaskPageRegex } from "./const/regex.js";
 import {getAuth, getNotifications, getProjects, getTasks} from "./api/user.js";
-import {notificationSection, projectNotificationCard} from "./components/notifications.js";
+import {
+    calculateNumbers,
+    notificationSection,
+    projectNotificationCard,
+    updateNumbers
+} from "./components/notifications.js";
 import {createNotifications, subscribeToChannels} from "./notifications.js";
 
 const currentPath = window.location.pathname;
@@ -40,5 +45,7 @@ export async function sendAjaxRequest(method, url, data) {
 }
 
 // realtime-notifications.js
+
+createNotifications().then(()=>{updateNumbers('Project');updateNumbers('Task');calculateNumbers();updateNumbers('Project')});
 subscribeToChannels().then()
-createNotifications().then();
+
