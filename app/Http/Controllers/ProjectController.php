@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 class ProjectController extends Controller
 {
     private $possibleTaskStatus = ['open', 'closed', 'canceled'];
+    private $possibleProjectStatus = ['archive', 'open'];
     /**
      * Display a listing of the resource.
      */
@@ -20,7 +21,7 @@ class ProjectController extends Controller
 
         $this->authorize('viewUserProjects',Project::class);
         $projects = $this->search($request);
-        return view('home.home',['projects'=>$projects,'query'=>$request->input('query')]);
+        return view('home.home',['projects'=>$projects,'query'=>$request->input('query'),'status'=>$request->input('status')]);
     }
 
     public function search(Request $request){
@@ -36,6 +37,11 @@ class ProjectController extends Controller
                 ->orderByRaw("ts_rank(tsvectors, plainto_tsquery('english', ?)) DESC", [$request->input('query')]);
         }else $searchedProjects = $projects;
 
+        if($request->input('status') and in_array($request->input('status'),$this->possibleProjectStatus)){
+             if($request->input('status')==='archive')
+                 $searchedProjects = $searchedProjects->where('is_archived','=',true);
+             else $searchedProjects = $searchedProjects->where('is_archived','=',false);
+        }
         if ($request->ajax())
             return response()->json($searchedProjects->get());
         else

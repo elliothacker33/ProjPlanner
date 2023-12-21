@@ -23,7 +23,19 @@
                         <input type="search" name="query" placeholder="&#128269 Search" aria-label="Search"
                                id="search-bar" value="{{$query}}"/>
                         <button class="" type="submit"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
-
+                        <div class="filters">
+                            <select  name="status">
+                                @if($status==='')<option selected value="">Filters</option>
+                                @else <option value="">Filters</option>
+                                @endif
+                                @if($status==='archive')<option selected value="archive">archive</option>
+                                @else <option value="archive">archive</option>
+                                @endif
+                                @if($status==='open')<option selected value="open">open</option>
+                                @else <option value="open">open</option>
+                                @endif
+                            </select>
+                        </div>
                     </form>
                 </section>
                 <section>
