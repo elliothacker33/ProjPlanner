@@ -107,6 +107,22 @@ class User extends Authenticatable implements CanResetPassword
     {
         return $this->hasMany(ProjectNotification::class,'user_id');
     }
+    public function inviteNotifications(): HasMany
+    {
+        return $this->hasMany(InviteNotification::class,'user_id');
+    }
+    public function commentNotifications(): HasMany
+    {
+        return $this->hasMany(CommentNotification::class,'user_id');
+    }
+    public function postNotifications(): HasMany
+    {
+        return $this->hasMany(ForumNotification::class,'user_id');
+    }
+    public function taskNotifications(): HasMany
+    {
+        return $this->hasMany(TaskNotification::class,'user_id');
+    }
 }
  
 

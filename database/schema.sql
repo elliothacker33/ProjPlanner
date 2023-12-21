@@ -115,7 +115,7 @@ CREATE TABLE lbaw2353.invite_notifications (
     id SERIAL PRIMARY KEY,
     description VARCHAR(1000) NOT NULL,
     notifications_date TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
-    invite_id INTEGER REFERENCES lbaw2353.invites(id) ON UPDATE CASCADE NOT NULL UNIQUE, 
+    project_id INTEGER REFERENCES lbaw2353.invites(id) ON UPDATE CASCADE NOT NULL UNIQUE,
     user_id INTEGER REFERENCES lbaw2353.users(id) ON UPDATE CASCADE ON DELETE CASCADE NOT NULL,
     seen BOOLEAN DEFAULT FALSE NOT NULL
 );
@@ -880,9 +880,10 @@ INSERT INTO invites (email, invite_date, user_id, project_id, accepted) VALUES (
 INSERT INTO invites (email, invite_date, user_id, project_id, accepted) VALUES ( 'tanya47@example.org', '2022-12-05', 10, 8, False);
 INSERT INTO invites (email, invite_date, user_id, project_id, accepted) VALUES ( 'cathyperez@example.com', '2023-03-03', 10, 18, False);
 
+INSERT INTO invite_notifications (description, notifications_date, user_id, project_id, seen) VALUES ( 'cathyperez@example.com', '2023-03-03', 1, 1, False);
 -- Inserting data into the 'forum_notifications' table
-INSERT INTO forum_notifications (description, notifications_date, post_id, user_id, seen) VALUES ('Impact walk herself above score last.', '2023-09-09', 19, 17, False);
-INSERT INTO forum_notifications (description, notifications_date, post_id, user_id, seen) VALUES ('Once contain past guy recently.', '2022-11-07', 17, 11, False);
+INSERT INTO forum_notifications (description, notifications_date, post_id, user_id, seen) VALUES ('Impact walk herself above score last.', '2023-09-09', 19, 1, False);
+INSERT INTO forum_notifications (description, notifications_date, post_id, user_id, seen) VALUES ('Once contain past guy recently.', '2022-11-07', 17, 1, False);
 INSERT INTO forum_notifications (description, notifications_date, post_id, user_id, seen) VALUES ('Nation safe read theory.', '2023-09-14', 9, 11, True);
 INSERT INTO forum_notifications (description, notifications_date, post_id, user_id, seen) VALUES ('Prepare police commercial.', '2022-12-31', 9, 20, False);
 INSERT INTO forum_notifications (description, notifications_date, post_id, user_id, seen) VALUES ('System who candidate forward against.', '2023-09-09', 12, 16, True);
@@ -901,6 +902,8 @@ INSERT INTO forum_notifications (description, notifications_date, post_id, user_
 INSERT INTO forum_notifications (description, notifications_date, post_id, user_id, seen) VALUES ('Clearly newspaper prevent south training fine no.', '2023-04-04', 12, 9, False);
 INSERT INTO forum_notifications (description, notifications_date, post_id, user_id, seen) VALUES ('Rate stage let fear of community.', '2023-02-01', 8, 4, True);
 INSERT INTO forum_notifications (description, notifications_date, post_id, user_id, seen) VALUES ('Capital smile week future.', '2023-05-24', 7, 5, True);
+
+INSERT INTO comment_notifications (description, notifications_date, comment_id, user_id, seen) VALUES ('Capital smile week future.', '2023-05-24', 7, 1, True);
 -- Inserting data into the 'project_notifications' table
 INSERT INTO project_notifications (description, notifications_date, project_id, user_id, seen) VALUES ('Assume choice nor consider prove look give.', '2023-10-01', 5, 1, True);
 INSERT INTO project_notifications (description, notifications_date, project_id, user_id, seen) VALUES ('Business necessary school tree reveal type.', '2023-09-24', 15, 19, False);
