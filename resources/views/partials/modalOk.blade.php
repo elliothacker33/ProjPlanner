@@ -7,7 +7,7 @@
     )
 @endphp
 
-<dialog class="mymodal {{ $type }}" data-open-form-id="{{ $openFormId }}">
+<dialog class="mymodal {{ $type }}" data-open-form-id="{{ $openDialogClass }}">
     <div class="mymodal-header">
         <div class="icon-title-wrapper">
             <i class="fa-solid {{ $icons[$type] }}"></i>

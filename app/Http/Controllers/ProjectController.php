@@ -211,8 +211,12 @@ class ProjectController extends Controller
 public function remove_user(Request $request, Project $project) {
         $removedUser = User::find($request->user);
         
-        if ($removedUser == null)
-            abort(404, 'User to remove from project not found');
+        if ($removedUser == null) {
+            if ($request->ajax())
+                return response()->json(['error' => 'User to remove from project not found'], 404);
+            else
+                abort(404, 'User to remove from project not found');
+        }
 
         $this->authorize('removeUser', [Project::class, $project, $removedUser]);
 
@@ -221,8 +225,8 @@ public function remove_user(Request $request, Project $project) {
 
         if (Auth::user() == $removedUser)
             return redirect()->route('home', ['projects' => $removedUser->projects,'user'=>Auth::id()]);
-        // Return when coordinator is removing a user from the project
-
+        else
+            return response()->json(['message' => 'User has been successfully removed'], 200);
     }
 
     public function show_tags(Request $request, Project $project){

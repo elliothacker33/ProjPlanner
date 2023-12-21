@@ -71,24 +71,21 @@ function buildStatusDependantElems(status, closed_user_name) {
     const actionString = status.charAt(0).toUpperCase() + status.slice(1);
 
     if (status == 'open') {
-        document.querySelector('#openReopenModal').remove();
+        document.querySelector('.openReopenModal').remove();
         document.querySelector('#finishedTaskUser').remove();
 
         const closeTaskBtn = document.createElement('a');
         const cancelTaskBtn = document.createElement('a');
         const editTaskBtn = document.createElement('a');
 
-        closeTaskBtn.classList.add('buttonLink');
-        closeTaskBtn.setAttribute('id', 'openCloseModal');
+        closeTaskBtn.classList.add('buttonLink', 'openCloseModal');
         closeTaskBtn.innerHTML += '<i class="fa-solid fa-folder-closed"></i> Close task';
 
-        cancelTaskBtn.classList.add('buttonLink');
-        cancelTaskBtn.classList.add('cancel');
-        cancelTaskBtn.setAttribute('id', 'openCancelModal');
+        cancelTaskBtn.classList.add('buttonLink', 'cancel', 'openCancelModal');
         cancelTaskBtn.innerHTML += '<i class="fa-solid fa-ban"></i> Cancel';
 
-        editTaskBtn.classList.add('buttonLink');
-        editTaskBtn.classList.add('edit');
+        editTaskBtn.classList.add('buttonLink', 'edit');
+        editTaskBtn.setAttribute('href', currentPath + '/edit');
         editTaskBtn.innerHTML += '<i class="fa-solid fa-pen-to-square"></i> Edit';
 
         closeOpenContainer.appendChild(closeTaskBtn);
@@ -96,8 +93,8 @@ function buildStatusDependantElems(status, closed_user_name) {
         editCancelContainer.appendChild(cancelTaskBtn);
     }
     else {
-        document.querySelector('#openCloseModal').remove();
-        document.querySelector('#openCancelModal').remove();
+        document.querySelector('.openCloseModal').remove();
+        document.querySelector('.openCancelModal').remove();
         editCancelContainer.querySelector('.edit').remove();
 
         const finishedTaskUser = document.createElement('section');
@@ -110,8 +107,7 @@ function buildStatusDependantElems(status, closed_user_name) {
         sideContainer.insertBefore(finishedTaskUser, sideContainer.children[1]);
 
         const reopenTaskBtn = document.createElement('a');
-        reopenTaskBtn.classList.add('buttonLink');
-        reopenTaskBtn.setAttribute('id', 'openReopenModal');
+        reopenTaskBtn.classList.add('buttonLink', 'openReopenModal');
         
         reopenTaskBtn.innerHTML = '<i class="fa-solid fa-folder-open"></i> Reopen task';
 
@@ -119,9 +115,9 @@ function buildStatusDependantElems(status, closed_user_name) {
     }
 
     document.querySelectorAll('dialog').forEach((dialog) => {
-        const openBtn = document.querySelector('#' + dialog.dataset.openFormId);
+        const openBtn = document.querySelector('.' + dialog.dataset.openFormId);
 
-        if (openBtn != null) addOpenModalBtn(dialog);
+        if (openBtn != null) addOpenModalBtn(dialog, openBtn);
     })
 }
 

@@ -15,7 +15,6 @@ document.addEventListener('DOMContentLoaded', function () {
     })
 });
 
-
 export async function getProject(project_id) {
     const project_query = encodeForAjax({'project': project_id});
     const project_response = await sendAjaxRequest("GET", "/api/projects?" + project_query);
@@ -24,4 +23,3 @@ export async function getProject(project_id) {
 }
 
 attachDialogs();
-
