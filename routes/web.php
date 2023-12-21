@@ -141,7 +141,7 @@ Route::prefix('/api')->group(function () {
             });
             Route::prefix('/task')->controller(TaskController::class)->group(function () {
                 Route::get('/{task}', 'show')->where('task', '[0-9]+')->name('task');
-                Route::get('/search', 'index')->name('search_tasks');
+                Route::get('/search', 'index')->name('index_tasks');
                 Route::get('/new', 'create')->name('createTask');
                 Route::post('/new', 'store')->name('newTask');
 
