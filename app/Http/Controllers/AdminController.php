@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Appeal;
 use App\Models\Project;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -71,6 +70,5 @@ class AdminController extends Controller
         $this->authorize('view_all_projects', Project::class);
         $projects = app(ProjectController::class)->search($request);
         return view('admin.projects',['projects'=>$projects,'query'=>$request->input('query'),'status'=>$request->input('status')]);
-
     }
 }

@@ -15,7 +15,7 @@ class ProjectPolicy
      */
     public function viewUserProjects(User $user): bool
     {
-        return !$user->is_admin;
+        return !$user->is_admin && !$user->is_blocked;
     }
 
     /**
@@ -23,7 +23,7 @@ class ProjectPolicy
      */
     public function view(User $user, Project $project): bool
     {
-        return $project->users->contains($user) || $user->is_admin;
+        return ($project->users->contains($user) && !$user->is_blocked) || $user->is_admin;
     }
 
     /**
@@ -39,7 +39,7 @@ class ProjectPolicy
      */
     public function update(User $user, Project $project): bool
     {
-        return ($user->id === $project->user_id && !$project->is_archived);
+        return $user->id === $project->user_id && !$user->is_blocke && !$project->is_archived;
     }
 
     /**
@@ -47,7 +47,7 @@ class ProjectPolicy
      */
     public function delete(User $user, Project $project): bool
     {
-        return $user->id === $project->user_id;
+        return $user->id === $project->user_id && !$user->is_blocked;
     }
 
     /**
@@ -55,7 +55,7 @@ class ProjectPolicy
      */
     public function archive(User $user, Project $project): bool
     {
-        return $user->id == $project->user_id && !$project->is_archived;
+        return $user->id == $project->user_id && !$user->is_blocked && !$project->is_archived;
     }
     
     /**
@@ -63,10 +63,7 @@ class ProjectPolicy
      */
     public function leave(User $user, Project $project): bool
     {
-
-        if ($user->id === $project->user_id) return false;
-
-        return $project->users->contains($user);
+        return !($user->id === $project->user_id) && $project->users->contains($user) && !$user->is_blocked;
     }
 
     /**
@@ -74,7 +71,7 @@ class ProjectPolicy
      */
     public function show_team(User $user, Project $project): bool
     {
-        return $project->users->contains($user) || $user->is_admin;
+        return ($project->users->contains($user) && !$user->is_blocked) || $user->is_admin;
     }
 
     /**
@@ -83,7 +80,7 @@ class ProjectPolicy
     public function view_forum(User $user, Project $project): bool
     {
 
-        return $user->is_admin || $project->users->contains($user);
+        return $user->is_admin || ($project->users->contains($user) && !$user->is_blocked);
     }
 
     /**
@@ -91,7 +88,7 @@ class ProjectPolicy
      */
     public function add_member(User $user, Project $project): bool
     {
-        return $user->id === $project->user_id;
+        return $user->id === $project->user_id && !$user->is_blocked;
     }
 
     /**
@@ -99,7 +96,7 @@ class ProjectPolicy
      */
     public function remove_member(User $user, Project $project): bool
     {
-        return $user->id === $project->user_id;
+        return $user->id === $project->user_id && !$user->is_blocked;
     }
 
     /**
@@ -107,14 +104,14 @@ class ProjectPolicy
      */
     public function assign_coordinator(User $user, Project $project): bool
     {
-        return $user->id === $project->user_id;
+        return $user->id === $project->user_id && !$user->is_blocked;
     }
 
     public function removeUser(User $user, Project $project, User $removedUser): bool
     {
         $leaveProject = $user == $removedUser && $user != $project->coordinator;
         $removeUser = $user == $project->coordinator && $removedUser != $project->coordinator;
-        return $project->users->contains($removedUser) && ($leaveProject || $removeUser) && !$project->is_archived;
+        return $project->users->contains($removedUser) && ($leaveProject || $removeUser) && !$user->is_blocked && !$project->is_archived;
     }
 
     public function send_invite(User $user, Project $project): bool

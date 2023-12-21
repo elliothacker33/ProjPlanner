@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use App\Models\User;
+use App\Models\Appeal;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -42,47 +44,32 @@ class UserController extends Controller
         }
     }
 
+
     public function checkUserExists(Request $request, $email) {
         $user = User::where('email', $email)->first();
 
         return response()->json($user != null);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function block(Request $request, User $user)
     {
-        //
+        $this->authorize("block", $user);
+
+        $user->is_blocked = true;
+        $user->save();
+
+        return redirect()->route('admin');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function unblock(Request $request, User $user)
     {
-        //
-    }
+        $this->authorize("block", $user);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(User $user)
-    {
-        //
-    }
+        $user->is_blocked = false;
+        $user->save();
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(User $user)
-    {
-        //
+        return redirect()->route('admin');
     }
-
-    /**
-     * Update the specified resource in storage.
-     */
 
     /**
      * Remove the specified resource from storage.

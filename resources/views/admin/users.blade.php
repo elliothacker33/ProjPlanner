@@ -19,6 +19,19 @@
             @method("DELETE")
         </form>
 
+        @foreach($users as $user)
+            <form method="POST" class="hidden" id="block-{{$user->id}}"
+                  action="{{route("block_user",["user"=>$user])}}">
+                @csrf
+                @method("PUT")
+            </form>
+            <form method="POST" class="hidden" id="unblock-{{$user->id}}"
+                  action="{{route("unblock_user",["user"=>$user])}}">
+                @csrf
+                @method("PUT")
+            </form>
+        @endforeach
+
 
         <section class="users-list">
             <header>
@@ -44,6 +57,7 @@
                 </section>
                 <section>
                     <span> <i class="fa-solid fa-users"></i>  {{$registrations}} Users </span>
+                    <a class="button" href="{{route('admin_appeals')}}"><i class="fa-solid fa-sync"></i> Appeals for Unblock</a>
                     <a class="button" href="{{route('admin_user_create')}}"><i class="fa-solid fa-user-plus"></i> Add
                         user</a>
                 </section>
@@ -69,14 +83,21 @@
                                 <a href="{{route("edit_profile",['user'=>$user])}}" class="edit" id="{{$user->id}}">
                                     <i class="fa-solid fa-user-pen"></i>
                                 </a>
-                                <button class="block" id="{{$user->id}}" form="block-{{($user->id)}}">
-                                    <i class="fa-solid fa-ban"></i>
-                                </button>
+                                @if(!$user->is_admin)
+                                    @if (!$user->is_blocked)
+                                        <button class="block" id="{{$user->id}}" form="block-{{($user->id)}}">
+                                            <i class="fa-solid fa-lock"></i>
+                                        </button>
+                                    @else
+                                        <button class="unblock" id="{{$user->id}}" form="unblock-{{($user->id)}}">
+                                            <i class="fa-solid fa-lock-open"></i>
+                                        </button>
+                                    @endif
+                                @endif
                                 <button class="delete" id="{{$user->id}}" form="delete"
                                         formaction="{{route("delete_user",["user"=>$user])}}">
                                     <i class="fa-solid fa-trash"></i>
                                 </button>
-                                <form class="hidden" id="block-{{($user->id)}}" action=""></form>
 
                             </section>
                         @endcan

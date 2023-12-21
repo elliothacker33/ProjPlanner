@@ -20,6 +20,7 @@ DROP TABLE IF EXISTS lbaw2353.task_notification CASCADE;
 DROP TABLE IF EXISTS lbaw2353.comment_notification CASCADE;
 DROP TABLE IF EXISTS lbaw2353.project_user CASCADE;
 DROP TABLE IF EXISTS lbaw2353.tag_task CASCADE;
+DROP TABLE IF EXISTS lbaw2353.appeals CASCADE;
 
 DROP TYPE IF EXISTS lbaw2353.task_status; 
 
@@ -161,6 +162,12 @@ CREATE TABLE lbaw2353.tag_task(
     tag_id INTEGER REFERENCES lbaw2353.tags(id) ON UPDATE CASCADE ON DELETE CASCADE,
     task_id INTEGER REFERENCES lbaw2353.tasks(id) ON UPDATE CASCADE ON DELETE CASCADE,
     PRIMARY KEY (tag_id,task_id)
+);
+
+CREATE TABLE lbaw2353.appeals(
+    id SERIAL PRIMARY KEY,
+    content VARCHAR(2000) NOT NULL,
+    user_id INTEGER REFERENCES lbaw2353.users(id) ON UPDATE CASCADE ON DELETE CASCADE NOT NULL
 );
 
 --------------------------------------------------------
