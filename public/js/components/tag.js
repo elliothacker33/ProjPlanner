@@ -18,7 +18,7 @@ export function createTagCard(tag){
     edit.classList.add('edit');
     delete_action.classList.add('delete');
     tag_span.innerText= tag.title;
-    span.innerHTML = icons['tasks']+ tag.tasks.length;
+    span.innerHTML = icons['tasks']+ tag.tasks.length + ' tasks';
     edit.innerHTML = icons['edit'];
     delete_action.innerHTML = icons['trash'];
     actions.append(edit);

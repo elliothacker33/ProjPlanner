@@ -15,7 +15,6 @@ searchBar.addEventListener('input', async (e) => {
         console.error("Network error");
     }).then(async response => {
         const data = await response.json();
-        console.log(data);
         await updateTagTable(data);
     }).catch(() => {
         console.error('Error parsing JSON');
@@ -93,6 +92,7 @@ function updateTagTable(data) {
         tagSection.append(create_edit_component(tag));
         table.append(tagSection);
     });
+    attachDialogs();
     setUpActions();
 }
 
