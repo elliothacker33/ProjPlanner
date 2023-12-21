@@ -9,6 +9,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\StaticController;
+use App\Http\Controllers\TagController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -63,6 +64,9 @@ Route::prefix('/api')->group(function () {
     });
     Route::controller(LoginController::class)->group(function () {
         Route::get('/auth', 'auth')->name('auth');
+    });
+    Route::controller(TagController::class)->group(function () {
+        Route::get('/tags', 'search')->name('search_tag');
     });
 
 });
@@ -125,6 +129,10 @@ Route::prefix('/api')->group(function () {
                 Route::delete('', 'destroy')->name('delete_project');
                 Route::get('/edit', 'edit')->name('show_edit_project');
                 Route::put('/edit', 'update')->name('action_edit_project');
+                Route::get('/tags', 'show_tags')->name('project_tags');
+            });
+            Route::prefix('/tag')->controller(TagController::class)->group(function () {
+                Route::post('/add','store')->name('add_tag');
             });
             Route::prefix('/task')->controller(TaskController::class)->group(function () {
                 Route::get('/{task}', 'show')->where('task', '[0-9]+')->name('task');
@@ -142,5 +150,10 @@ Route::prefix('/api')->group(function () {
 
             Route::get('/tasks', [ProjectController::class, 'showTasks'])->name('show_tasks');
         });
+});
+
+Route::prefix('/tag/{tag}')->where(['tag' => '[0-9]+'])->controller(TagController::class)->group(function () {
+    Route::put('/edit','update')->name('edit_tag');
+    Route::delete('/delete','destroy')->name('delete_tag');
 });
 

@@ -1,14 +1,15 @@
-import {projectHomePageRegex, projectTeamPageRegex, projectTaskPageRegex } from "./const/regex.js";
+import {projectHomePageRegex, projectTeamPageRegex, projectTaskPageRegex, projectTagsPageRegex} from "./const/regex.js";
 
 const currentPath = window.location.pathname;
 const projectHomePage = projectHomePageRegex.test(currentPath);
 const projectTeamPage = projectTeamPageRegex.test(currentPath);
 const projectTaskPage = projectTaskPageRegex.test(currentPath);
+const projectTagsPage = projectTagsPageRegex.test(currentPath);
 
 if(projectTaskPage)document.querySelector('#projectTasks').classList.add('selected')
 else if (projectTeamPage)document.querySelector('#projectTeam').classList.add('selected')
 else if(projectHomePage) document.querySelector('#projectHome').classList.add('selected')
-
+else if(projectTagsPage) document.querySelector('#projectTags').classList.add('selected')
 function buildFetchOptions(method, data) {
     const options = {
         method: method,

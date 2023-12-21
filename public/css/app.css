@@ -326,3 +326,23 @@ header .search button{
     border: none;
 }
 
+.actions .remove, .actions .delete {
+    background: var(--error-text-color);
+}
+
+.actions .block {
+    background: var(--warning-bg-color);
+}
+
+.actions .promote {
+    background: var(--onprimary-bg-color);
+}
+
+.actions .edit {
+    background: var(--onsecondary-bg-color);
+}
+
+.actions > *:hover {
+    background: var(--on-third-bg-color);
+}
+

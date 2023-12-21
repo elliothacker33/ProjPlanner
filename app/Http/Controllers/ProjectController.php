@@ -232,7 +232,11 @@ public function remove_user(Request $request, Project $project) {
             return response()->json(['message' => 'User has been successfully removed'], 200);
     }
 
-    public function assign_coordinator(Request $request, Project $project) {
+    public function show_tags(Request $request, Project $project){
+        $this->authorize('view', $request->user());
+        return view('project.tags',['project'=>$project, 'tags'=>$project->tags()->with('tasks')->get()]);
+    }
+    public function git assign_coordinator(Request $request, Project $project) {
         $this->validate($request, [
             'user_id' => [
                 'required',
