@@ -1,4 +1,4 @@
-export const icons ={
+export const icons = {
     'user-promote': '<i class="fa-solid fa-user-tie"></i>',
     'user-remove': '<i class="fa-solid fa-user-xmark"></i>',
     'user-block': '<i class="fa-solid fa-ban"></i>',
@@ -13,5 +13,8 @@ export const icons ={
     'calendar': '<i class="fa-regular fa-calendar"></i> ',
     'user': '<i class="fa-solid fa-user"></i> ',
     'admin': '<i class="fa-solid fa-user-gear"></i> ',
-
+    'error': '<i class="fa-solid fa-circle-exclamation"></i>',
+    'warning': '<i class="fa-solid fa-triangle-exclamation"></i>',
+    'info': '<i class="fa-solid fa-circle-info"></i>',
+    'success': '<i class="fa-solid fa-circle-check"></i>',
 }

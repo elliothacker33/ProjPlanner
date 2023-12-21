@@ -4,6 +4,7 @@
     <link rel="stylesheet" href="{{ asset('css/users.css') }}">
     <link rel="stylesheet" href="{{ asset('css/partials/cards.css') }}">
     <link rel="stylesheet" href="{{ asset('css/modal.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/partials/snackbar.css') }}">
 @endpush
 
 @push('scripts')

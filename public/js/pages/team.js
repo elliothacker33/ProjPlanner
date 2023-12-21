@@ -1,5 +1,6 @@
-import { attachDialogs } from "../modal.js";
+import { attachDialogs, closeDialogs } from "../modal.js";
 import { sendAjaxRequest } from "../app.js";
+import { showSnackbar, buildSnackbar } from "../snackbar.js";
 
 const currentPath = window.location.pathname;
 
@@ -51,7 +52,6 @@ function addUserBtnEvent() {
     const sendEmailDialog = document.querySelector('dialog[data-open-form-id=openSendEmailInviteModal');
 
     submitForm.addEventListener('submit', event => {
-        console.log(formInput.value.toLowerCase())
         event.preventDefault();
 
         sendAjaxRequest('GET', '/api/check-user/' + formInput.value.toLowerCase()).catch(() => {
@@ -81,17 +81,16 @@ function addSendEmailBtnEvent() {
     const formInput = submitForm.querySelector('input[name=\'email\']')
 
     button.addEventListener('click', () => {
+        document.body.style.cursor = 'progress';
+        closeDialogs();
         sendAjaxRequest('POST', currentPath + '/invite', {'email': formInput.value.toLowerCase()}).catch(() => {
             console.error("Network error");
         }).then(async response => {
             const data = await response.json();
 
-            if (response.ok) {
-                console.log(data.message);
-            }
-            else {
-                console.error(`Error ${response.status}: ${data.error}`);
-            }
+            document.querySelector('.team').appendChild(buildSnackbar((response.ok ? 'success' : 'error'), data.message));
+            document.body.style.cursor = 'default';
+            showSnackbar();
         }).catch(() => {
             console.error('Error parsing JSON');
         })
