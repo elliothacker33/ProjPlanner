@@ -3,7 +3,7 @@
     <link rel="stylesheet" href="{{ asset('css/files.css') }}">
 @endpush
 @push('scripts')
-<script type="text/javascript" src={{ url('js/app.js') }} defer></script>
+<script type="module" src={{ url('js/app.js') }} defer></script>
 <script type="module" src={{ url('js/files.js') }} defer></script>
 <script type="module" src={{ url('js/sort.js') }} defer></script>
 @endpush
