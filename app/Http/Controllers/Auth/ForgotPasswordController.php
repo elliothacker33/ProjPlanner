@@ -117,12 +117,16 @@ class ForgotPasswordController extends Controller
                 return redirect()->route('projects')->with('message', ['info', 'You are already in the project ' . $project->name]);
             }
             else {
+                if (Auth::user()->is_admin)
+                    return redirect()->route('home')->with('message', ['error', 'Administrators cannot join projects']);
                 $project->users()->attach(Auth::id());
                 return redirect()->route('projects')->with('message', ['success', 'You have joined the project ' . $project->name]);
             }
         }
         else {
             if ($user != null) {
+                if ($user->is_admin)
+                    return redirect()->route('home')->with('message', ['error', 'Administrators cannot join projects']);
                 return redirect()->route('login')->with(['project' => $project->id, 'userEmail' => $invite->email]);
             }
             else {
