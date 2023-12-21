@@ -71,14 +71,16 @@
                                 <a href="{{route("edit_profile",['user'=>$user])}}" class="edit" id="{{$user->id}}">
                                     <i class="fa-solid fa-user-pen"></i>
                                 </a>
-                                @if (!$user->is_blocked)
-                                    <button class="block" id="{{$user->id}}" form="block-{{($user->id)}}">
-                                        <i class="fa-solid fa-lock"></i>
-                                    </button>
-                                @else
-                                    <button class="unblock" id="{{$user->id}}" form="unblock-{{($user->id)}}">
-                                        <i class="fa-solid fa-lock-open"></i>
-                                    </button>
+                                @if(!$user->is_admin)
+                                    @if (!$user->is_blocked)
+                                        <button class="block" id="{{$user->id}}" form="block-{{($user->id)}}">
+                                            <i class="fa-solid fa-lock"></i>
+                                        </button>
+                                    @else
+                                        <button class="unblock" id="{{$user->id}}" form="unblock-{{($user->id)}}">
+                                            <i class="fa-solid fa-lock-open"></i>
+                                        </button>
+                                    @endif
                                 @endif
                                 <button class="delete" id="{{$user->id}}" form="delete"
                                         formaction="{{route("delete_user",["user"=>$user])}}">

@@ -15,7 +15,7 @@ class TagPolicy
      */
     public function create(User $user, Project $project): bool
     {
-        return $project->users->contains($user);
+        return $project->users->contains($user) && !$user->is_blocked;
     }
 
     /**
@@ -23,7 +23,7 @@ class TagPolicy
      */
     public function update(User $user, Tag $tag, Project $project): bool
     {
-        return $project->users->contains($user);
+        return $project->users->contains($user) && !$user->is_blocked;
     }
 
     /**
@@ -31,6 +31,6 @@ class TagPolicy
      */
     public function delete(User $user, Tag $tag, Project $project): bool
     {
-        return $project->users->contains($user);
+        return $project->users->contains($user) && !$user->is_blocked;
     }
 }
