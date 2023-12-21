@@ -1,5 +1,5 @@
 @php use App\Http\Controllers\User; @endphp
-@extends('layouts.app')
+@extends('layouts.admin')
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/users.css') }}">
     <link rel="stylesheet" href="{{ asset('css/partials/cards.css') }}">

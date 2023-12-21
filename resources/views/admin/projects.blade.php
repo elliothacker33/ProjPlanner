@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/home/projects.css') }}">
@@ -12,14 +12,14 @@
 
 @section('content')
 
-    <section class="projectPage">
+    <section class="projectPage admin">
 
 
         <section class="project-list">
             <header>
                 <section class="search">
 
-                    <form method="GET" id="search" action="{{route('admin_show_projects')}}">
+                    <form method="GET" id="search" action="{{route('projects')}}">
                         <input type="search" name="query" placeholder="&#128269 Search" aria-label="Search"
                                id="search-bar" value="{{$query}}"/>
                         <button class="" type="submit"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
@@ -40,9 +40,9 @@
                 </section>
                 <section>
                     <h5>
-                        <i class="fa-solid fa-folder-closed"></i> My Projects:  {{count($projects)}}
+                        <i class="fa-solid fa-folder-closed"></i> All Projects:  {{count($projects)}}
                     </h5>
-                    <a class="button" href="{{ route('show_new') }}"> <i class="fa-solid fa-folder-plus"></i> Add a Project </a>
+
                 </section>
             </header>
             <section class="projects">
