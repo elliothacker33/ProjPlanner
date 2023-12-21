@@ -1,4 +1,4 @@
-<dialog class="mymodal" data-open-form-id="{{ $openFormId }}">
+<dialog class="mymodal" data-open-form-id="{{ $openDialogClass }}">
     <div class="mymodal-header">
         <h3> {{ $modalTitle }}</h3>
         <i class="fa-solid fa-x"></i>

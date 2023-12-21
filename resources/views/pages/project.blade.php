@@ -15,7 +15,7 @@
     @includeWhen(Auth::id() != $project->user_id, 'partials.modal', [
         'modalTitle' => 'Leave Project',
         'modalBody' => 'Are you sure that you want to leave this project?',
-        'openFormId' => 'openLeaveModal',
+        'openDialogClass' => 'openLeaveModal',
         'formId' => 'leave-project-form'
     ])
     @includeWhen(Auth::id() == $project->user_id, 'partials.modalOk', [
@@ -23,12 +23,12 @@
         'modalBody' => 'Before leaving the project you must assign another project member as the new
         project coordinator. You can do so in the team section.',
         'type' => 'mymodal-warning',
-        'openFormId' => 'openLeaveModal',
+        'openDialogClass' => 'openLeaveModal',
     ])
     <header>
         <section class="info">
         <h1 class="title">{{$project->title}}</h1>
-        @if($project->is_archived) <span class="status archive"> <i class="fa-solid fa-box-archive"></i> Archive </span>
+        @if($project->is_archived) <span class="status archive"> <i class="fa-solid fa-box-archive"></i> Archived </span>
         @else <span class="status open"> <i class="fa-solid fa-box-open"></i> Open </span>
         @endif
         </section>
@@ -45,18 +45,19 @@
             @endcan
         </section>
         <!-- Hidden forms to actions in project page that don't use AJAX-->
-        <form class="hidden-form" id="edit-project-form" action="{{ route('show_edit_project',['project'=>$project->id])}}" method="GET">
+        <form class="hidden" id="edit-project-form" action="{{ route('show_edit_project',['project'=>$project->id])}}" method="GET">
         </form>
-        <form class="hidden-form" id="archive-project-form" action="{{ route('archive_project',['project'=>$project->id])}}" method="POST">
+        <form class="hidden" id="archive-project-form" action="{{ route('archive_project',['project'=>$project->id])}}" method="POST">
             @csrf
             @method('PUT')
         </form>
-        <form class="hidden-form" id="delete-project-form" action="{{ "/project/" . $project->id }}" method="POST">
+
+        <form class="hidden" id="delete-project-form" action="{{ '/project/' . $project->id }}" method="POST">
             @csrf
             @method('DELETE')
         </form>
 
-        <form class="hidden-form" id="leave-project-form" action="{{ "/project/" . $project->id . "/team/leave"}}" method="POST">
+        <form class="hidden" id="leave-project-form" action="{{ "/project/" . $project->id . "/team/leave"}}" method="POST">
             @csrf
             @method('DELETE')
             <input type="hidden" value="{{ Auth::id() }}" name="user">
@@ -65,9 +66,10 @@
     <section class="container">
     <section class="primaryContainer">
 
-        <section class="description">
-            {{$project->description}}
-        </section>
+                <section class="description">
+                    {{ $project->description }}
+                </section>
+
 
     </section>
     <section class="sideContainer">
@@ -75,23 +77,26 @@
             <span class="completion"><i class="fa-solid fa-list-check"></i>  Completed Tasks {{$completedTasks}}/{{$allTasks}}</span>
         </section>
         <section class="deadlineContainer" >
-            <span><i class="fa-solid fa-clock"></i> Deadline:
+            <span><i class="fa-regular fa-calendar"></i> Deadline:
                 @if($project->deadline) {{ date('d-m-Y', strtotime($project->deadline)) }}
                 @else There is no deadline
                 @endif
 
-            </span>
-        </section>
-        <section class="teamContainer">
-            <h5><i class="fa-solid fa-users"></i>  Team: </h5>
-            <ul class="team">
-                @foreach($team as $member)
-                    <li>{{$member->name}}</li>
-                @endforeach
-            </ul>
-            <a href="{{route('team',['project'=>$project->id])}}" >See all</a>
+                    </span>
+                </section>
+                <section class="teamContainer">
+                    <span><i class="fa-solid fa-user-tie"></i> Coordinator: {{ $project->coordinator->name }}</span>
+                </section>
+                <section class="teamContainer">
+                    <h5><i class="fa-solid fa-users"></i> Team: </h5>
+                    <ul class="team">
+                        @foreach ($team as $member)
+                            <li>{{ $member->name }}</li>
+                        @endforeach
+                    </ul>
+                    <a href="{{ route('team', ['project' => $project->id]) }}">See all</a>
+                </section>
+            </section>
         </section>
     </section>
-    </section>
-</section>
 @endsection

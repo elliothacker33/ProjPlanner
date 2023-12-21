@@ -3,15 +3,25 @@
 namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 class ProfileController extends Controller
-{       
+{
+
+        public function show(){
+            $user = Auth::user();
+            if(!$user) abort(404, 'User not logged in.');
+            return redirect()->route('profile',['user'=>$user]);
+        }
        
         public function showProfile(User $user): View
         {   
+
+            $this->authorize('view', $user);
+
             if (!$user) {
                 abort(404, 'User profile page not found.');
             }

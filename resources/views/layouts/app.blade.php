@@ -18,6 +18,7 @@
     <script src="https://kit.fontawesome.com/f09afb12ac.js" crossorigin="anonymous"></script>
     <link href="{{ url('css/milligram.min.css') }}" rel="stylesheet">
     <link href="{{ url('css/app.css') }}" rel="stylesheet">
+    <link href="{{ url('css/partials/navbar.css') }}" rel="stylesheet">
     <script src="https://kit.fontawesome.com/f09afb12ac.js" crossorigin="anonymous"></script>
 
     <script type="text/javascript">
@@ -32,28 +33,51 @@
     @stack('scripts')
 
 </head>
+
 <body>
-    <header>
+    @if (View::hasSection('navbar'))
+    <header class="withNav">
+    @else
+    <header class="">
+    @endif
         <section>
-                <h1 id="header_title"><a href="{{ route('home')}}" > <i class="fa-solid fa-bars-progress"></i>  ProjPlanner</a></h1>
+            <h1 id="header_title"><a href="{{ route('home') }}"> <i class="fa-solid fa-bars-progress"></i>
+                    ProjPlanner</a></h1>
+            <label for="navbar" id="bars"><i class="fa-solid fa-bars"></i></label>
+
 
             @if (Auth::check())
-                <a class="user_icon" href="{{ route('profile', ['user' => Auth::user()]) }}"> 
-                    <img class="icon avatar" src="{{ auth()->user()->getProfileImage() }}" alt="default user icon">
-                </a>
-                <a id="logout" href="{{ route('logout') }}"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+                <section class="profile">
+                    <label for="profile-options" class="user_icon" href="{{ route('profile', ['user' => Auth::user()]) }}">
+                        <img class="icon avatar" src="{{ auth()->user()->getProfileImage() }}" alt="default user icon">
+                    </label>
+                    <input type="checkbox" id="profile-options" class="hidden">
+                    <ul>
+                        <span>{{auth()->user()->email}}</span>
+                        <span>Profile Actions</span>
+                        <li><a id="profile" href="{{ route('user-profile') }}"><i class="fa-solid fa-right-from-bracket"></i> Profile</a></li>
+                        <li><a id="logout" href="{{ route('logout') }}"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+                    </ul>
+                </section>
             @else
-                <a class="user_icon" href="{{ route('login') }}"> <img class="icon avatar"
-                        src="{{ asset('img/user/default_user.jpg') }}" alt="default user icon"></a>
+                <a id="login" href="{{ route('login') }}"> <i class="fa-solid fa-right-from-bracket"></i> Login </a>
             @endif
         </section>
+        <input type="checkbox" class="hidden" id="navbar">
         @if (View::hasSection('navbar'))
             <nav>
+        @else
+            <nav class="empty">
+        @endif
+
                 <ul>
+                    <li id="home"><a href="{{ route('home') }}"> <i class="fa-solid fa-house"></i> Home </a> </li>
+
                     @yield('navbar')
+
                 </ul>
             </nav>
-        @endif
+
 
     </header>
     <main>
@@ -62,19 +86,25 @@
             @yield('content')
         </section>
 
-        </main>
-        <footer>
-            <section>
-                <ul>
+    </main>
+    <footer>
+        <section>
+            <ul>
 
 
-                    <li><a href="{{ route('static',['page' => 'faq'])}}"> <i class="fa-solid fa-question"></i> FAQ</a></li>
-                    <li><a href="{{ route('static',['page' => 'about-us'])}}"> <i class="fa-solid fa-address-card"></i> About Us</a></li>
-                    <li><a href="{{ route('static',['page' => 'contacts'])}}"><i class="fa-solid fa-message"></i> Contact Us</a></li>
+                <li><a href="{{ route('static', ['page' => 'faq']) }}"> <i class="fa-solid fa-question"></i> FAQ</a>
+                </li>
+                <li><a href="{{ route('static', ['page' => 'about-us']) }}"> <i class="fa-solid fa-address-card"></i>
+                        About Us</a></li>
+                <li><a href="{{ route('static', ['page' => 'contacts']) }}"><i class="fa-solid fa-message"></i> Contact
+                        Us</a></li>
 
-                </ul>
-            </section>
-            <section><h6>&copy;2023 ProjPlanner All Rights Reserved</h6></section>
-        </footer>
-    </body>
+            </ul>
+        </section>
+        <section>
+            <h6>&copy;2023 ProjPlanner All Rights Reserved</h6>
+        </section>
+    </footer>
+</body>
+
 </html>

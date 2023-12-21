@@ -38,18 +38,14 @@
     flex-wrap: wrap-reverse;
     text-align: center;
 }
-.taskPage header .status{
-    padding: 0.2em 0.5em ;
-    border-radius: 10em;
-    font-size: 1em;
-    color: white;
-}
-.taskPage header .status.open{
+
+.status.open{
     background: var(--onprimary-bg-color);
 }
-.taskPage header .status.closed{
+.status.closed{
     background: var(--on-third-bg-color);
 }
+
 .taskPage header .status.canceled{
     background: var(--error-text-color);
 }
@@ -97,25 +93,39 @@ a{
     justify-content: space-between;
     align-content: space-between;
     flex-wrap: wrap-reverse;
+
 }
 .taskPage header .info{
     display: flex;
-    gap :2em;
+    gap :1em;
     height: fit-content;
     margin:  auto 0;
+    flex-wrap: wrap;
+    max-width: 50em;
+}
+
+.taskPage header .info h1,h6{
+    width: 100%;
+    text-align: start;
+}
+.taskPage header .info h1{
+    width: fit-content;
 }
 .taskPage header .actions{
     display: flex;
     gap: 1em;
 }
-
-.taskPage .buttonLink, .multiselector span{
-    padding: 0.3em 1em;
+.taskPage header .actions > *
+{
+    height: fit-content;
+}
+.taskPage header .actions a, .multiselector span,.taskPage .buttonLink {
+    padding: 0.5em 0.7em;
     background: var(--onprimary-bg-color);
     color: white;
     border-radius: 0.3em;
-    margin: 0;
 }
+
 .taskPage .buttonLink:hover {
     background: var(--onsecondary-bg-color);
 }
@@ -177,14 +187,16 @@ a{
     scale: 1.5;
 }
 
-#openCloseModal, #openReopenModal {
+.openCloseModal, .openReopenModal {
     text-align: center;
     margin: 0 0 0 auto;
+    max-width: 10em;
 }
 
 .buttons * {
     margin: auto 0;
 }
+
 
 @media (max-width: 74em) {
 
