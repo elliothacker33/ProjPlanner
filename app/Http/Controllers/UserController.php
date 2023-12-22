@@ -7,6 +7,8 @@ use App\Events\ProjectNotificationEvent;
 use App\Models\Project;
 use App\Models\ProjectNotification;
 use App\Models\User;
+use App\Models\Appeal;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -16,6 +18,7 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
+    private $user_status =['admin','user'];
     public function searchUsers(Request $request)
     {
 
@@ -35,6 +38,10 @@ class UserController extends Controller
             $query->where('email', 'like', $searchTerm)
                 ->orWhere('name', 'like', $searchTerm)->with('getProfileImage');
         });
+        if($request->input('status') and in_array($request->input('status') ,$this->user_status)){
+            if($request->input('status') ==='admin') $users->where('is_admin','=',true);
+            else $users->where('is_admin','=',false);
+        }
         if ($request->ajax())
 
             return response()->json($users->get());
@@ -44,41 +51,32 @@ class UserController extends Controller
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+
+    public function checkUserExists(Request $request, $email) {
+        $user = User::where('email', $email)->first();
+
+        return response()->json($user != null);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function block(Request $request, User $user)
     {
-        //
+        $this->authorize("block", $user);
+
+        $user->is_blocked = true;
+        $user->save();
+
+        return redirect()->route('admin');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(User $user)
+    public function unblock(Request $request, User $user)
     {
-        //
-    }
+        $this->authorize("block", $user);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(User $user)
-    {
-        //
-    }
+        $user->is_blocked = false;
+        $user->save();
 
-    /**
-     * Update the specified resource in storage.
-     */
+        return redirect()->route('admin');
+    }
 
     /**
      * Remove the specified resource from storage.

@@ -20,7 +20,7 @@ class UserPolicy
 
     public function viewTeam(User $user,Project $project): bool
     {
-        return $user->projects->pluck('id')->contains($project->id) || $user->is_admin;
+        return ($user->projects->pluck('id')->contains($project->id) || $user->is_admin) && !$user->is_blocked;
 
     }
 
@@ -30,7 +30,7 @@ class UserPolicy
      */
     public function view(User $user, User $user_profile): bool
     {
-        return $user->is_admin || ($user_profile->id===$user->id && !$user_profile->is_blocked);
+        return ($user->is_admin || $user_profile->id===$user->id) && !$user_profile->is_blocked;
     }
 
     /**
@@ -46,7 +46,7 @@ class UserPolicy
      */
     public function update(User $user, User $model): bool
     {
-        return $user->id === $model->id || $user->is_admin;
+        return ($user->id === $model->id || $user->is_admin) && !$user->is_blocked;
     }
 
     /**
@@ -54,7 +54,7 @@ class UserPolicy
      */
     public function delete(User $user, User $model): bool
     {
-        return $model == $user || $user->is_admin;
+        return ($model == $user || $user->is_admin) && !$user->is_blocked;
     }
 
     /**
@@ -89,6 +89,19 @@ class UserPolicy
        return $user->is_admin;
     }
 
+    public function showAppealForUnblock(User $user): bool
+    {
+        return $user->is_blocked;
+    }
+
+    public function storeAppealForUnblock(User $user): bool
+    {
+        return $user->is_blocked;
+    }
     
+    public function view_appeals(User $user): bool
+    {
+        return $user->is_admin;
+    }
 
 }

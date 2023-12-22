@@ -105,6 +105,7 @@
 
 }
 
+
 .notificationCard {
     display: flex;
     flex-direction: column;
@@ -123,7 +124,29 @@
     flex-direction: column;
     gap: 1em;
 }
-.notificationCard a footer{
+.notificationCard a footer {
     width: fit-content;
     margin-left: auto;
+}
+.tagCard{
+    display: flex;
+    gap:1em;
+    justify-content: space-between;
+    padding: 0.5em 2em ;
+    flex-wrap: wrap;
+    align-items: center;
+
+}
+.tagCard .tagContainer{
+    width: 100%;
+    max-width: 25em;
+}
+
+.tagCard .actions{
+    display: flex;
+    gap: 3em;
+}
+
+.tagCard .actions >*:hover{
+    background: var(--on-third-bg-color);
 }

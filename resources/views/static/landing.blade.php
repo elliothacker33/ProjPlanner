@@ -1,10 +1,14 @@
 @extends('layouts.app')
 
 @push('styles')
-
     <link href="{{ asset('css/static/projects.css') }}" rel="stylesheet">
-
     <link href="{{ asset('css/landing.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/partials/snackbar.css') }}" rel="stylesheet">
+@endpush
+
+@push('scripts')
+    <script type="module" src="{{ asset('js/landing.js') }}" defer></script>
+    <script type="module" src="{{ asset('js/snackbar.js') }}" defer></script>
 @endpush
 
 @section('content')
@@ -25,5 +29,8 @@
             <a href="{{ route('login') }}"><button>Sign In</button></a>
             <a href="{{ route('register') }}"><button>Register</button></a>
         </section>
+        @isset($message)
+            @include("partials.snackbar", ['type' => $message[0], 'content' => $message[1]])
+        @endisset
     </section>
 @endsection

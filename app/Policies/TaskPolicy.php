@@ -15,7 +15,7 @@ class TaskPolicy
      */
     public function view(User $user, Task $task): bool
     {
-        return $user->is_admin || $task->project->users->contains($user);
+        return $user->is_admin || ($task->project->users->contains($user) && !$user->is_blocked);
     }
 
     /**
@@ -23,7 +23,7 @@ class TaskPolicy
      */
     public function create(User $user, Project $project)
     {
-        return !$user->isAdmin and $project->users->contains($user);
+        return !$user->isAdmin && ($project->users->contains($user) && !$user->is_blocked) && !$project->is_archived;
     }
 
     /**
@@ -31,12 +31,12 @@ class TaskPolicy
      */
     public function update(User $user, Task $task): bool
     {
-        return ($task->project->user_id == $user->id || $task->assigned->contains($user)) && $task->status == 'open';
+        return ($task->project->user_id == $user->id || $task->assigned->contains($user)) && $task->status == 'open' && !$user->is_blocked && !$task->project->is_archived;
     }
 
     public function changeStatus(User $user, Task $task): bool
     {
-        return $task->project->user_id == $user->id || $task->assigned->contains($user);
+        return ($task->project->user_id == $user->id || $task->assigned->contains($user)) && !$user->is_blocked && !$task->project->is_archived;
     }
 
     /**
@@ -44,6 +44,6 @@ class TaskPolicy
      */
     public function comment(User $user, Task $task): bool
     {
-        return $task->project->users->contains($user);
+        return $task->project->users->contains($user) && !$user->is_blocked;
     }
 }

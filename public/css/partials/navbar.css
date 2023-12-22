@@ -30,7 +30,8 @@ body > header .profile input:checked + ul{
 }
 
 body > header #login{
-    color:var(--secondary-text-color)
+    color:var(--secondary-text-color);
+    margin-left: auto;
 }
 
 body > header #header_title{
