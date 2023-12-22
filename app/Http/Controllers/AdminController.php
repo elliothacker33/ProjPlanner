@@ -25,7 +25,7 @@ class AdminController extends Controller
             if($request->input('status') ==='admin') $user_query->where('is_admin','=',true);
             else $user_query->where('is_admin','=',false);
         }
-        return view('admin.users', ['users' => $user_query->paginate(10)->withQueryString(),'query'=>$query,'status'=>$request->input('status'),'registrations'=>$users] );
+        return view('admin.users', ['users' => $user_query->withQueryString()->paginate(10),'query'=>$query,'status'=>$request->input('status'),'registrations'=>$users] );
     }
 
     public function create(){
