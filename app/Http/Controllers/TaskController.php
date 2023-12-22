@@ -216,12 +216,12 @@ class TaskController extends Controller
 
     }
 
-    public function deleteComment($project,$task,$comment_id)
+    public function deleteComment(Project $project, Task $task, $comment_id)
     {  
         $comment = Comment::find($comment_id);
         $this->authorize('delete_comment', [Task::class,$comment]);
         $comment->delete();
-        return true;
+        return redirect()->route('task', ['project'=>$project,'task'=>$task]);
     }
     
 

@@ -25,12 +25,16 @@ class Task extends Model
     public function created_by(): BelongsTo {
         return $this->belongsTo(User::class, 'opened_user_id')->withDefault([
             'name' => 'deleted_user',
+            'email' => 'deleted_email@gmail.com',
+            'image' => asset('img/default_user.jpg'),
         ]);
     }
 
     public function closed_by(): BelongsTo {
         return $this->belongsTo(User::class, 'closed_user_id')->withDefault([
             'name' => 'deleted_user',
+            'email' => 'deleted_email@gmail.com',
+            'image' => asset('img/default_user.jpg'),
         ]);
     }
 

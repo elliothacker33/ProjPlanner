@@ -166,7 +166,6 @@ Route::controller(FileController::class)->group(function () {
                 Route::post('/add','store')->name('add_tag');
             });
             Route::prefix('/task')->controller(TaskController::class)->group(function () {
-                Route::get('/{task}', 'show')->where('task', '[0-9]+')->name('task');
                 Route::get('/search', 'index')->name('index_tasks');
                 Route::get('/new', 'create')->name('createTask');
                 Route::post('/new', 'store')->name('newTask');

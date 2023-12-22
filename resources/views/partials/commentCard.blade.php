@@ -7,7 +7,11 @@
                         <div class="comment-header col-12">
                               <div class="row">
                                     <div class ="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 userName">
-                                    <img class="icon avatar" src="{{$comment->user->image()}}" alt="default user icon">
+                                        @isset($comment->user->id)
+                                            <img class="icon avatar" src="{{$comment->user->image()}}" alt="default user icon">                            
+                                        @else
+                                            <img class="icon avatar" src="{{$comment->user->image}}" alt="default user icon">
+                                        @endisset
                                         <span>{{$comment->user->name}}</span>
                                     </div>
                                     @if (Auth::user()->id == $comment->user_id)

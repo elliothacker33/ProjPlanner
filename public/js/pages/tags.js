@@ -52,7 +52,6 @@ function setUpActions() {
     edits_actions.forEach(
         (edit) => edit.addEventListener('click',
             (e) => {
-                console.log(edit.parentNode.parentNode.parentNode);
                 const tag_id = edit.parentNode.parentNode.parentNode.id.match(/tag(\d+)/)[1];
                 const form = document.querySelector('#tag' + tag_id + ' form');
                 form.classList.toggle('hidden');

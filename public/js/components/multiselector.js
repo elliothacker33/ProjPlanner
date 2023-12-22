@@ -37,5 +37,5 @@ export function multiselector(origin, destiny) {
         values[idx] = parseInt(items[idx].value);
     }
     const destinyInput = document.querySelector(destiny);
-    destinyInput.value = values;
+    if (destinyInput != null) destinyInput.value = values;
 }
