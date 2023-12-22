@@ -194,7 +194,7 @@ Route::controller(FileController::class)->group(function () {
             Route::prefix('/forum')->group(function () {
                 Route::controller(PostController::class)->group(function () {
                     Route::get('', 'index')->name('forum'); 
-                     Route::get('/next','getNextItems')->name('get_next_page');
+                     Route::get('/next','getNextItems')->name('get_next_posts');
                     Route::post('/new', 'store')->name('create_post');
                     Route::prefix('/{post}')->whereNumber('post')->group(function() {
                         Route::put('/edit', 'update')->name('action_edit_post');
