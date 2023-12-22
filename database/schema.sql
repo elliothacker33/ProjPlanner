@@ -716,7 +716,7 @@ EXECUTE FUNCTION assign_random_coordinators();
 
 -- Inserting data into the 'users' table
 INSERT INTO users (name, email, password, is_blocked) VALUES ('normal_user', 'user@user.com', '$2y$10$w.dlq9RxrrbtfClVxa863ehip4.WnRu/sxeQRszlCUjcDTKaCEIjy', False);
-INSERT INTO users (name, email, password, is_blocked) VALUES ('another_user', 'auser@user.com', '$2y$10$w.dlq9RxrrbtfClVxa863ehip4.WnRu/sxeQRszlCUjcDTKaCEIjy', False);
+INSERT INTO users (name, email, password, is_blocked) VALUES ('another_user', 'auser@user.com', '$2y$10$w.dlq9RxrrbtfClVxa863ehip4.WnRu/sxeQRszlCUjcDTKaCEIjy', True);
 INSERT INTO users (name, email, password, is_blocked) VALUES ('another_user2', 'auser2@user.com', '$2y$10$w.dlq9RxrrbtfClVxa863ehip4.WnRu/sxeQRszlCUjcDTKaCEIjy', False);
 INSERT INTO users (name, email, password, is_blocked) VALUES ('randalldaniel', 'loriduran@example.net', '+ybPN5ytO3', False);
 INSERT INTO users (name, email, password, is_blocked) VALUES ('tmcmahon', 'vperez@example.org', '&)^5dDswBi', False);
@@ -762,8 +762,11 @@ INSERT INTO projects (title, description, is_archived, creation, deadline, user_
 INSERT INTO projects (title, description, is_archived, creation, deadline, user_id) VALUES ( 'rule', 'Finally clearly child them word.', False, '2023-05-30', '2024-03-05', 10);
 -- Inserting data into the 'tags' table
 INSERT INTO tags (title, project_id) VALUES ('instagram', 1);
+INSERT INTO tags (title, project_id) VALUES ('urgent', 1);
 INSERT INTO tags (title, project_id) VALUES ('chair', 2);
+INSERT INTO tags (title, project_id) VALUES ('urgent', 2);
 INSERT INTO tags (title, project_id) VALUES ('various', 3);
+INSERT INTO tags (title, project_id) VALUES ('urgent', 3);
 INSERT INTO tags (title, project_id) VALUES ('down', 4);
 INSERT INTO tags (title, project_id) VALUES ('five', 5);
 INSERT INTO tags (title, project_id) VALUES ('along', 6);
@@ -803,12 +806,12 @@ INSERT INTO tasks (title, description, status, starttime, endtime, deadline, ope
 INSERT INTO tasks (title, description, status, starttime, endtime, deadline, opened_user_id, closed_user_id, project_id) VALUES ( 'certain', 'Those option may fast chair off station.', 'open', '2023-08-07', NULL, '2024-08-13', 10, NULL, 19);
 INSERT INTO tasks (title, description, status, starttime, endtime, deadline, opened_user_id, closed_user_id, project_id) VALUES ( 'ago', 'Cell over process condition subject short interest.', 'open', '2023-07-28', NULL, '2024-10-15', 8, NULL, 20);
 -- Inserting data into the 'posts' table
-INSERT INTO posts (content, submit_date, last_edited, user_id, project_id) VALUES ('Good range amount but remain approach.', '2023-04-30', '2023-04-24', 12, 8);
-INSERT INTO posts (content, submit_date, last_edited, user_id, project_id) VALUES ('In reveal certain tough. Under act country loss spend last.', '2023-09-06', '2023-04-09', 3, 10);
-INSERT INTO posts (content, submit_date, last_edited, user_id, project_id) VALUES ('Of everyone first tell. Concern activity protect quickly feeling.', '2022-12-09', '2022-11-01', 1, 15);
-INSERT INTO posts (content, submit_date, last_edited, user_id, project_id) VALUES ('Happen have take instead color. Dream fast other against.', '2022-12-31', '2023-06-29', 1, 15);
-INSERT INTO posts (content, submit_date, last_edited, user_id, project_id) VALUES ('Result possible race enough wonder step million. Home PM town yard take buy.', '2022-12-26', '2023-07-20', 15, 7);
-INSERT INTO posts (content, submit_date, last_edited, user_id, project_id) VALUES ('Base eat go close. Parent walk do information. Teach knowledge mission open century the test.', '2023-04-02', '2023-03-10', 16, 4);
+INSERT INTO posts (content, submit_date, last_edited, user_id, project_id) VALUES ('Good range amount but remain approach.', '2023-04-30', '2023-04-24', 12, 1);
+INSERT INTO posts (content, submit_date, last_edited, user_id, project_id) VALUES ('In reveal certain tough. Under act country loss spend last.', '2023-09-06', '2023-04-09', 3, 1);
+INSERT INTO posts (content, submit_date, last_edited, user_id, project_id) VALUES ('Of everyone first tell. Concern activity protect quickly feeling.', '2022-12-09', '2022-11-01', 1, 1);
+INSERT INTO posts (content, submit_date, last_edited, user_id, project_id) VALUES ('Happen have take instead color. Dream fast other against.', '2022-12-31', '2023-06-29', 1, 2);
+INSERT INTO posts (content, submit_date, last_edited, user_id, project_id) VALUES ('Result possible race enough wonder step million. Home PM town yard take buy.', '2022-12-26', '2023-07-20', 3, 2);
+INSERT INTO posts (content, submit_date, last_edited, user_id, project_id) VALUES ('Base eat go close. Parent walk do information. Teach knowledge mission open century the test.', '2023-04-02', '2023-03-10', 2, 2);
 INSERT INTO posts (content, submit_date, last_edited, user_id, project_id) VALUES ('Day save of everything religious. Sort student nothing both. We speech the challenge out head even.', '2023-02-15', '2023-01-23', 14, 7);
 INSERT INTO posts (content, submit_date, last_edited, user_id, project_id) VALUES ('Fall run stand director walk fight example. Democratic rest leave fear wind.', '2023-02-06', '2023-05-10', 18, 16);
 INSERT INTO posts (content, submit_date, last_edited, user_id, project_id) VALUES ('Without base agency on maybe resource source tend. Claim talk stand reflect everything maybe.', '2023-10-02', '2023-01-06', 12, 12);
@@ -823,11 +826,9 @@ INSERT INTO posts (content, submit_date, last_edited, user_id, project_id) VALUE
 INSERT INTO posts (content, submit_date, last_edited, user_id, project_id) VALUES ('Out give beyond apply decision cost. Decision clear building structure true hold. Across wear meet.', '2022-12-19', '2023-09-13', 16, 4);
 INSERT INTO posts (content, submit_date, last_edited, user_id, project_id) VALUES ('General source red plan school. Minute senior suffer thought. Toward group plant.', '2023-09-15', '2023-03-23', 6, 10);
 INSERT INTO posts (content, submit_date, last_edited, user_id, project_id) VALUES ('Oil direction boy late commercial age. Show personal prepare no day. Check capital itself.', '2023-04-03', '2023-09-26', 15, 19);
--- Inserting data into the 'task_user' table
-
 
 -- Inserting data into the 'comments' table
-INSERT INTO comments (content, submit_date, last_edited, task_id, user_id) VALUES ('Middle character accept another push drug nice. Tend writer season manage word near pattern.', '2023-08-23', '2022-12-12', 12, 9);
+INSERT INTO comments (content, submit_date, last_edited, task_id, user_id) VALUES ('Middle character accept another push drug nice. Tend writer season manage word near pattern.', '2023-08-23', '2022-12-12', 1, 2);
 INSERT INTO comments (content, submit_date, last_edited, task_id, user_id) VALUES ('Six also career happy. Sea throughout power listen tree.', '2023-06-23', '2023-02-18', 3, 18);
 INSERT INTO comments (content, submit_date, last_edited, task_id, user_id) VALUES ('After inside evidence skill hand difficult. Pattern plant assume many son.', '2023-06-16', '2023-02-08', 10, 6);
 INSERT INTO comments (content, submit_date, last_edited, task_id, user_id) VALUES ('Word reality focus soldier. Help adult lay represent half couple.', '2023-07-06', '2023-07-20', 9, 18);
