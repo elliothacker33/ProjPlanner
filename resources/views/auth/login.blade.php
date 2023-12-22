@@ -64,6 +64,11 @@
                     {{ session('message') }}
                 </div>
             @endif
+            @if(session('delete_user_success'))
+                <div class=" d-flex justify-content-center alert alert-success alert-dismissible fade show" style="margin-top: 3%;" role="alert">
+                    {{ session('delete_user_success') }}
+                </div>
+            @endif
         </section>
         <section class="container">
             <h2>New Here?</h2>

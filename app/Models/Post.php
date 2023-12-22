@@ -14,20 +14,22 @@ class Post extends Model
 
     protected $fillable = [
         'content',
-        'author',
-        'project_id',
+        'user_id',
         'submit_date',
         'last_edited',
     ];
 
-    public function project(): BelongsTo
-    {
-        return $this->belongsTo(Project::class);
+    public function user(): BelongsTo {
+        return $this->belongsTo(User::class)->withDefault([
+            'name' => 'deleted_user',
+            'email' => 'deleted_email@gmail.com',
+            'image' => asset('img/default_user.jpg'),
+        ]);
     }
 
-    public function author(): BelongsTo
+    public function project():BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Project::class,'project_id');
     }
 
 }

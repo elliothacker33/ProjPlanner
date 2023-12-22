@@ -9,7 +9,11 @@
 
 @push('scripts')
     <script type="module" src="{{ asset('js/pages/projects.js') }}" defer></script>
+
     <script type="module" src="{{ asset('js/snackbar.js') }}" defer></script>
+
+    <script type="module" src="{{ asset('js/favorites.js') }}" defer></script>
+
 @endpush
 
 @section('content')
@@ -46,7 +50,7 @@
             </header>
             <section class="projects">
                 @foreach($projects as $project)
-                    @include("partials.projectCard",['$project'=>$project])
+                    @include("partials.projectCard",['$project'=>$project,'is_admin'=>false])
 
                 @endforeach
 

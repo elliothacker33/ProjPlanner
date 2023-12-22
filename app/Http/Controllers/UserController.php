@@ -5,12 +5,15 @@ namespace App\Http\Controllers;
 
 use App\Events\ProjectNotificationEvent;
 use App\Models\Project;
+
 use App\Models\ProjectNotification;
+
+use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\Appeal;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+
 use Illuminate\Support\Facades\DB;
 DB::enableQueryLog();
 class UserController extends Controller
@@ -81,13 +84,22 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy(Request $request, User $user)
     {
+
         $this->authorize("delete", $user);
 
-        $user->delete();
+        $request->validate([
+            'password' => 'required|string|',
+        ]);
+        if (Hash::check($request->input('password'), $user->password)) {
 
-        return redirect()->route('init_page');
+            $user->delete();
+
+            return redirect()->route('login')->with('delete_user_success', 'Your user account was deleted successfully');
+        } else {
+            return redirect()->back()->with('password', 'Incorrect password');
+        }
     }
     public function getUserNotification(Request $request){
         $user = $request->user();
@@ -108,4 +120,5 @@ class UserController extends Controller
         if(!$user) abort(404, 'user not found');
         return response()->json($user->tasks);
     }
+
 }

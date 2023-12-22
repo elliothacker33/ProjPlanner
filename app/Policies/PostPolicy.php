@@ -2,9 +2,11 @@
 
 namespace App\Policies;
 
+use App\Models\Post;
 use App\Models\User;
 use App\Models\Project;
-use App\Models\Post;
+use Illuminate\Auth\Access\Response;
+use Illuminate\Support\Facades\Log;
 
 class PostPolicy
 {
@@ -32,7 +34,7 @@ class PostPolicy
      */
     public function update(User $user, Post $post): bool
     {
-        return $user->id === $post->author->id && !$user->is_blocked;
+        return $user->id === $post->user->id && !$user->is_blocked;
     }
 
     /**
@@ -40,7 +42,7 @@ class PostPolicy
      */
     public function delete(User $user, Post $post): bool
     {
-        return $user->id === $post->author->id && !$user->is_blocked;
+        return $user->id === $post->user->id && !$user->is_blocked;
     }
 
 }

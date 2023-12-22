@@ -6,8 +6,10 @@
 @endpush
 
 @push('scripts')
-    <script type="module" src="{{ asset('js/task.js') }}" defer></script>
+    <script type="module" src={{ url('js/comments.js') }}  defer></script>
     <script type="module" src="{{ asset('js/modal.js') }}" defer></script>
+    <script type="module" src="{{ asset('js/editComment.js') }}" defer></script>
+    <script type="module" src="{{ asset('js/task.js') }}" defer></script>
 @endpush
 
 @section('content')
@@ -60,7 +62,29 @@
                         <a class="buttonLink openCloseModal"> <i class="fa-solid fa-folder-closed"></i> Close task </a>
                     @endif
                 @endcan
-
+            <div>
+            <div class ="container-fluid  p-2">
+                <div class = "row p-3 containerBoot comments" data-project="{{$project->id}}" data-task ="{{$task->id}}">
+            @forelse($comments as $comment)
+                @include('partials.commentCard',['project'=>$project,'task'=>$task,'comment'=>$comment])
+                @empty
+                <span> No comments for this task.</span>
+            @endforelse
+            </div>
+            </div>
+            </div>
+            <div class="new-comment">
+            <form action= "{{ route('store_comment', ['project' => $project, 'task' => $task->id]) }}" method="POST">
+                @csrf
+                <div class="new-comment-body">
+                    <textarea name="content" id="content" cols="30" rows="10" placeholder="Write your comment here..."></textarea>
+                </div>
+               
+                <div class="new-comment-footer">
+                    <button type="submit">Comment</button>
+                </div>
+            </form>
+        </div>
             </section>
             <section class="sideContainer">
                 <section class="deadlineContainer" >

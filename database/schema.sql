@@ -51,6 +51,12 @@ CREATE TABLE lbaw2353.projects (
     deadline TIMESTAMP WITH TIME ZONE CHECK (deadline IS NULL OR (creation < deadline)),
     user_id INTEGER REFERENCES lbaw2353.users(id) ON UPDATE CASCADE ON DELETE SET DEFAULT NULL
 );
+
+CREATE TABLE lbaw2353.favorites(
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES lbaw2353.users(id) ON UPDATE CASCADE ON DELETE SET DEFAULT NULL,
+    project_id INTEGER REFERENCES lbaw2353.projects(id) on UPDATE CASCADE ON DELETE SET DEFAULT NULL
+);
 --1 
 CREATE TABLE lbaw2353.tags(
     id SERIAL PRIMARY KEY,
@@ -115,7 +121,7 @@ CREATE TABLE lbaw2353.invite_notifications (
     id SERIAL PRIMARY KEY,
     description VARCHAR(1000) NOT NULL,
     notifications_date TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
-    project_id INTEGER REFERENCES lbaw2353.invites(id) ON UPDATE CASCADE NOT NULL UNIQUE,
+    project_id INTEGER REFERENCES lbaw2353.projects(id) ON UPDATE CASCADE NOT NULL,
     user_id INTEGER REFERENCES lbaw2353.users(id) ON UPDATE CASCADE ON DELETE CASCADE NOT NULL,
     seen BOOLEAN DEFAULT FALSE NOT NULL
 );
@@ -365,6 +371,21 @@ BEFORE INSERT ON lbaw2353.invites
 FOR EACH ROW
 EXECUTE FUNCTION update_invitation_date();
 
+/*- When the user is added to a project, a notification should be created for him*/
+CREATE OR REPLACE FUNCTION send_added_to_project_notification()
+    RETURNS TRIGGER AS $BODY$
+BEGIN
+    INSERT INTO lbaw2353.invite_notifications (description, notifications_date, user_id,project_id)
+    values ('You have been added to a project',NOW(),NEW.user_id,NEW.project_id);
+    RETURN NEW;
+END
+$BODY$
+    LANGUAGE plpgsql;
+
+CREATE TRIGGER add_to_project_notification_trigger
+    AFTER INSERT ON lbaw2353.project_user
+    FOR EACH ROW
+EXECUTE FUNCTION send_added_to_project_notification();
 
 /* -When a comments is send, a notifications should be created for all the users task_user to the tasks*/
 
@@ -826,29 +847,9 @@ INSERT INTO comments (content, submit_date, last_edited, task_id, user_id) VALUE
 INSERT INTO comments (content, submit_date, last_edited, task_id, user_id) VALUES ( 'Training concern instead.', '2023-06-27', '2023-08-11', 17, 15);
 INSERT INTO comments (content, submit_date, last_edited, task_id, user_id) VALUES ( 'Out fill tree father him such property. Wear high or position change strategy.', '2023-10-02', '2022-12-25', 7, 18);
 INSERT INTO comments (content, submit_date, last_edited, task_id, user_id) VALUES ( 'Her blue like law receive. Choice kid beautiful choice threat. Get section energy performance.', '2023-08-02', '2023-03-23', 5, 12);
--- Inserting data into the 'files' table
-INSERT INTO files (name, project_id) VALUES ('today', 1);
-INSERT INTO files (name, project_id) VALUES ('source', 14);
-INSERT INTO files (name, project_id) VALUES ('worry', 7);
-INSERT INTO files (name, project_id) VALUES ('home', 5);
-INSERT INTO files (name, project_id) VALUES ('door', 11);
-INSERT INTO files (name, project_id) VALUES ('hope', 8);
-INSERT INTO files (name, project_id) VALUES ('last', 6);
-INSERT INTO files (name, project_id) VALUES ('themselves', 2);
-INSERT INTO files (name, project_id) VALUES ('tell', 18);
-INSERT INTO files (name, project_id) VALUES ( 'stop', 15);
-INSERT INTO files (name, project_id) VALUES ( 'word', 7);
-INSERT INTO files (name, project_id) VALUES ( 'cover', 3);
-INSERT INTO files (name, project_id) VALUES ( 'positive', 7);
-INSERT INTO files (name, project_id) VALUES ( 'capital', 11);
-INSERT INTO files (name, project_id) VALUES ( 'alone', 14);
-INSERT INTO files (name, project_id) VALUES ( 'south', 19);
-INSERT INTO files (name, project_id) VALUES ( 'magazine', 11);
-INSERT INTO files (name, project_id) VALUES ( 'run', 17);
-INSERT INTO files (name, project_id) VALUES ( 'bank', 11);
-INSERT INTO files (name, project_id) VALUES ( 'tough', 8);
 
-INSERT INTO invite_notifications (description, notifications_date, user_id, project_id, seen) VALUES ( 'cathyperez@example.com', '2023-03-03', 1, 1, False);
+
+
 -- Inserting data into the 'forum_notifications' table
 INSERT INTO forum_notifications (description, notifications_date, post_id, user_id, seen) VALUES ('Impact walk herself above score last.', '2023-09-09', 19, 1, False);
 INSERT INTO forum_notifications (description, notifications_date, post_id, user_id, seen) VALUES ('Once contain past guy recently.', '2022-11-07', 17, 1, False);
@@ -945,3 +946,5 @@ INSERT INTO project_user (user_id, project_id) VALUES (7, 13);
 INSERT INTO tag_task (tag_id, task_id) VALUES (1, 1);
 INSERT INTO task_user (user_id, task_id) VALUES (1, 1);
 INSERT INTO task_user (user_id, task_id) VALUES (2, 1);
+
+INSERT INTO favorites(user_id,project_id) VALUES(1,1);

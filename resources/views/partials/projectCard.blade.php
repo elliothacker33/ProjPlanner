@@ -13,6 +13,13 @@
             @else There is no deadline
             @endif
         </li>
+        <li>
+        @if(!$is_admin and in_array($project->id, $favorites))
+            <i class="bi bi-star-fill favorite-star" style='font-size:1.5em; color:orange;' data-project="{{$project->id}}"></i>
+        @elseif(!$is_admin)
+            <i class="bi bi-star-fill favorite-star" style='font-size:1.5em; color:grey;' data-project="{{$project->id}}"></i>
+        @endif
+        </li>
     </ul>
     <h6>#{{$project->id}} Created on {{ date('d-m-Y', strtotime($project->creation)) }} and coordinate by {{$project->coordinator->name}}</h6>
 </section>

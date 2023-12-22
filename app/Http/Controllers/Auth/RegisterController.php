@@ -63,14 +63,13 @@ class RegisterController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-        $user =User::create([
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password)
         ]);
 
-        $user->file = FileController::getDefaultName('user');
-        $user->save();
+        $user-> save();
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {

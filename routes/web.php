@@ -14,6 +14,8 @@ use App\Http\Controllers\StaticController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
+
+use App\Http\Controllers\ForumController;
 use App\Http\Controllers\AppealController;
 use Illuminate\Support\Facades\Route;
 
@@ -122,20 +124,26 @@ Route::prefix('/api')->group(function () {
         Route::post('/register', 'register')->name('create_account');
     });
 
-// Profile
-    Route::prefix('/user-profile')->controller(ProfileController::class)->group(function () {
-        Route::get('/', 'show')->name('user-profile');
-        Route::get('/{user}', 'showProfile')->name('profile');
-        Route::put('/{user}/edit', 'updateProfile')->name('update_profile');
-        Route::get('/{user}/edit', 'showEditProfile')->name('edit_profile');
-        Route::delete('/{user}/delete', 'destroy')->name('delete_profile');
-    });
+
+Route::prefix('/user-profile')->controller(ProfileController::class)->group(function () {
+    Route::get('/', 'show')->name('user-profile');
+    Route::get('/{user}', 'showProfile')->name('profile');
+    Route::put('/{user}/edit', 'updateProfile')->name('update_profile');
+    Route::get('/{user}/edit', 'showEditProfile')->name('edit_profile');
+    Route::put('/{user}/update_image','updateProfileImage')->name('update_profile_image'); 
+    Route::delete('/{user}/delete_image','deleteProfileImage')->name('delete_profile_image');
+    Route::get('/{user}/delete','showDelete')->name('show_delete_profile');
+    Route::delete('/{user}/delete', 'destroy')->name('delete_profile');
+});
 
 // Files 
-    Route::controller(FileController::class)->group(function () {
-        Route::post('/file/upload', 'upload')->name('upload_profile_file');
-        Route::delete('/file/delete', 'delete')->name('delete_file');
-    });
+Route::controller(FileController::class)->group(function () {
+    Route::post('/file/upload','upload')->name('upload_file');
+    Route::get('/file/delete/{file}','delete')->name('delete_file');
+    Route::get('/file/download_file/{file}','download')->name('download_file');
+    Route::get('/file/downloadAll','downloadAll')->name('download_all_files');
+    Route::delete('/file/deleteAll','deleteAll')->name('delete_all_files');
+});
 // Users
     Route::prefix('/user/{user}')->whereNumber('user')->controller(UserController::class)->group(function () {
         Route::delete('/delete', 'destroy')->name('delete_user');
@@ -154,24 +162,25 @@ Route::prefix('/api')->group(function () {
         Route::prefix('/{project}')->where(['project' => '[0-9]+'])->group(function () {
             Route::controller(ProjectController::class)->group(function () {
                 Route::get('', 'show')->name('project');
+                Route::get('/tasks/next','getNextItems')->name('get_next_page');
                 Route::get('/team', 'show_team')->name('team');
                 Route::post('/team/add', 'add_user')->name('addUser');
                 Route::delete('team/leave', 'remove_user')->name('leave_project');
                 Route::put('/team/assign-coordinator', 'assign_coordinator')->name('assign_coordinator');
                 Route::delete('/team/remove', 'remove_user')->name('remove_member');
                 Route::delete('', 'destroy')->name('delete_project');
+                Route::put('/favorite','favorite')->name('favorite_project');
                 Route::get('/edit', 'edit')->name('show_edit_project');
                 Route::put('/edit', 'update')->name('action_edit_project');
                 Route::post('/team/invite', 'send_email_invite')->name('send_email_invite');
-                Route::put('','/archive')->name('archive_project');
-
+                Route::put('','archive')->name('archive_project');
+                Route::get('/files','show_files')->name('show_project_files');
                 Route::get('/tags', 'show_tags')->name('project_tags');
             });
             Route::prefix('/tag')->controller(TagController::class)->group(function () {
                 Route::post('/add','store')->name('add_tag');
             });
             Route::prefix('/task')->controller(TaskController::class)->group(function () {
-                Route::get('/{task}', 'show')->where('task', '[0-9]+')->name('task');
                 Route::get('/search', 'index')->name('index_tasks');
                 Route::get('/new', 'create')->name('createTask');
                 Route::post('/new', 'store')->name('newTask');
@@ -181,12 +190,28 @@ Route::prefix('/api')->group(function () {
                     Route::put('/edit/status', 'editStatus')->name('edit_status');
                     Route::get('/edit', 'edit')->name('edit_task');
                     Route::put('/edit','update')->name('update_task');
+                    Route::get('/next','getNextItems')->name('get_next_comments');
+                    Route::post('/store_comment','storeComment')->name('store_comment');
+                    Route::delete('/delete/{comment}','deleteComment')->name('delete_comment');
+                    Route::put('/edit/{commmet}','editComment')->name('edit_comment');
                 });
             });
-
             Route::get('/tasks', [ProjectController::class, 'showTasks'])->name('show_tasks');
+
+            Route::prefix('/forum')->group(function () {
+                Route::controller(PostController::class)->group(function () {
+                    Route::get('', 'index')->name('forum'); 
+                     Route::get('/next','getNextItems')->name('get_next_posts');
+                    Route::post('/new', 'store')->name('create_post');
+                    Route::prefix('/{post}')->whereNumber('post')->group(function() {
+                        Route::put('/edit', 'update')->name('action_edit_post');
+                        Route::delete('', 'destroy')->name('delete_post');
+                        
+                    });
+                });
+            });
         });
-});
+    });
 
 
 Route::get('/post/send', [PostController::class, 'send']);

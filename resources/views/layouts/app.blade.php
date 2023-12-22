@@ -48,13 +48,12 @@
                             ProjPlanner</a></h1>
                     <label for="navbar" id="bars"><i class="fa-solid fa-bars"></i></label>
 
-
                     @if (Auth::check())
                         @include('partials.notifications')
                         <section class="profile">
                             <label for="profile-options" class="user_icon"
                                    href="{{ route('profile', ['user' => Auth::user()]) }}">
-                                <img class="icon avatar" src="{{ auth()->user()->getProfileImage() }}"
+                                <img class="icon avatar" src="{{ auth()->user()->image() }}"
                                      alt="default user icon">
                             </label>
                             <input type="checkbox" id="profile-options" class="hidden">

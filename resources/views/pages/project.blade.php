@@ -6,6 +6,7 @@
 @endpush
 
 @push('scripts')
+    <script type="module" src ="{{ asset('js/favorites.js') }}" defer></script>
     <script type="module" src="{{ asset('js/project.js') }}" defer></script>
     <script type="module" src="{{ asset('js/modal.js') }}" defer></script>
 @endpush
@@ -31,9 +32,14 @@
         @if($project->is_archived) <span class="status archive"> <i class="fa-solid fa-box-archive"></i> Archived </span>
         @else <span class="status open"> <i class="fa-solid fa-box-open"></i> Open </span>
         @endif
+        @if(in_array($project->id, $favorites))
+            <i class="bi bi-star-fill favorite-star" style='font-size:1.5em; color:orange;' data-project="{{$project->id}}"></i>
+        @else
+            <i class="bi bi-star-fill favorite-star" style='font-size:1.5em; color:grey;' data-project="{{$project->id}}"></i>
+        @endif
         </section>
         <section class="actions">
-            <button type="button" id="openLeaveModal"> <i class="fa-solid fa-arrow-right-from-bracket"></i> Leave</button>
+            <button type="button" class="openLeaveModal"> <i class="fa-solid fa-arrow-right-from-bracket"></i> Leave</button>
             @can('update',$project)
                 <button class="project-action-button edit" id="edit-project-button"> <i class="fa-solid fa-pen-to-square"></i> Edit</button>
             @endcan

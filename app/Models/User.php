@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\ProfileController;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Log;
 
@@ -63,7 +64,7 @@ class User extends Authenticatable implements CanResetPassword
 
     public function projects_for_user(): BelongsToMany
     {
-        return $this->belongsToMany(Project::class, 'project_user', 'user_id', 'project_id');
+        return $this->belongsToMany(Project::class, 'project_user', 'user_id', 'project_id');  
     }
     public function tasks(): BelongsToMany{
         return $this->belongsToMany(Task::class, 'task_user', 'user_id', 'task_id')->with('project'); 
@@ -87,16 +88,6 @@ class User extends Authenticatable implements CanResetPassword
     {
         return $this->hasMany(Project::class,'user_id');
     }
-
-
-    public function tasks_created(): HasMany
-    {
-        return $this->hasMany(Task::class, 'opened_user_id',);
-    }
-    public function getProfileImage() {
-        return FileController::get('user', $this->id);
-    }
-    
 
     public function openedTasks(): HasMany {
         return $this->hasMany(Task::class, 'opened_user_id');
@@ -128,10 +119,18 @@ class User extends Authenticatable implements CanResetPassword
         return $this->hasMany(TaskNotification::class,'user_id');
     }
 
+    public function image(){
+        return ProfileController::getImage($this);
+    }
+
+    public function favoriteProjects(): BelongsToMany{
+        return $this->belongsToMany(Project::class, 'favorites', 'user_id', 'project_id');
+    }
     public function appeal() {
         return $this->hasOne(Appeal::class, 'user_id');
 
     }
 }
+
  
 

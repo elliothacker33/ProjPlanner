@@ -30,7 +30,7 @@
                 <a href= "{{ route('edit_profile', ['user' => Auth::user()]) }}" class="dropdown-item editbutton">Edit Account</a>
             </li>
             <li>
-                <a href= "" class="dropdown-item delete-btn">Delete Account</a>
+                <a href= "{{ route('show_delete_profile', ['user' => Auth::user()]) }}" class="dropdown-item delete-btn">Delete Account</a>
             </li>
             </ul>
         </div>
@@ -147,38 +147,46 @@
             <header><h1><i class="bi bi-sliders"></i>Change your profile image</h1></header>
         </div>
         <div class = "col-12 ">
-        <form method="post" action="{{ route('upload_profile_file')}}" id="updateProfileForm" enctype="multipart/form-data" class=" row d-flex align-items-center">
-            @csrf
+        <form method="POST" action="{{ route('update_profile_image',['user' => Auth::user()])}}" id="updateProfileForm" enctype="multipart/form-data" class=" row d-flex align-items-center">
+            @csrf()
+            @method('PUT')
             <div class="mb-3 col-12">
                 <label for="profileImageInput" class="form-label">Choose Profile Image</label>
                 <input type="file" name="file" id="profileImageInput">
             </div>
-            <input name="id" type="number" value="{{Auth::id()}}" hidden>
-            <input name="type" type="text" value="user" hidden>
             <div class = "col-12">
             <button type="submit">Update Profile Image</button>
             </div>
-            @if(session('success'))
+            @if(session('success_image'))
                 <div class="alert alert-success">
-                    {{ session('success') }}
+                    {{ session('success_image') }}
                 </div>
             @endif
 
-            @if(session('error'))
+            @if(session('error_image'))
                 <div class="alert alert-danger">
-                    {{ session('error') }}
+                    {{ session('error_image') }}
                 </div>
             @endif
         </form>
 
         </div>
         <div class = "col-12">
-            <form method="POST" action="{{ route('delete_file') }}">
-            @csrf
+            <form method="POST" action="{{route('delete_profile_image',['user' => Auth::user()]) }}">
+            @csrf()
             @method('DELETE')
-            <input name="id" type="number" value="{{Auth::id()}}" hidden>
-            <input name="type" type="text" value="user" hidden>
             <button type="submit" class = "buttonremove">Remove profile image</button>
+            @if(session('delete_success_image'))
+                <div class="alert alert-success">
+                    {{ session('delete_success_image') }}
+                </div>
+            @endif
+
+            @if(session('delete_error_image'))
+                <div class="alert alert-danger">
+                    {{ session('delete_error_image') }}
+                </div>
+            @endif
             </form>
         </div>
 </div>

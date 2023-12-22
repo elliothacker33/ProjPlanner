@@ -24,7 +24,9 @@
     --modal-secondary-border: #dee2e6;
     --close-button-primary-color: #7f7f7f;
     --close-button-hover-color: #404040;
-    --primary-border: #CCCCCC99;
+    --primary-border-color: #3fa86b99;
+    --secondary-border-color: #52739999;
+    --posts-bg-color: #f2f2f2;
     --modal-header-error: #DE3D44;
     --modal-header-warning: #FEBF00;
     --modal-header-info: #04A1B9;
@@ -83,7 +85,6 @@ main {
     flex-grow: 1;
     width: 100%;
     display: flex;
-
     justify-content: flex-start;
 
     flex-direction: column;
@@ -129,10 +130,10 @@ body > header nav ul, body >footer ul, body >footer h6 {
 }
 
 body > header nav ul {
-    overflow-x: scroll;
     justify-content: flex-start;
     gap: 1em;
 }
+
 
 body >footer ul, body >footer h6 {
     justify-content: center;

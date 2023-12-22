@@ -2,6 +2,7 @@ main{
     justify-content: flex-start;
 }
 .container-fluid{
+    padding: 0 !important;
     overflow-x: hidden;
 }
 .first header>h1{
@@ -10,6 +11,10 @@ main{
 .dropdown-menu {
     width: 200px; /* Adjust the width as needed */
     height: 200px;
+}
+.first{
+    margin: 0 !important;
+    
 }
 
 .dropdown>ul>li{
@@ -23,10 +28,9 @@ main{
 .infos{
     font-size: 1.5em;
     color: white;
-    text-transform: capitalize;
 }
 figure {
-    border: 2px solid white;
+ 
     width: 10em;
     height: 10em;
     background-repeat: no-repeat;
@@ -36,9 +40,7 @@ figure {
     overflow: hidden;
     border-radius: 50%;
   }
-.test{
-    border: red solid 2px;
-}
+
 figure>img {
     border-radius: 50%;
     width: 10em;
@@ -107,9 +109,11 @@ figure>img {
     color: var(--primary-text-color);
 }
 .statInfo{
+    text-align: center;
     font-size: 2em;
 }
 .statNumber{
+    text-align: center;
     font-size: 3em;
 }
 label{
@@ -166,3 +170,9 @@ input:focus{
     }
  
   }
+
+  .empty>p{
+    padding: 20px;
+    color: var(--primary-text-color);
+    font-size: 1.5em;
+}

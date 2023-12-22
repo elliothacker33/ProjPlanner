@@ -41,8 +41,12 @@
 }
 
 .projectPage header .status{
+    display: flex;
+    align-items: center;
+    justify-content: center;
     padding: 0.2em 0.5em ;
     border-radius: 10em;
+
     font-size: 1em;
     color: white;
     margin-right: auto;
