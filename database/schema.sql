@@ -13,11 +13,11 @@ DROP TABLE IF EXISTS lbaw2353.task_user CASCADE;
 DROP TABLE IF EXISTS lbaw2353.comments CASCADE;
 DROP TABLE IF EXISTS lbaw2353.files CASCADE;
 DROP TABLE IF EXISTS lbaw2353.invites CASCADE;
-DROP TABLE IF EXISTS lbaw2353.invite_notification CASCADE;
-DROP TABLE IF EXISTS lbaw2353.forum_notification CASCADE;
-DROP TABLE IF EXISTS lbaw2353.project_notification CASCADE;
-DROP TABLE IF EXISTS lbaw2353.task_notification CASCADE;
-DROP TABLE IF EXISTS lbaw2353.comment_notification CASCADE;
+DROP TABLE IF EXISTS lbaw2353.invite_notifications CASCADE;
+DROP TABLE IF EXISTS lbaw2353.forum_notifications CASCADE;
+DROP TABLE IF EXISTS lbaw2353.project_notifications CASCADE;
+DROP TABLE IF EXISTS lbaw2353.task_notifications CASCADE;
+DROP TABLE IF EXISTS lbaw2353.comment_notifications CASCADE;
 DROP TABLE IF EXISTS lbaw2353.project_user CASCADE;
 DROP TABLE IF EXISTS lbaw2353.tag_task CASCADE;
 DROP TABLE IF EXISTS lbaw2353.appeals CASCADE;
@@ -117,42 +117,42 @@ CREATE TABLE lbaw2353.invites (
     UNIQUE (email, project_id)
 );
 
-CREATE TABLE lbaw2353.invite_notification (
+CREATE TABLE lbaw2353.invite_notifications (
     id SERIAL PRIMARY KEY,
     description VARCHAR(1000) NOT NULL,
-    notification_date TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
-    invite_id INTEGER REFERENCES lbaw2353.invites(id) ON UPDATE CASCADE NOT NULL UNIQUE, 
+    notifications_date TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
+    project_id INTEGER REFERENCES lbaw2353.projects(id) ON UPDATE CASCADE NOT NULL,
     user_id INTEGER REFERENCES lbaw2353.users(id) ON UPDATE CASCADE ON DELETE CASCADE NOT NULL,
     seen BOOLEAN DEFAULT FALSE NOT NULL
 );
-CREATE TABLE lbaw2353.forum_notification (
+CREATE TABLE lbaw2353.forum_notifications (
     id SERIAL PRIMARY KEY,
     description VARCHAR(1000) NOT NULL ,
-    notification_date TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
+    notifications_date TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
     post_id INTEGER REFERENCES lbaw2353.posts(id) ON UPDATE CASCADE ON DELETE CASCADE NOT NULL,
     user_id INTEGER REFERENCES lbaw2353.users(id) ON UPDATE CASCADE ON DELETE CASCADE NOT NULL, 
     seen BOOLEAN DEFAULT FALSE NOT NULL
 );
-CREATE TABLE lbaw2353.project_notification (
+CREATE TABLE lbaw2353.project_notifications (
     id SERIAL PRIMARY KEY,
     description VARCHAR(1000) NOT NULL,
-    notification_date TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
+    notifications_date TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
     project_id INTEGER REFERENCES lbaw2353.projects(id) ON UPDATE CASCADE ON DELETE CASCADE NOT NULL, 
     user_id INTEGER REFERENCES lbaw2353.users(id) ON UPDATE CASCADE ON DELETE CASCADE NOT NULL,
     seen BOOLEAN DEFAULT FALSE NOT NULL
 );
-CREATE TABLE lbaw2353.task_notification (
+CREATE TABLE lbaw2353.task_notifications (
     id SERIAL PRIMARY KEY,
     description VARCHAR(1000) NOT NULL,
-    notification_date TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
+    notifications_date TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
     task_id INTEGER REFERENCES lbaw2353.tasks(id) ON UPDATE CASCADE ON DELETE CASCADE NOT NULL, 
     user_id INTEGER REFERENCES lbaw2353.users(id) ON UPDATE CASCADE ON DELETE CASCADE NOT NULL, 
     seen BOOLEAN DEFAULT FALSE NOT NULL
 );
-CREATE TABLE lbaw2353.comment_notification (
+CREATE TABLE lbaw2353.comment_notifications (
     id SERIAL PRIMARY KEY,
     description VARCHAR(1000) NOT NULL,
-    notification_date TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
+    notifications_date TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
     comment_id INTEGER REFERENCES lbaw2353.comments(id) ON UPDATE CASCADE ON DELETE CASCADE NOT NULL, 
     user_id INTEGER REFERENCES lbaw2353.users(id) ON UPDATE CASCADE ON DELETE CASCADE NOT NULL, 
     seen BOOLEAN DEFAULT FALSE NOT NULL
@@ -371,10 +371,25 @@ BEFORE INSERT ON lbaw2353.invites
 FOR EACH ROW
 EXECUTE FUNCTION update_invitation_date();
 
+/*- When the user is added to a project, a notification should be created for him*/
+CREATE OR REPLACE FUNCTION send_added_to_project_notification()
+    RETURNS TRIGGER AS $BODY$
+BEGIN
+    INSERT INTO lbaw2353.invite_notifications (description, notifications_date, user_id,project_id)
+    values ('You have been added to a project',NOW(),NEW.user_id,NEW.project_id);
+    RETURN NEW;
+END
+$BODY$
+    LANGUAGE plpgsql;
 
-/* -When a comments is send, a notification should be created for all the users task_user to the tasks*/
+CREATE TRIGGER add_to_project_notification_trigger
+    AFTER INSERT ON lbaw2353.project_user
+    FOR EACH ROW
+EXECUTE FUNCTION send_added_to_project_notification();
 
-CREATE OR REPLACE FUNCTION send_comment_notification()
+/* -When a comments is send, a notifications should be created for all the users task_user to the tasks*/
+
+CREATE OR REPLACE FUNCTION send_comment_notifications()
 RETURNS TRIGGER AS $BODY$
 DECLARE
     task_id_ INTEGER;
@@ -383,7 +398,7 @@ BEGIN
      
 
     
-    INSERT INTO lbaw2353.comment_notification (description, notification_date, comment_id, user_id)
+    INSERT INTO lbaw2353.comment_notifications (description, notifications_date, comment_id, user_id)
     SELECT
         'New comment on task ' || NEW.content,
         NOW(),
@@ -397,18 +412,18 @@ END
 $BODY$ 
 LANGUAGE plpgsql;
 
-CREATE TRIGGER send_comment_notification_trigger
+CREATE TRIGGER send_comment_notifications_trigger
 AFTER INSERT ON lbaw2353.comments
 FOR EACH ROW
-EXECUTE FUNCTION send_comment_notification();
+EXECUTE FUNCTION send_comment_notifications();
 
 
 
 
 
-/*-When a posts is send , a notification should be created for all the users that participate in the projects*/
+/*-When a posts is send , a notifications should be created for all the users that participate in the projects*/
 
-CREATE OR REPLACE FUNCTION send_forum_notification()
+CREATE OR REPLACE FUNCTION send_forum_notifications()
 RETURNS TRIGGER AS $BODY$
 DECLARE
     proj_id INTEGER;
@@ -416,7 +431,7 @@ BEGIN
 
     proj_id:=(SELECT id FROM lbaw2353.projects WHERE id in (SELECT project_id FROM lbaw2353.posts WHERE id = NEW."id"));
 
-    INSERT INTO lbaw2353.forum_notification (description, notification_date, post_id, user_id)
+    INSERT INTO lbaw2353.forum_notifications (description, notifications_date, post_id, user_id)
     SELECT
         'New post in project ' || NEW."content",
         NOW(),
@@ -430,20 +445,20 @@ END
 $BODY$ 
 LANGUAGE plpgsql;
 
-CREATE TRIGGER send_forum_notification_trigger
+CREATE TRIGGER send_forum_notifications_trigger
 AFTER INSERT ON lbaw2353.posts
 FOR EACH ROW
-EXECUTE FUNCTION send_forum_notification();
+EXECUTE FUNCTION send_forum_notifications();
 
 
 
-/*-When the status of a tasks is changed a notification should be created for all the users task_user to a tasks*/
-CREATE OR REPLACE FUNCTION send_task_state_notification()
+/*-When the status of a tasks is changed a notifications should be created for all the users task_user to a tasks*/
+CREATE OR REPLACE FUNCTION send_task_state_notifications()
 RETURNS TRIGGER AS $BODY$
 BEGIN
-    INSERT INTO lbaw2353.task_notification (description, notification_date, task_id, user_id)
+    INSERT INTO lbaw2353.task_notifications (description, notifications_date, task_id, user_id)
     SELECT
-        'task state changed to ' || NEW.status,
+        'Task state was changed to ' || NEW.status,
         NOW(),
         NEW.id,
         user_id
@@ -455,20 +470,20 @@ END
 $BODY$ 
 LANGUAGE plpgsql;
 
-CREATE TRIGGER task_state_notification_trigger
+CREATE TRIGGER task_state_notifications_trigger
 AFTER UPDATE ON lbaw2353.tasks
 FOR EACH ROW
 WHEN (NEW.status <> OLD.status)
-EXECUTE FUNCTION send_task_state_notification();
+EXECUTE FUNCTION send_task_state_notifications();
 
 
-/*-When the projects state is changed a notification should be created for all the users in the projects*/
+/*-When the projects state is changed a notifications should be created for all the users in the projects*/
 
-CREATE OR REPLACE FUNCTION send_project_state_notification()
+CREATE OR REPLACE FUNCTION send_project_state_notifications()
 RETURNS TRIGGER AS $BODY$
 BEGIN
   
-    INSERT INTO lbaw2353.project_notification (description, notification_date, project_id, user_id)
+    INSERT INTO lbaw2353.project_notifications (description, notifications_date, project_id, user_id)
     SELECT
         'project state changed to ' || NEW.is_archived,
         NOW(),
@@ -482,11 +497,11 @@ END
 $BODY$ 
 LANGUAGE plpgsql;
 
-CREATE TRIGGER project_state_notification_trigger
+CREATE TRIGGER project_state_notifications_trigger
 AFTER UPDATE ON lbaw2353.projects
 FOR EACH ROW
 WHEN (NEW.is_archived <> OLD.is_archived)
-EXECUTE FUNCTION send_project_state_notification();
+EXECUTE FUNCTION send_project_state_notifications();
 
 
 /*-When a post is edited it's lastedited attribute should be updated to the current date*/
@@ -834,69 +849,72 @@ INSERT INTO comments (content, submit_date, last_edited, task_id, user_id) VALUE
 INSERT INTO comments (content, submit_date, last_edited, task_id, user_id) VALUES ( 'Her blue like law receive. Choice kid beautiful choice threat. Get section energy performance.', '2023-08-02', '2023-03-23', 5, 12);
 
 
--- Inserting data into the 'forum_notification' table
-INSERT INTO forum_notification (description, notification_date, post_id, user_id, seen) VALUES ('Impact walk herself above score last.', '2023-09-09', 19, 17, False);
-INSERT INTO forum_notification (description, notification_date, post_id, user_id, seen) VALUES ('Once contain past guy recently.', '2022-11-07', 17, 11, False);
-INSERT INTO forum_notification (description, notification_date, post_id, user_id, seen) VALUES ('Nation safe read theory.', '2023-09-14', 9, 11, True);
-INSERT INTO forum_notification (description, notification_date, post_id, user_id, seen) VALUES ('Prepare police commercial.', '2022-12-31', 9, 20, False);
-INSERT INTO forum_notification (description, notification_date, post_id, user_id, seen) VALUES ('System who candidate forward against.', '2023-09-09', 12, 16, True);
-INSERT INTO forum_notification (description, notification_date, post_id, user_id, seen) VALUES ('Hour left before serious bed by yard.', '2023-07-04', 11, 12, False);
-INSERT INTO forum_notification (description, notification_date, post_id, user_id, seen) VALUES ('Class certain board.', '2023-02-28', 7, 6, True);
-INSERT INTO forum_notification (description, notification_date, post_id, user_id, seen) VALUES ('Great manage administration argue how design technology opportunity.', '2023-07-20', 6, 4, False);
-INSERT INTO forum_notification (description, notification_date, post_id, user_id, seen) VALUES ('Actually clear main century including.', '2023-05-04', 3, 5, True);
-INSERT INTO forum_notification (description, notification_date, post_id, user_id, seen) VALUES ('People personal head parent debate follow.', '2023-08-20', 14, 3, True);
-INSERT INTO forum_notification (description, notification_date, post_id, user_id, seen) VALUES ('Conference executive team catch hot.', '2023-05-21', 4, 4, False);
-INSERT INTO forum_notification (description, notification_date, post_id, user_id, seen) VALUES ('Yet evening player town door.', '2022-11-15', 9, 20, False);
-INSERT INTO forum_notification (description, notification_date, post_id, user_id, seen) VALUES ('Investment prove star report her participant.', '2023-07-23', 3, 14, False);
-INSERT INTO forum_notification (description, notification_date, post_id, user_id, seen) VALUES ('Until material something bad himself.', '2023-01-03', 15, 18, True);
-INSERT INTO forum_notification (description, notification_date, post_id, user_id, seen) VALUES ('Election time leave tax operation.', '2023-10-05', 4, 20, False);
-INSERT INTO forum_notification (description, notification_date, post_id, user_id, seen) VALUES ('Again own military outside then expect office.', '2023-02-13', 4, 13, True);
-INSERT INTO forum_notification (description, notification_date, post_id, user_id, seen) VALUES ('Not check pattern simply those information.', '2023-06-21', 3, 3, False);
-INSERT INTO forum_notification (description, notification_date, post_id, user_id, seen) VALUES ('Clearly newspaper prevent south training fine no.', '2023-04-04', 12, 9, False);
-INSERT INTO forum_notification (description, notification_date, post_id, user_id, seen) VALUES ('Rate stage let fear of community.', '2023-02-01', 8, 4, True);
-INSERT INTO forum_notification (description, notification_date, post_id, user_id, seen) VALUES ('Capital smile week future.', '2023-05-24', 7, 5, True);
--- Inserting data into the 'project_notification' table
-INSERT INTO project_notification (description, notification_date, project_id, user_id, seen) VALUES ('Assume choice nor consider prove look give.', '2023-10-01', 5, 10, True);
-INSERT INTO project_notification (description, notification_date, project_id, user_id, seen) VALUES ('Business necessary school tree reveal type.', '2023-09-24', 15, 19, False);
-INSERT INTO project_notification (description, notification_date, project_id, user_id, seen) VALUES ('Meet move concern may everyone.', '2023-04-29', 9, 12, True);
-INSERT INTO project_notification (description, notification_date, project_id, user_id, seen) VALUES ('Wish reveal check especially sell.', '2023-02-15', 16, 17, True);
-INSERT INTO project_notification (description, notification_date, project_id, user_id, seen) VALUES ('Lawyer fill total event their these nothing.', '2023-03-25', 14, 6, False);
-INSERT INTO project_notification (description, notification_date, project_id, user_id, seen) VALUES ('Source future left morning join its series.', '2023-01-07', 7, 20, False);
-INSERT INTO project_notification (description, notification_date, project_id, user_id, seen) VALUES ('Blood of bar top more type.', '2023-03-24', 10, 3, False);
-INSERT INTO project_notification (description, notification_date, project_id, user_id, seen) VALUES ('Any with certainly recently there art agent.', '2022-12-09', 19, 8, False);
-INSERT INTO project_notification (description, notification_date, project_id, user_id, seen) VALUES ('Cover require keep down listen.', '2023-09-16', 9, 18, True);
-INSERT INTO project_notification (description, notification_date, project_id, user_id, seen) VALUES ( 'Win budget beyond pay institution as.', '2023-08-11', 7, 5, False);
-INSERT INTO project_notification (description, notification_date, project_id, user_id, seen) VALUES ( 'Little do save southern.', '2023-01-03', 17, 1, False);
-INSERT INTO project_notification (description, notification_date, project_id, user_id, seen) VALUES ( 'Place summer back few ask thousand.', '2023-07-23', 17, 13, True);
-INSERT INTO project_notification (description, notification_date, project_id, user_id, seen) VALUES ( 'Measure system worry for positive pay let close.', '2023-01-26', 14, 1, False);
-INSERT INTO project_notification (description, notification_date, project_id, user_id, seen) VALUES ( 'Of green prove room.', '2023-09-25', 8, 4, False);
-INSERT INTO project_notification (description, notification_date, project_id, user_id, seen) VALUES ( 'Take mouth half represent fight let best.', '2023-07-13', 19, 2, True);
-INSERT INTO project_notification (description, notification_date, project_id, user_id, seen) VALUES ( 'Nothing whom walk player main father leave.', '2023-03-15', 20, 19, True);
-INSERT INTO project_notification (description, notification_date, project_id, user_id, seen) VALUES ( 'Range field turn.', '2023-07-26', 19, 4, True);
-INSERT INTO project_notification (description, notification_date, project_id, user_id, seen) VALUES ( 'Art short level per war.', '2023-08-21', 16, 1, True);
-INSERT INTO project_notification (description, notification_date, project_id, user_id, seen) VALUES ( 'Direction yes somebody model own surface.', '2023-03-08', 1, 7, True);
-INSERT INTO project_notification (description, notification_date, project_id, user_id, seen) VALUES ( 'Participant or its.', '2023-10-13', 9, 6, True);
--- Inserting data into the 'task_notification' table
-INSERT INTO task_notification (description, notification_date, task_id, user_id, seen) VALUES ('Our best purpose more agent.', '2023-01-04', 10, 1, True);
-INSERT INTO task_notification (description, notification_date, task_id, user_id, seen) VALUES ('task best both rather name.', '2023-06-12', 15, 17, True);
-INSERT INTO task_notification (description, notification_date, task_id, user_id, seen) VALUES ('Kind picture change foreign policy.', '2023-07-25', 9, 5, True);
-INSERT INTO task_notification (description, notification_date, task_id, user_id, seen) VALUES ('Become return thousand color east quite.', '2023-08-07', 20, 1, False);
-INSERT INTO task_notification (description, notification_date, task_id, user_id, seen) VALUES ('Reduce hit government.', '2023-05-31', 9, 6, True);
-INSERT INTO task_notification (description, notification_date, task_id, user_id, seen) VALUES ('Art project fight money carry chair.', '2022-12-10', 3, 1, False);
-INSERT INTO task_notification (description, notification_date, task_id, user_id, seen) VALUES ('Behavior whom majority.', '2023-10-21', 14, 15, False);
-INSERT INTO task_notification (description, notification_date, task_id, user_id, seen) VALUES ('Seek administration gun class worker consider role position.', '2022-12-08', 16, 4, False);
-INSERT INTO task_notification (description, notification_date, task_id, user_id, seen) VALUES ('Suffer actually treatment easy cause.', '2023-01-26', 14, 2, True);
-INSERT INTO task_notification (description, notification_date, task_id, user_id, seen) VALUES ('Gas hear serve live lose article fly.', '2023-09-05', 18, 9, True);
-INSERT INTO task_notification (description, notification_date, task_id, user_id, seen) VALUES ('You ready boy fact.', '2023-05-22', 7, 2, False);
-INSERT INTO task_notification (description, notification_date, task_id, user_id, seen) VALUES ('Under next now family even usually heart.', '2023-04-05', 15, 18, False);
-INSERT INTO task_notification (description, notification_date, task_id, user_id, seen) VALUES ('Bit recent Congress name cause various.', '2022-12-27', 19, 7, False);
-INSERT INTO task_notification (description, notification_date, task_id, user_id, seen) VALUES ('Brother begin again read bill.', '2023-03-08', 2, 9, True);
-INSERT INTO task_notification (description, notification_date, task_id, user_id, seen) VALUES ('While people per prove mention close step financial.', '2023-02-20', 8, 18, True);
-INSERT INTO task_notification (description, notification_date, task_id, user_id, seen) VALUES ('Condition take beat ask.', '2023-01-30', 2, 10, True);
-INSERT INTO task_notification (description, notification_date, task_id, user_id, seen) VALUES ('Return travel training wind fly admit thousand wonder.', '2022-12-25', 1, 15, True);
-INSERT INTO task_notification (description, notification_date, task_id, user_id, seen) VALUES ('Be city father degree design can.', '2023-04-03', 18, 16, False);
-INSERT INTO task_notification (description, notification_date, task_id, user_id, seen) VALUES ('Fight effort husband save see.', '2022-11-23', 16, 7, True);
-INSERT INTO task_notification (description, notification_date, task_id, user_id, seen) VALUES ('Whether forget admit up.', '2023-03-16', 3, 20, True);
+
+-- Inserting data into the 'forum_notifications' table
+INSERT INTO forum_notifications (description, notifications_date, post_id, user_id, seen) VALUES ('Impact walk herself above score last.', '2023-09-09', 19, 1, False);
+INSERT INTO forum_notifications (description, notifications_date, post_id, user_id, seen) VALUES ('Once contain past guy recently.', '2022-11-07', 17, 1, False);
+INSERT INTO forum_notifications (description, notifications_date, post_id, user_id, seen) VALUES ('Nation safe read theory.', '2023-09-14', 9, 11, True);
+INSERT INTO forum_notifications (description, notifications_date, post_id, user_id, seen) VALUES ('Prepare police commercial.', '2022-12-31', 9, 20, False);
+INSERT INTO forum_notifications (description, notifications_date, post_id, user_id, seen) VALUES ('System who candidate forward against.', '2023-09-09', 12, 16, True);
+INSERT INTO forum_notifications (description, notifications_date, post_id, user_id, seen) VALUES ('Hour left before serious bed by yard.', '2023-07-04', 11, 12, False);
+INSERT INTO forum_notifications (description, notifications_date, post_id, user_id, seen) VALUES ('Class certain board.', '2023-02-28', 7, 6, True);
+INSERT INTO forum_notifications (description, notifications_date, post_id, user_id, seen) VALUES ('Great manage administration argue how design technology opportunity.', '2023-07-20', 6, 4, False);
+INSERT INTO forum_notifications (description, notifications_date, post_id, user_id, seen) VALUES ('Actually clear main century including.', '2023-05-04', 3, 5, True);
+INSERT INTO forum_notifications (description, notifications_date, post_id, user_id, seen) VALUES ('People personal head parent debate follow.', '2023-08-20', 14, 3, True);
+INSERT INTO forum_notifications (description, notifications_date, post_id, user_id, seen) VALUES ('Conference executive team catch hot.', '2023-05-21', 4, 4, False);
+INSERT INTO forum_notifications (description, notifications_date, post_id, user_id, seen) VALUES ('Yet evening player town door.', '2022-11-15', 9, 20, False);
+INSERT INTO forum_notifications (description, notifications_date, post_id, user_id, seen) VALUES ('Investment prove star report her participant.', '2023-07-23', 3, 14, False);
+INSERT INTO forum_notifications (description, notifications_date, post_id, user_id, seen) VALUES ('Until material something bad himself.', '2023-01-03', 15, 18, True);
+INSERT INTO forum_notifications (description, notifications_date, post_id, user_id, seen) VALUES ('Election time leave tax operation.', '2023-10-05', 4, 20, False);
+INSERT INTO forum_notifications (description, notifications_date, post_id, user_id, seen) VALUES ('Again own military outside then expect office.', '2023-02-13', 4, 13, True);
+INSERT INTO forum_notifications (description, notifications_date, post_id, user_id, seen) VALUES ('Not check pattern simply those information.', '2023-06-21', 3, 3, False);
+INSERT INTO forum_notifications (description, notifications_date, post_id, user_id, seen) VALUES ('Clearly newspaper prevent south training fine no.', '2023-04-04', 12, 9, False);
+INSERT INTO forum_notifications (description, notifications_date, post_id, user_id, seen) VALUES ('Rate stage let fear of community.', '2023-02-01', 8, 4, True);
+INSERT INTO forum_notifications (description, notifications_date, post_id, user_id, seen) VALUES ('Capital smile week future.', '2023-05-24', 7, 5, True);
+
+INSERT INTO comment_notifications (description, notifications_date, comment_id, user_id, seen) VALUES ('Capital smile week future.', '2023-05-24', 7, 1, True);
+-- Inserting data into the 'project_notifications' table
+INSERT INTO project_notifications (description, notifications_date, project_id, user_id, seen) VALUES ('Assume choice nor consider prove look give.', '2023-10-01', 5, 1, True);
+INSERT INTO project_notifications (description, notifications_date, project_id, user_id, seen) VALUES ('Business necessary school tree reveal type.', '2023-09-24', 15, 19, False);
+INSERT INTO project_notifications (description, notifications_date, project_id, user_id, seen) VALUES ('Meet move concern may everyone.', '2023-04-29', 9, 12, True);
+INSERT INTO project_notifications (description, notifications_date, project_id, user_id, seen) VALUES ('Wish reveal check especially sell.', '2023-02-15', 16, 17, True);
+INSERT INTO project_notifications (description, notifications_date, project_id, user_id, seen) VALUES ('Lawyer fill total event their these nothing.', '2023-03-25', 14, 6, False);
+INSERT INTO project_notifications (description, notifications_date, project_id, user_id, seen) VALUES ('Source future left morning join its series.', '2023-01-07', 7, 20, False);
+INSERT INTO project_notifications (description, notifications_date, project_id, user_id, seen) VALUES ('Blood of bar top more type.', '2023-03-24', 10, 3, False);
+INSERT INTO project_notifications (description, notifications_date, project_id, user_id, seen) VALUES ('Any with certainly recently there art agent.', '2022-12-09', 19, 8, False);
+INSERT INTO project_notifications (description, notifications_date, project_id, user_id, seen) VALUES ('Cover require keep down listen.', '2023-09-16', 9, 18, True);
+INSERT INTO project_notifications (description, notifications_date, project_id, user_id, seen) VALUES ( 'Win budget beyond pay institution as.', '2023-08-11', 7, 5, False);
+INSERT INTO project_notifications (description, notifications_date, project_id, user_id, seen) VALUES ( 'Little do save southern.', '2023-01-03', 17, 1, False);
+INSERT INTO project_notifications (description, notifications_date, project_id, user_id, seen) VALUES ( 'Place summer back few ask thousand.', '2023-07-23', 17, 13, True);
+INSERT INTO project_notifications (description, notifications_date, project_id, user_id, seen) VALUES ( 'Measure system worry for positive pay let close.', '2023-01-26', 14, 1, False);
+INSERT INTO project_notifications (description, notifications_date, project_id, user_id, seen) VALUES ( 'Of green prove room.', '2023-09-25', 8, 4, False);
+INSERT INTO project_notifications (description, notifications_date, project_id, user_id, seen) VALUES ( 'Take mouth half represent fight let best.', '2023-07-13', 19, 2, True);
+INSERT INTO project_notifications (description, notifications_date, project_id, user_id, seen) VALUES ( 'Nothing whom walk player main father leave.', '2023-03-15', 20, 19, True);
+INSERT INTO project_notifications (description, notifications_date, project_id, user_id, seen) VALUES ( 'Range field turn.', '2023-07-26', 19, 4, True);
+INSERT INTO project_notifications (description, notifications_date, project_id, user_id, seen) VALUES ( 'Art short level per war.', '2023-08-21', 16, 1, True);
+INSERT INTO project_notifications (description, notifications_date, project_id, user_id, seen) VALUES ( 'Direction yes somebody model own surface.', '2023-03-08', 1, 7, True);
+INSERT INTO project_notifications (description, notifications_date, project_id, user_id, seen) VALUES ( 'Participant or its.', '2023-10-13', 9, 6, True);
+-- Inserting data into the 'task_notifications' table
+INSERT INTO task_notifications (description, notifications_date, task_id, user_id, seen) VALUES ('Our best purpose more agent.', '2023-01-04', 10, 1, True);
+INSERT INTO task_notifications (description, notifications_date, task_id, user_id, seen) VALUES ('task best both rather name.', '2023-06-12', 15, 17, True);
+INSERT INTO task_notifications (description, notifications_date, task_id, user_id, seen) VALUES ('Kind picture change foreign policy.', '2023-07-25', 9, 5, True);
+INSERT INTO task_notifications (description, notifications_date, task_id, user_id, seen) VALUES ('Become return thousand color east quite.', '2023-08-07', 20, 1, False);
+INSERT INTO task_notifications (description, notifications_date, task_id, user_id, seen) VALUES ('Reduce hit government.', '2023-05-31', 9, 6, True);
+INSERT INTO task_notifications (description, notifications_date, task_id, user_id, seen) VALUES ('Art project fight money carry chair.', '2022-12-10', 3, 1, False);
+INSERT INTO task_notifications (description, notifications_date, task_id, user_id, seen) VALUES ('Behavior whom majority.', '2023-10-21', 14, 15, False);
+INSERT INTO task_notifications (description, notifications_date, task_id, user_id, seen) VALUES ('Seek administration gun class worker consider role position.', '2022-12-08', 16, 4, False);
+INSERT INTO task_notifications (description, notifications_date, task_id, user_id, seen) VALUES ('Suffer actually treatment easy cause.', '2023-01-26', 14, 2, True);
+INSERT INTO task_notifications (description, notifications_date, task_id, user_id, seen) VALUES ('Gas hear serve live lose article fly.', '2023-09-05', 18, 9, True);
+INSERT INTO task_notifications (description, notifications_date, task_id, user_id, seen) VALUES ('You ready boy fact.', '2023-05-22', 7, 2, False);
+INSERT INTO task_notifications (description, notifications_date, task_id, user_id, seen) VALUES ('Under next now family even usually heart.', '2023-04-05', 15, 18, False);
+INSERT INTO task_notifications (description, notifications_date, task_id, user_id, seen) VALUES ('Bit recent Congress name cause various.', '2022-12-27', 19, 7, False);
+INSERT INTO task_notifications (description, notifications_date, task_id, user_id, seen) VALUES ('Brother begin again read bill.', '2023-03-08', 2, 9, True);
+INSERT INTO task_notifications (description, notifications_date, task_id, user_id, seen) VALUES ('While people per prove mention close step financial.', '2023-02-20', 8, 18, True);
+INSERT INTO task_notifications (description, notifications_date, task_id, user_id, seen) VALUES ('Condition take beat ask.', '2023-01-30', 2, 10, True);
+INSERT INTO task_notifications (description, notifications_date, task_id, user_id, seen) VALUES ('Return travel training wind fly admit thousand wonder.', '2022-12-25', 1, 15, True);
+INSERT INTO task_notifications (description, notifications_date, task_id, user_id, seen) VALUES ('Be city father degree design can.', '2023-04-03', 18, 16, False);
+INSERT INTO task_notifications (description, notifications_date, task_id, user_id, seen) VALUES ('Fight effort husband save see.', '2022-11-23', 16, 7, True);
+INSERT INTO task_notifications (description, notifications_date, task_id, user_id, seen) VALUES ('Whether forget admit up.', '2023-03-16', 3, 20, True);
 -- Inserting data into the 'project_user' table
 INSERT INTO project_user (user_id, project_id) VALUES (1, 1);
 INSERT INTO project_user (user_id, project_id) VALUES (1, 2);

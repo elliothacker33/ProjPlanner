@@ -47,7 +47,7 @@
             </header>
             <section class="projects">
                 @foreach($projects as $project)
-                    @include("partials.projectCard",['$project'=>$project])
+                    @include("partials.projectCard",['$project'=>$project,'is_admin'=>true,'favorites'=>[]])
 
                 @endforeach
 

@@ -102,6 +102,9 @@ body > header,  body > footer {
     background-color:var(--secondary-bg-color);
     padding: 0.5em;
 }
+body > footer ul{
+    flex-wrap: wrap;
+}
 
 body > header {
     position: fixed;

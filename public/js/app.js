@@ -1,3 +1,12 @@
+import {getAuth, getNotifications, getProjects, getTasks} from "./api/user.js";
+import {
+    calculateNumbers,
+    notificationSection,
+    projectNotificationCard,
+    updateNumbers
+} from "./components/notifications.js";
+import {createNotifications, subscribeToChannels} from "./notifications.js";
+
 import {
     projectTeamPageRegex,
     projectTaskPageRegex,
@@ -6,6 +15,7 @@ import {
     projectHomePageRegex,
     projectTagsPageRegex,
 } from "./const/regex.js";
+
 
 const currentPath = window.location.pathname;
 const projectHomePage = projectHomePageRegex.test(currentPath);
@@ -50,3 +60,9 @@ export function encodeForAjax(data) {
 export async function sendAjaxRequest(method, url, data) {
     return await fetch(url, buildFetchOptions(method, data));
 }
+
+// realtime-notifications.js
+
+createNotifications().then(()=>{calculateNumbers()});
+subscribeToChannels().then()
+

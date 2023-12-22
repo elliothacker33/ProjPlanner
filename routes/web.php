@@ -5,6 +5,8 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\ProjectController;
@@ -12,7 +14,7 @@ use App\Http\Controllers\StaticController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\PostController;
+
 use App\Http\Controllers\ForumController;
 use App\Http\Controllers\AppealController;
 use Illuminate\Support\Facades\Route;
@@ -68,7 +70,12 @@ Route::prefix('/api')->group(function () {
     });
     Route::controller(UserController::class)->group(function () {
         Route::get('/users', 'searchUsers')->name('search_users');
+
+        Route::get('/notifications', 'getUserNotification')->name('notifications');
+        Route::get('/tasks','getUserTasks')->name('userTasks');
+
         Route::get('/check-user/{email}', 'checkUserExists')->name('check_user_exists');
+
     });
     Route::controller(ProjectController::class)->group(function () {
         Route::get('/projects', 'search')->name('search_projects');
@@ -78,6 +85,14 @@ Route::prefix('/api')->group(function () {
     });
     Route::controller(TagController::class)->group(function () {
         Route::get('/tags', 'search')->name('search_tag');
+    });
+
+    Route::controller(NotificationController::class)->group(function (){
+        Route::put('projectNotifications/seen','seenProjectNotification')->name('see_project_notification');
+        Route::put('taskNotifications/seen','seenTaskNotification')->name('see_task_notification');
+        Route::put('inviteNotifications/seen','seenInviteNotification')->name('see_invite_notification');
+        Route::put('forumNotifications/seen','seenForumNotification')->name('see_forum_notification');
+        Route::put('commentNotifications/seen','seenCommentNotification')->name('see_comment_notification');
     });
 
 });
@@ -198,8 +213,12 @@ Route::controller(FileController::class)->group(function () {
         });
     });
 
+
+Route::get('/post/send', [PostController::class, 'send']);
+
 Route::prefix('/tag/{tag}')->where(['tag' => '[0-9]+'])->controller(TagController::class)->group(function () {
     Route::put('/edit','update')->name('edit_tag');
     Route::delete('/delete','destroy')->name('delete_tag');
 });
+
 

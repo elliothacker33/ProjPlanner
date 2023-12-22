@@ -2,13 +2,20 @@
 
 namespace App\Http\Controllers;
 
+
+use App\Events\ProjectNotificationEvent;
 use App\Models\Project;
+
+use App\Models\ProjectNotification;
+
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\Appeal;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\DB;
+DB::enableQueryLog();
 class UserController extends Controller
 {
     /**
@@ -17,6 +24,7 @@ class UserController extends Controller
     private $user_status =['admin','user'];
     public function searchUsers(Request $request)
     {
+
         $searchTerm = '%' . $request->input('query') . '%';
 
         $project = $request->input('project');
@@ -38,6 +46,7 @@ class UserController extends Controller
             else $users->where('is_admin','=',false);
         }
         if ($request->ajax())
+
             return response()->json($users->get());
         else {
             if($project ===null)
@@ -75,20 +84,41 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request, User $user){   
+    public function destroy(Request $request, User $user)
+    {
 
-    $this->authorize("delete", $user);
+        $this->authorize("delete", $user);
 
-    $request->validate([
-        'password' => 'required|string|',
-    ]);
-    if (Hash::check($request->input('password'), $user->password)) {
-    
-        $user->delete();
-        
-        return redirect()->route('login')->with('delete_user_success', 'Your user account was deleted successfully');
-    } else {
-        return redirect()->back()->with('password','Incorrect password');
+        $request->validate([
+            'password' => 'required|string|',
+        ]);
+        if (Hash::check($request->input('password'), $user->password)) {
+
+            $user->delete();
+
+            return redirect()->route('login')->with('delete_user_success', 'Your user account was deleted successfully');
+        } else {
+            return redirect()->back()->with('password', 'Incorrect password');
+        }
     }
-}
+    public function getUserNotification(Request $request){
+        $user = $request->user();
+        if(!$user) abort(404, 'user not found');
+
+        return response()->json(
+            [
+                'projectNotifications'=>$user->projectNotifications()->with('project')->get(),
+                'taskNotifications' =>$user->taskNotifications()->with('task.project')->get(),
+                'postNotifications'=>$user->postNotifications()->with('post.project')->get(),
+                'inviteNotifications'=>$user->inviteNotifications()->with('project')->get(),
+                'commentNotifications'=>$user->commentNotifications()->with('comment.task.project')->get()
+            ]
+        );
+    }
+    public function getUserTasks(Request $request){
+        $user = $request->user();
+        if(!$user) abort(404, 'user not found');
+        return response()->json($user->tasks);
+    }
+
 }

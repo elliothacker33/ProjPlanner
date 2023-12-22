@@ -2,9 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Post;
+
+use App\Events\PostNotificationEvent;
+use App\Events\ProjectNotification;
 use App\Models\Project;
+use http\Env\Response;
 use Illuminate\Http\Request;
+
+
+use App\Models\Post;
+
 use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
@@ -61,7 +68,7 @@ class PostController extends Controller
         $post->user_id = Auth::user()->id;
         $post->project_id = $project->id;
         $post->save();
-        
+        event(new PostNotificationEvent($project, $request['content']));
         return redirect()->route('forum', ['project' => $project]);
 
     }
@@ -108,4 +115,5 @@ class PostController extends Controller
 
         return redirect()->route('forum', ['project' => $project->id]);
     }
+
 }

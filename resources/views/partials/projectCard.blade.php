@@ -14,9 +14,9 @@
             @endif
         </li>
         <li>
-        @if(in_array($project->id, $favorites))
+        @if(!$is_admin and in_array($project->id, $favorites))
             <i class="bi bi-star-fill favorite-star" style='font-size:1.5em; color:orange;' data-project="{{$project->id}}"></i>
-        @else
+        @elseif(!$is_admin)
             <i class="bi bi-star-fill favorite-star" style='font-size:1.5em; color:grey;' data-project="{{$project->id}}"></i>
         @endif
         </li>

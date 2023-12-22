@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\CommentNotificationEvent;
+use App\Events\PostNotificationEvent;
+use App\Events\ProjectNotificationEvent;
+use App\Events\TaskNotificationEvent;
 use App\Models\Project;
 use App\Models\Task;
+
 use App\Models\User;
 use App\Models\Comment;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -167,7 +172,7 @@ class TaskController extends Controller
 
     public function editStatus(Request $request, Project $project, Task $task) {
         $this->authorize('changeStatus', [Task::class, $task]);
-
+        if(!$project) abort(404);
         $validated = $request->validate([
             'status' => [
                 'required',
@@ -187,7 +192,7 @@ class TaskController extends Controller
         $task->closed_user_id = $validated['status'] == 'open' ? null : Auth::id();
         $task->endtime = $validated['status'] == 'open' ? null : now();
         $task->save();
-        
+        event(new TaskNotificationEvent($project,$task, 'Task Status was changed to'.$task->status));
         return response()->json(['task' => $task, 'closed_user_name' => $task->closed_by->name]);
     }
 
@@ -197,6 +202,7 @@ class TaskController extends Controller
     public function storeComment(Request $request ,$project_id,$task_id)
     {   
         $task = Task::find($task_id);
+        $project = Project::find($project_id);
       
         $this->authorize('comment', [Task::class, $task]);
 
@@ -211,7 +217,7 @@ class TaskController extends Controller
         $comment->user_id = Auth::user()->id;
         $comment->task_id = $task_id;
         $comment->save();
-        
+        event(new CommentNotificationEvent($project,$task, $request['content']));
         return redirect()->back();
 
     }
@@ -232,7 +238,7 @@ class TaskController extends Controller
     {
         $comment = Comment::find($comment_id);
         $this->authorize('edit_comment', [Task::class,$comment]);
-        $comment->content = $request->content;
+        $comment->content = $request['content'];
         $comment->save();
         return true;
     }

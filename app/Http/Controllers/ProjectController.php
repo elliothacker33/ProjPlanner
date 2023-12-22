@@ -1,6 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Events\InviteNotificationEvent;
+use App\Events\ProjectNotification;
+use App\Events\ProjectNotificationEvent;
 use App\Http\Controllers\FileController;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Project;
@@ -169,7 +172,7 @@ class ProjectController extends Controller
         ])->onlyInput('email');
 
         $project->users()->attach($user->id);
-
+        event(new InviteNotificationEvent($project,$user, 'You were invited to join '.$project->name));
         return redirect()->route('team', ['team' => $project->users, 'project' => $project]);
     }
     /**

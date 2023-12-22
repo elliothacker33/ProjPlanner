@@ -46,6 +46,9 @@ class Project extends Model
     {
         return $this->hasMany(Tag::class);
     }
+    public function notifications(){
+        return $this->hasMany(ProjectNotification::class,'project_id');
+    }
 
     public function files(): HasMany{
         return $this->hasMany(File::class);
