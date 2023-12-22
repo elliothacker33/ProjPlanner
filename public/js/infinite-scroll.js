@@ -18,7 +18,6 @@ export function initializeInfiniteScroll(container,projectId) {
                       try {
                           const data = JSON.parse(this.responseText);
                           data.htmlArray.forEach((html) => {
-                              console.log(html);
                               container.insertAdjacentHTML('beforeend', html);
                           });
 
@@ -42,8 +41,6 @@ export function initializeInfiniteScroll(container,projectId) {
       container.addEventListener('scroll', function () {
           var scrollY = container.scrollTop + 0.5;
           var height = container.scrollHeight - container.clientHeight;
-          console.log(scrollY);
-          console.log(height);
 
           if (scrollY === height) {
               loadMore();

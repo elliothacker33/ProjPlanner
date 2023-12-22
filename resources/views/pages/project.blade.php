@@ -39,7 +39,7 @@
         @endif
         </section>
         <section class="actions">
-            <button type="button" id="openLeaveModal"> <i class="fa-solid fa-arrow-right-from-bracket"></i> Leave</button>
+            <button type="button" class="openLeaveModal"> <i class="fa-solid fa-arrow-right-from-bracket"></i> Leave</button>
             @can('update',$project)
                 <button class="project-action-button edit" id="edit-project-button"> <i class="fa-solid fa-pen-to-square"></i> Edit</button>
             @endcan

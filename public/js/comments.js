@@ -21,7 +21,6 @@ document.addEventListener('DOMContentLoaded', function () {
                         try {
                             const data = JSON.parse(this.responseText);
                             data.htmlArray.forEach((html) => {
-                                console.log(html);
                                 container.insertAdjacentHTML('beforeend', html);
                             });
   
@@ -43,11 +42,8 @@ document.addEventListener('DOMContentLoaded', function () {
         }
   
         container.addEventListener('scroll', function () {
-            console.log(2);
             var scrollY = container.scrollTop + 0.5;
             var height = container.scrollHeight - container.clientHeight;
-            console.log(scrollY);
-            console.log(height);
   
             if (scrollY === height) {
                 loadMore();

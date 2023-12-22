@@ -21,7 +21,11 @@ class Comment extends Model
     ];
 
     public function user(): BelongsTo {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)->withDefault([
+            'name' => 'deleted_user',
+            'email' => 'deleted_email@gmail.com',
+            'image' => asset('img/default_user.jpg'),
+        ]);
     }
 
     public function task():BelongsTo

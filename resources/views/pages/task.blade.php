@@ -9,6 +9,7 @@
     <script type="module" src={{ url('js/comments.js') }}  defer></script>
     <script type="module" src="{{ asset('js/modal.js') }}" defer></script>
     <script type="module" src="{{ asset('js/editComment.js') }}" defer></script>
+    <script type="module" src="{{ asset('js/task.js') }}" defer></script>
 @endpush
 
 @section('content')

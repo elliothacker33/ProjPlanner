@@ -237,7 +237,6 @@ class ProjectController extends Controller
             $tasks = $tasks->where('status','=',$request->input('status'));
 
         $tasks = $tasks->paginate(10)->withQueryString();
-        //dd($tasks);
         $open = $project->tasks()->where('status','=','open')->count();
         $closed = $project->tasks()->where('status','=','closed')->count();
         $canceled = $project->tasks()->where('status','=','canceled')->count();
